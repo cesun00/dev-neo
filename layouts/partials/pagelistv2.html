@@ -1,0 +1,77 @@
+{{/* dot input: a Page object*/}}
+
+{{/* hugo's terrible design use the first created pager instance forever, create it first for consistency */}}
+{{ $paginator := .Paginate (.RegularPagesRecursive.ByDate.Reverse) 5}}
+
+{{template "navi" $paginator}}
+
+<div class="page-list">
+    {{ range $paginator.Pages }}
+    <div class="hoverable">
+        <a href="{{.RelPermalink}}">
+            <div>
+                In section:
+                {{ range $ii,$v := .Ancestors.Reverse }}
+                {{ if ne $ii 0 }}
+                > {{ $v.LinkTitle }}
+                {{end}}
+                {{ end }}
+            </div>
+            <h2 style="margin: 0;">{{.Title}}</h2>
+            <div style="margin-top: 4px; margin-bottom: 22px;" class="aux-text"> {{time.Format "January 2, 2006" .Date}} </div>
+            <div class="aux-text">{{.Summary}}</div>
+            <div style="margin-top: 20px;;">
+                {{ partial "tagrow.html" .Params.tags}}
+            </div>
+        </a>
+    </div>
+    {{end}}
+</div>
+
+{{template "navi" $paginator}}
+
+
+{{define "navi"}}
+{{/*dot input: a Pager*/}}
+
+{{if gt .TotalPages 1}}
+<div class="pagination-navi">
+    
+
+    {{- $slots := 5 }}
+    {{- $start := math.Max 1 (sub .PageNumber (math.Floor (div $slots 2))) }}
+    {{- $end := math.Min .TotalPages (sub (add $start $slots) 1) }}
+    {{- if lt (add (sub $end $start) 1) $slots }}
+    {{- $start = math.Max 1 (add (sub $end $slots) 1) }}
+    {{- end }}
+
+
+    {{/* .Prev and .Next can be nil, but .First and .Last always exist*/}}
+
+    <a href="{{ .First.URL }}">&lt;&lt;</a>
+
+    {{ with .Prev}}
+    <a href="{{ .URL }}">&lt;</a>
+    {{else}}
+    <a>&lt;</a>
+    {{end}}
+
+    {{- range $k := seq $start $end }}
+    {{ if eq $.PageNumber $k}}
+    <a class="active" href="{{ (index $.Pagers (sub $k 1)).URL }}">{{ $k }}</a>
+    {{else}}
+    <a href="{{ (index $.Pagers (sub $k 1)).URL }}">{{ $k }}</a>
+    {{end}}
+    {{- end }}
+
+    {{ with .Next}}
+    <a href="{{ .URL }}">&gt;</a>
+    {{else}}
+    <a>&gt;</a>
+    {{end}}
+
+    <a href="{{ .Last.URL }}">&gt;&gt;</a>
+</div>
+
+{{end}}
+{{end}}

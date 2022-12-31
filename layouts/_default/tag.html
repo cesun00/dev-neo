@@ -1,0 +1,32 @@
+{{define "main"}}
+
+{{partial "breadcrumb" .}}
+
+<div id="section-flex">
+    <div style="flex: 2;" class="deco-a-container">
+        <h1>Tag: {{.Title}}</h1>
+
+        {{.Content}}
+    </div>
+
+    <div style="flex: 1;">
+        <div style="border-radius: 30px;">
+            <h3>You are looking at a by-tag index page.</h3>
+            <p>
+                Articles with a specific tag are listed here.
+            </p>
+        </div>
+    </div>
+</div>
+
+{{if .RegularPages}}
+<div style="margin-top: 200px;">
+    <hr>
+    <h2>Articles with this tag are:</h2>
+    <div>
+        {{partial "pagelistv2" .}}
+    </div>
+</div>
+{{end}}
+
+{{end}}

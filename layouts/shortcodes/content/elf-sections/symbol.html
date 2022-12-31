@@ -1,0 +1,90 @@
+<table>
+    <thead>
+        <tr>
+            <td>
+                <code>st_type</code>
+            </td>
+            <td>common <code>st_bind</code></td>
+            <td>common <code>st_other</code> (visibility)</td>
+            <td>
+                <code>st_shndx</code> semantics
+            </td>
+            <td>
+                <code>st_size</code> semantics
+            </td>
+            <td>semantics</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="2">
+                <code>STT_NOTYPE (0)</code>
+                <p>Symbol type is unspecified.</p>
+            </td>
+            <td><code>STB_GLOBAL</code></td>
+            <td><code>STV_DEFAULT</code></td>
+            <td>must be <code>SHN_UNDEF</code></td>
+            <td>unspecified; usually just 0.</td>
+            <td>
+                <p>
+                    Generic external symbol (variable or function) that this object depends on but doesn't have its definition.
+                </p>
+                <p>Example: declaration-only <code>extern</code> variable and functions.</p>
+            </td>
+        </tr>
+        <tr>
+            <td><code>STB_LOCAL</code></td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_OBJECT (1)</code>
+                <p>Symbol is a data object.</p>
+            </td>
+            <td>defined `extern` variables</td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_FUNC (2)</code>
+                <p>Symbol is a code object.</p>
+            </td>
+            <td>defined `extern` function</td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_SECTION (3)</code>
+                <p>Symbol associated with a section</p>
+            </td>
+            <td>certain sections e.g. `.text` are exposed as symbols</td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_FILE (4)</code>
+                <p>Symbol's name is file name.</p>
+            </td>
+            <td>source file name from which this `.o` file is compiled</td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_COMMON (5)</code>
+                <p>Symbol is a common data object.</p>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <code>STT_TLS (6)</code>
+                <p>Symbol is thread-local data object.</p>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <!-- <code>st_type</code> -->
+            <!-- allowed <code>st_bind</code> -->
+            <!-- example -->
+            <!-- <code>st_shndx</code> semantics -->
+            <!-- <code>st_value</code> semantics -->
+            <!-- <code>st_size</code> semantics -->
+        </tr>
+    </tbody>
+</table>

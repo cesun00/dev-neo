@@ -1,0 +1,10 @@
+{{/* dot: a slice of strings*/}}
+<div>
+    {{with .}}
+        {{ range $i, $e := (sort .) }}
+            {{ $classname := replace (lower $e) " " "-" }}
+            {{ $classname := replace $classname "+" "x" }}
+            <span class="page-tag tag-{{$classname}}">{{$e}}</span>
+        {{end}}
+    {{end}}
+</div>

@@ -1,0 +1,15 @@
+{{define "main"}}
+<article class="main-text-container">
+    {{partial "breadcrumb.html" .}}
+    <div style="margin-bottom: 60px;">
+        <h1 style="margin-bottom: 0;">{{.Title}}</h1>
+        <p class="aux-text" style="margin-top: 0;">
+            Published at: {{ time.Format "January 2, 2006" .Date }} 
+            | Last modification: {{ time.Format "January 2, 2006" .Lastmod }}
+        </p>
+
+        {{ partial "tagrow.html" .Params.tags}}
+    </div>
+    <div>{{.Content}}</div>
+</article>
+{{end}}

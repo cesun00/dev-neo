@@ -1,0 +1,30 @@
+<table>
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>CLONE_PARENT</code></td>
+            <td></td>
+            <td>
+{{highlight `
+/* CLONE_PARENT re-uses the old parent */
+if (clone_flags & (CLONE_PARENT|CLONE_THREAD)) {
+    p->real_parent = current->real_parent;
+    p->parent_exec_id = current->parent_exec_id;
+    if (clone_flags & CLONE_THREAD)
+        p->exit_signal = -1;
+    else
+        p->exit_signal = current->group_leader->exit_signal;
+} else {
+    p->real_parent = current;
+    p->parent_exec_id = current->self_exec_id;
+    p->exit_signal = args->exit_signal;
+}
+    ` "c"}}
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+baseURL: 'https://cesun.info'
+languageCode: 'en-us'
+title: 'Infinity Architect'
+# theme: ''
+
+# disable default taxonomies
+taxonomies:
+  tag: tags
+
+disableKinds:
+- taxonomy
+# - term
+
+
+markup:
+  highlight:
+    lineNos: true
+    lineNumbersInTable: false
+  goldmark:
+    renderer:
+      unsafe: true
+
+# hugo-papermod specific params
+
+# Params:
+#   mainSections:
+#     - java
+#     - docker
+#     - microservice

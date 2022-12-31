@@ -1,0 +1,40 @@
+{{define "main"}}
+
+<div id="c-container">
+    <canvas id="c"></canvas>
+</div>
+<script type="module" src="{{ (resources.Get "fly.mjs").RelPermalink }}"></script>
+<script src="{{ (resources.Get "TagCloud.min.js").RelPermalink }}"></script>
+
+
+<h1 style="font-size: 4em;">Infinite Architect</h1>
+<p class="aux-text">Thoughts, ideas, and knowledgebase of Ce Sun, the administrator.</p>
+
+<div id="index-flex">
+    <div>
+        <div>
+            {{ partial "pagelistv2.html" . }}
+        </div>
+    </div>
+
+    <div>
+        <div class="main-text-container">
+            {{.Content}}
+        </div>
+
+        <div id="tagcloud"></div>
+        <script>
+            const texts = [
+            {{ range site.Taxonomies.tags.Alphabetical }}
+                "<div><a href='{{.Page.RelPermalink}}''>{{.Name }}</a><sup>{{.Count}}<sup></div>",
+            {{ end  }}
+            ];
+
+            TagCloud('#tagcloud', texts, {
+                radius: 200,
+                useHTML: true
+            });
+        </script>
+    </div>
+</div>
+{{end}}

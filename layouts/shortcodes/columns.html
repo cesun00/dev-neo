@@ -1,0 +1,7 @@
+<div class="columns-flex-container">
+{{ range split .Inner "<--->" }}
+<div style="flex: 1;">
+{{ . | markdownify }}    
+</div>
+{{ end }}
+</div>

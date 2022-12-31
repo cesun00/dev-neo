@@ -1,0 +1,230 @@
+<table>
+    <thead>
+        <tr>
+            <td>tag mnemonics / value</td>
+            <td>a constant of ...</td>
+            <td><code>cp_info</code> specialization</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>CONSTANT_Utf8</code> (1) </td>
+            <td>General purpose string content.</td>
+            <!-- <td>length-prefixed list of bytes of UTF8-encoded string</td> -->
+            <td>
+{{ highlight `CONSTANT_Utf8_info {
+    u1 tag;             // must be 1
+    u2 length;
+    u1 bytes[length];   // UTF8-encoded string
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Integer</code> (3) </td>
+            <td>Represent a literal <code>int</code> value in the source code</td>
+            <td>
+{{highlight `CONSTANT_Integer_info {
+    u1 tag;         // must be 3
+    u4 bytes;       // 2's-complement, big-endian
+}` "c" }}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Float</code> (4) </td>
+            <td>Represent a literal <code>float</code> value in the source code</td>
+            <td>
+{{highlight `CONSTANT_Float_info {
+    u1 tag;     // must be 4
+    u4 bytes;   // IEEE 754 binary32 floating-point
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Long</code> (5) </td>
+            <td>Represent a literal <code>long</code> value in the source code</td>
+            <td>
+{{ highlight `CONSTANT_Long_info {
+    u1 tag;         // must be 5
+    u4 high_bytes;
+    u4 low_bytes;
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Double</code> (6) </td>
+            <td>Represent a literal <code>double</code> value in the source code</td>
+            <td>
+{{ highlight `CONSTANT_Double_info {
+    u1 tag;         // must be 6
+    u4 high_bytes;
+    u4 low_bytes;
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Class</code> (7) </td>
+            <td>Represent a literal <code>java.lang.Class</code> value in the source code e.g. <code>String.class</code>
+            </td>
+            <td>
+{{ highlight `CONSTANT_Class_info {
+    u1 tag;
+    u2 name_index;  // CONSTANT_Utf8_info (the class/interface name)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_String</code> (8) </td>
+            <td>Represent a literal <code>java.lang.String</code> value in the source code</td>
+            <td>
+{{highlight `CONSTANT_String_info {
+    u1 tag;
+    u2 string_index;    //  CONSTANT_Utf8_info (the literal String content)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Fieldref</code> (9) </td>
+            <td rowspan="3">
+                <p>Identify a specific field / method in a specific class/interface.</p>
+                <p>The primary purpose of these constant is to be referenced by bytecode instructions.</p>
+                <p>These 3 constant types share identical <code>info</code> structure.</p>
+            </td>
+            <td rowspan="3">
+{{highlight `CONSTANT_Fieldref_info {
+    u1 tag;
+    u2 class_index;             // CONSTANT_Class_info
+                                // (the containing class of the referenced field)
+    u2 name_and_type_index;     // CONSTANT_NameAndType_info
+                                // (the name and type of the referenced field)
+}
+
+CONSTANT_Methodref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+}
+
+CONSTANT_InterfaceMethodref_info {
+    u1 tag;
+    u2 class_index;
+    u2 name_and_type_index;
+}` "c"}}
+                </code>
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Methodref</code> (10) </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_InterfaceMethodref</code> (11) </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_NameAndType</code> (12) </td>
+            <td>
+                Represent a field or method, without indicating which class or interface type it belongs to. <br>
+                Simple Combo of an unqualified name and a <a href="#type-descriptors">type descriptor</a>.
+            </td>
+            <td>
+{{highlight `CONSTANT_NameAndType_info {
+    u1 tag;                 // must be 12
+    u2 name_index;          // CONSTANT_Utf8_info (unqualified name of field or method)
+    u2 descriptor_index;    // CONSTANT_Utf8_info (field descriptor or method descriptor)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_MethodHandle</code> (15) </td>
+            <td>
+                Represent an operation to be performed: <br>
+                either getting/setting a field, or invoking a specific method.
+            </td>
+            <td>
+{{highlight `CONSTANT_MethodHandle_info {
+    u1 tag;
+    u1 reference_kind;
+    u2 reference_index;
+}` "c"}}
+
+<code>reference_kind</code> determines the type of entry that must be found at the index given by <code>reference_index</code> in the constant_pool:
+
+                {{ partial "content/classfile/methodhandle_info"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_MethodType</code> (16) </td>
+            <td>Represent the signature of a method.</td>
+            <td>
+{{highlight `CONSTANT_MethodType_info {
+    u1 tag;
+    u2 descriptor_index;    // CONSTANT_Utf8_info (the method descriptor)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Dynamic</code> (17) <div>(since Java 11)</div>
+            </td>
+            <td>
+                <p>Represent a dynamically-computed constant - an arbitrary value produced by invoking a bootstrap
+                    method during the JVM initialization.</p>
+                <p>This is useful for optimizing initialization bytecode of <code>final</code> field whose value is an
+                    complicated expression.</p>
+            </td>
+            <td>
+{{highlight `CONSTANT_Dynamic_info {
+    u1 tag;
+    u2 bootstrap_method_attr_index;     // TODO
+    u2 name_and_type_index;             // CONSTANT_NameAndType_info (the field to store the result)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_InvokeDynamic</code> (18) </td>
+            <td>
+                Represent a dynamically-computed call site.<br>
+                The only purpose of this constant type is to support the <code>invokedynamic</code> instruction, which
+                is used to implement
+                the lambda function in Java.
+
+                See <a href="http://blog.headius.com/2008/09/first-taste-of-invokedynamic.html">this article</a> for a
+                nice explanation.
+            </td>
+            <td>
+{{highlight `CONSTANT_InvokeDynamic_info {
+    u1 tag;
+    u2 bootstrap_method_attr_index;     // TODO
+    u2 name_and_type_index;             // CONSTANT_NameAndType_info (the method to bind)
+}` "c"}}
+            </td>
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Module</code> (19) <div>(since Java 9)</div>
+            </td>
+            <td>
+                <p>Only permitted in the constant pool of <code>module-info.class</code>.</p>
+                <p>Identify a module name, used as the name of current module or by <code>requires</code> or
+                    <code>exports to</code> directives
+                </p>
+            </td>
+            <td>
+{{highlight `CONSTANT_Module_info {
+    u1 tag;
+    u2 name_index;      // CONSTANT_Utf8_info (the module name)
+}` "c"}}
+        </tr>
+        <tr>
+            <td><code>CONSTANT_Package</code> (20) <div>(since Java 9)</div>
+            </td>
+            <td>
+                <p>Only permitted in the constant pool of <code>module-info.class</code>.</p>
+                <p>Identify a package name, used by <code>exports</code> or <code>open</code> directives</p>
+            </td>
+            <td>
+{{highlight `CONSTANT_Package_info {
+    u1 tag;
+    u2 name_index;      // CONSTANT_Utf8_info (the internal form of the package name)
+}` "c"}}
+                <p>See below for the definition of <a href="#">internal form</a></p>.
+        </tr>
+    </tbody>
+
+</table>

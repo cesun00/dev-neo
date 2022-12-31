@@ -1,0 +1,16 @@
+{{ $type := .Get 0 }}
+{{ $validTypes := slice "info" "warn"}}
+{{ if not (collections.In $validTypes $type) }}
+    {{ $type = "info" }}
+{{ end }}
+
+{{ $iconMap := collections.Dictionary "info" "ℹ️" "warn" "⚠️"}}
+
+<div class="card {{$type}}">
+    <div class="card-icon">
+        <span>{{ index $iconMap $type }}</span>
+    </div>
+    <div class="card-content">
+        {{ .Inner | markdownify }}
+    </div>
+</div>

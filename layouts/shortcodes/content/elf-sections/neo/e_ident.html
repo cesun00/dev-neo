@@ -1,0 +1,84 @@
+<table>
+    <thead>
+        <tr>
+            <th>byte offset &amp; mnemonics macro</th>
+            <th>descriptions</th>
+            <th>permitted values</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0 ~ 3 (<code>EI_MAG0</code> ~ <code>EI_MAG3</code>)</td>
+            <td>Magic number. </td>
+            <td>Must be <code>0x7F</code> followed by <code>E L F</code> in ASCII.</td>
+        </tr>
+        <tr>
+            <td>4 (<code>EI_CLASS</code>)</td>
+            <td>Whether this file is ELF32 or ELF64.</td>
+            <td>
+                <ul>
+                    <li><code>ELFCLASSNONE=0</code> Invalid class</li>
+                    <li><code>ELFCLASS32=1</code> 32-bit objects</li>
+                    <li><code>ELFCLASS64=2</code> 64-bit objects</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>5 (<code>EI_DATA</code>)</td>
+            <td>
+                Endianness of integers in this ELF file.
+            </td>
+            <td>
+                <ul>
+                    <li><code>ELFDATANONE=0</code> Invalid data encoding</li>
+                    <li><code>ELFDATA2LSB=1</code> 2's complement, little endian</li>
+                    <li><code>ELFDATA2MSB=2</code> 2's complement, big endian</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>6 (<code>EI_VERSION</code>)</td>
+            <td>
+                ELF specification version this file conform to.
+            </td>
+            <td>
+                Must be <code>EV_CURRENT=1</code>.
+            </td>
+        </tr>
+        <tr>
+            <td>7 (<code>EI_OSABI</code>)</td>
+            <td>
+                Targeting ABI.
+                <p>
+                    Nowadays this field is pretty much insignificant, and all Unix descendants use compatible System V
+                    ABI.
+                    Linux (kernel) simply doesn't check this field when loading an ELF.
+                </p>
+            </td>
+            <td>
+                Search for <code>ELFOSABI_*</code> in <code>elf.h</code>.
+
+                <p>
+                    GCC when compiling for Linux generates <code>ELFOSABI_SYSV=0</code> for this field, indicating <a
+                        href="https://refspecs.linuxbase.org/elf/x86_64-abi-0.99.pdf">UNIX System V ABI</a>.
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td>8 (<code>EI_ABIVERSION</code>)</td>
+            <td>
+                The version of targeting ABI.
+                <ul>
+                    <li>For shared object with <code>e_ident[EI_OSABI] == 3 (ELFOSABI_GNU)</code>,
+                        the dynamic linker <code>ld.so</code> since glibc 2.12 treats this field as version requirement.</li>
+                    <li>otherwise this field is ignored by both Linux kernel and <code>ld.so</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>9 (<code>EI_PAD</code>) ~ 15</td>
+            <td>Reserved padding.</td>
+            <td>Must be 0.</td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,7 @@
+<div style="font-family: monospace; font-size: 1.5em;">
+    {{ range .Ancestors.Reverse }}/<a href="{{ .RelPermalink }}" class="deco">{{ .LinkTitle }}</a>{{ end }}/
+    $
+    <!-- <li class="active">
+        <a aria-current="page" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+    </li> -->
+</div>

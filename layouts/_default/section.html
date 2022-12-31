@@ -1,0 +1,49 @@
+{{define "main"}}
+
+{{partial "breadcrumb" .}}
+
+<div id="section-flex">
+    <div style="flex: 2;" class="deco-a-container main-text-container">
+        <h1>Section: {{.Title}}</h1>
+
+        {{.Content}}
+    </div>
+
+    <div style="flex: 1;">
+        <div style="border-radius: 30px;">
+            <h3>You are looking at a section page.</h3>
+            <p>
+                Section pages are navigation nodes of this site.
+                A section contains articles and sub-sections.
+            </p>
+    
+            {{ with .Sections}}
+            <div>
+                <h3>Direct sub-sections of this section are:</h3>
+                <ul>
+                    {{range .}}
+                    <li>
+                        <a class="deco" href="{{.RelPermalink}}">{{.Title}}</a>
+                    </li>
+                    {{end}}
+                </ul>
+            </div>
+            {{end}}
+        </div>
+    </div>
+</div>
+
+
+
+
+{{if .RegularPagesRecursive}}
+<div style="margin-top: 200px;">
+    <hr>
+    <h2>Articles in this section:</h2>
+    <div>
+        {{partial "pagelistv2" .}}
+    </div>
+</div>
+{{end}}
+
+{{end}}

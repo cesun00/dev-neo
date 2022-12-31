@@ -1,0 +1,25 @@
+{
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true,
+        "public/":true,
+        "assets/": true
+    },
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file"
+        },
+        {
+            "language": "html",
+            "scheme": "file"
+        }
+    ],
+    "todohighlight.include": [
+        "**/*.md",
+    ],
+    "todohighlight.keywords": [
+        "TODO"
+    ]
+}

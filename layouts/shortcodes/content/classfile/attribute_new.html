@@ -1,0 +1,409 @@
+<table>
+    <thead>
+        <tr>
+            <td>attribute name</td>
+            <td>permitted location</td>
+            <td>description</td>
+            <td><code>info</code> content</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>SourceFile</code></td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>The basename of source file from which this class is compiled.</p>
+
+            </td>
+            <td>Reference to a <code>CONSTANT_Utf8_info</code></td>
+        </tr>
+        <tr>
+            <td>InnerClasses</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>Document all inner classes and static nested class of this class, including recursive ones.</p>
+                <p>Mandatory & at most one iff. this class have inner classes.</p>
+            </td>
+            <td>
+                A length-prefixed list where each item consists of:
+                <ol>
+                    <li>Reference to a <code>CONSTANT_Class_info</code> (the inner class) </li>
+                    <li>Reference to a <code>CONSTANT_Class_info</code> (the direct container class of the inner class)
+                    </li>
+                    <li>Reference to a <code>CONSTANT_Utf8_info</code> (simple name of the inner class) </li>
+                    <li><code>u2</code> access big flags</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>EnclosingMethod</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>Mandatory & at most one iff. this is a local class or anonymous class.</p>
+            </td>
+            <td>
+                <ol>
+                    <li>Reference to a <code>CONSTANT_Class_info</code> (the direct container class of this class)</li>
+                    <li>Reference to a <code>CONSTANT_NameAndType_info</code> (the method in which this local class is
+                        declared)</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>SourceDebugExtension</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>Stores extra debugging information.</p>
+                <p>
+                    JVMS only requires that the debugging information must be text-based and stored in the modified
+                    UTF-8 encoding,
+                    and does not impose further semantics on this attribute.
+
+                    Other specification may impose structure on the stored information.
+                    e.g. <a href="https://www.jcp.org/en/jsr/detail?id=045">JSR 45</a>, the spec that proposed this
+                    attributes, defines
+                    the Source Map (SMAP) format that is stored within this attribute. SMAP is used by the JSP
+                    technologies to store
+                    mapping between JSP source and generated servlet class.
+                </p>
+            </td>
+            <td>An arbitrary byte array.</td>
+        </tr>
+        <tr>
+            <td>BootstrapMethods</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                Represent subroutines used to produce dynamically-computed constants and dynamically-computed call
+                sites.
+            </td>
+            <td>
+                A length-prefixed list where each item consists of:
+                <ol>
+                    <li>Reference to a <code>CONSTANT_MethodHandle_info</code> (the callable stuff)</li>
+                    <li>A list of references to loadable entries in the constant pool. (The argument to use)</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>Module (since 9)</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>This attribute is only allowed in a <code>module-info.class</code>, and is written by the
+                    <code>javac</code>
+                </p>
+                <p>
+                    This attribute encodes all information presented in a <code>module-info.java</code> source,
+                    including the declared moudle name, all directives, etc.
+                </p>
+            </td>
+            <td>
+                <ol>
+                    <li>Reference to <code>CONSTANT_Module_info</code> (the current module)</li>
+                    <li>A <code>u2</code> bit flag <code>module_flags</code> indicating certain properties of this
+                        module.</li>
+                    <li>Reference to a <code>CONSTANT_Utf8_info</code> (the module version)</li>
+                    <li>5 Length-prefixed lists, one for each of <code>requires</code>, <code>exports</code>,
+                        <code>opens</code>, <code>use</code>, <code>provides</code> directives
+                    </li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>ModulePackages (since 9)</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>This attribute is only allowed in a <code>module-info.class</code></p>
+                <p>
+                    Indicates a few packages within this module.
+                </p>
+                <p>
+                    JVMS allows this attributes to indicate any packages in this module.
+                    JVMS recommends that this attribute indicates the <code>exports</code>-ed, <code>opens</code>-ed,
+                    <code>provides with</code>-ed packages.
+                </p>
+                <p>
+                    In current practice this attribute is always created by the <code>jar</code> program during
+                    packaging,
+                    and is never created by <code>javac</code>;
+                    and <code>jar</code> always does this by simply copying the <code>exports</code>-ed,
+                    <code>opens</code>-ed,
+                    <code>provides with</code>-ed packages from the <code>Module</code> attribute created by
+                    <code>javac</code>
+                </p>
+            </td>
+            <td>A list of references to <code>CONSTANT_Package_info</code>.</td>
+        </tr>
+        <tr>
+            <td>ModuleMainClass (since 9)</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>This attribute is only allowed in a <code>module-info.class</code></p>
+                <p>Indicate the main class of the module. <code>java -m &lt;MODULE_NAME&gt;</code> will respect this
+                    attribute as program entrance.</p>
+                <p>
+                    In current practice the only officially supported way of creating this attribute
+                    is by calling <code>jar</code> with <code>--main-class</code> option during packaging.
+                </p>
+            </td>
+            <td>Reference to a <code>CONSTANT_Class_info</code></td>
+        </tr>
+        <tr>
+            <td>NestHost (since 11)</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>Indicate the nest host for the current class or interface.</p>
+                <p>Facilitate the <a href="https://openjdk.org/jeps/181">nest based access control</a> of Java 11.</p>
+            </td>
+            <td>Reference to a <code>CONSTANT_Class_info</code> (the nest host for the current class or interface)</td>
+        </tr>
+        <tr>
+            <td>NestMembers (since 11)</td>
+            <td><code>ClassFile</code></td>
+            <td></td>
+            <td>A list of references to <code>CONSTANT_Class_info</code> (member of the nest hosted by the current
+                class)</td>
+        </tr>
+        <tr>
+            <td>Record (since 16)</td>
+            <td><code>ClassFile</code></td>
+            <td>
+                <p>
+                    Indicate that this is a Java 16 record class (instead of depending on bits in
+                    <code>ClassFile.access_flags</code>),
+                    and document the name and type of the record's components (i.e. fields).
+                </p>
+                <p></p>
+            </td>
+            <td>
+                A list of <code>record_component_info</code>, one for each component in the record, defined as:
+                <ol>
+                    <li>Reference to a <code>CONSTANT_Utf8_info</code> (unqualified name of the component)</li>
+                    <li>Reference to a <code>CONSTANT_Utf8_info</code> (field descriptor of the component)</li>
+                    <li>A list of <code>attribute_info</code> specific to this component.</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>PermittedSubclasses (since 17)</td>
+            <td><code>ClassFile</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <!-- field info -->
+        <tr>
+            <td><code>ConstantValue</code></td>
+            <td><code>field_info</code></td>
+            <td>Indicate the constant value of a <code>final static</code> field</td>
+            <td>Reference to one of:
+                <ul>
+                    <li><code>CONSTANT_Integer</code></li>
+                    <li><code>CONSTANT_Float</code></li>
+                    <li><code>CONSTANT_Long</code></li>
+                    <li><code>CONSTANT_Double</code></li>
+                    <li><code>CONSTANT_String</code></li>
+                </ul>
+            </td>
+        </tr>
+        <!-- Method_info -->
+        <tr>
+            <td>Code</td>
+            <td><code>method_info</code></td>
+            <td>
+                <p>Method execution information, including the bytecode instructions you are looking for.</p>
+            </td>
+            <td>
+                <ol>
+                    <li><code>u2 max_stack</code>: the maximum depth of the operand stack of this method</li>
+                    <li><code>u2 max_locals</code>: the number of local variables in the local variable array allocated
+                        upon invocation of this method</li>
+                    <li>A list of bytes: the bytecode instruction</li>
+                    <li>
+                        A list of exception handler
+                    </li>
+                    <li>A list of <code>attribute_info</code> specific to this <code>Code_attribute</code> instance.
+                    </li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>Exceptions</td>
+            <td><code>method_info</code></td>
+            <td>Document the <code>throws</code> declaration of this method.</td>
+            <td>A list of references to <code>CONSTANT_Class_info</code> (one for each <code>throws</code>-ed class )
+            </td>
+        </tr>
+        <tr>
+            <td>RuntimeVisibleParameterAnnotations</td>
+            <td><code>method_info</code></td>
+            <td>Document <code>@Retention(RetentionPolicy.RUNTIME)</code> annotations tagged on the parameters of the
+                method.</td>
+            <td rowspan="2">
+                A list of <code>parameter_annotations</code>, one for each parameter of the method.
+                Each <code>parameter_annotations</code> is a list of <a
+                    href="#struct-annotation"><code>annotations</code> structure.</a>
+            </td>
+        </tr>
+        <tr>
+            <td>RuntimeInvisibleParameterAnnotations</td>
+            <td><code>method_info</code></td>
+            <td>Document <code>@Retention(RetentionPolicy.CLASS)</code> annotations tagged on the parameters of the
+                method.</td>
+        </tr>
+        <tr>
+            <td>AnnotationDefault</td>
+            <td><code>method_info</code></td>
+            <td>
+                <p>
+                    Only allowed when this class file represents an annotation definition,
+                    where each <code>method_info</code> represents an <a
+                        href="https://docs.oracle.com/javase/specs/jls/se21/html/jls-9.html#jls-9.6.1">annotation
+                        element</a> (i.e. those method-like members)
+                </p>
+                <p>
+                    Identify the default value of this annotation element.
+                </p>
+            </td>
+            <td>An <code>element_value</code> structure.</td>
+        </tr>
+        <tr>
+            <td>MethodParameters</td>
+            <td><code>method_info</code></td>
+            <td>Document the formal parameters of a method (i.e. excluding the explicit <code>this</code> parameter)
+            </td>
+            <td>
+                A list of item, one for each formal parameter of this method, defined as:
+                <ol>
+                    <li>Reference to a <code>CONSTANT_Utf8_info</code> (the parameter name)</li>
+                    <li><code>access_flags</code> bit flag: whether this parameter is <code>final</code>, synthetic, or
+                        mandated.</li>
+                </ol>
+            </td>
+        </tr>
+        <!-- Code -->
+        <tr>
+            <td>LineNumberTable</td>
+            <td><code>method_info -> Code_attribute</code></td>
+            <td>
+                <p>
+                    Mapping between positions in the <code>code</code> array (bytecode instructions)
+                    and line numbers of the original source code.
+                </p>
+
+                <p>This attribute is extensively used by debuggers, but is optional for production class release.</p>
+            </td>
+            <td>
+                A list of item, each defined as:
+                <ol>
+                    <li>a <code>u2</code> number: an index into the <code>code</code> array, starting from which
+                        comipiled instructions are from a new line in the source code.</li>
+                    <li>a <code>u2</code> number: the source line number.</li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>LocalVariableTable</td>
+            <td><code>method_info -> Code_attribute</code></td>
+            <td>
+                <p>
+
+                </p>
+                <p>
+                    This attribute is extensively used by debuggers to determine the value of a given local variable
+                    during the execution of a method;
+                    but is optional for production class release. Multiple occurrences of this attributes in a same
+                    parent are allowed in any order.
+                </p>
+            </td>
+            <td>
+                A list of items, each defined as:
+                <ol>
+                    <li></li>
+                </ol>
+            </td>
+        </tr>
+        <tr>
+            <td>LocalVariableTypeTable</td>
+            <td><code>method_info -> Code_attribute</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>StackMapTable</td>
+            <td><code>method_info -> Code_attribute</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <!-- Multi context -->
+        <tr>
+            <td rowspan="3">Synthetic</td>
+            <td><code>ClassFile</code></td>
+        </tr>
+
+        <tr>
+            <td><code>field_info</code></td>
+        </tr>
+        <tr>
+            <td><code>method_info</code></td>
+        </tr>
+        <tr>
+            <td rowspan="3">Deprecated</td>
+            <td>
+                <code>ClassFile</code>
+            </td>
+        </tr>
+
+        <tr>
+            <td><code>field_info</code></td>
+        </tr>
+        <tr>
+            <td><code>method_info</code></td>
+        </tr>
+        <tr>
+            <td rowspan="4">Signature</td>
+            <td>
+                <code>ClassFile</code>
+            </td>
+        </tr>
+        <tr>
+            <td><code>field_info</code></td>
+        </tr>
+        <tr>
+            <td><code>method_info</code></td>
+        </tr>
+        <tr>
+            <td><code>record_component_info</code></td>
+        </tr>
+        <tr>
+            <td>
+                <ul>
+                    <li><code>RuntimeVisibleAnnotations</code></li>
+                    <li><code>RuntimeInvisibleAnnotations</code></li>
+                </ul>
+            </td>
+            <td>
+                <ul>
+                    <li><code>ClassFile</code></li>
+                <li><code>field_info</code></li>
+                <li><code>method_info</code></li>
+                <li><code>record_component_info</code></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>RuntimeVisibleTypeAnnotations</td>
+            <td rowspan="2">
+                <ul>
+                    <li><code>ClassFile</code></li>
+                    <li><code>field_info</code></li>
+                    <li><code>method_info</code></li>
+                    <li><code>Code</code></li>
+                    <li><code>record_component_info</code> </li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>RuntimeInvisibleTypeAnnotations</td>
+        </tr>
+    </tbody>
+</table>

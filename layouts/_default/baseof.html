@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{.Title}} | {{ site.Title }}</title>
+
+  <!-- fonts -->
+  <link rel="stylesheet" href="{{ (resources.Get "main.css").RelPermalink }}">
+  <!-- 
+    An import map is used to resolve module specifiers in static and dynamic imports, 
+    and therefore must be declared and processed before any <script> elements that import modules using specifiers declared in the map.
+   -->
+  <script type="importmap">
+  {
+      "imports": {
+        "three": "{{ (resources.Get "three.module.min.js").RelPermalink }}"
+      }
+  }
+  </script>
+  <script type="module" src="{{ (resources.Get "theme.mjs").RelPermalink }}"></script>
+  <style>
+  /* assign each tag with a color */
+  {{ range $i, $e := site.Taxonomies.tags.Alphabetical }}
+  {{ $classname := replace .Name " " "-" }}
+  {{ $classname := replace $classname "+" "x" }}
+  {{ $hue := mod (mul $i 50) 360 }}
+  .tag-{{$classname}} {
+  background-color: hsl({{ $hue }}deg 80% 70%);
+  }
+
+  .dark .tag-{{$classname}} {
+  background-color: hsl({{ $hue }}deg 80% 20%);
+  }
+  {{ end  }}
+  </style>
+</head>
+
+<body>
+  <script>
+  /*
+    The theme-detecting code needs to be inline here and
+     executed before the DOM get rendered;
+    otherwise the user may experience a glimpse of white screen.
+  */
+  if (localStorage.getItem('dark-theme')) {
+    document.body.classList.add('dark');
+  }
+  </script>
+  <header>
+    <h2 id="banner">
+      <a href="/">{{ site.Title }}</a>
+    </h2>
+    <!-- top-level sections -->
+    <div id="top-sections" >
+      {{ range site.Sections.ByTitle }}
+      {{if hasPrefix $.RelPermalink .RelPermalink}}
+      <a href="{{ .RelPermalink }}" class="active"> {{.Title}} </a>
+      {{else}}
+      <a href="{{ .RelPermalink }}" class="hoverable"> {{.Title}} </a>
+      {{end}}
+      {{ end }}
+    </div>
+    <!-- dark/light toggle -->
+    <div class="theme-switch" style="align-self: center; margin: auto 20px;">
+      <input type="checkbox" id="theme-checkbox" />
+      <label for="theme-checkbox">
+        <div></div>
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path fill-rule="evenodd"
+              d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </span>
+        <span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path
+              d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z">
+            </path>
+          </svg>
+        </span>
+      </label>
+    </div>
+    <!--<div>
+            <img src="{{(resources.Get "language.svg").RelPermalink}}">
+      </div> -->
+  </header>
+  <main>
+    {{template "main" .}}
+  </main>
+
+  <footer>
+    Unless otherwise noted, content of this site is licensed under
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" style="text-decoration: underline;">the CC BY-NC-SA 4.0</a>.
+    <br>
+    cesun.info copyright 2024.
+  </footer>
+</body>
+
+</html>

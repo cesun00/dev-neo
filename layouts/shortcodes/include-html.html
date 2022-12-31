@@ -1,0 +1,4 @@
+<div class="raw-html">
+    {{ $file := .Get 0 }}
+    {{ (printf "%s%s" .Page.File.Dir $file) | readFile | safeHTML }}
+</div>

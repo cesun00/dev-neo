@@ -1,0 +1,79 @@
+<table>
+    <thead>
+        <tr>
+            <td>for <code>reference_kind</code> mnenomics / value</td>
+            <td><code>reference_index</code> must be index of a ...</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>REF_getField</code> (1)
+            </td>
+            <td rowspan="4">
+                <code>CONSTANT_Fieldref_info</code>, representing a field for which a method handle is to be created
+            </td>
+            <td> getfield C.f:T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_getStatic</code> (2)
+            </td>
+            <td> getstatic C.f:T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_putField</code> (3)
+            </td>
+            <td> putfield C.f:T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_putStatic</code> (4)
+            </td>
+            <td> putstatic C.f:T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_invokeVirtual</code> (5)
+            </td>
+            <td rowspan="2">
+                <code>CONSTANT_Methodref_info</code> representing a class's method or constructor for which a method handle is to be created
+            </td>
+            <td> invokevirtual C.m:(A*)T</td>
+        </tr>
+        <td>
+            <code>REF_newInvokeSpecial</code> (8)
+        </td>
+        <td> new C; dup; invokespecial C.<init>:(A*)V</td>
+        <tr>
+            <td>
+                <code>REF_invokeStatic</code> (6)
+            </td>
+            <td rowspan="2">
+                <ul>
+                    <li><code>CONSTANT_Methodref_info</code></li>; or a 
+                    <li><code>CONSTANT_InterfaceMethodref_info</code> since Java 8 
+                </ul>
+                representing a class's or interface's method for which a method handle is to be created
+            </td>
+            <td> invokestatic C.m:(A*)T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_invokeSpecial</code> (7)
+            </td>
+            <td> invokespecial C.m:(A*)T</td>
+        </tr>
+        <tr>
+            <td>
+                <code>REF_invokeInterface</code> (9)
+            </td>
+            <td>
+                <code>CONSTANT_InterfaceMethodref_info</code> representing an interface's method for which a method handle is to be created.
+            </td>
+            <td> invokeinterface C.m:(A*)T</td>
+        </tr>
+    </tbody>
+</table>

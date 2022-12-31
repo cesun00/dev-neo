@@ -1,0 +1,160 @@
+<table>
+    <thead>
+        <tr>
+            <td><code>sh_type</code></td>
+            <td>Canonical Name</td>
+            <td>Semantics</td>
+            <td><code>sh_link</code> is</td>
+            <td><code>sh_info</code> is</td>
+            <td>Example</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>SHT_NULL (0)</code></td>
+            <td>Section header table entry unused</td>
+            <td>
+                <p>An entry can be of this type iff. it is the first entry in the SHT.</p>
+            </td>
+            <td>must be 0</td>
+            <td>must be 0</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>SHT_PROGBITS (1)</code></td>
+            <td>Program data</td>
+            <td>
+                <p>
+                    The section holds information defined by the program, whose format and meaning are determined solely
+                    by the program.
+                    <br />
+                    (As opposed to sections for ELF housekeeping metadata.)
+                </p>
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                <code>.text</code> and <code>.data</code>
+            </td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_SYMTAB (2)</code></td>
+            <td>Symbol table</td>
+            <td>
+                <p>
+                    This section holds an section table used by the static linker.
+                    only 1 section of such type is allowed in any ELF file, and its name must be <code>.symtab</code>.
+                </p>
+                <p>See also <code>SHT_DYNSYM</code>.</p>
+            </td>
+            <td>The one and only <code>.symtab</code></td>.
+
+        </tr>
+        <tr>
+            <td><code>SHT_STRTAB (3)</code></td>
+            <td>String table</td>
+            <td>This section holds an string table.</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_RELA (4)</code></td>
+            <td>Relocation entries with addends</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_HASH (5)</code></td>
+            <td>Symbol hash table</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_DYNAMIC (6)</code></td>
+            <td>Dynamic linking information</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_NOTE (7)</code></td>
+            <td>Notes</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_NOBITS (8)</code></td>
+            <td>Program space with no data (bss)</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_REL (9)</code></td>
+            <td>Relocation entries, no addends</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_SHLIB (10)</code></td>
+            <td>Reserved</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_DYNSYM (11)</code></td>
+            <td>Dynamic linker symbol table</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_INIT_ARRAY (14)</code></td>
+            <td>Array of constructors</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_FINI_ARRAY (15)</code></td>
+            <td>Array of destructors</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_PREINIT_ARRAY (16)</code></td>
+            <td>Array of pre-constructors</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_GROUP (17)</code></td>
+            <td>Section group</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_SYMTAB_SHNDX (18)</code></td>
+            <td>Extended section indices</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+        <tr>
+            <td><code>SHT_RELR (19)</code></td>
+            <td>RELR relative relocations</td>
+            <td>SEMAN</td>
+            <td>EXAMPLE</td>
+
+        </tr>
+    </tbody>
+</table>
