@@ -150,3 +150,39 @@ A target name (usually a file name) can appear in multiple rules, and only 1 of 
 __all:
 
 # later... 
+
+ifeq ($(need-sub-make),1)
+
+$(filter-out $(this-makefile), $(MAKECMDGOALS)) __all: __sub-make
+	@:
+
+else
+# omitted
+endif
+
+# later... 
+
+ifeq ($(KBUILD_EXTMOD),)
+__all: all
+else
+__all: modules
+endif
+```
+
+This feature allows dependencies to be added conditionally and incrementally.
+
+
+## techniques
+
+### Phony as dependency is function calls
+
+```makefile
+.PHONY: main func_foo
+
+main: func_foo
+	@echo "but there is no argument passing anyway..."
+
+func_foo:
+	@echo "do you know that having phony target as prerequisites feels like function calls?"
+```
+
