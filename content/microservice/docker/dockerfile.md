@@ -30,3 +30,8 @@ Instructions are still simple comparing to with only 17 instructions:
 
 Only the instructions RUN, COPY, ADD create layers perpetuated in the resulting image.
 
+Most instructions instruct how `docker image build` command should put a new layer the resulting static image, such that.
+- An exception being the `RUN` command that execute an external command immediately at build-time.
+
+It's very important to distinguish an instruction that gets executed instantaneously when `docker image build` is running,
+and one that instructs how docker should behave after a container is instantiated from the created image.
