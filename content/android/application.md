@@ -34,3 +34,37 @@ However, there are ways for an app to share data with other apps and for an app 
 
 1. It's possible to arrange for two apps to share the same Linux user ID, in which case they are able to access each other's files. To conserve system resources, apps with the same user ID can also arrange to run in the same Linux process and share the same VM. The apps must also be signed with the same certificate.  两个app可以共用一个linux uid，这样他们就可以访问彼此的文件。为了节约系统资源，共享uid的多个app也能被安排为运行在同一个linux进程中，并共享VM。这样的app也必须签有同样的证书。
 2. An app can request permission to access device data such as the user's contacts, SMS messages, the mountable storage (SD card), camera, and Bluetooth. The user has to explicitly grant these permissions. For more information, see Working with System Permissions.  app可以请求权限，比如请求访问用户的联系人或者短信或别的外部设备（SD card，摄像头，蓝牙等）。用户必须明确地进行授权。
+
+## App Components
+
+4 types of app components:
+- Activity
+- Service
+- Broadcast Receiver
+- Content Provider
+
+### Activity
+*You implement an activity as a subclass of the `Activity` class.*
+
+### Service
+
+2 types of services:
+1. Started Services: Started services tell the system to keep them running until their work is completed.
+2. Bound Services: Bound services run because some other app (or the system) has said that it wants to make use of the service. This is basically the service providing an API to another process.
+
+And Started Services can also be divided into 2 types:
+1. Music playback is something the user is directly aware of, so the app tells the system this by saying it wants to be foreground with a notification to tell the user about it; in this case the system knows that it should try really hard to keep that service's process running, because the user will be unhappy if it goes away.
+2. A regular background service is not something the user is directly aware as running, so the system has more freedom in managing its process. It may allow it to be killed (and then restarting the service sometime later) if it needs RAM for things that are of more immediate concern to the user.
+
+A service is implemented as a subclass of Service. For more information about the Service class, see the Services developer guide.
+
+*Use the `JobScheduler` class to schedule action after API level 21*
+*Q: "action" and "service"?*
+
+### Broadcast Receivers
+
+A broadcast receiver is a component that enables the system to deliver events to the app outside of a regular user flow, allowing the app to respond to system-wide broadcast announcements.
+
+Although broadcast receivers don't display a user interface, they may create a status bar notification to alert the user when a broadcast event occurs. More commonly, though, a broadcast receiver is just a gateway to other components and is intended to do a very minimal amount of work. For instance, it might schedule a `JobService` to perform some work based on the event with `JobScheduler`.
+
+*A broadcast receiver is implemented as a subclass of `BroadcastReceiver` and each broadcast is delivered as an `Intent` object. For more information, see the `BroadcastReceiver` class.*
