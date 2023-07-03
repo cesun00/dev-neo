@@ -26,3 +26,39 @@ This stop-the-world behavior has several important consequences:
         <script>
         console.log(document.querySelectorAll('.foo').length); // 2
         console.log(document.querySelector('#bar')); // null
+        </script>
+
+        <div id="bar"></div>
+
+        <div class="foo"></div>
+        <div class="foo"></div>
+    ```
+
+
+The best representitive being the 
+
+```html
+<script src="./jq/jquery-3.7.1.js"></script>
+<script>
+    console.log($('.gg').length);
+</script>
+```
+
+The order is extremely important. The following doesn't work:
+
+```html
+<script>
+    console.log($('.gg').length);
+</script>
+<script src="./jq/jquery-3.7.1.js"></script>
+```
+
+Chrome complains:
+
+```
+Uncaught ReferenceError: $ is not defined
+at 3.html:10:17
+```
+
+When you have a library that depends on jQuery, it's you, the client programmer's responsibility to ensure that `<script src="./jq/jquery-3.7.1.js"></script>` is placed before `<script src="./libfoo_that_depends_on_jq.js"></script>`. Now imagine a more complicated dependency tree.
+
