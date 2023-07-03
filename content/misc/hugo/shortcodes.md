@@ -32,3 +32,30 @@ const (
 // hugolib/shortcode.go:185
 // Note - this value must not contain any markup syntax
 const shortcodePlaceholderPrefix = "HAHAHUGOSHORTCOD"
+```
+
+## shortcode implementations lookup
+
+<!-- Hugo by design supports selecting different templates by lang, outFormat, suffix. -->
+<!-- Shortcode lookup use the same function as other template lookup, leading  -->
+
+The [official document](https://gohugo.io/templates/shortcode-templates/#shortcode-template-lookup-order) claims
+that for a given `{{}}` (or the percentage syntax) call, the following files are used as shortcode implementation
+
+- `/layouts/shortcodes/<SHORTCODE>.html`
+- `/themes/<THEME>/layouts/shortcodes/<SHORTCODE>.html`
+
+But `.md` files in the same directory will also be picked up:
+
+## Angle Bracket Call Vs. Percentage Mark Calls
+
+The difference is poorly described.
+
+`{{%/* bar */%}}`
+
+1. A markdown file is first split with shortcodes (either syntax) as the delimeter.
+2. For each split part, from top to bottom
+    1. if it is a piece of markdown, go through the Goldmark renderer, and append the html result to output buffer
+    2. if it is a shortcode call
+        
+        1. without inner content
