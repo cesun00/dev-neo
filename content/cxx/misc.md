@@ -214,3 +214,38 @@ namespace foo {
     void bar();
 }
 
+int main() {
+    bar();      // compiler complains `bar` can't be found - as expected
+}
+```
+
+```c++
+namespace foo {
+    struct bar { };
+
+    void baz(int c) { std::puts("foo::baz(int)"); }
+
+    void zoo(bar obj) { std::puts("foo::zoo(foo::bar)"); }
+}
+
+int main() {
+    //main.cpp:17:5: error: ‘baz’ was not declared in this scope; did you mean ‘foo::baz’?
+    //   17 |     baz(42);
+    //      |     ^~~
+    //      |     foo::baz
+    baz(42);
+
+    // works just fine - WTF?
+    zoo(foo::bar{});
+}
+```
+
+
+
+Conversion Transitivity Graph
+============
+
+There is a conversion from type X to type Y if any of the following holds:
+1. fpop
+2. fpop
+3. fpop
