@@ -196,3 +196,37 @@ https://developer.android.com/guide/topics/resources/providing-resources.html
 "res/" folder用于存放资源
 ### default resource folders
 1. animator/
+2. anim/
+3. color/
+4. drawable/
+5. mipmap/
+6. layout/
+7. menu/
+8. raw/
+9. values/
+10. xml/
+11. font/
+*12. assets/* (?)
+
+*Never store resource file directly in "res/" folder - it will cause a compiler error*
+
+### Providing Alternative Resources
+注意qualifier的命名规则
+1. 多个qualifier用dash分隔
+2. 多个qualifier必须按照网页中表2的顺序出现
+3. resource subfolders不能嵌套
+4. qualifier is case-insensitive
+5. 同一个qualifier type只能有一个值
+e.g. you cannot have a directory named drawable-rES-rFR/. Instead you need two resource directories, such as drawable-rES/ and drawable-rFR/
+
+### resource alias
+alias只能指向默认资源目录中的某个资源
+比如希望drawable-en/中的icon指向drawable/中的icon.png
+两种方式：
+1. 在drawable-en/中创建icon.xml
+2. 考虑到方法1需要为每个alias创建一个xml并不是很方便，可以将alias统一写在values/目录中的xml文件中
+e.g. res/drawable-en/values/中创建drawables.xml，xml文件中用多个`<drawable>` tag声明alias
+
+*values/中的文件会被统一读取，根据tag进行资源化，多个文件只是根据文件名进行语义区分（比如把字符串统一放在string.xml中）*
+
+Accessing Resources
