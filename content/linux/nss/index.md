@@ -157,3 +157,38 @@ Permitted values of `status` are:
 
 ```
 STATUS => success | notfound | unavail | tryagain
+```
+
+which corresponds to the macros above in an obvious way.
+
+
+Permitted values of `action` are:
+
+```
+ACTION => return | continue | merge
+```
+
+where `return` means to return the answer of the previous service immediately, and `continue` discards that answer
+and consult the next service.
+
+`merge` is only valid as `[SUCCESS=merge]`, and causes the answers from both the previous service and the next service to be merged before returning to the API caller.
+
+## Considerations for Other Software
+
+Newly written applications usually choose to use their own configuration files for things like lookup orders.
+There is no good reason to keep using `nsswitch.conf` unless you are hailing to the tradition.
+
+Historical applications respect `/etc/nsswitch.conf` for various reasons.
+Most of them were written for Solaris and OpenBSD and were later ported to GNU/Linux.
+
+An application that uses `nsswitch.conf` for certain lookup order configurations
+must parse the file on its own for a line that contains the database name they care about.
+It's completely under such applications' jurisdiction what to do with text in that line.
+
+In all situations, glibc provides no utility that helps such an application to work with such parsing.
+
+For example
+- The `shadow-utils` package [parses for a line containing `subid` database](https://github.com/sudo-project/sudo/blob/f0823c70c6c220322cae3a7dae9500df252f990c/plugins/sudoers/sudo_nss.c#L162), then tries `dlopen()` a `libsubid_SERVICE.so`
+for each mentioned `SERVICE`.
+- The `sudo` package [parses for a line containing `sudoers` database](https://github.com/shadow-maint/shadow/blob/dc12e87fe78a79f7240b8b26ea4e33659f4c768c/lib/nss.c#L66), where each `SERVICE` corresponds to a different function
+that returns the desired data - no other object is involved.
