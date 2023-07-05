@@ -239,3 +239,33 @@ openssl rsautl -decrypt -inkey priv.pem -in fuck_encrypted
 
 ### signature
 ```bash
+echo -n 'fuck' | openssl rsautl -sign -inkey priv.pem -out fuck_signed
+```
+
+### verify signature
+```
+# use private key works... but lose the meaning of signature
+openssl rsautl -verify -in fuck_signed -inkey pub.pem -pubin
+```
+
+TODO: I guess by `-sign`, the output file store the encrypted content together with the signature, which is not the traditional definition of "digital signature" where you "encrypt" (i.e. not sure this is standard term - can you "encrypt" with private key? - it's just raise the hash value to the power of `d` (mod n)) the hash of the plaintext using the private key and append it to the plaintext.
+
+## openssl genpkey
+
+It seems that `genpkey` command is more recently designed and contains the functionality of `genrsa`
+
+Problem with PLAIN/RAW/TEXTBOOK RSA & Improvements
+=====
+https://crypto.stackexchange.com/questions/1448/definition-of-textbook-rsa
+https://www.csa.iisc.ac.in/~arpita/Cryptography15/CT10.pdf
+
+PEM are just base64-ed DER with some extra headers
+=====
+
+
+X509 CSR for existing keys
+========
+```bash
+# generate a rsa private key as usual
+openssl genrsa -out priv.pem 4096
+# create a pkcs10 csr for it
