@@ -32,3 +32,34 @@ Now a `FooDerived` instance can be used as a `FooBase` instance safely, due to b
 `GObject` and `GObjectClass` are the base instance / class struct of all classed type. To 
 
 ## HOWTO
+
+## To register a new final GType:
+
+1. In header: `G_DECLARE_FINAL_TYPE(FooBar, foo_bar, FOO, BAR, <base>)`, where `<base>` is name of the instance struct of the type to derive from, e.g. `GObject`.
+2. In .c file: implement your instance struct `struct _FooBar`: put all field in a single structure in .c file, i.e. no divison into public / private field
+3. In .c file: `G_DEFINE_TYPE(FooBar, foo_bar, <flag>)`, where `<flag>` ...
+4. In .c file: implement
+   1. `static void foo_bar_class_init(FooBarClass *)` and 
+   2. `static void foo_bar_init(FooBar *)`
+
+
+## To register a new derivable GType:
+
+write public structure (in header file) + private structure (in .c file)
+
+Use `G_DECLARE_DERIVABLE_TYPE` in header, and `G_DEFINE_TYPE_WITH_PRIVATE` in sources
+
+## GType
+
+Each `GType` is represented by `GtypeInfo` structure:
+
+```c
+typedef struct _GTypeInfo {
+   // interface types, classed types, instantiated types
+   guint16                class_size;
+
+   GBaseInitFunc          base_init;
+   GBaseFinalizeFunc      base_finalize;
+
+   // classed types, instantiated types
+   GClassInitFunc         class_init;
