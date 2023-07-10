@@ -96,3 +96,33 @@ struct ClassFile {
 
 Each `cp_info` has the generic structure of:
 
+```c
+struct cp_info {
+    u1 tag;
+    u1 info[];
+}
+```
+
+where `tag` determines the the type of this constant, and must be one of [the 17 pre-defined tags](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.4-210). Its value determines the internal structure of `info[]`.
+
+{{<card "info">}}
+
+For example, an `cp_info` with `tag = 1 (CONSTANT_Utf8)` becomes an `CONSTANT_Utf8_info`:
+
+```c
+struct CONSTANT_Utf8_info {
+    u1 tag;             // must be 1
+    u2 length;
+    u1 bytes[length];   // UTF8-encoded bytes
+}
+```
+
+
+{{</card>}}
+
+The following table describes different `tag` values and their corresponding specialized `cp_info` structure.
+Fields that end with `_index` is the index of an entry in the `constant_pool` array, which usually must be of a specific type, annotated in the comment.
+
+{{<fold "table: cp_info tags synopsis.">}}
+{{<wide>}}
+{{<content/classfile/cpinfo>}}
