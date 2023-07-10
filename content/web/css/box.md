@@ -29,3 +29,13 @@ Also `box-sizing` is not inherited by default.
 Using `box-sizing: border-box` for all elements on the page, a popular choice among developers, must be achieved by:
 
 ```css
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+```
