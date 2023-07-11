@@ -161,3 +161,8 @@ setup
 During the installation it's useful to switch to a second console by `ALT+F2` and check the disk usage by `df -hT` (usually by checking `/dev/sda?`).
 
 ## CD ROM PATH TRICK
+
+An interesting feature of slackware (and other floppy/CD-based distros) is that 
+Once the ISO image is connected to IDE CDROM, its programs immediately available from the host machine shell.
+
+This is done
