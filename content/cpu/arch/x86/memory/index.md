@@ -301,3 +301,28 @@ Further, the 16-bit selector has to following format:
 ```
 +-----------------------------------------------------------+
 |   index (13 bits)             | TI (1 bit) | RPL (2 bit)  |
++-----------------------------------------------------------+
+```
+
+However, only the selector part (i.e. the most significant 16 bits) is visible to programmers.
+There is no way the rest 48 bits can be observed by a programmer, not even in ring 0.
+They are implementation details and are only included in 80286's manual for explaining how segment selection works:
+
+- A read from a segment register, e.g. `MOV AX, DS` moves only the selector part of `DS` into `AX`.
+- When a write to a segment register occurs, due to either explicit data instructions like `MOV` or `POP` etc. or inter-segment `JMP` / `CALL` which implicitly changes the `CS`, the instruction only specifies the selector part of the segment register. The CPU will automatically load the lower 48 bits (6 bytes) from the `index`-th entry of
+    - the GDT, if `TI` is 0
+    - the Local Descriptor Table (LDT), if `TI` is 1
+
+Once a descriptor (in either GDT or LDT) has been located by the aforementioned mechanics,
+80286 checks to ensure it's a valid 8-byte segment descriptor, and copies 6 bytes from its beginning address, ignoring the high 2 reserved bytes.
+
+> In effect, the hidden descriptor fields of the segment registers function as the memory management cache of the 80286.
+
+<!-- The calculation of an effective address for a memory operand in an instruction stays the same.
+The EA is still treated as an offset, taking  -->
+
+The `index` of a segment selector loaded into a segment register might be 0, and in the case of `TI=0`, this indicates the invalid entry
+at the beginning of the GDT. Such a selector is known as the null selector.
+Loading the null selector into 
+1. CS or SS register causes a general-protection exception (#GP) to be generated.
+2. DS, ES (and for later FS and GS) does not trigger a CPU exception per se.
