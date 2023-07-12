@@ -64,3 +64,33 @@ See [the manual page](https://www.gnu.org/software/make/manual/html_node/Catalog
 Implicit rules are active *even when no `Makefile` exists*. Type `make main.o` in a directory with `main.c` and no `Makefile` and see what happens.
 
 Users can change the value of the variable `CC`, thus changing the compiler used by such implicit rules.
+Such variables are known as built-in variables.
+
+**Implicit rules and builtin variables won't be discussed in this series.** They are legacy features, whose functionality can be completely superseded by using [patterned rules](#patterned-rules). It is strongly suggested to disable them at the beginning of a `Makefile` by (code from Linux Kernel):
+
+{{<fold>}}
+
+```makefile
+ifneq ($(sub_make_done),1)TODO
+
+# Do not use make's built-in rules and variables
+# (this increases performance and avoids hard-to-debug behaviour)
+MAKEFLAGS += -rR
+
+# if you are using GNU Make 4.0 (released in Oct 2013), ignore the following
+
+ifneq ($(filter 3.%,$(MAKE_VERSION)),)
+# 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
+# We need to invoke sub-make to avoid implicit rules in the top Makefile.
+
+need-sub-make := 1
+endif
+
+
+ifeq ($(need-sub-make),1)
+
+PHONY += $(MAKECMDGOALS) __sub-make
+
+$(filter-out $(this-makefile), $(MAKECMDGOALS)) __all: __sub-make
+	@:
+
