@@ -103,3 +103,27 @@ pam_cifscreds.8.gz          pam_mail.8.gz              pam_systemd_home.8.gz
 pam_debug.8.gz              pam_mkhomedir.8.gz         pam_systemd_loadkey.8.gz
 pam_deny.8.gz               pam_motd.8.gz              pam_time.8.gz
 pam_echo.8.gz               pam_namespace.8.gz         pam_timestamp.8.gz
+pam_env.8.gz                pam_namespace_helper.8.gz  pam_timestamp_check.8.gz
+pam_exec.8.gz               pam_nologin.8.gz           pam_tty_audit.8.gz
+pam_faildelay.8.gz          pam_permit.8.gz            pam_umask.8.gz
+pam_faillock.8.gz           pam_pwhistory.8.gz         pam_unix.8.gz
+pam_filter.8.gz             pam_pwquality.8.gz         pam_usertype.8.gz
+pam_ftp.8.gz                pam_rhosts.8.gz            pam_warn.8.gz
+pam_group.8.gz              pam_rootok.8.gz            pam_wheel.8.gz
+pam_issue.8.gz              pam_securetty.8.gz         pam_xauth.8.gz
+pam_keyinit.8.gz            pam_setquota.8.gz
+pam_limits.8.gz             pam_shells.8.gz
+```
+
+## configs
+
+./man5/pam_env.conf.5.gz
+./man5/pam.conf.5.gz
+./man5/pam.d.5.gz
+
+## Using a PAM module
+
+## Reference
+
+Linux-PAM_ADG.pdf
+Linux-PAM_SAG.pdf
