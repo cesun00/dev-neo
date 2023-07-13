@@ -666,3 +666,43 @@ fooo() {
 	head -c3 -
 	echo
 	head -c3 -
+	echo
+}
+
+echo '123abc999ggg' | fooo
+# 123
+# abc
+# 999
+```
+
+
+```sh
+echo -e '123abcxxx\n000\n' | while read data; do   echo $data;   head -c1;   echo; done
+# 123abcxxx
+# 0
+# 00
+```
+
+## Input / Output
+
+### `read`
+
+Read 1 line from stdin, or from a file descriptor if `-u <fd>` is given, into an variable, *with LF removed*.
+
+If no variable name is given, defaults to `$REPLY`.
+
+```bash
+# loop over each line of file
+while read line; do
+    echo $line
+done </etc/passwd
+```
+
+### mapfile / readarray
+
+```bash
+</etc/passwd mapfile -n 42 my_array
+
+# $ declare -p my_array 
+declare -a my_array=(
+    [0]=$'root:x:0:0::/root:/bin/bash\n' 
