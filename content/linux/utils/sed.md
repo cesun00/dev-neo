@@ -203,3 +203,29 @@ while (input EOF not reached) {
 ```
 
 ## MISC
+
+### the -z option
+
+-z is a very special option that triggers sed to consider `/0` as line separator when reading from input streams.
+Normal text file doesn't usually contains `\0` so this will cause `sed` to read all file content into memory.
+So basically you are handling a single long long line.
+
+If the file is too large to fit in your memory, think twice.
+
+`LF` is no longer a special character with `-z`, and can thus be used in various pattern matching,
+-z also makes the `[addr]` selection meaning less. 
+
+The usefulness of -z is that `s` (and other pattern matching commands) now can pattern matching the whole file, without limited by the LF boundary that introduced by pattern space reading. However this doesn't solves all problem with multiline processing.
+
+note: GNU `grep` has `-z` flag for the same functionality.
+
+
+## Usage Cheatsheet
+
+### extract line range
+
+```bash
+sed -n '16224,16482p;16483q' filename > newfile
+```
+
+https://stackoverflow.com/questions/83329/how-can-i-extract-a-predetermined-range-of-lines-from-a-text-file-on-unix
