@@ -217,3 +217,38 @@ In action:
 
 ## TODO: untitled
 
+rvalue (prvalue and xvalue) expression as argument of a function call will match function overloads that takes a rvalue reference.
+
+`decltype<t> t2 = std::move(t)` return (cast t to?) a rvalue reference so the expression itself is a rvalue expression, so the fucking move assignment operator get fucking fired instead of the plain old copy assignment opeartor.
+
+done.
+
+
+```c++
+#include <cstdio>
+void foo(int &x) {
+    printf("%s\n", "lv ref");
+}
+
+void foo(int &&x) {
+    printf("%s\n", "RVALUE ref");
+}
+
+int &lv() {
+    int *c = new int{42};
+    return *c;
+}
+
+int &&rv() {
+    return 3+2;
+}
+
+int main() {
+    foo(lv()); // lv ref
+    foo(rv()); // RVALUE ref
+    int &&gg = rv();
+    foo(gg); // lv ref
+}
+```
+
+<!-- ## if xvalue expression fire rv-ref overload, and prvalue expression fire rv-ref overload too, why differentiating these two? -->
