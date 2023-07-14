@@ -622,3 +622,29 @@ struct thread_info {
 #endif
 #ifdef CONFIG_CGROUPS
 	/* Control Group info protected by css_set_lock: */
+	struct css_set __rcu		*cgroups;
+	/* cg_list protected by css_set_lock and tsk->alloc_lock: */
+	struct list_head		cg_list;
+#endif
+#ifdef CONFIG_X86_CPU_RESCTRL
+	u32				closid;
+	u32				rmid;
+#endif
+#ifdef CONFIG_FUTEX
+	struct robust_list_head __user	*robust_list;
+#ifdef CONFIG_COMPAT
+	struct compat_robust_list_head __user *compat_robust_list;
+#endif
+	struct list_head		pi_state_list;
+	struct futex_pi_state		*pi_state_cache;
+	struct mutex			futex_exit_mutex;
+	unsigned int			futex_state;
+#endif
+#ifdef CONFIG_PERF_EVENTS
+	struct perf_event_context	*perf_event_ctxp;
+	struct mutex			perf_event_mutex;
+	struct list_head		perf_event_list;
+#endif
+#ifdef CONFIG_DEBUG_PREEMPT
+	unsigned long			preempt_disable_ip;
+#endif
