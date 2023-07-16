@@ -35,3 +35,35 @@ Top Level Command
 - `KEYS pattern`
 
     list all keys that match the UNIX wildcard `pattern`.
+
+    In production the redis key set is usually large. Given the single-threaded nature of redis, a `KEY *` command can easily block the server.
+    See below `SCAN` for an alternative.
+
+- `SCAN cursor [MATCH pattern]`
+
+    Iteratively list all keys (with `MATCH pattern`, only keys that matches `pattern`) in the redis server.
+    `SCAN` is cursor based: to do a full iteration, first `SCAN 0`, and use the returned integer as the next `cursor`.
+    Server returns 0 to indicate that a full iteration is finished.
+    Properties of `SCAN` and its `[SHZ]SCAN` family:
+    1. About changes during the iterative scanning:
+        1. If lifetime of a key completely cover the scan (i.e. exist before `SCAN 0` and never die before server return 0),
+        it's guaranteed to returned to the client at some point.
+        2. If a key die before start of the SCAN, it's **never** returned to the client.
+        3. Otherwise, either an existing key is deleted or a new key is added during the scan. Integrity is undefined for those cases.
+    2. As new keys are added, the same element might be returned multipled times. **Application needs to unique the result if necessary**.
+    3. The number of elements returned per step in the iterative scanning is **non-determinisic**: keep scanning until server returns 0.
+
+- `EXISTS key`: membership query of key in the top level space
+
+- `TYPE key`: inspect the data type of `value` that is associated with `key`
+
+### Memory Monitoring
+
+- `MEMORY USAGE key`
+
+    Report the number of byte used by `key` itself and the associated value.
+
+    ```redis
+    127.0.0.1:6379> SET a 0
+    OK
+    127.0.0.1:6379> SET b ""
