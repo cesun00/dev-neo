@@ -91,3 +91,35 @@ List<String> listOne = Collections.emptyList();
 Since Java 7, instantiation of generic class enjoys type deduction by using `<>` diamond when calling ctor:
 
 ```java
+class A<T> {
+    A(T t) {}
+    T foo(){return null;}
+}
+
+new A(new ArrayList<Integer>()).foo();// static return type is Object
+new A<>(new ArrayList<Integer>()).foo();// static return type is ArrayList<Integer>
+```
+
+**Note that the diamond can only be in `new ctor<>()` expression.**. For the left-hand side reference, you have to either
+1. write whole type argument anyway, or
+2. use java 9 `var`
+
+```java
+A<ArrayList<Integer>> x= new A<>(new ArrayList<Integer>());
+x.foo(); // static return type is ArrayList<Integer>
+
+A<ArrayList<Integer>> y= new A<>(new ArrayList<>()); // nested diamond!
+y.foo(); // static return type is ArrayList<Integer>
+
+var z = new A<>(new ArrayList<Integer>()); // java 9 var, no LHS info, so can't nest diamon
+z.foo(); // static return type is ArrayList<Integer>
+
+A<List<Integer>> u = new A<>(new ArrayList<Integer>());
+u.foo(); // static return type is List<Integer>
+
+A<Set<Integer>> v= new A<>(new ArrayList<Integer>()); // compilation fail: can't infer type arguments
+```
+
+Note:
+1. how the reference can be declared using a supertype type parameter; this is **not** because `A<List<Integer>>` is a subtype of `A<ArrayList<Integer>>`, and has nothing to do with the liskov.
+2. Diamond use both static type of left-hand side reference and type of arguments to ctor to infer. If they are not consistent, inference fails and compiler complains.
