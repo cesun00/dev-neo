@@ -150,3 +150,38 @@ This is equivalent to
 ```
 struct foo {
     char value[100];
+};
+
+void foo() {
+    foo a; // TODO: no init
+    std::optional<foo> b;
+}
+```
+
+## Abstract class are considered complete type:
+
+https://stackoverflow.com/questions/16597389/are-c-abstract-classes-incomplete-types
+
+## Integer Promotion
+
+Each integer type, signed or unsigned, is assigned a *rank*, described as follows:
+
+1. Rank increases with the growth of integer precision (i.e. width).
+2. rank of `signed x` equals rank `unsigned x` - its unsigned counterpart
+
+```
+         ^       (signed)            (unsigned)
+         |       long long       =   unsigned long long
+rank     |       long            =   unsigned long
+increase |       int             =   ...
+         |       short               ...
+         |       char
+```
+
+**integer promotion** is the implicit conversion from any integer type (signed or unsigned) whose rank is less than `int`,
+1. to `int` if that's large enough to hold the original numeric value.
+
+    e.g. For `unsigned char a = 42, b = 55;`,  `int c = a + b` first promotes both `a` and `b` to `signed int`, even there were `unsigned char`.
+
+ 2. otherwise, to `unsigned int`.
+
