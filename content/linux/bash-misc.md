@@ -391,3 +391,39 @@ arr_a=()
 arr_a+=('foo')  # the surrounding () is required
 arr_a+=('bar')
 # $ declare -p arr_a
+# declare -a arr_a=([0]="foo" [1]="bar")
+
+# wrong example
+arr_b=()
+arr_b+='foo'
+arr_b+='bar'
+# $ declare -p arr_b
+# declare -a arr_b=([0]="foobar") # become concatenation
+```
+
+https://stackoverflow.com/questions/1951506/add-a-new-element-to-an-array-without-specifying-the-index-in-bash
+
+#### Element Accessing & Assignment
+
+```bash
+arr_a=(1 2 3 x y z)
+declare -A map_a
+map_a=(usa washington china beijing france paris)
+
+# read
+echo ${arr_a[3]} # x
+echo ${map_a[france]} #paris
+
+# assign
+arr_a[3]='foo'
+echo ${arr_a[3]} # foo
+map_a[france]='foo'
+echo ${map_a[france]} # foo
+
+# expanding the whole array
+arr_b=('a    b' 'c   d   e')
+echo ${arr_a[@]} # echo receives 5 words: `a`,`b`,`c`,`d`,`e`
+echo ${arr_a[*]} # always equivalent to above
+echo "${arr_a[@]}" # echo receives 2 words: `a    b` and `c   d   e`
+echo "${arr_a[*]}" # echo receives 1 words: `a    b<FC_IFS>c   d   e`,
+# where <FC_IFS> is the first character of the special variable `IFS`
