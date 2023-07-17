@@ -28,3 +28,12 @@ their codes are maintained in the same [GLib repository](https://gitlab.gnome.or
 
 ### GTKMM
 
+GTKMM is the C++ binding for GTK, and is only required if you will be working with a C++ GTK project.
+
+2 more packages are required if not already installed, namely `doxygen` and (graphviz)[https://archlinux.org/packages/extra/x86_64/graphviz/] (for the `dot` program)
+
+## Develop Your Project
+
+We hereby demonstrate the development of an example project with the infrastructure we've just built.
+
+I'll take the [gnome-character](https://gitlab.gnome.org/GNOME/gnome-characters) project as an example.
