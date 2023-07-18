@@ -383,3 +383,29 @@ button view的onClick()回调的条件
 启动child activity并获得返回值
 --------------
 startActivityForResult(Intent intent, int requestCode);
+onActivityResult(int requestCode, int resultCode, Intent data);
+
+*requestCode用来在回调中区分同一个Activity发出的不同调用，通常使用主调Activity中设置的static final int来增加可读性*
+
+如果child activity失败了，主调activity的回调会收到resultCode = `RESULT_CANCELED`(0)
+成功则收到`RESULT_OK`(-1)
+*成功是-1，失败是0 ... weird*
+
+被调activity必须返回一个returnCode，此外可以返回一个可选的intent对象来返回额外的数据。
+所以setResult()有2个重载：
+```
+public final void setResult(int resultCode);
+public final void setResult(int resultCode, Intent data);
+```
+
+主调activity和被调activity的合作
+-----------
+调用关系发生时，主调activity和被调activity都会经历lifecycle transition
+假设A调用B，回调发生的顺序是：
+1. A的onPause()
+2. B的onCreate(), onStart(), onResume()依次执行
+3. 如果A不再可见，则A的onStop()执行
+
+onSaveInstanceState()
+------------
+"Activity进入Destroyed的两种不同情况"中提到了activity可能被意外杀死，此时会调用onSaveInstanceState()，给Activity一次机会保存自己的状态。
