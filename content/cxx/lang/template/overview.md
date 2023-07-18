@@ -26,3 +26,17 @@ It's very important to distinguish between different category of template, as so
 e.g. historically, template argument deduction (TAD) is for function templates only, while class template argument deduction (CTAD) is newly added in C++17 and should be separately discussed.
 
 All of them can appear in the member specification of a class, becoming so-called *member templates*.
+
+Normally, all templates should be written in header files, and will be evaluated by the client's programmer.
+
+variable template and alias template are simple enough to be discussed in this article.
+
+## variable template (c++14)
+
+Instantiation of a variable template yields a variable declaration (potentially with an initializer). 
+Depending on the context, it may be a local variable, a data member of a class, or a namespace variable.
+
+```c++
+template<int N> int c = 55 + N;
+std::printf("%d\n", c<44>); // 99
+```
