@@ -98,3 +98,29 @@ c = m ⊕ k
 and bob can obtain the original `m` by:
 
 ```
+m' = c ⊕ k
+```
+
+We turned a secret `k` and an message `m` into a secret `c` by XOR.
+
+⊕(XOR) can be considered a binary-native way of propagating unpredictability (to adversary) of one bit sequence to another.  
+
+Unfortunately, 
+
+
+
+being computationally infeasible / hardness / difficult in cryptography
+===================
+
+In many context, we simply say e.g.
+- "it should be hard to find a collision for a good CHF"
+- "it should be hard to find plaintext from ciphertext without the key for a good blockcipher", or 
+- "it's hard to find discrete logarithm".
+
+None of these says "impossible": given enough amout of time, you can find collision in any CHF with probability 1 by brute force.
+
+Hardness (or more formally, computation infeasibility) isn't a term that has strict mathematical definition.
+It's not simply modeled by `the big-O complexity greater than ...` or `the probability of finding ... in m steps is less than ...`,
+though sometimes such statements do appear as supportive material for the hardness discussion.
+
+Hardness means the cost of computation (e.g. time / required memory / money to buy hardware) is greater than
