@@ -118,3 +118,32 @@ const (
 There are 3 circumstances where the left-hand side of the assignment operator `=` can have 2 names:
 
 1. map membership test
+2. type assertion
+3. channel close confirm
+
+Search `the special form` in the specification.
+
+## Limited Liskov Substitution
+
+In Golang, only interface type can enjoy the Liskov substitution.
+
+One struct type can has the fields of another struct type, and the methods... (embeded pointer?)
+
+Type assertion is only permitted on an interface type. It's like a cast, but only for interface.
+it might be easy to be confused with (type) "Conversions":
+
+```go
+package main
+
+import "fmt"
+
+type op string // not assignable, thus conversion is legal via the second clause: "ignoring struct tags (see below), x's type and T have identical underlying types."
+
+func main() {
+        var x string = "hello"
+        // y := x.(op) // invalid type assertion: x.(op) (non-interface type string on left)
+        y := op(x)
+	fmt.Println("Hello, playground",y)
+}
+```
+
