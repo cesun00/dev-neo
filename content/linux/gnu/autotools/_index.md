@@ -60,3 +60,30 @@ but manually write their .
 AC_CONFIG_HEADERS(HEADERS...)
 ```
 
+Use only one such header unless you know what you are doing.
+`autoheader` by default creates `HEADER.in` only for the first `HEADER`.
+
+When multiple `HEADER` are provided, ... TODO
+
+`automake`: creates `Makefile` from `Makefile.am`
+================
+
+```m4
+AC CONFIG FILES(FILES...)
+# e.g
+AC_CONFIG_FILES([Makefile sub/Makefile script.sh:script.in])
+```
+
+Create `FILE` for all `FILE.in`.
+`FILES` contain definitions made with `AC_SUBST`.
+
+autom4te
+=================
+
+autoconf-flavored wrappered around m4.
+`autom4te` itself is a perl script
+
+`*.in` files
+==============
+
+`.in` files are templates where `@XYZ@` are placeholders for
