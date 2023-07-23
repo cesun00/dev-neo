@@ -62,3 +62,42 @@ The name of an automatic module is determined by:
 
 An automatic module
 1. `requires` every other observable module, including the unnamed one
+2. `exports` and `opens` all of its packages.
+
+
+
+
+Compatibility consideration for Java 8
+=============
+
+
+
+The reverse is not supported in any sense, as forward compatibility is never a thing in Java.
+
+ `ClassLoader` explicitly throws an exception when it finds a class file with a higher version than supported.
+    e.g. Java 8 supports up to class file version 52:
+    
+    ```txt
+    Error: A JNI error has occurred, please check your installation and try again
+    Exception in thread "main" java.lang.UnsupportedClassVersionError: foo/App has been compiled by a more recent version of the Java Runtime (class file version 65.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+    ```
+
+    See [this table](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.1-200-B.2) from JVMS for 
+    a mapping from Java versions to their supported class file version.
+
+    Our intuition of interoperability is reduced to backward compatibility, where only JDK 9's support for Java 8 source & binary
+    is required. Thus situations where `runtime version < compile-time version` are ruled out.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
