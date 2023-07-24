@@ -88,3 +88,34 @@ Ultimately, the purpose of Kconfig system is to generate a `autoconf.h` header f
 instruction the preprocessor the perform conditional compilation correctly.
 
 <!--more-->
+
+<!-- `Kconfig` files are static text files. They are manually maintained and won't change by a build. 
+Kernel users shouldn't modify these `Kconfig` files unless hacking.
+
+
+They hierarchically organized build options, and are used to generate config wizards.
+
+For almost each source subdirectory, the kernel tree ships a `Kconfig` file. 
+Those files are used to generate a hierarchical `menuconfig`.
+
+- The designed of Kconfig is largely `menuconfig` oriented, tightly coupling the kconfig syntax with the UX of `menuconfig`.
+- The idea of Kconfig is to synchronize these 3 structures:
+    - the hierarchy of the source tree
+    - the distribution of `Kconfig` files, i.e. one `Kconfig` per subdir, and upper one `source` lower one.
+    - `menuconfig` TUI folders
+- 
+
+The generated config is `.config` at the root of the source tree.
+
+```
+                       user
+                        |
+                        V
+Kconfig -> interactive configuration wizard
+                        |
+                        V
+        .config & include/generated/autoconf.h
+``` -->
+
+1. Macros in `Kconfig` files are evaluated, their result are substituted forming an intermediate `Kconfig` files
+2. intermediate `Kconfig` files are used to generate config wizard
