@@ -341,3 +341,31 @@ ls
 It's a common pattern for a target unit to `Requires=` **and** `After=` on other target units, thus extend low-level targets with new units (service, etc.). Thus multiple target units may be active at the same time.
 
 ### Service
+
+#### `Type=`
+
+Service unit usually starts a daemon process. In order for systemd to track the daemon process, unit author needs to manually specify the type of this service unit in `[Service].Type`:
+
+- `Type=simple` (default)
+    1. systemd considers this type of service started up immediately once systemd successfully fork-exec `ExecStart=`.
+    2. The process of `ExecStart=` must not fork.
+    
+    Do not use this type if other services need to be ordered on this service, unless it is socket activated.
+
+- `Type=forking`
+    1. systemd considers this type of service started up once the `ExecStart=` process itself forks and the parent has exited. **This is the classic pattern for daemons.**
+    2. You should specify `PIDFile=` as well so systemd can keep track of the main process.
+
+- `Type=oneshot`
+    1. this is useful for scripts that do a single job and then exit.
+    2. If `RemainAfterExit=yes` (defaults to `no`), systemd will consider the service as active after the process has exited.
+
+- `Type=notify`
+    1. Like `Type=simple` in that `ExecStart=` process itself won't fork, but promises the daemon will send a signal to `systemd` when it is ready.
+    2. The reference implementation for this notification is provided by libsystemd-daemon.so.
+    
+- `Type=dbus`
+    1. the service is considered ready when the specified `BusName=` appears on DBus's system bus.
+
+- `Type=idle`
+    1. Like `Type=simple`, except that systemd will delay execution of the service binary until all jobs are dispatched.
