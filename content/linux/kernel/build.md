@@ -525,3 +525,28 @@ endif
 #
 source "arch/$(SRCARCH)/Kconfig"
 ```
+
+
+## Generated Content
+
+The following ordinary files are generated during a kernel build (`.o` and `.name.*.cmd` are ignored):
+
+- `*.cmd`:
+
+       These are Makefile snippets. For `foo.bar`, there (usually) exists a `.foo.bar.cmd` containing a single rule
+       that describes `foo.bar`'s dependency.
+
+
+
+       usually they are hidden files (i.e. file name start with a dot), with the exception of `include/auto.conf.cmd`.
+
+       not all .c and .h files has companion .cmd files. This is TODO
+
+- `*.d` files:
+
+
+Module directory has the commmon files:
+- `built-in.a`:
+- `modules.order`:
+
+
