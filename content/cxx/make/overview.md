@@ -62,3 +62,31 @@ else
 
 <!-- ----------------------------------------------------------------------------------------------------------------------------- -->
 
+A `Makefile` contains the following of constructs:
+
+{{<boldlist>}}
+
+1. explicit rules
+
+    See...
+
+2. condition structures
+
+2. variable definitions
+
+    A variable definition is a line that specifies a text string value for a variable that can be substituted into the text later.
+
+4. directives
+
+    A directive is an instruction for make to do something special while reading the makefile, including:
+
+    1. Merging the content of another Makefile into the current one (see TODO).
+    2. Conditionally use or ignore a part of the Makefile based on the values of variables (see Conditional Parts of Makefiles).
+    3. Defining a variable from a verbatim string containing multiple lines (see Defining Multi-Line Variables).
+
+5. comments
+
+    Anywhere in a line, `#` till the next line feed is a comment, except that `\<LF>` can break a comment line as well.
+
+    **Comments are not always ignored:**
+
