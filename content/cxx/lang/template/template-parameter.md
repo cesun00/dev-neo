@@ -58,3 +58,31 @@ template<int... pack_name>
 
 // type pack
 template<typename... pack_name>
+
+// type pack, constrained
+template<concept_name... pack_name>
+
+// template pack
+template<template<parameter_list> typename... pack_name>
+```
+
+The all-taking sink parameter is called a *parameter pack*. Such a template is called a *variadic (class / function) template*.
+A single pack can take an arbitrary number of arguments of one of the 3 types of template parameters.
+
+### Function Template Parameter Pack & (Pattern-Based) Pack Expansion
+
+{{<card "warn">}}
+
+Feature for function template only.
+
+{{</card>}}
+
+Once instantiated, a parameter pack denotes an ordered list of template arguments, which only exists at compilation time.
+This is enough for the compiler's type reasoning system to work.
+
+In order for this feature to have further run-time impact, C++ allows the function parameters of variadic function template to be
+1. also variadic; and
+2. each typed by the (usually deduced) types in the template parameter pack, respectively.
+
+```c++
+template<typename... Ts>
