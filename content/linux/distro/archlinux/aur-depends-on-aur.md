@@ -33,3 +33,6 @@ since `python-sqlglot`, as of this writing, is also an AUR package. This can be 
 git clone https://aur.archlinux.org/python-sqlglot.git && cd python-sqlglot && makepkg -si
 ```
 
+(`python-sqlglot` has its own problem of not mentioning `pip` as its dependency, but this is another story. Have `pip` installed by `pacman -S python-pip` and the above build will work fine.)
+
+Now re-run `makepkg -si` for `mycli`, and everything rolls out!
