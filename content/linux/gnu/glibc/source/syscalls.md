@@ -120,3 +120,12 @@ Now let's look at how the C function `__syscall_write()` is implemented.
     long int sc_ret;							     \
     if (NO_SYSCALL_CANCEL_CHECKING) 					     \
       sc_ret = INTERNAL_SYSCALL_CALL (__VA_ARGS__); 			     \
+    else								     \
+      {									     \
+	int sc_cancel_oldtype = LIBC_CANCEL_ASYNC ();			     \
+	sc_ret = INTERNAL_SYSCALL_CALL (__VA_ARGS__);			     \
+        LIBC_CANCEL_RESET (sc_cancel_oldtype);				     \
+      }									     \
+    sc_ret;								     \
+  })
+```
