@@ -88,3 +88,35 @@ qemu-system-hppa
 qemu-system-riscv64
 
 
+## man pages
+
+
+```ls
+# ls qemu* -hl
+-rw-r--r-- 1 root root  62K Mar 28 04:34 qemu.1.gz
+-rw-r--r-- 1 root root  14K Mar 28 04:34 qemu-img.1.gz
+-rw-r--r-- 1 root root 4.3K Mar 28 04:34 qemu-storage-daemon.1.gz
+lrwxrwxrwx 1 root root    9 Mar 28 04:34 qemu-system-aarch64.1.gz -> qemu.1.gz
+lrwxrwxrwx 1 root root    9 Mar 28 04:34 qemu-system-alpha.1.gz -> qemu.1.gz
+lrwxrwxrwx 1 root root    9 Mar 28 04:34 qemu-system-arm.1.gz -> qemu.1.gz
+# omitting qemu-system-*.1.gz
+```
+
+## system-* options
+
+-cdrom file
+    Use  file as CD-ROM image on the default bus of the emulated machine (which is IDE1 mas‐
+    ter on x86, so you cannot use -hdc and -cdrom at the same time there). On  systems  that
+    support it, you can use the host CD-ROM by using /dev/cdrom as filename.
+
+-boot <specification>
+
+    options to the boot process of this invocation
+
+    `specification` being a comma separated list of `k=v` pairs:
+
+    order=DRIVE
+
+        DRIVE must be a sequence of characters.
+        The x86 PC uses: a, b (floppy 1 and 2), 
+                c (first hard disk),
