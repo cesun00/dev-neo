@@ -51,3 +51,9 @@ a891a2921638: Download complete
 729f825b6ae6: Download complete 
 e6cb43f5f474: Downloading  2.618MB/31.24MB
 c12ed1c2e19b: Download complete 
+6928286dd6f6: Download complete 
+05de04103836: Download complete 
+b5a8264627eb: Download complete 
+```
+
+An image is identified in the Docker Engine with a `IMAGE ID` (a sha256 hash) and a human-readable `tag`.
