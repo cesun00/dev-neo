@@ -739,3 +739,31 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   ├── acpi/
 │   │   ├── acpica/
 │   │   ├── dptf/
+│   │   ├── numa/
+│   │   ├── pmic/
+│   │   └── x86/
+│   ├── amba/
+│   ├── android/
+│   ├── ata/
+│   ├── auxdisplay/
+│   ├── base/
+│   │   ├── firmware_loader/
+│   │   │   ├── builtin/
+│   │   ├── power/
+│   │   ├── regmap/
+│   │   ├── test/
+│   ├── block/
+│   ├── bus/
+│   │   ├── mhi/
+│   ├── cache/
+│   ├── cdrom/
+│   ├── char/
+│   │   ├── agp/
+│   │   ├── hw_random/
+│   │   ├── ipmi/
+│   ├── clk/
+│   │   ├── actions/
+│   │   ├── analogbits/
+│   │   ├── bcm/
+│   │   ├── imgtec/
+│   │   ├── imx/
