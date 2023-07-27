@@ -38,3 +38,33 @@ As mentioned above, this is a minimal Spring MVC project, and we will only have 
   <dependencies>
     <dependency>
       <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>5.3.30</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+```
+
+Now we have a vanilla Servlet application set up. Our next goal is clear and simple:
+1. install the classic Spring MVC entrance servlet, the `DispatcherServlet`;
+2. create an `ApplicationContext` instance and ensure the registration of our `@Controller` beans
+
+The `DispatcherServlet` should have a mapping that intercepts all incoming requests under its context path assigned at deployment time, and will dispatch control flow to the correct controller method depending on its `@RequestMapping` value.
+
+```java
+package com.example;
+
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+
+/**
