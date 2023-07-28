@@ -33,3 +33,33 @@ Usually `RS` is changed in the `BEGIN` section. E.g. to use the `'\000'` null ch
 
 ```awk
 # useful when reading pipelined output from `find -print0`
+BEGIN { RS="\0" }
+```
+
+- The number of records processed so far for all input files is stored in variable `NR`.
+- The number of records processed so far in the current input file is stored in variable `FNR`. Reset to 0 whenever start processing a new file.
+
+A record is break into fields by *field separator*.
+
+## Split record into fields
+
+Fields separator defaults to sequence of `BS`s, `TAB`s and `LF`s. To change, use either cli flag `-F` or set `FS` awk var:
+
+```bash
+awk -F ":" 'program' input  # or
+awk "BEGIN { FS='/' }"
+```
+
+Fields are referred by `$<number>`. `$1` is the first field. `$0` is the whole record.
+
+Variable `NF` is the number of fields in the current record.
+
+## scripting
+
+A gawk program looks like:
+
+```awk
+BEGIN       {RS='\t'}      # BEGIN is executed only once; Setup variables like `RS`, `FS` here.
+
+# for each record; do:
+pattern     {print $1}    # if current record matches <pattern>, perform action in parentheses
