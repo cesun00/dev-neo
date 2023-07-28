@@ -31,3 +31,31 @@ eprintf("hooray!", );   // Expands to   std::printf(format, );     and compiler 
 // 1) implicitly assumes the argument comma if omitted; i.e. eprintf("hooray!") is equivalent to eprintf("hooray!", )
 // 2) introduces `__VA_OPT__(X)` which expands to X if __VA_ARGS__ is not empty, or nothing otherwise.
 #define eprintf(format, ...) std::fprintf(stderr, format __VA_OPT__(,) __VA_ARGS__)
+
+eprintf("hooray!");             // expands to   std::fprintf(stderr, "hooray");
+eprintf("%d hooray!", 42);      // expands to   std::fprintf(stderr, "%d hooray", 42);
+```
+
+## Function with Variadic Arguments
+
+### in C
+
+Variadic arguments in C is introduced by an ellipsis `...` in the function declaration
+which must appear last in the parameter list and must follow at least one named parameter.
+The `...` and the proceeding parameter must be delimited by a comma:
+
+```c
+int printx(const char* format, ...);
+```
+
+As the implementor of `printx`, do:
+
+```c++
+#include <cstdarg>
+
+int printx(const char* fmt...) {
+    // 1. Allocate an instance of va_list on stack.
+    va_list args;
+    // 2. Initialization.
+    va_start(args, fmt);
+
