@@ -71,3 +71,39 @@ manbaout:
     ; write to stdout a string
     linux_syscall 1,1,msg,msglen
 
+    ; exit the process with code 42
+    linux_syscall 0x3c, 42
+```
+
+## About `cdecl`
+
+The term `cdecl` is intentionally avoided in this article since too much different interpretations exist.
+
+`cdecl` is never a standardized, well-defined term. It roughly describe a calling convention that
+- the caller reclaim the stack space allocated for arguments (by increasing `ESP`) after the `call` instruction has returned (as opposed to the callee does this)
+- the caller must push arguments onto stack from right to left
+- a single integral type return value should be returned in the `EAX` register.
+
+Such a description is not enough to completely capture the behavior of what GCC does currently.
+
+AFTER REWRITE END
+
+------------------------------------
+
+BEFORE REWRITE
+
+### Linux x86-64 GCC
+
+For function declaration with fixed number of parameters:
+1. the caller push arguments right-to-left onto the stack
+
+    unless inlined or `__attribute__((fastcall))` is used (allows first and second integral type parameter to be passed via `ECX` and `EDX` register).
+
+2. When the callee's code access a parameter, the compiler always known its offset relative to the `ESP`, since the size and order of all parameters is known. Code can be generated using `ESP + offset` based addressing.
+
+For function declaration with variadic arguments:
+
+```c
+static void foo(int a, ...) {
+    int c = a + 0x42;
+}
