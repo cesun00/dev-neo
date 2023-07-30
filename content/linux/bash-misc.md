@@ -250,3 +250,41 @@ done
 
 # negated while
 until <list>; do
+	commands
+done
+```
+
+## Expansion
+
+*Expansion* is whatever bash does to convert raw text input from stdin (supplied by `libreadline`) to arguments of `execve(2)` syscall.
+
+Expansions are done in the following order:
+
+1. Brace expansion: 2 type of `{}` enclosed sytnax are first expanded, e.g. `{0...9}` and `{a,b,c}.txt`
+2. Tilde expansion: then, `~` are replaced with user's home directory
+3. Parameter (a.k.a Variable) expansion 
+4. Arithmetic expansion
+5. Command Substitution expansion
+
+### Parameter Expansion
+
+#### prefix/suffix removal
+
+See `man bash` section "Parameter Expansion" 
+
+Syntax:
+
+```bash
+${var#pattern}      # prefix non-greedy removal
+${var##pattern}     # prefix greedy removal
+${var%pattern}      # suffix non-greedy removal
+${var%%pattern}     # suffix greedy removal
+```
+
+```bash
+filename=foobarfoo.bar.mp3
+echo ${filename#f*o}    # obarfoo.bar.mp3
+echo ${filename##f*o}   # .bar.mp3
+echo ${filename%bar*}   # foobarfoo.
+echo ${filename%%bar*}  # foo
+
