@@ -36,3 +36,23 @@ Many softwares simply use the first
 ## Chrome Network Failure when IPv6 is on
 
 
+![](./err_ec_chrome.png)
+![](./err_ec_ipas.png)
+
+## TL;DR
+
+### If you are using GRUB
+
+Edit `/etc/default/grub`:
+
+```properties
+GRUB_CMDLINE_LINUX="ipv6.disable=1"
+```
+
+and run 
+
+```sh
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+### 
