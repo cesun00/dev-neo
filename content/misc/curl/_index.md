@@ -34,3 +34,10 @@ all_proxy=socks5h://localhost:1080 curl 'https://ia600307.us.archive.org/BookRea
 * SSL: no alternative certificate subject name matches target host name 'sunsite.unc.edu'
 * Closing connection
 * TLSv1.3 (OUT), TLS alert, close notify (256):
+curl: (60) SSL: no alternative certificate subject name matches target host name 'sunsite.unc.edu'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+```
