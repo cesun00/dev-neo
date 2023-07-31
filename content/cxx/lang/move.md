@@ -290,3 +290,18 @@ void print_vec(const vector<int> &vec) {
 int main() {
     __fsetlocking(stdout,FSETLOCKING_BYCALLER);
     vector<vector<int>> x;
+    vector<int> y;
+    for (int i=0;i<10;i++) {
+        y.clear(); // so call clear manually
+        for (int j=0;j<10;j++) {
+            y.push_back((i<<8) + j);
+        }
+        x.push_back(std::move(y));
+        // the moved-from vector is not always empty:
+        // https://stackoverflow.com/questions/17730689/is-a-moved-from-vector-always-empty
+    }
+    for (const auto &vec:x) {
+        print_vec(vec);
+    }
+}
+```
