@@ -61,3 +61,22 @@ A color is human's visual interpretation of
 A color space is a mapping from a coordinate (usually 3-dimensional) to a .
 
 The set of all col
+
+### SRGB (Standard RGB)
+
+### HSL (Hue, Saturation, Lightness)
+
+HSL is more easy to interpret in terms of human's feeling.
+
+Hue is a color 
+
+Saturation determines how vivid. When saturation is 0, All hue becomes grey .
+
+### HSV a.k.a HSB (Hue, Saturation,  Value / Brightness)
+
+## Generating Uniform Gradient Is More Useful than You Think
+
+Given 2 colors, we are curious about generating a few average colors between them, where 
+
+This is useful in many sceinarios:
+1. 
