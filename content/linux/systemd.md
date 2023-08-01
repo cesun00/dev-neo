@@ -25,3 +25,36 @@
 | Slice     | `systemd.slice(5)`     | - may be used to group units which manage system processes (such as service and scope units)                                     | system.slice                                                                           |
 |           |                        | - in a hierarchical tree for resource management purposes.                                                                       |                                                                                        |
 | Scope     | `systemd.scope(5)`     | - are similar to service units, but manage foreign processes instead of starting them as well.                                   | init.scope                                                                             |
+
+## Unit lifecycle
+
+### activeness
+
+All types of systemd unit share these generic states (activeness):
+
+```txt
+    <----- deactivating <-----
+    |                        |
+inactive -> activating -> active
+                |
+                V
+              failed
+```
+
+### loaded-ness
+
+A unit are said to be "loaded into memory" or simply "loaded" if
+- it's in *active* state
+- it has an job queue
+-
+- some other loaded unit(s) depend on it
+
+To the end user, this is rather a transparent (and weird and poor) design,
+since not-yet-loaded unit will be loaded upon they are inspected e.g. by `systemctl status <not-yet-loaded unit>`, and immediately unloaded then, since it's not needed anymore.
+This is why you always see `loaded` in the output of the above command.
+
+*(Rant: Systmed people you're exposing a burdening internal concept that doesn't matter to end user and making schodinger's cat!)*
+
+## Dependency & The workflow engine
+
+- *requirement* dependency
