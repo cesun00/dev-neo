@@ -160,3 +160,41 @@ Depending on whether ..., can be divided into 3 categories:
 3. re-recordable (rewritable, e.g. CD-RW).
 
 - CD (Compact disc): the physical polycarbonate plastic circle plate, 1.2-millimetre (0.047 in) in thickness, 14–33 grams in weigh.
+
+    CD was co-developed by Philips and Sony to store and play digital audio recordings.
+    The first CD was manufactured in August 1982.
+    The first commercially available audio CD player, the Sony CDP-101, was released in October 1982
+
+     write-once audio and data storage (CD-R),
+      rewritable media (CD-RW),
+      Video CD (VCD),
+      Super Video CD (SVCD),
+      Photo CD, Picture CD, Compact Disc-Interactive (CD-i),
+      Enhanced Music CD, and Super Audio CD (SACD) which may have a CD-DA layer.
+
+
+
+    - 
+
+
+
+- CD-ROM
+- DVD (Digital Video Disc or Digital Versatile Disc)
+
+    invented and developed in 1995 and first released on November 1, 1996, in Japan
+
+    - HD DVD (High Density Digital Versatile Disc)
+    - 
+- VCD (Video CD)
+
+A CD is read by focusing a 780 nm wavelength (near infrared) semiconductor laser through the bottom of the polycarbonate layer. The change in height between pits and lands results in a difference in the way the light is reflected.
+
+## CD - Compact disc
+
+CD data is represented as tiny indentations known as pits, encoded in a spiral track molded into the top of the polycarbonate layer. The areas between pits are known as lands. Each pit is approximately 100 nm deep by 500 nm wide, and varies from 850 nm to 3.5 µm in length.[7] 
+
+The distance between the windings (the pitch) is 1.6 µm (measured center-to-center, not between the edges)
+
+Standard CDs have a diameter of 120 millimetres (4.7 in) and are designed to hold up to 74 minutes of uncompressed stereo digital audio or about 650 MiB (681,574,400 bytes) of data
+Capacity is routinely extended to 80 minutes and 700 MiB (734,003,200 bytes) by arranging data more closely on the same-sized disc
+(narrower track pitch of 1.5 µm)
