@@ -912,3 +912,31 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   │   ├── ivsc/
 │   │   │   ├── mantis/
 │   │   │   ├── netup_unidvb/
+│   │   │   ├── ngene/
+│   │   │   ├── pluto2/
+│   │   │   ├── pt1/
+│   │   │   ├── pt3/
+│   │   │   ├── saa7146/
+│   │   │   ├── smipcie/
+│   │   │   └── ttpci/
+│   │   ├── platform/
+│   │   │   ├── allegro-dvt/
+│   │   │   ├── amlogic/
+│   │   │   │   ├── meson-ge2d/
+│   │   │   ├── amphion/
+│   │   │   ├── aspeed/
+│   │   │   ├── atmel/
+│   │   │   ├── cadence/
+│   │   │   ├── chips-media/
+│   │   │   │   ├── coda/
+│   │   │   │   └── wave5/
+│   │   │   ├── intel/
+│   │   │   ├── marvell/
+│   │   │   ├── mediatek/
+│   │   │   │   ├── jpeg/
+│   │   │   │   ├── mdp/
+│   │   │   │   ├── mdp3/
+│   │   │   │   ├── vcodec/
+│   │   │   │   │   ├── common/
+│   │   │   │   │   ├── decoder/
+│   │   │   │   │   ├── encoder/
