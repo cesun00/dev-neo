@@ -140,3 +140,7 @@ src: https://github.com/util-linux/util-linux
 | wall         | TODO                              |
 | wdctl        | TODO                              |
 | whereis      | TODO                              |
+| wipefs       | TODO                              |
+| write        | TODO                              |
+| x86_64       | TODO                              |
+| zramctl      | TODO                              |
