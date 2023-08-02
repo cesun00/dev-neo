@@ -28,3 +28,6 @@ draft: false
                 .stream().collect(Collectors.toMap(SysDictDataBO::getDictLabel, SysDictDataBO::getDictValue));
     }
 
+     @DubboReference
+    ISysDictDataService sysDictDataService;
+```
