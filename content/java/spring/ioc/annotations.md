@@ -62,3 +62,41 @@ via the `AnnotationMetadata.getAnnotatedMethods()` method.
 Since Spring 5, static method `static AnnotationMetadata introspect(Class<?> type)` becomes the recommended API to introspect
 any class for its annotation info. It deprecates the old way of `new StandardAnnotationMetadata(clazz)` ctor.
 
+`org.springframework.context.annotation.ConfigurationClassParser`
+
+## Meta-annotation handling
+
+Spring extensively use meta-annotation to create so-called annotation and composed annotation:
+1. An `@Service`-annotated class should be treated as if it is `@Component`-annotated across the whole Spring ecosystem,
+since `public @interface Service{...}` is meta-annotated by `@Component`.
+2. An `@SpringBootConfiguration`-annotated class should be treated as if it is
+ annotated by `@SpringBootConfiguration`, `@EnableAutoConfiguration` and `@ComponentScan`, 
+ since `public @interface SpringBootConfiguration{}` is meta-annotated by these 3.
+
+*Definitions*:
+1. A class is *directly-annotated* 
+
+It would be less confusing if the only annotation introspection supported by JDK is direct annotation, i.e.
+if all APIs in `Class<T>` simply answer based whether annotations are directly tagged on `T` class.
+
+If that was true, everyone who wants to benefits...
+
+However, this programming model ("the annotation of my annotation is my annotation") is not natively supported by `java.lang.reflect`.
+There is no existing API that respect such transition fo 
+
+```java
+@Target(ElementType.ANNOTATION_TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyMetaAnnotation { }
+
+@MyMetaAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Foo { }
+
+@Foo
+public class SomeService { }
+```
+
+What JDK indeed is that...
+
