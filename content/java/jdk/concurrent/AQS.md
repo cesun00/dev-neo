@@ -27,3 +27,4 @@ public abstract class AbstractQueuedSynchronizer
 
 A thread is said to *own* an AQS instance if 
 
+To ..., A class must extends from AQS and
