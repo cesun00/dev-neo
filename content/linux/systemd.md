@@ -277,3 +277,29 @@ For `foo.service`,
 > This functionality is useful to hook units into the start-up of other units, without having to modify their unit files.
 
 > The preferred way to create symlinks in the .wants/ or .requires/ directory of a unit file is by embedding the dependency in `[Install]` section of the target unit, and creating the symlink in the file system with `systemctl enable | preset`.
+
+
+## Writing Unit File
+
+### Common Configs
+
+`[Unit]` and `[Install]` sections are common for of all 11 types of units.
+
+
+#### `[Unit]` notable options
+
+- `Alias=foo,bar`
+
+    space-separated list of alias name. Upon `systemctl enable`, 
+
+- `Wants=`, `WantedBy=`
+
+    "Start"
+
+    space-separated list of weak dependencies on other units.
+
+    Weak dependencies should start if the configuring unit starts. But if any weak dependencies failed to start, 
+
+- `Requires=`, `RequiredBy=`
+
+    "What must already be running if the current unit is to be started."
