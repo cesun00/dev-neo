@@ -213,3 +213,33 @@ func main() {
 
 
 ## Reference types 
+
+Go compiler and runtime are implemented in Golang itself.
+
+These types are light enough to be passed by value:
+- A slice variable in the user's code is implemented as a tiny `struct`
+- a `map` variable is a pointer `*hmap`.
+- channels
+- interfaces
+- functions
+
+You don't need to take the address of them and pass the pointer when calling a function.
+
+https://stackoverflow.com/questions/49176090/map-as-a-method-receiver
+https://golang.org/doc/faq#methods_on_values_or_pointers
+
+## defer
+
+https://blog.learngoprogramming.com/gotchas-of-defer-in-go-1-8d070894cb01
+
+
+https://blog.golang.org/defer-panic-and-recover
+
+1. timing of deferred function arguments evaluation 
+    A deferred function's arguments are evaluated when the defer statement is evaluated.
+2. FILO stack of deferred statements
+    Deferred function calls are executed in Last In First Out order after the surrounding function returns.
+3. Access to named return
+    Deferred functions may read and assign to the returning function's named return values.
+
+### Don't defer close on writable files
