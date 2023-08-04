@@ -336,3 +336,28 @@ MAC is mainly a measure to ensure the integrity of data in transmission, since t
 
 One technique to implement a MAC is to use a CHF, and such technique is called HMAC. CHF is known to produce a small fixed size bit sequence that can be used as a tag. The only problem is that CHF does not takes key. HMAC gives a way to wrap a CHF in its core and takes a key.
 
+Public Key Certificate
+====
+the one who wants to prove the identity of himself needs to send the cert
+the one who is receiving the certificate needs to trust the issuer
+
+Self-Signing
+=========
+
+Chain/Web of Trust
+=========
+
+Trust Anchor
+=========
+
+cipher suites
+=========
+combinations of
+- key exchanging algo
+- bulk encryption algo
+- message auth code (MAC) algo
+
+
+TODOs
+=======
+Non-deterministic crypto system?
