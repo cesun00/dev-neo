@@ -141,3 +141,24 @@ encode/decode
 
 - `numfmt`: convert a number between different units, e.g. `10Mi -> 10485760`
 - `paste`
+- `pathchk`
+- `pinky`
+- `pr`
+- `ptx`
+
+
+- `runcon`
+- `stdbuf`
+
+
+
+
+
+
+
+## OS / Kernel / SysOps
+
+- `uname`
+- `nice`
+- `sync`
+- `nproc`: print number of CPU
