@@ -65,3 +65,35 @@ For the `BeanDefinition` implementations hierarchy, `class BeanMetadataAttribute
 ## `abstract class AbstractBeanDefinition` 
 
 A common base class for all non-trivial `BeanDefinition` implementation, containing shared logics,
+e.g. fields for (so many) common properties required by the `BeanDefinition` interface.
+
+3 direct subclasses:
+- `class RootBeanDefinition` (beans.factory.support)
+
+    Score
+
+- `class ChildBeanDefinition` (beans.factory.support)
+
+    
+
+- `class GenericBeanDefinition` (beans.factory.support)
+
+
+
+`interface BeanDefinitionRegistry` and implementations
+=============
+
+`AliasRegistry` defines simple CRUD APIs on an string to string mapping (think about a `Map<String, String>`) that 
+- In current Spring 5 implementations, the mapping is always backed up by a real `Map` at `SimpleAliasRegistry#aliasMap`.
+
+`interface BeanDefinitionRegistry` extends `AliasRegistry` by adding simple CRUD APIs on an id-to-`BeanDefinition` mapping
+(1-to-1, think about `Map<String, BeanDefinition>`).
+- In current Spring 5 production implementations, the mapping is always backed up by a real `Map` at `DefaultListableBeanFactory#beanDefinitionMap`.
+
+## `SimpleAliasRegistry` (core)
+
+## `DefaultSingletonBeanRegistry` (beans.factory.support)
+
+## `FactoryBeanRegistrySupport` (beans.factory.support)
+
+## `SimpleBeanDefinitionRegistry` (beans.factory.support)
