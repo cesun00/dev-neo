@@ -83,3 +83,43 @@ Class and type use the mnemonics
 
 
 
+
+### 
+
+
+## binaries
+
+```conf
+/usr/bin
+    arpaname            # 
+    ddns-confgen
+    delv
+    dig
+    dnssec-cds
+    dnssec-dsfromkey
+    dnssec-importkey
+    dnssec-keyfromlabel
+    dnssec-keygen
+    dnssec-revoke
+    dnssec-settime
+    dnssec-signzone
+    dnssec-verify
+    host
+    mdig
+    named
+    named-checkconf
+    named-checkzone
+    named-compilezone
+    named-journalprint
+    named-nzd2nzf
+    named-rrchecker
+    nsec3hash
+    nslookup
+    nsupdate
+    rndc
+    rndc-confgen
+    tsig-keygen
+```
+
+
+```
