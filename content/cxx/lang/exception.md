@@ -34,3 +34,35 @@ Application of exception in C++ is controversial for the following reason
     2. 
 2. C++ ABI is not standardized even in 2022 today. Interoperability with other langauge is not guaranteed. What if a C++ exception get thrown into C code?
 3. https://docs.microsoft.com/en-us/cpp/cpp/errors-and-exception-handling-modern-cpp?view=msvc-170#exceptions-and-performance
+    - <del>Performance is a more realistic concern in C++ than in other langauges. Throwing exception can be the bottleneck in performance-critical loops.</del>
+    - (TODO: Exception throwing mechanism and how it affect performance.)
+
+
+## Exception safe C++
+
+There might be multiple callstack frames between 1) the frame executing the `throw` statement and 2) the frame where a proper `catch` handler is hit.
+Function code between (1) and (2) is said to be *exception safe* if stack unwinds without leaving behind partially created objects, leaked memory, or data structures that are in unusable states.
+
+
+
+There are at least 3 types of exception safety levels: basic, strong, and no-throw. Basic exception safety should be offered always as it is usually cheap to implement. Guaranteeing strong exception safety may not be possible in all the cases. The copy-and-swap idiom allows an assignment operator to be implemented elegantly with strong exception safety.
+
+
+## standard exceptions
+
+
+## Throwing Mechanics
+
+## `noexcept()` & `throw()`
+
+- `noexcept()` is introduced in C++11
+- Don't use `throw()`. It's semantics experienced backward-incompatible & forward-incompatible changes.
+    - `[c++11, c++17)` use the syntax to list types of potentially thrown object
+    - `[c++17, c++20)` use the syntax as syntax sugar for `noexcept(false)`
+    - REMOVED in c++20.
+
+Function can declare whether it has the potential to throw an exception via the `noexcept(constant-expression)` specifier.
+
+A function is said to be *potentially-throwing* if `constant-expression` evaluate to `false` **at compile time**, and *non-throwing* otherwise.
+
+```c++
