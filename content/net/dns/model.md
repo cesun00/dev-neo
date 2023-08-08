@@ -112,3 +112,31 @@ to right, by combining all the domain labels
 DNS, the *Domain Name* System, requires `name` to exhibit a dot-segmented structure rather than being an arbitrary string, and there is a reason.
 
 Each segment is known as a *label*, and labels of all existing domain names naturally form a tree structure, known as the hierarchical name space.
+This tree structure corresponds to the organizational hierarchy of human society, meaning that for any given suffix, there is a concrete organization or person that administrates (at least) the first-level mapping under that suffix. Such entity publishes the official mapping via name servers in their control, becoming *authoritative name servers*. Authoritative name servers are the single source of truth for the mapping.
+
+To query the authoritative name servers
+
+2. An organization that administrates a given suffix controls the mapping , but may or may not controls 2 level.
+
+Keep this tree model in mind since many vocabularies in the DNS specification are based on this model.
+Again not all elemetns of this model turns out to be significant, making this specification even more pedantic.
+
+1. The total number of names (or, to be precise, mappings) across the globe can be huge to reside on a single disk. There must be some structure within `name` that allows division of storage.
+2. The maintenance cost where a monolithic organization be the authority of all `name`s and accepting requests to update mappings can be prohibitive. There must be some structure within `name` that allows division of administration.
+
+## Referencing
+
+## interfaec
+
+Logically, DNS is a service that maps from `(name, qtype, qclass)` triplet to a set of *resource records (RRs)*.
+
+For example, `('ns3.dnsv5.com.', A, IN)` maps to a list of A records with the following IP addresses on the Internet:
+
+```
+ns3.dnsv5.com.	172800	IN	A	1.12.0.17
+ns3.dnsv5.com.	172800	IN	A	1.12.0.18
+ns3.dnsv5.com.	172800	IN	A	1.12.0.20
+ns3.dnsv5.com.	172800	IN	A	1.12.14.17
+ns3.dnsv5.com.	172800	IN	A	1.12.14.18
+ns3.dnsv5.com.	172800	IN	A	108.136.87.44
+ns3.dnsv5.com.	172800	IN	A	125.94.59.200
