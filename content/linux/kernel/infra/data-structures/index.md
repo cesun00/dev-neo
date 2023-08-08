@@ -64,3 +64,41 @@ struct foo *create_foo(){
 
 
 int main() {
+    LIST_HEAD(precious_head);
+    struct foo *somefoo[3] = {
+        create_foo(),
+        create_foo(),
+        create_foo(),
+    };
+    list_add_tail(&somefoo[0]->link_node, &precious_head);
+    list_add_tail(&somefoo[1]->link_node, &precious_head);
+    list_add_tail(&somefoo[2]->link_node, &precious_head);
+
+    struct foo *cur;
+    list_for_each_entry(cur, &precious_head, link_node) {
+        printf("%d\n", cur->data);
+    }
+    return 0;
+ }
+
+```
+
+<--->
+
+To compile this code, first build the kernel (e.g. with `make defconfig`) for the generated headers, then:
+
+```makefile
+# replace with your source tree root
+LINUX_SRC_ROOT:=$(realpath ..)
+
+a.out: main.c
+	gcc -D__KERNEL__ \
+		-I$(LINUX_SRC_ROOT)/arch/x86/include/generated  \
+		-I$(LINUX_SRC_ROOT)/arch/x86/include/ \
+		-I$(LINUX_SRC_ROOT)/include/generated \
+		-I$(LINUX_SRC_ROOT)/include/ \
+		main.c
+```
+
+{{</columns>}}
+
