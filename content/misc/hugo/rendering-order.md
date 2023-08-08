@@ -30,3 +30,39 @@ for Hugo users who want to understand the how-themes-work internals.
     │       └── post-3
     │           ├── bryce-canyon.jpg
     │           └── index.md
+    ├── data
+    ├── hugo.toml
+    ├── i18n
+    ├── layouts
+    │   ├── _default
+    │   │   ├── baseof.html
+    │   │   ├── home.html
+    │   │   ├── list.html
+    │   │   └── single.html
+    │   └── partials
+    │       ├── footer.html
+    │       ├── head
+    │       │   ├── css.html
+    │       │   └── js.html
+    │       ├── header.html
+    │       ├── head.html
+    │       ├── menu.html
+    │       └── terms.html
+    ├── LICENSE
+    ├── README.md
+    ├── static
+    │   └── favicon.ico
+    └── theme.toml
+    ```
+
+    {{</fold>}}
+
+2. foio
+3. bg
+
+
+
+## site build process
+
+A build of a Hugo site is initiated by a `hugo` invocation.
+A top-level directory `public/` and sometimes also a `resources/` will be created after a successful build.
