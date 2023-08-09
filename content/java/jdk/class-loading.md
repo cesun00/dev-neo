@@ -27,3 +27,34 @@ https://docs.oracle.com/javase/8/docs/technotes/tools/findingclasses.html
 1. Loading: Ensure that a `.class` is loaded into the memory. This step create the `Class` object for currently loading class/interface.
 2. Linking
     1. Verification
+
+        Ensure that the `.class` binary follows the standard format, e.g. all JVM instructions are valid; branching (jmp) instruction jump to the start of some other instruction, rather than into the middle of an instruction.
+
+    2. Preparation
+
+        Allocate memory for `static` fields of the loading class, and initialize them to a *default value*.
+        This always happens even if those static fields have initializer.
+
+    3. (Optional) Resolution
+
+        Resolve symbolic references to other class, optionally load them as well.
+        2 variants:
+        - Early resolution (think of static linking of a C program)
+        - Lazy resolution (load the dependency class only when actively used)
+        Implementations are free to decide to what extend lazy resolution are used.
+
+3. Initialization
+    1. the initializer expression of `static` field is executed, result assigned, and
+    2. the static initializer blocks of a class is executed *in text order*.
+
+### Timing of initialization
+
+From JLS 15 12.4.1:
+
+A class/interface `T` is initialized at the first occurrence of:
+1. an instance of T is created
+2. a static method of T is called
+3. write to static field of T
+4. read from non-final static field of T
+
+This allows JVM to defer the initialization of static field as late as possible.
