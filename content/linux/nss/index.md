@@ -34,3 +34,35 @@ It is then the supporting software's responsibility to parse the file and determ
 what to do with each line.
 
 Below are 2 example `nsswitch.conf` files:
+
+{{<columns>}}
+
+### ArchLinux stock
+
+```nss
+# Name Service Switch configuration file.
+# See nsswitch.conf(5) for details.
+
+passwd: files systemd
+group: files [SUCCESS=merge] systemd
+shadow: files systemd
+gshadow: files systemd
+
+publickey: files
+
+hosts: mymachines resolve [!UNAVAIL=return] files myhostname dns
+networks: files
+
+protocols: files
+services: files
+ethers: files
+rpc: files
+
+netgroup: files
+```
+
+<--->
+
+### Redhat VM
+
+```conf
