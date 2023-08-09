@@ -734,3 +734,29 @@ struct thread_info {
 #ifdef CONFIG_TASK_DELAY_ACCT
 	struct task_delay_info		*delays;
 #endif
+
+#ifdef CONFIG_FAULT_INJECTION
+	int				make_it_fail;
+	unsigned int			fail_nth;
+#endif
+	/*
+	 * When (nr_dirtied >= nr_dirtied_pause), it's time to call
+	 * balance_dirty_pages() for a dirty throttling pause:
+	 */
+	int				nr_dirtied;
+	int				nr_dirtied_pause;
+	/* Start of a write-and-pause period: */
+	unsigned long			dirty_paused_when;
+
+#ifdef CONFIG_LATENCYTOP
+	int				latency_record_count;
+	struct latency_record		latency_record[LT_SAVECOUNT];
+#endif
+	/*
+	 * Time slack values; these are used to round up poll() and
+	 * select() etc timeout values. These are in nanoseconds.
+	 */
+	u64				timer_slack_ns;
+	u64				default_timer_slack_ns;
+
+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
