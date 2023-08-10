@@ -178,3 +178,37 @@ There are 2 other shortcuts that work similarly:
 ###
 # Shorthand for $(Q)$(MAKE) -f scripts/Makefile.dtbinst obj=
 # Usage:
+# $(Q)$(MAKE) $(dtbinst)=dir
+dtbinst := -f $(srctree)/scripts/Makefile.dtbinst obj
+
+###
+# Shorthand for $(Q)$(MAKE) -f scripts/Makefile.clean obj=
+# Usage:
+# $(Q)$(MAKE) $(clean)=dir
+clean := -f $(srctree)/scripts/Makefile.clean obj
+```
+
+The way `scripts/Makefile.build` works is rather intriguing, see [below](#makefile-build) for details.
+
+### `if_changed_*`: 
+
+```makefile
+###
+# if_changed      - execute command if any prerequisite is newer than
+#                   target, or command line has changed
+# if_changed_dep  - as if_changed, but uses fixdep to reveal dependencies
+#                   including used config symbols
+# if_changed_rule - as if_changed but execute rule instead
+# See Documentation/kbuild/makefiles.rst for more info
+
+# Usage: $(call if_changed_rule,foo)
+# Will check if $(cmd_foo) or any of the prerequisites changed,
+# and if so will execute $(rule_foo).
+if_changed_rule = $(if $(if-changed-cond),$(rule_$(1)),@:)
+
+# Execute the command and also postprocess generated .d dependencies file.
+if_changed_dep = $(if $(if-changed-cond),$(cmd_and_fixdep),@:)
+
+if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
+
+# Find any prerequisites that are newer than target or that do not exist.
