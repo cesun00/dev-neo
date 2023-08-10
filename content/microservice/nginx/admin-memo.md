@@ -55,3 +55,41 @@ server {
                         add_header 'Access-Control-Allow-Headers' 'Authorization,Content-Type,Accept,Origin,User-Agent,DNT,Cache-Control,X-Mx-ReqToken,X-Data-Type,X-Requested-With';
                 }
 
+                proxy_set_header    Host test.cbs.example.com;
+                proxy_set_header    X-Real-IP $remote_addr;
+                proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_pass http://172.21.178.185:19010;
+        }
+}
+```
+
+https://serverfault.com/a/716283
+
+## Wildcard CORS
+
+## Credentialed CORS
+
+Scope: `server` / `location`:
+
+```nginx
+    if ($http_origin = ''){
+        set $http_origin "*";
+    }
+
+    proxy_hide_header Access-Control-Allow-Origin;
+    add_header Access-Control-Allow-Origin $http_origin;
+```
+
+## Directive Memo
+
+http://nginx.org/en/docs/dirindex.html
+
+### [`server_name`](http://nginx.org/en/docs/http/ngx_http_core_module.html#server_name)
+
+See also: http://nginx.org/en/docs/http/server_names.html
+
+同端口多 virtual host 的时候，用 `Host` header 来区分具体适用的配置。
+
+Exact match, multiple names are supported:
+
+```nginx
