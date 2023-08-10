@@ -35,3 +35,28 @@ SELECT @@innodb_default_row_format;
 
 View
 ----------
+
+A view is a stored query. The `ALGORITHM = ...` clause determines whether a new query is issued every time the view is selected from, or a cached temporary table should be used. Of course creating a view does not produce a corresponding table file (tablespace).
+
+The syntax to establish a view:
+
+```sql
+CREATE [OR REPLACE]
+[ALGORITHM = ... ]
+[DEFINER = ... ]
+VIEW `view_name`
+AS  
+```
+
+```sql
+show tables;
+# +-----------------+
+# | Tables_in_world |
+# +-----------------+
+# | city            |
+# | country         |
+# | countrylanguage |
+# +-----------------+
+
+CREATE VIEW poplarge AS SELECT * FROM city where Population >10000000;
+# Query OK, 0 rows affected (0.02 sec)
