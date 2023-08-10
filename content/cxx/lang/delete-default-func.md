@@ -38,3 +38,43 @@ public:
 private:
     int& m_a;
 };
+```
+
+Compiler can't generate a legal `Foo()` definition for you, since C++ disallows uninitialized references.
+The situation is known as **explicit-defaulted function being implicitly delete**.
+`Foo() = default;` is considered as `Foo() = delete;` by the compiler.
+
+
+It's not wrong to have this class definition. It's wrong to call the default ctor now.
+
+
+## `= deleted`
+
+The use of `= delete`, on the other hand, is not limited to class member functions, and can become the `function-body` of any function.
+
+The definition with `= delete` should be the first declaration of that function in the translation unit.
+
+```c++
+struct sometype {
+    sometype();
+};
+sometype::sometype() = delete;  // error: not first declaration
+```
+
+<!-- A function is said to have a *deleted definition*, if either
+1. its `function-body` is `= deleted`; orgg
+2. its `function-body` is `= default` and  -->
+
+//---------------------------------
+
+|            | special member function   | operator `==`, `<`, `>`, `<=`, `>=`, and `<=>`                | eventhing else (free functions / other member functions)       |
+|------------|---------------------------|---------------------------------------------------------------|----------------------------------------------------------------|
+| `=delete`  | OK                        | Unspecified. `g++` and `clang++` with `-std=c++20` allow this | Unspecified. `g++` and `clang++` with `-std=c++20` allow this. |
+| `=default` | OK if no default argument | OK if no default argument.                                    | ill-formed                                                     |
+
+
+> A program that refers to a deleted function implicitly or explicitly, other than to declare it, is ill-formed.
+>
+> This includes calling the function implicitly or explicitly and forming a pointer or pointer-to-member
+to the function. It applies even for references in expressions that are not potentially-evaluated. If a function
+is overloaded, it is referenced only if the function is selected by overload resolution. The implicit odr-use (6.3)
