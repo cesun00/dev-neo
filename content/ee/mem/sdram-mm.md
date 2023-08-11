@@ -31,3 +31,40 @@ Common number of chips found on DIMM/SO-DIMM is 8, or 9 (the added one for ECC),
 
 Each chip has a certain capacity of bits.
 `JESD79-4` requires a DDR4 SDRAM chip to be one of 2/4/8/16 Gibits.
+`MM total capacity = # of chips (excluding ECC ones) * capacity per chip`
+
+Depends on the design of the memory module, all the following are possible:
+1. one side of the MM contains all 8/9 chips;
+2. one side of the MM contains all 16/18 chips;
+3. each side of the MM has 8/9 chips.
+
+For example, 
+- Kingston HyperX `HX436C17FB3/8` is a 8 GiB DIMM with 8 chips of size 1 GiB each, 
+- while `HX426C16FB3/32` is a 32 GiB DIMM with 16 chips of size 2 GiB each, mounted on both sides of the PCB.
+
+### Parameters
+
+All interval / delay has unit in clock cycle count:
+
+- `t_RCD`: RAS to CAS Delay. The minimal interval between and `RAS + Row Addr` and a later `CAS + Col Addr`
+- `CL`: CAS Latency. The delay after an `CAS + Col addr` and the actual data is available on `DQ`
+- `t_RAS`: the minimal interval between a previous `RAS` and a later precharge for new row.
+- 
+
+```
+CL(IDD) 			17 cycles
+Row Cycle Time (tRCmin) 			45.75ns(min.)
+Refresh to Active/Refresh Command Time (tRFCmin) 			350ns (min.)
+Row Active Time (tRASmin) 			32ns(min.)
+UL Rating					94 V - 0
+```
+
+### Pin Layout
+
+### Multiport RAM
+
+### Multichannel RAM
+
+### Multi-banking
+
+### Ranks
