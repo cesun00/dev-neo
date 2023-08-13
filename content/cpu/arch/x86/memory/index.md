@@ -148,3 +148,40 @@ The whole idea of addressing mode gets retired ...
 
 The Intel 80286 was released in 1982.
 It still uses 16-bit registers, but the # of address lines increased to 24, supporting physical memory of up to 16 MiB.
+
+2 modes of operations were introduced: real address mode and protected virtual address mode.
+Switching between the 2 modes is done by setting/unsetting the `Protected Enabled (PE)` bit in the Machine Status Word (MSW) register.
+The 80286, upon reset, works in Real Address Mode by default.
+
+### Real Address Mode
+
+The real address mode simply captures how 8086/8088 works.
+A program written for 8086/8088 can be run on an 80286 in the real address mode without any modification.
+
+<!-- and the 80286 is essentially a high-performance 8086  -->
+<!-- The 4 segment registers were, still 16 bits. -->
+
+The only noticeable
+
+There are indeed new instruction that doesn't exist in 8086 and 80186 that can be executed in the real address mode of 80286.
+
+A20 - A23 bits should not be used by program, though it doesn't hurt if those bits are not 0.
+The memory controller will ignore them and ensure 0 is send over the address bus for the
+
+### Protected Virtual Address Mode
+
+In the Protected Virtual Address Mode, the term segment still refers to a piece of continuous memory,
+but its base address is not directly indicated by the segment register, and its size can vary.
+
+For a complete view, 2 important memory-resident data structures must be discussed first.
+
+#### Global Descriptor Table (GDT) and Local Descriptor Table (LDT)
+
+A new register, `GDTR` (Global Descriptor Table Register) is introduced.
+It is a 40-bit register consisting of 2 components:
+
+```
+ 39                      15                 0
++-----------------------------------------+
+| base (24 bits)        | limit (16 bits) |         GDTR register
++-----------------------------------------+
