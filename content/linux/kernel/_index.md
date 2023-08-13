@@ -69,3 +69,18 @@ Kernel sources are arranged in modules. Each module culminates in a `built-in.a`
 │   ├── dummy-include
 │   └── include
 └── virt            # virtualization supporting code, i.e. the kvm.
+    ├── kvm
+    └── lib
+```
+
+1. block tools/ directory in your editor
+
+
+```json
+{
+    "C_Cpp.default.includePath": ["include/"],
+    "search.exclude": {
+        "tools/": true,
+    }
+}
+```
