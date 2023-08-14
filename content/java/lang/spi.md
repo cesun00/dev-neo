@@ -62,3 +62,29 @@ public class Driver extends NonRegisteringDriver implements java.sql.Driver {
         }
     }
 }
+```
+
+This workflow suffers from several problems:
+1. It's the user's responsibility to ensure the static initializer is executed, making necessary the infamous `Class.forName()` call in the past. Such a contract is not common practice.
+2. [The intrinsic problem with static initializers]({{<ref "notorious-static-init">}})
+3. An implicit contract is also imposed on the `Driver` vendors: they have to read the specification and know what must be done in the static initializer.
+
+SPI was developed to facilitate a workflow without these problems.
+
+## How SPI works
+
+Instead of relying on some esoteric static registration contract documented in the wild and varies from library to library,
+SPI solves the aforementioned problems by formalizing the way an implementation is discovered, presented as follows:
+
+1. For client user: one still obtains interface instances by calling factory methods from API JAR;
+2. For API vendor: the factory methods discover implementations and obtain their instances at run time by calling static method `java.util.ServiceLoader#load`
+3. For implementation vendor: implementation JAR exposes the full names of implementation classes in a well-known declaration file.
+4. All the static registration magics are now extracted to `ServiceLoader`: instead of asking on implementation vendor to write ad-hoc code that register themselves, standard `ServiceLoader` now read the well-known declaration file and load those classes followed by instantiating an instance.
+
+SPI is a complete "userspace" solution, meaning that there is no magic from the compiler or JVM involved. You can literally write your own `ServiceLoader` before the Java 6 one is introduced into standard JDK.
+
+## More Than Discovery
+
+Again, SPI is merely a standard way to expose & discover implementations;
+and `ServiceLoader` is simply a helper class for whoever doesn't want to scan the classpath and read `META-INF/services/*` themselves.
+
