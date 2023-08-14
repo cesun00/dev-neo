@@ -167,3 +167,30 @@ It's the callee's responsibility to:
 2. access parameter from & write return value to the caller's stack frame correctly
 2. restore the caller's stack frame (i.e. restore `ebp`)
 
+A basic pattern for any function 
+
+{{<columns>}}
+
+```asm
+func:
+    push    ebp       ; save the base of old call frame to stack s.t. can be restored upon return
+    mov     ebp, esp  ; set the base of new call frame to the top of the previous frame i.e. `esp`
+    sub
+
+    ...    
+
+    pop     ebp       ; restore old call frame
+    ret               ; restore EIP
+```
+
+<--->
+
+It's may suprise you that x86 has native instructions `ENTER` and `LEAVE` that does the same,
+just to support such practice in high-level programming langauge
+
+
+```asm
+func:
+    enter
+
+    leave
