@@ -131,3 +131,28 @@ int main() {
     Foo<const int*> f2;     // Foo partial specialization for pointer
 
     Bar<int,double> a;          // hits primary Bar
+    std::printf("%d\n", a.x);
+    std::printf("%d\n", a.y);   // error: struct Bar<int, double>’ has no member named ‘y’
+
+    Bar<int, int> b;            // hits T = E specialization
+    std::printf("%d\n", b.x);   // error: ‘struct Bar<int, int>’ has no member named ‘x’
+    std::printf("%d\n", b.y);
+
+    Bar<double, double> c;      // hits T = E specializatoin
+    std::printf("%d\n", c.x);   // error: ‘struct Bar<double, double>’ has no member named ‘x’
+    std::printf("%d\n", c.y);
+}
+```
+
+
+Misc
+===========
+
+## Source order between specializations and instantiations
+
+Specialization must be declared before the first (explicit or implicit) instantiation, in every translation unit.
+
+```c++
+template<class T> // primary template
+void sort(std::vector<T>& v) { /*...*/ }
+
