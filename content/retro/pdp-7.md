@@ -87,3 +87,40 @@ Everything else, e.g. the keyboard, the printer, and [the iconic circle CRT disp
 
 There were totally 53 PDP-1 built and delivered, from the first in 1959 to the last one in 1969.
 
+An average configuration cost $120,000 at a time "when most computer systems sold for a million dollars or more."
+
+PDP-7
+===========
+
+
+In contrast to previous mainframes which require special condition like a climate-controlled room,
+PDP-7 is completely self-contained, requiring no special power sources, air conditioning, or floor bracing. 
+
+An installed PDP-7 use a single source of 115-volt, 60-cycle, single-phase power. 
+the PDP-7 produces circuit operating DC voltages of -15 volts (±1) and +10 volts (±1) which are varied
+for marginal checking. Total power consumption is 2000 watts.
+
+PDP-7 used 18-bit words. It used magnetic core memory, which is 4096 words in size.
+6 registers:
+
+| name                            |                                                                                                                                                                               |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `AC` -  ACCUMULATOR             | 18-bit register which performs arithmetic and logical operations on the data and acts as a transfer register through which data  asses to and from the I/O bu Her reg i sters |
+| `L`  -  LINK                    | 1-bit register used to extend the arithmetic facility of the accumulator.                                                                                                     |
+| `MA` -  MEMORY ADDRESS REGISTER | 13-bit register which holds the address of the core memory cell currently being used.                                                                                         |
+| `MB` -  MEMORY BUFFER REGISTER  | 18-bit register which acts as a buffer for all information sent to or received from memory.                                                                                   |
+| `IR` -  INSTRUCTION REGISTER    | 4-bit register which holds the operation code of the program instruction currently being performed.                                                                           |
+| `PC` -  PROGRAM COUNTER         | 13-bit register which holds the address of the next memory cell from which an instruction is to be taken.                                                                     |
+
+A basic PDP-7 includes:
+
+- Multiplexed IO controller
+- IO devices:
+    - a punched paper tape reader works at 300 cps (characters per second).
+    - a paper tape punch works at 63.3 cps.
+    - a KSR 33 teleprinter works at 10 cps.
+
+Beyond this basic stock setup, user can optionally connect DEC modules. like a magnetic tape equipment.
+
+## memory
+
