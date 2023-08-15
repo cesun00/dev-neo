@@ -61,3 +61,34 @@ Submodules are git's standard mechanism to include a given version of other repo
 ```sh
 git submodule add https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
 ```
+
+This will add 2 entries into the stage index:
+
+```sh
+# git status
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   .gitmodules
+	new file:   themes/PaperMod
+
+```
+
+```
+ls -al
+total 24
+drwxr-xr-x  4 bitier bitier 4096 Jan  8 16:49 .
+drwx------ 35 bitier bitier 4096 Jan  8 16:49 ..
+drwxr-xr-x  9 bitier bitier 4096 Jan  8 16:50 .git
+-rw-r--r--  1 bitier bitier  112 Jan  8 16:49 .gitmodules
+-rw-r--r--  1 bitier bitier    9 Jan  8 16:35 REDME.md
+drwxr-xr-x  3 bitier bitier 4096 Jan  8 16:49 themes
+```
+
+
+## Cheetsheet
+
+```sh
+# Register a new submodule for you repo
+
+# Clone a repository that use submodules
