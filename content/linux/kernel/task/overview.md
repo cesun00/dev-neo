@@ -528,3 +528,43 @@ struct thread_info {
 	u64				parent_exec_id;
 	u64				self_exec_id;
 
+	/* Protection against (de-)allocation: mm, files, fs, tty, keyrings, mems_allowed, mempolicy: */
+	spinlock_t			alloc_lock;
+
+	/* Protection of the PI data structures: */
+	raw_spinlock_t			pi_lock;
+
+	struct wake_q_node		wake_q;
+
+#ifdef CONFIG_RT_MUTEXES
+	/* PI waiters blocked on a rt_mutex held by this task: */
+	struct rb_root_cached		pi_waiters;
+	/* Updated under owner's pi_lock and rq lock */
+	struct task_struct		*pi_top_task;
+	/* Deadlock detection and priority inheritance handling: */
+	struct rt_mutex_waiter		*pi_blocked_on;
+#endif
+
+#ifdef CONFIG_DEBUG_MUTEXES
+	/* Mutex deadlock detection: */
+	struct mutex_waiter		*blocked_on;
+#endif
+
+#ifdef CONFIG_DEBUG_ATOMIC_SLEEP
+	int				non_block_count;
+#endif
+
+#ifdef CONFIG_TRACE_IRQFLAGS
+	struct irqtrace_events		irqtrace;
+	unsigned int			hardirq_threaded;
+	u64				hardirq_chain_key;
+	int				softirqs_enabled;
+	int				softirq_context;
+	int				irq_config;
+#endif
+#ifdef CONFIG_PREEMPT_RT
+	int				softirq_disable_cnt;
+#endif
+
+#ifdef CONFIG_LOCKDEP
+# define MAX_LOCK_DEPTH			48UL
