@@ -172,3 +172,33 @@ Range adaptors
 ## RAO (Range Adaptor Object)
 
 Specification requires RAO to provide a second `operator()` to "specialize" itself into an RACO, by fixing arguments other than the range to operate on.
+It's result can then used in the view pipelining.
+
+In libstdc++, all RAO class inherit from a CRTP base `T : public __adaptor::_RangeAdaptor<T>` which provide this second `operator()`.
+
+```c++
+std::vector<int> dt{1,2,3};
+auto square = [](const int &x){return x*x;};
+
+std::views::transform(range, square);   // use RAO views::transform directly
+auto square_transform = std::views::transform(square);      // call the second operator() to bind an argument
+square_transform(dt);                   // use RACO generated from RAO
+```
+
+## RACO (Range Adaptor Closure Object)
+
+Given an `R r` modeling `viewable_range` and a RACO `C c`,
+specification requires `r | c` (`operator|(r, c)` or `r.operator|(c)`) to be equivalent to `c(r)` (i.e. `c.operator()(r)`).
+
+Given an `R r` modeling `viewable_range`, and 2 RACO `C1 c1` and `C2 c2`, 
+specification requires `r | c1 | c2` is equivalent to `r | (c1 | c2)`.
+
+i.e. RACO must have 2 `operator|`, one takes `viewable_range` and the other takes another RACO.
+
+In libstdc++, all RACO class inherit from `_RangeAdaptorClosure` which provides these 2 `operator|` implementations.
+
+## pipelining
+
+i.e. for an RAO `D d`, this means the following expression are equivalent:
+
+```c++
