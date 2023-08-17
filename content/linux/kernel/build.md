@@ -237,3 +237,31 @@ include $(kbuild-file)
 include $(srctree)/scripts/Makefile.lib
 
 # Do not include hostprogs rules unless needed.
+# $(sort ...) is used here to remove duplicated words and excessive spaces.
+hostprogs := $(sort $(hostprogs))
+ifneq ($(hostprogs),)
+include $(srctree)/scripts/Makefile.host
+endif
+```
+
+With this `Makefile.build` infrastrucutre, a classic module Makefile nowonly contains variable definitions. This example is from `kernel/time/Makefile`:
+
+```makefile
+# SPDX-License-Identifier: GPL-2.0
+obj-y += time.o timer.o hrtimer.o
+obj-y += timekeeping.o ntp.o clocksource.o jiffies.o timer_list.o
+obj-y += timeconv.o timecounter.o alarmtimer.o
+
+ifeq ($(CONFIG_POSIX_TIMERS),y)
+ obj-y += posix-timers.o posix-cpu-timers.o posix-clock.o itimer.o
+else
+ obj-y += posix-stubs.o
+endif
+
+obj-$(CONFIG_GENERIC_CLOCKEVENTS)		+= clockevents.o tick-common.o
+ifeq ($(CONFIG_GENERIC_CLOCKEVENTS_BROADCAST),y)
+ obj-y						+= tick-broadcast.o
+ obj-$(CONFIG_TICK_ONESHOT)			+= tick-broadcast-hrtimer.o
+endif
+obj-$(CONFIG_GENERIC_SCHED_CLOCK)		+= sched_clock.o
+obj-$(CONFIG_TICK_ONESHOT)			+= tick-oneshot.o tick-sched.o
