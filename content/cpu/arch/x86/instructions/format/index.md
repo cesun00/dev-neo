@@ -71,3 +71,40 @@ For example,
 - `DEC DWORD [0]` is `ff 0d 00 00 00 00`
 
     `ModR/M = 0x0d = 0b 00 001 101`,
+    `r/m = 101` indicates a 32-bit displacement, and `Reg/Opcode = 001` is an opcode extension to `ff` representing a `DEC`.
+
+The Intel SDM documents this by a `/digit` syntax where `digit` is the value of `Reg/Opcode` from 0 to 7;
+e.g. `FF /0` indicates that the `Reg/Opcode` field of `ModR/M` must be 0.
+
+#### `primary opcode` field sometimes specifies a register (depending on your interpretation)
+
+The boundary between operations and operands can be vague.
+
+For example,
+- `XCHG EAX, ECX` encodes to a single `91H` byte which belongs to the `primary opcode` field and gives the complete `opcode`; while
+- `XCHG EBX, ECX` encodes to `87 d9` where `87` is the `primary opcode` (also complete opcode) and `d9` is the `ModR/M` identifying 2 registers as operands.
+
+What this means from the designer's perspective is that:
+
+> In addition to letting *exchanging a 32-bit register with doubleword from 32-bit register or memory* be an opcode (`87`) and
+> giving 2 operands registers in other fields (`d9`), x86 instruction designers decided also to make *exchanging EAX with ECX* (`91`) an opcode.
+
+In fact, all of the following are standalone opcodes:
+
+| exchanging EAX with ... | opcode |
+|-------------------------|--------|
+| EAX                     | 90H    |
+| ECX                     | 91H    |
+| EDX                     | 92H    |
+| EBX                     | 93H    |
+| ESP                     | 94H    |
+| EBP                     | 95H    |
+| ESI                     | 96H    |
+| EDI                     | 97H    |
+
+Depending on one's interpretation, he can claim that either
+- `Exchanging EAX with foo` is an operation and `foo` is the operand; or
+- `Exchanging EAX with EAX/ECX/EDX/...` each is an operation and there is no operand.
+
+The Intel SDM takes the first figure of speech: `Exchanging EAX with foo` is an operation with opcode `0b 1001 0xxx`, and 8 possible
+choices of operand register are encoded in the least significant 3 bits of the `opcode` byte.
