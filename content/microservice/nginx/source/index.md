@@ -230,3 +230,33 @@ Given the support for variadic macros on my OS, others are just wrappers around 
     ```c
     #define ngx_log_error(level, log, ...) \
         if ((log)->log_level >= level) \
+            ngx_log_error_core(level, log, __VA_ARGS__)
+    ```
+
+- `ngx_log_debug()`
+
+    Print a message to `log` only if it's configured to accept such debug message.
+
+    ```c
+    #define ngx_log_debug(level, log, ...) \
+        if ((log)->log_level & level) \
+            ngx_log_error_core(NGX_LOG_DEBUG, log, __VA_ARGS__)
+    ```
+
+- `ngx_log_debug{0..8}()`
+
+    ```c
+    #define ngx_log_debug0(level, log, err, fmt) \
+        ngx_log_debug(level, log, err, fmt)
+    #define ngx_log_debug1(level, log, err, fmt, arg1) \
+        ngx_log_debug(level, log, err, fmt, arg1)
+    #define ngx_log_debug2(level, log, err, fmt, arg1, arg2) \
+        ngx_log_debug(level, log, err, fmt, arg1, arg2)
+    // ...
+    ```
+
+    If varaidic macro support are certainly available, we could just call `ngx_log_debug()` for arg lists of all length.
+
+- `ngx_log_debug_core()`
+
+    Ignored. Is only defined and useful when system doesn't have variadic macro support.
