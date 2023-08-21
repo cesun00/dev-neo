@@ -162,3 +162,19 @@ TODO
 
 ## GNUmake-specific special variables
 
+|                |                                                                 |
+|----------------|-----------------------------------------------------------------|
+| `MAKEFILES`    |                                                                 |
+| `VPATH`        | non-selective vpath for all target / prerequisite file patterns |
+| `SHELL`        | shell binary to execute each recipe                             |
+| `MAKESHELL`    |                                                                 |
+| `MAKE`         |                                                                 |
+| `MAKE_VERSION` |                                                                 |
+| `MAKE_HOST`    |                                                                 |
+| `MAKELEVEL`    |                                                                 |
+| `MAKEFLAGS`    |                                                                 |
+| `GNUMAKEFLAGS` |                                                                 |
+| `MAKECMDGOALS` | The targets given to make on the command line.                  |
+| `CURDIR`       | cwd                                                             |
+| `SUFFIXES`     |                                                                 |
+| `LIBPATTERNS`  |                                                                 |
