@@ -1348,3 +1348,40 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── xt_mark.mod.c
 │   │   ├── xt_MASQUERADE.ko
 │   │   ├── xt_MASQUERADE.mod
+│   │   ├── xt_MASQUERADE.mod.c
+│   │   ├── xt_nat.ko
+│   │   ├── xt_nat.mod
+│   │   ├── xt_nat.mod.c
+│   ├── netlabel/
+│   ├── netlink/
+│   ├── packet/
+│   ├── rfkill/
+│   ├── sched/
+│   ├── sunrpc/
+│   │   ├── auth_gss/
+│   ├── unix/
+│   ├── wireless/
+│   │   ├── shipped-certs.c
+│   │   ├── tests/
+│   └── xfrm/
+├── scripts/
+│   ├── asn1_compiler*
+│   ├── basic/
+│   │   ├── fixdep*
+│   ├── gcc-plugins/
+│   ├── kallsyms*
+│   ├── kconfig/
+│   │   ├── conf*
+│   │   ├── lexer.lex.c
+│   │   ├── lxdialog/
+│   │   ├── mconf*
+│   │   ├── mconf-bin
+│   │   ├── mconf-cflags
+│   │   ├── mconf-libs
+│   │   ├── parser.tab.c
+│   │   ├── parser.tab.h
+│   ├── mod/
+│   │   ├── devicetable-offsets.h
+│   │   ├── devicetable-offsets.s
+│   │   ├── elfconfig.h
+│   │   ├── mk_elfconfig*
