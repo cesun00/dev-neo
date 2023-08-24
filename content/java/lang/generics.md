@@ -221,3 +221,32 @@ JLS also use the word "erasure" to refers to
 2. the mapping between the signature of a method or ctor to its runtime version by applying (1) to each of its parameter.
 
 	e.g. "`List foo(ArrayList a)` is the erasure of `List<Character> foo(ArrayList<Integer)`".
+
+(JLS 15 4.6) The rule for such mapping is very simple though.
+Informally, the rules for mapping a parameterized type to its erasure is:
+
+1. for `G<T0,T1,...,Tn>`, erasure is `G`; (remove type parameters)
+2. for `G<T0,T1,...,Tn>.E`, erasure is `G.E`; (same as 1 but for nested type)
+3. for `G<T0,T1,...,Tn>[]`, erasure is `G[]`; (same as 1 but for array)
+4. (TODO: The erasure of a type variable (§4.4) is the erasure of its leftmost bound.)
+5. For every other type (non-generics), erasure is itself
+
+Generic With Varargs
+-----------
+
+Horrible things can happen when we have a method with varargs parameters of generic type:
+
+```java
+static <T> void zoo(T... c) {
+    System.out.println("c.getClass().getComponentType() = " + c.getClass().getComponentType());
+}
+
+ public static void main(String[] args) {
+        int[] x = {1, 2, 3};
+        String[] y = {"1", "2", "3"};
+        zoo(x); // c.getClass().getComponentType() = class [I
+        zoo(y); // c.getClass().getComponentType() = class java.lang.String
+    }
+```
+
+That is, for array of primitive types, each `T` is inferred as an `int[]`; But for array of reference types, each `T` is inferred as the type of the component of the supplied array.
