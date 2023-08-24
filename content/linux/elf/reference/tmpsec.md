@@ -64,3 +64,38 @@ Among others, this section gives to the `ld.so`:
 ```c
 /* Dynamic section entry.  */
 
+typedef struct
+{
+  Elf32_Sword	d_tag;			/* Dynamic entry type */
+  union
+    {
+      Elf32_Word d_val;			/* Integer value */
+      Elf32_Addr d_ptr;			/* Address value */
+    } d_un;
+} Elf32_Dyn;
+
+typedef struct
+{
+  Elf64_Sxword	d_tag;			/* Dynamic entry type */
+  union
+    {
+      Elf64_Xword d_val;		/* Integer value */
+      Elf64_Addr d_ptr;			/* Address value */
+    } d_un;
+} Elf64_Dyn;
+```
+
+The interpretation of `d_un` depends on the value of `d_tag`.
+
+The list is marked end by a `d_tag = DT_NULL (0)` entry.
+
+## .interp
+
+in-place string bytes (not a string table index) of the dynamic interperter path:
+
+```
+Hex dump of section '.interp':
+  0x00000318 2f6c6962 36342f6c 642d6c69 6e75782d /lib64/ld-linux-
+  0x00000328 7838362d 36342e73 6f2e3200          x86-64.so.2.
+```
+
