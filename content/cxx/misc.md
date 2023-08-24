@@ -249,3 +249,41 @@ There is a conversion from type X to type Y if any of the following holds:
 1. fpop
 2. fpop
 3. fpop
+
+## VALUE
+
+7.1.1   An expression is a sequence of operators and operands that specifies a computation. An expression can result in a value and can cause side effects.
+
+Value is one of the 13 entities.
+
+A value is the result of evaluating an expression.
+
+It doesn't make sense to take the address of 3+5,
+
+// and there is absolute no reason for compiler to arrange storage for such a result. At runtime the wildest thing compiler can write for you is just call the ADD instruction and put the result in the EAX register of x86_64.
+```c++
+int *p = &(3+5) // WTF
+```
+
+
+Interchangability of Reference and Object / Reference Collapsing
+=======================
+
+> If an expression initially has the type “reference to T” (9.3.3.2, 9.4.3), the type is adjusted to T prior to any further analysis.
+> <cite>c++20 7.2.2.1</cite>
+
+That's why when you request an object but get a reference, everything works fine.
+
+```c++
+void foo(int c){}
+
+int main() {
+    int a = 42;
+    int &b = a; // variable b has type "reference to int"
+    foo(b); // expression `b` has type `int`
+}
+```
+
+## const member function
+
+```c++
