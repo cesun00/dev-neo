@@ -54,3 +54,40 @@ Released on August 14, 1984, PC/AT is the 4th computer in the IBM Personal Compu
 AT submodel 68, 99, 239, 319 came with an 84-key keyboard, whose scancode distribution become the later **scancode set 2**:
 
 https://www.seasip.info/VintagePC/ibm_6450225.html
+
+There is a single new key, with scancode 84 = 0x54, namely `SysRq`.
+
+Also note how the scancode assignment differs drastically, e.g. left `ctrl` is `0x1D` in XT  but `0x14` in AT.
+
+Old programs depends on scancode directly, and people realized that new scancodes would break them , so the keyboard output was fed to a 8042 microprocessor on the (keyboards's ? PC's?) motherboard that could translate Set 2 back into Set 1.
+
+### IBM 3270 PC (model 5271) and IBM 3270 AT (model 5273)
+
+IBM 3270 is a CRT terminal released in 1971.
+
+Released in October 1983, IBM 3270 PC is an IBM PC XT containing additional hardware that, in combination with software, can emulate the behaviour of an IBM 3270 terminal. *It can therefore be used both as a standalone computer, and as a terminal to a mainframe.*
+
+It's scancode distribution become the later standard **scancode set 3**:
+
+https://www.seasip.info/VintagePC/ibm_6110344.html
+
+### Exceptions
+
+XT Submodels 89, 268, 278, 286 came with a 101-key keyboards. Essentially the IBM Model M, but in a modified variant that used the XT's keyboard protocol and lacked LEDs.
+
+AT submodel 339 came with a 101-key keyboards.
+
+## Scancode
+
+The definition of scancode set boils down to a mapping from printed characters on the keycap to generated scancode on wire.
+
+Nowadays (2022)
+
+Although scancode set 1 originates from the 83-key XT keyboard
+
+The majortiy of set 2 and 3 is rarely used, 
+
+### typematic (a.k.a key repeat)
+
+Most keyboards will repeat sending the keydown scancode when the key is held down. This behavior is known as "being typematic", and is allowed by the IBM PC standard.
+
