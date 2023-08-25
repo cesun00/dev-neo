@@ -125,3 +125,20 @@ It has 2 subclasses which differ by whether the internal `BeanFactory` instance 
 	@Override
 	protected final void refreshBeanFactory() throws IllegalStateException {
 		if (!this.refreshed.compareAndSet(false, true)) {
+			throw new IllegalStateException(
+					"GenericApplicationContext does not support multiple refresh attempts: just call 'refresh' once");
+		}
+		this.beanFactory.setSerializationId(getId());
+	}
+```
+
+## `class GenericApplicationContext <- AbstractApplicationContext`
+
+## `class AnnotationConfigApplicationContext <- GenericApplicationContext <- AbstractApplicationContext`
+
+With less than 50 LoC itself, this class is a trivial wrapper around the following 2 bean definition generators:
+
+```java
+private final AnnotatedBeanDefinitionReader reader;
+private final ClassPathBeanDefinitionScanner scanner;
+```
