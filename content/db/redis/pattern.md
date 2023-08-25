@@ -62,3 +62,28 @@ global clock tick
         |   thread 2: find key not exist
         |   thread 1: set key to 1
         |   thread 2: set key to 1
+        |   
+        |   !!! now we have 2 visits but the counter is still 1
+        |
+        V
+```
+
+race condition 错误示范1：
+
+```
+counter = GET key
+
+if (counter is nil)
+    SET key 1 EX <#sec>
+else if (counter <= THRESHOD)
+    INCR key
+else
+    return "rate overflow".
+
+your business goes here ...
+```
+
+```
+global clock tick
+
+        |   thread 1: find counter is nil
