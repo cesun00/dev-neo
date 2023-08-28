@@ -149,3 +149,42 @@ type of
     int b = {42};
     std::vector<int> c = {1,2,3}
     int &d{a};
+    int foo[42] = {0};
+    int bar[42]{0,0};
+    ```
+
+    For array type, the following  `Type array_name[n] = {a1, a2, ..., am};`,
+    - if `n` is not given, the value of `m` is assumed.
+    - if `m == n`, each item is initialized as is.
+    - else if `m < n`, the first `m` items are initialized; the rest are value-initialized if possible, otherwise program is ill-formed.
+    - else, `m > n`, i.e. too many items in initializer list, program is ill-formed
+
+2. otherwise, if the destination type is reference type, the `initializer` must exist (i.e. can be any of `#1`, `#2`, `#3`, `#4`), and bind the reference to the initializer expression's evaluation result in the obvious way.
+
+    ```c++
+    int g(int) noexcept;
+    void f() {
+        int i;
+        int& r = i;                   // r refers to i
+        r = 1;                        // the value of i becomes 1
+        int* p = &r;                  // p points to i
+        int& rr = r;                  // rr refers to what r refers to, that is, to i
+        int (&rg)(int) = g;           // rg refers to the function g
+        rg(i);                        // calls function g
+        int a[3];
+        int (&ra)[3] = a;             // ra refers to the array a
+        ra[1] = i;                    // modifies a[1]
+    }
+    ```
+
+    Reference initialization is simple in semantics (i.e. simply bind a reference to an objcet, no constructor call, no `std::initializer_list` bothers), but complicated in terms of conversion and the rules regarding binding (const or not) lvalue / rvalue / forwarding reference to initializer expression of different value category. Readers are encounraged to refer to [the specification](https://eel.is/c++draft/dcl.init.ref) in details.
+
+3. otherwise, if the destination type is one of `char[]`, `char8_t[]`, `char16_t[]`, `char32_t[]`, `wchar_t[]`, and the initializer expression is a string literal (i.e. can be any of `#1`, `#2`, `#3`, `#4`), the char array is initialized in the obvious way.
+
+    `\0` will fill the unused space. If the declared array size is smaller to hold the string, program is ill-formed;
+
+4. otherwise, if the `initializer` is `()` (the empty `expression-list` of `#1`), the object is [value-initialized](#value-init).
+
+    ```c++
+    int zero();
+    // auto e = int(); // not this; this is copy-initialize with copy elision
