@@ -179,3 +179,21 @@ Among (not much) options to choose from:
 1. (publicly) inherit from that library class
     - it's insane to inherit from totally unrelated class
         - just because you choose your underlying data structure to be an `vector` doesn't meant you have to publicly inherit from vector.
+    - even they are somehow related, public inheritance establishs liskov. Think twice 1) whether that's wanted 2) does behavior of subclass suffice superclass API.
+        - distinguish `is-a` from `is-implemented-in-terms-of`
+    - being the only choice when the library class doesn't expose enough public interface: can access `protected`.
+    - Do note that this will brings liskov. Unwanted liskov is a major reason for not using inheritance.
+2. Inject instance of that class as data member; could only access `public` members.
+
+# 39. Use private inheritance judiciously.
+
+Private inheritance is 
+
+
+## Misc
+
+Declare ctor as `explicit`, unless having good reason.
+
+copy ctor is important in that it defines "how an object is passed by value".
+
+*Function object*: an instance of whatever class that has callable `operator()`.
