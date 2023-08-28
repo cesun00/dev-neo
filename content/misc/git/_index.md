@@ -35,3 +35,39 @@ https://stackoverflow.com/questions/5751582/fetch-from-origin-with-deleted-remot
 
 ### git stash pop 和当前 working tree冲突
 
+已知：
+git merge --abort没用；不存在git stash --abort之类的指令；conflict files里会产生临时diff lines
+
+方案：
+1. 要么`git reset --hard HEAD`回退；
+    https://stackoverflow.com/questions/8515729/aborting-a-stash-pop-in-git
+2. 要么修改diff lines解决冲突
+
+## The `git-prompt.sh` issue
+
+My previous `PS1` was like:
+
+*(see [](../linux/bash-memo.md) for the Trick: concatenation of single quote and double quote strings)*
+
+```bash
+set_fg_green="$(tput setaf 42)"
+set_fg_what="$(tput setaf 133)"
+reset_color='\[\e(B\e[m\]'
+
+PS1="${set_fg_green}[\u@\h \W${set_fg_what}"'$(__git_ps1 " (%s)")'"${set_fg_green}]\$ ${reset_color}"
+```
+
+[Wiki](https://wiki.archlinux.org/title/Git#Git_prompt) mentioned that the `__git_ps1` *command substitution* must be escaped. ...
+
+https://stackoverflow.com/questions/18559417/bash-prompt-line-wrapping-issue
+
+## cheatsheet
+
+#### objects layer
+
+```sh
+# list all objects in local repo
+git cat-file --batch-check --batch-all-objects
+# list all refs
+# TODO
+```
