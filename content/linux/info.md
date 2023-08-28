@@ -73,3 +73,29 @@ l       go back a node in browsing history, useful when followed hyperlinks and 
 
 ```
 [       previous node (in book reading order)
+]       next node (in book reading order)
+<       first node in the book
+>       last node in the book
+g       go to a specific node by prompting for node name
+```
+
+In-node scrolling:
+
+```
+pageup      Scroll 1 screen up in current node. 
+```
+
+## Scrolling
+
+- <space> or <PageDown>
+
+    scroll one `n` lines down (n defaults to the height of window), go to the next node if already viewing the end of the current node.
+
+- `M-<number>-x` and type `scroll-forward-page-only-set-window` in the prompt
+
+    like `space` but set `n` to `<number>` for future calls to `scroll-forward` command family
+
+- delete or PageUp
+
+    The going-up counterpart of `space`
+
