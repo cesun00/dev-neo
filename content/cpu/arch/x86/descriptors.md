@@ -133,3 +133,37 @@ This type of descriptor identifies a segment holding program code or data.
 
 ```goat
 +-------------------------------+
+| P | DPL   | 1 | TYPE      | A | Access byte
++-------------------------------+
+                +-----------+
+                | 1 | C | R |   type bits for executable segment
+                +-----------+
+                  Executable: an executable segment usually contains code, unless hacking
+                      Conforming: setting to 1 also allow more privileged task to call code in this segment directly;
+                          Readable: whether this segment is readable by ordinary data operation e.g. `MOV`;
+                +-----------+
+                | 0 | ED| W |   type bits for non-executable segment
+                +-----------+
+                  Executable:  a non-executable segment usually contains data / stack - unless hacking
+                      Expand Down: whether the stack grows toward lower address
+                          Writable: set 0 for read-only data segment; set 1 implies readable.
+```
+
+For a non-executable segment, `ED=1` indicates
+
+A stack does not have to be expand-down: loading an `ES=0` segment descriptor into `SS` does not cause an exception.
+
+#### System segment descriptors
+
+1. Descriptor Table Descriptor
+
+This type of descriptor identifies a segment holding another descriptor table.
+Most often, such descriptors appear in the GDT and identify segments that hold LDTs of different tasks.
+
+
+2. Task State Segment (TSS) Descriptor
+
+Hardware task switches are not supported in IA-32e mode. However, TSSs continue to exist.
+
+
+3. Gate Descriptors
