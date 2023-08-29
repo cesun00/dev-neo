@@ -153,3 +153,14 @@ If multiple rules match an incoming request, the priority is:
 3. longest matching suffix glob
 4. first matching regex in config literal order after include.
 
+
+## Variables
+
+Builtin variable can be referred in conf file by a dollar prefix: `$document_root`.
+
+Depending on the context, variable expand to different values:
+
+Notable variables:
+
+- `$uri`
+- `$document_root`
