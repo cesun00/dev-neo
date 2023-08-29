@@ -192,3 +192,36 @@ For example
 for each mentioned `SERVICE`.
 - The `sudo` package [parses for a line containing `sudoers` database](https://github.com/shadow-maint/shadow/blob/dc12e87fe78a79f7240b8b26ea4e33659f4c768c/lib/nss.c#L66), where each `SERVICE` corresponds to a different function
 that returns the desired data - no other object is involved.
+
+Common databases and their supporting software included:
+
+| database name | supported by | semantics |
+|---------------|--------------|-----------|
+| gshadow       | shadow-utils |           |
+| sudoers       |              |           |
+| sudoers       |              |           |
+| sudoers       |              |           |
+
+##  `/etc/default/nss`
+
+## Rant & Misc
+
+I'd like to point out the fact that these databases are disparate in their nature, yet still managed by the same NSS subsystem.
+and the *Name Service* Switch name doesn't reflect its current API.
+
+Also, this article only talks about glibc's . Other packages such as the sudo and shadow-utils
+
+The `database` keyword of `getent(1)` program accepts more database names then noted here.
+Not all these databases are 
+
+----
+
+
+In the *NIX programming environment, certain administrative configurations of the local machine should be queried at run time,
+instead of being hardcoded (if even possible at all). Examples are:
+
+1. user or group information
+2. the TCP or UDP port an application-layer protocol should use (IANA assignment)
+
+    If you are the server author, say redis, in this case it's indeed possible to hardcode the port number and protocol to use,
+    instead of querying the IANA assignment `redis 6379/tcp`
