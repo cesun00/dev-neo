@@ -35,3 +35,33 @@ Any implementation of methods in this interface must respect its parent `BeanFac
 
 1. `interface HierarchicalBeanFactory` (beans.factory)
 
+    ```java
+    BeanFactory getParentBeanFactory();     // get the parent bean factory; `null` if there is none.
+    boolean containsLocalBean(String name); // whether the local bean factory contains a bean
+    ```
+
+    Extends `BeanFactory` by allowing user to get a reference to its parent bean factory, and query if a bean is present locally.
+    i.e the concept of having hierarchical bean factories starts here.
+
+    Note that however, this interafce doesn't allow setting a parent bean factory.
+
+2. `interface ListableBeanFactory` (beans.factory)
+
+    Extend `BeanFactory` by providing APIs for range query and listing of beans, featured by returning collection or array:
+
+    Application code is encouraged to this subinterface when range query of beans are needed, and `ApplicationContext`'s point query is not enough.
+
+3. `interface AutowireCapableBeanFactory` (beans.factory.config)
+
+    ⚠ NOT MEANT TO BE USED BY APPLICATION CODE. 
+
+    Extends `BeanFactory` by allowing programmatically creation of new instances of a given bean class.
+
+    It's mainly meant to be used by other frameworks that ... TODO,.
+    thus the `ApplicationContext` aggregation doesn't include this interface, to prevent client from errorneously performing upcast.
+
+## `interface ConfigurableBeanFactory` (beans.factory.config)
+
+```
+BeanFactory             |
+HierarchicalBeanFactory | SingletonBeanRegistry
