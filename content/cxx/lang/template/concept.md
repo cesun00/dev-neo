@@ -36,3 +36,43 @@ The `constexpr` `ConceptName<...>` produces a `bool` directly. Unlike type trait
 - `id-expression`, e.g. (TODO)
 - `static_assert`
 
+3 equivalent syntaxes to apply concept restriction on the template arguments:
+
+```c++
+// #1 "requires-clause after template-parameter-list"
+template<typename BaseType, typename DerivedType> requires std::derived_from<DerivedType, BaseType>
+void foo() { }
+
+// #2 "trailing-require-clause", useful when member function itself is not templated, but has type constraint on class template argument.
+template<typename BaseType, typename DerivedType>
+void foo() requires std::derived_from<DerivedType, BaseType> { }
+
+template<typename T>
+struct Foo {
+    void bar() requires std::integral<T> {/**/}
+}
+
+// ditto, but demonstrating trailing-return-type must precede trailing-require-clause
+template<typename T> 
+auto foo() -> void requires MyConcept<T> { }
+
+// #3 "type-contraint in template-parameter-list"
+// Note how this syntax omits the first argument of the concept's template-parameter-list, comparing with #1 and #2
+template<std::derived_from<Base> DerivedType>
+void foo() { }
+```
+
+When these syntaxes are mixed, constraints on each parameter are considered logically AND-ed.
+
+## Vocabularies
+
+- predicate "is statisfied by": a concept is satisfied by a sequence of template argument when it evaluates to true. This is almost a syntactic check.
+- predicate "is modeled by": A sequence Args of template arguments is said to model a concept C if Args satisfies C ([temp.constr.decl]) **and meets all semantic requirements** (if any) given in the specification of C. `[res.on.requirements]`
+
+https://stackoverflow.com/questions/62581829/satisfied-and-modeled-concept
+
+## Concept is a better way of acheving SFINAE
+
+```c++
+#include <cstdio>
+#include <type_traits>
