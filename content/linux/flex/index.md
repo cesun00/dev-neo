@@ -123,3 +123,31 @@ To write a rule that is active only when the scanner is in a given state `sc`, p
 Use a comma-separated list for a rule that is active for more than 1 state, e.g. `<sc1, sc2, sc3>`.
 
 An example of start conditions would be like this:
+
+```lex
+%{
+#include <stdio.h>
+%}
+
+
+%s EXAMPLE
+
+%%
+
+bar {
+    /* when word `bar` is encountered, enter EXAMPLE state */
+    BEGIN(EXAMPLE);
+    puts("Entered EXAMPLE state.");
+}
+
+<EXAMPLE>foo {
+    /* this rule is only activated in EXAMPLE state */
+    puts("see foo in the EXAMPLE state");
+}
+
+foo {
+    puts("nah nah nah");
+}
+```
+
+```sh
