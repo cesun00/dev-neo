@@ -249,3 +249,31 @@ For the user instance, are:
 ## unit file naming
 
 file name of unit files must conform to the pattern `prefix[@].suffix`:
+
+- prefix is `[a-zA-Z0-9]` plus `[:-_.\]`; i.e multiple dot-separated segments is allowed, e.g. `dbus-org.freedesktop.network1.service`.
+- presence of `@` makes it a *unit template file*.
+- suffix must be one of `service|socket|target|device|mount|automount|timer|swap|path|slice|scope`, corresponding to 11 unit types, and determines which type the unit belongs to.
+
+
+## misc
+
+### unit template
+
+The argument (a.k.a instance name) is refered by `%i` in unit files.
+
+### Drop-in Directory
+
+
+All `*.conf` inside `foo.service.d/` directory will be merged into `foo.service` (or become, if no such file exist).
+
+> This is useful to alter or add configuration settings for a unit, without having to modify / parse existing unit files.
+
+### Dependency Aux Directory
+
+For `foo.service`,
+- all symlinks in `foo.service.wants` are treated as `Wants=`
+- all symlinks in `foo.service.requires` are treated as `Requires=`
+
+> This functionality is useful to hook units into the start-up of other units, without having to modify their unit files.
+
+> The preferred way to create symlinks in the .wants/ or .requires/ directory of a unit file is by embedding the dependency in `[Install]` section of the target unit, and creating the symlink in the file system with `systemctl enable | preset`.
