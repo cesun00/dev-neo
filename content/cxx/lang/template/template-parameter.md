@@ -86,3 +86,37 @@ In order for this feature to have further run-time impact, C++ allows the functi
 
 ```c++
 template<typename... Ts>
+void foo(Ts... fpp) {}
+
+foo(42, 32.01); // instantiated as foo(int, double)
+```
+
+Here,
+- `Ts` denotes an ordered list of template arguments (in this case, types `int` and `double`)
+- `fpp` denotes an ordered list of function arguments (in this case, `42` and `32.01`)
+
+In order to use these collective names, *pack expansion* is introduced: a pattern (\*) containing a template / function parameter pack can be followed by an ellipsis, to generate a comma-separated list of the result of such pattern being applied to each items.
+
+\* The word *expression* is used by spec to refer to run-time evaluated expression only.
+The word *pattern* is choosed to includes compile-time construct as well.
+
+```c++
+/**
+ * Pack expansion on function parameter pack
+ */
+template<typename... Ts>    // this ellipsis introduces template parameter pack
+void foo(Ts... fpp) {       // this ellipsis introduces function parameter pack
+    std::printf("%d, %f\n", (fpp + 3)...);    // this ellipsis performs pack expansion
+}
+
+foo(42, 32.01); // instantiated as foo(int, double), prints 45, 35.010000
+
+
+/**
+ * Pack expansion on template parameter pack
+ */
+template<typename...>
+struct Tuple {};
+ 
+template<typename T1, typename T2>
+struct Pair {};
