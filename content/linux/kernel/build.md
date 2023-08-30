@@ -1065,3 +1065,36 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   ├── myricom/
 │   │   │   ├── natsemi/
 │   │   │   ├── neterion/
+│   │   │   ├── netronome/
+│   │   │   ├── ni/
+│   │   │   ├── nvidia/
+│   │   │   ├── oki-semi/
+│   │   │   ├── packetengines/
+│   │   │   ├── pensando/
+│   │   │   ├── qlogic/
+│   │   │   ├── qualcomm/
+│   │   │   │   ├── emac/
+│   │   │   ├── rdc/
+│   │   │   ├── realtek/
+│   │   │   ├── renesas/
+│   │   │   ├── rocker/
+│   │   │   ├── samsung/
+│   │   │   ├── seeq/
+│   │   │   ├── sfc/
+│   │   │   ├── silan/
+│   │   │   ├── sis/
+│   │   │   ├── smsc/
+│   │   │   ├── socionext/
+│   │   │   ├── stmicro/
+│   │   │   ├── sun/
+│   │   │   ├── synopsys/
+│   │   │   ├── tehuti/
+│   │   │   ├── ti/
+│   │   │   ├── vertexcom/
+│   │   │   ├── via/
+│   │   │   ├── wangxun/
+│   │   │   ├── wiznet/
+│   │   │   ├── xilinx/
+│   │   │   └── xircom/
+│   │   ├── mdio/
+│   │   ├── pcs/
