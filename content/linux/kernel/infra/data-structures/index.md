@@ -130,3 +130,38 @@ struct apei_resources {
 static struct apei_resources apei_resources_all = {
 	.iomem = LIST_HEAD_INIT(apei_resources_all.iomem),
 	.ioport = LIST_HEAD_INIT(apei_resources_all.ioport),
+};
+
+// or 
+
+static struct list_head ptable_list[2] = {
+	LIST_HEAD_INIT(ptable_list[0]),
+	LIST_HEAD_INIT(ptable_list[1]),
+};
+```
+
+- When defining as a global variable, the 2 macros above induce static initialization, which can be a very interesting topic since we are in kernel code.
+<!-- TODO: LINUX KERNEL STATIC INIT ORDER? -->
+
+There is a third function:
+
+```c
+static inline void INIT_LIST_HEAD(struct list_head *list)
+{
+	WRITE_ONCE(list->next, list);
+	WRITE_ONCE(list->prev, list);
+}
+```
+
+that can be convenienct when you obtain a pointer to head from somewhere else. (TODO)
+See [infra/](#TODO) for how `WRITE_ONCE` works.
+<!-- It reset an existing `struct list_head` instance (pointed) as the head of a new empty linked list.
+It's useful  -->
+
+
+- 
+The linked-list based on `struct list_head` is not type safe: having a known `struct list_head` instance,
+You have to correctly cast
+
+```c
+struct foo_struct *curr = /* a known instance*/;
