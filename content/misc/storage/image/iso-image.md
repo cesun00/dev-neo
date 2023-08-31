@@ -36,3 +36,19 @@ Due to its design, it is very well suited to incremental updates on both write-o
 
 - `util-linux` has a simply `isosize` command that prints the length of an ISO-9660 filesystem and the count and size of sectors.
 - `libcdio` is a GNU library that manipulates CD-ROM hardware and image files.
+
+    Some functionality of `libcdio` directly talks to the CD-ROM hardware by issuing SCSI MMC
+
+    Some CLI utilities are also included:
+    - `cdda-player`: demo program for the library's ability.
+    - `mmc-tool`: 
+    - `cd-drive`: No argument is respcted. shows what drivers are available and some basic properties of
+     cd-drives attached to the system.  Media may have to be inserted in order to get this info. 
+    - `cd-info`:  foo
+    - `cd-read`:  foo
+    - `iso-info`:  list directory tree of iso 9660 filesystem
+    - `iso-read`:  extract a certain file from iso 9660 filesystem
+
+## related file format
+
+https://en.wikipedia.org/wiki/NRG_(file_format)
