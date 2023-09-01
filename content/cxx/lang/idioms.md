@@ -51,3 +51,35 @@ int main() {
 }
 ```
 
+## M&M (mutable mutex) idiom
+
+## copy-and-move idiom
+
+## copy-and-swap idiom (deprecated)
+
+## Pimpl
+
+Proxy pattern with a no-op delegation to an internal pointer / reference.
+
+Purpose:
+- 
+- Pimpl as re-compilation firewall
+
+
+
+## Double `snprintf`
+
+*Deprcated since C++20:* use `std::format`.
+
+Use `snprintf` with `nullptr` as first argument to verify the validity of `format` string.
+
+```c++
+template<typename ... Args>
+std::string format(const std::string &format, Args ... args) {
+	int size_s = std::snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
+	assert((size_s > 0) && "ill-formed format string.");
+	std::vector<char> buf(static_cast<unsigned long>(size_s));
+	std::snprintf(buf.data(), buf.size(), format.c_str(), args ...);
+	return {buf.cbegin(), buf.cend() - 1}; // We don't want the '\0' inside
+}
+```
