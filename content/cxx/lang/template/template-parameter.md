@@ -120,3 +120,29 @@ struct Tuple {};
  
 template<typename T1, typename T2>
 struct Pair {};
+ 
+template<class... Args1>
+struct zip
+{
+    template<class... Args2>
+    struct with
+    {
+        using type = Tuple<Pair<Args1, Args2>...>;
+        // Pair<Args1, Args2>... is the pack expansion
+        // Pair<Args1, Args2> is the pattern
+    };
+};
+
+using T1 = zip<short, int>::with<unsigned short, unsigned>::type;
+```
+
+A function template can have multiple parameter packs; while A class template can have at most 1.
+
+## variadic function template
+
+A function template can have multiple parameter packs, and can be arbitrarily ordered, [as long as template argument deduction succeeds](https://stackoverflow.com/questions/9831501/how-can-i-have-multiple-parameter-packs-in-a-variadic-template)
+
+An important purpose of function template pack is to enable *function parameter pack*: named sink function parameter of variadic function, with each argument typed by its respective (potentially deduced) type template parameter.
+
+```c++
+```
