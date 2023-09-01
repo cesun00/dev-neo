@@ -211,3 +211,40 @@ A descriptor is always 8 bytes in size, and has the following format:
 ```
  15                      7                       0
 +-----------------------------------------------+
+| Reserved in 80286. Must be 0.                 |   6
++-----------------------------------------------+           ^
+| ACCESS BYTE           |    Base 23-16         |   4   increasing address
++-----------------------------------------------+
+| Base 15-0                                     |   2
++-----------------------------------------------+
+| Limit 15-0                                    |   0
++-----------------------------------------------+
+```
+
+There are 2 types of descriptors: segment descriptors, and everything else.
+- A segment descriptor, marked by `S=1` bit in the access byte, describes a piece of continuous memory, i.e. segment, that contains code or data of some real program.
+- other descriptors have `S=0` and locate various data structures the CPU is aware of.
+
+The fifth bit of the `ACCESS BYTE` is known as the `S` bit, and its value determines the type of this descriptor.
+
+```
+Access byte of a segment descriptor (S=1):
+  7   6   5   4   3   2   1   0
++-------------------------------+
+| P |  DPL  | 1 | TYPE      | A |
++-------------------------------+
+
+Access byte of everything else (S=0):
+  7   6   5   4   3   2   1   0
++-------------------------------+
+| P |  DPL  | 0 | TYPE          |
++-------------------------------+
+```
+
+For a segment descriptor (S=1):
+1. limit (16-bit): the size of the segment, in bytes,
+2. base (24-bit): the base address of the segment. There is no paging in 80286, so this is the real 24-bit physical address, no shifting.
+3. For the access byte, a value of `00H` or `80H` will denote "invalid"; otherwise:
+    1. `A`: ACCESSED. A set bit indicates 
+    2. `type`: segment type and access information.
+    3. `DPL`: Descriptor Privilege Level. 
