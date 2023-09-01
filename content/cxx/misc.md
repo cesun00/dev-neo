@@ -438,3 +438,25 @@ public:
     iterator begin() const;
     iterator end() const;
 private:
+    std::vector<int> data;
+};
+```
+
+Client now can write code without mentioning `vector` at all. But compiler need to know that `iterator` resolve to `std::vector<int>::iterator` when the client translation unit get compiled. If later the library author decides to change `std::vector` to `std::list` (thus `iterator`), client's old object file won't link with the new library object file, because the library object file doesn't expose the old symbol name anymore after mangling due to the change of type.
+
+*By introducing compile-time dependency, library author relinquishes the freedom of transparently changing part of library that were meant to be implementation details, and bother the client of at least a recompilation.*
+
+## "type erasure", not quite the Java sense
+
+C++ community coined the word "type erasure" to mean rewriting statically polymorphic code into runtime polymorphic code.
+
+e.g. A function template can take whatever type arguments as long as the instantiation is successful. To type-erase the function template is to put commonality of those types into an base class, and write an ordinary function taking parameter of the base class pointer / reference.
+
+Such rewrite [is not trivial](https://stackoverflow.com/questions/13670671/abstract-iterator-for-underlying-collections). For this reason, unlike java, you will almost never see someone use "abstract" base iterator in C++.
+
+
+Pros:
+1. eliminate compile-time dependency
+
+Cons:
+1. introduce virtual pointer
