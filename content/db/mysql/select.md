@@ -377,3 +377,5 @@ A subquery can return a scalar (a single value), a single row, a single column, 
 ```sql
 -- INVALID SQL: foo must be re-mentioned in `from` clause
 with foo as (select * from x where x.type = 13)
+select * from bar where bar.name = foo.name
+```
