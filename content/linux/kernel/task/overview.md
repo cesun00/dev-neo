@@ -499,3 +499,32 @@ struct thread_info {
 
 	/* Namespaces: */
 	struct nsproxy			*nsproxy;
+
+	/* Signal handlers: */
+	struct signal_struct		*signal;
+	struct sighand_struct __rcu		*sighand;
+	sigset_t			blocked;
+	sigset_t			real_blocked;
+	/* Restored if set_restore_sigmask() was used: */
+	sigset_t			saved_sigmask;
+	struct sigpending		pending;
+	unsigned long			sas_ss_sp;
+	size_t				sas_ss_size;
+	unsigned int			sas_ss_flags;
+
+	struct callback_head		*task_works;
+
+#ifdef CONFIG_AUDIT
+#ifdef CONFIG_AUDITSYSCALL
+	struct audit_context		*audit_context;
+#endif
+	kuid_t				loginuid;
+	unsigned int			sessionid;
+#endif
+	struct seccomp			seccomp;
+	struct syscall_user_dispatch	syscall_dispatch;
+
+	/* Thread group tracking: */
+	u64				parent_exec_id;
+	u64				self_exec_id;
+
