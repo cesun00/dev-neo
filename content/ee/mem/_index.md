@@ -89,3 +89,34 @@ A suffix `_n` or `#` indicate a low-active pin.
 | `Vss`          | chip ground           | power          |                                                                                                                                                                                                                               |
 | `Vddq`         | DQ power              | power          | `DQ` uses isolated power and ground for improved noise immunity.                                                                                                                                                              |
 | `Vssq`         | DQ ground             | power          |                                                                                                                                                                                                                               |
+| `Vpp`          | DRAM power            | power          |                                                                                                                                                                                                                               |
+| `CLK` / `CK_t` | clock (true)          | clock input    | the classic clock the whole system samples at whose up edge.                                                                                                                                                                  |
+| `CK_c`         | clock (complement)    | clock input    | differential clock to `CK_t`                                                                                                                                                                                                  |
+| `CKE`          | clock enabled         | flag input     | HIGH active. Assert/Deassert to exit/enter power saving/down mode.                                                                                                                                                            |
+| `CS#`          | chip select           | flag input     | LOW active. Deasserting it makes ALL command input ignored.                                                                                                                                                                   |
+| `RAS#`         | row address select    | flag input     | LOW active.                                                                                                                                                                                                                   |
+| `CAS#`         | column address select | flag input     | LOW active.                                                                                                                                                                                                                   |
+| `WE#`          | write enabled         | flag input     | LOW active.                                                                                                                                                                                                                   |
+| `DQ[0:??]`     | data IO (I+O=Q)       | input & output |                                                                                                                                                                                                                               |
+| `DQM` / `DQMH` | DQ mask (high)        | flag input     | HIGH active. The same pin is known as `DQMH` to diff from `DQML` when present. Asserting it, after some delay, 1)always masks the input DQ for a `WRITE` command; 2) on some chip also makes `DQ` high-z for a `READ` command |
+| `DQML`         | DQM mask low          | flag input     | HIGH active. For chip with wider `DQ`, `DQMH` controls `DQ[higher half]`, and `DQML` controls `DQ[lower half]`                                                                                                                |
+| `BA[0:1]`      | bank address          | addr input     |                                                                                                                                                                                                                               |
+| `A[0:??]`      | address bus           | addr input     |                                                                                                                                                                                                                               |
+
+## Common Command & Post Command time restriction
+
+
+### `ACTIVATE(bank, row address)` (or `ACTIVE` in old SDR spec)
+
+- `t_RCD`: minimal interval user must wait btwn `ACTIVATE` and later `READ` or `WRITE` on that row.
+- `t_RC`: minimal interval user must wait btwn 2 `ACTIVATE` in the same bank.
+- `t_RDD` minimal interval user must wait btwn 2 `ACTIVATE` across all bank, usually small.
+
+### `PRECHARGE(bank)` / `PRECHARGE_ALL()`
+
+- `t_RP`: minimal interval user must wait btwn a `precharge` and any non-NOP command in the same bank.
+
+### `READ`: start read burst, or one-off read then precharge
+
+`# of row > # of column`, so a `READ` or `WRITE` will not use all the address lines.
+An unused higher bit of `A[]` bus will be used to indicate whether this is a auto-precharge read / write.
