@@ -61,3 +61,38 @@ An action is one of the following constructs:
 	visited in sorted key order.
 
 {{range pipeline}} T1 {{else}} T0 {{end}}
+	The value of the pipeline must be an array, slice, map, or channel.
+	If the value of the pipeline has length zero, dot is unaffected and
+	T0 is executed; otherwise, dot is set to the successive elements
+	of the array, slice, or map and T1 is executed.
+
+{{break}}
+	The innermost {{range pipeline}} loop is ended early, stopping the
+	current iteration and bypassing all remaining iterations.
+
+{{continue}}
+	The current iteration of the innermost {{range pipeline}} loop is
+	stopped, and the loop starts the next iteration.
+
+{{template "name"}}
+	The template with the specified name is executed with nil data.
+
+{{template "name" pipeline}}
+	The template with the specified name is executed with dot set
+	to the value of the pipeline.
+
+{{block "name" pipeline}} T1 {{end}}
+	A block is shorthand for defining a template
+		{{define "name"}} T1 {{end}}
+	and then executing it in place
+		{{template "name" pipeline}}
+	The typical use is to define a set of root templates that are
+	then customized by redefining the block templates within.
+
+{{with pipeline}} T1 {{end}}
+	If the value of the pipeline is empty, no output is generated;
+	otherwise, dot is set to the value of the pipeline and T1 is
+	executed.
+
+{{with pipeline}} T1 {{else}} T0 {{end}}
+	If the value of the pipeline is empty, dot is unaffected and T0
