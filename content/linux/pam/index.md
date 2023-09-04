@@ -37,3 +37,31 @@ The problems:
 PAM is designed to provide such flexibility:
 1. Admin can change the "authentication mechanism" of an PAM-used app on the fly by modifying PAM config files, without even restarting the app's process.
 
+
+With the ones found in upper directories overrides the ones of the same name found in lower directories:
+- `/etc/pam.conf`: the configuration file
+- `/etc/pam.d`: if this directory is present, the `/etc/pam.conf` file is ignored.
+- `/usr/lib/pam.d`: the Linux-PAM vendor configuration directory. Files in /etc/pam.d override files with the
+same name in this directory.
+- If enabled, `<vendordir>/pam.d/*`; where `vendordir` is an optional directory specified at build time: `./configure --enable-vendordir=<vendordir>`
+
+
+
+## lib calls
+
+```
+pam_getenvlist
+pam_sm_authenticate
+pam_acct_mgmt
+pam_get_item
+pam_sm_chauthtok
+pam_authenticate
+pam_get_user
+pam_sm_close_session
+pam_chauthtok
+pam_info
+pam_sm_open_session
+pam_close_session
+pam_misc_drop_env
+pam_sm_setcred
+pam_conv
