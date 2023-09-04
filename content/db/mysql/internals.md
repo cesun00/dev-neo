@@ -92,3 +92,37 @@ ON ts.NAME = FILES.TABLESPACE_NAME;
 # | classicmodels/payments     | ./classicmodels/payments.ibd     |
 # | classicmodels/productlines | ./classicmodels/productlines.ibd |
 # | classicmodels/products     | ./classicmodels/products.ibd     |
+# | foo/user                   | ./foo/user.ibd                   |
+# | foo/bar                    | ./foo/bar.ibd                    |
+# +----------------------------+----------------------------------+
+```
+
+3 types of tablespace are presented in the current 8.0.23 MySQL release:
+
+1. System Tablespace
+
+	The system tablespace stores all important core/runtime information about the server instance itself. Only a single system tablespace instance exists. It contains:
+
+	1. the change buffer, persisted (CB is itself in memory).
+	2. (optionally) user tables and indexes.
+	3. (legacy) Prior to MysQL 8.0, the data dictionary.
+	4. (legacy) Prior to MySQL 5.6, **all other InnoDB tables**.
+	5. (legacy) Prior to MySQL 8.0.20, the doublewrite buffer.
+
+	The persistent file(s) for the system tablespace is(are) specified by `@@innodb_data_file_path`.
+
+2. File-per-table Tablespaces
+
+	If `innodb_file_per_table` is set true, each created table are in their own tablespace. This essentially means that each table corresponds to a file on your filesystem. Such organization allows some useful features to be realized (off-page column);
+
+	1. clustered index(es) and secondary index(es) of 1 or more tables;
+
+3. General tablespaces
+
+	A General tablespace can be created by users using the SQL syntax:
+
+	```sql
+	CREATE TABLESPACE ...
+	```
+
+	One important general tablespace being the mysql data dictionary:
