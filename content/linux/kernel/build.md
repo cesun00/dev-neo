@@ -437,3 +437,29 @@ make -j12
 
 ## before a build
 
+3 dedicated clean targets are provided:
+
+- `clean`:            - Remove most generated files but keep the config and enough build support to build external modules
+- `mrproper` (more proper):         - Remove all generated files + config + various backup files
+- `distclean` (clean for distribution): mrproper + remove editor backup and patch files
+
+## Build Switch Macros
+
+- `__KERNEL__`
+- `__ASSEMBLY__`
+
+## Kconfig tree
+
+## Makefile Analysis
+
+### `SUBARCH`, `ARCH`, and `SRCARCH`
+
+Some variables are first setup in the `Makefile` at the very beginning of a `make` build.
+They are passed to `Kconfig` and `Kbuild` such that the generation of kernel config wizard works properly.
+
+`SUBARCH` by the shell script in the `scripts/subarch.include`:
+
+```makefile
+# root Makefile: 
+# include $(srctree)/scripts/subarch.include
+
