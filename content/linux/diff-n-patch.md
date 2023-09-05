@@ -82,3 +82,19 @@ cd COMMON_PARENT_DIR
 diff -ruN OLD_VER_DIR NEW_VER_DIR >patch.diff
 ```
 
+Again let's take glibc as an example.
+
+## Applying patches
+
+To upgrade a source tree, apply the patch file by:
+
+```sh
+cd OLD_VER_DIR
+patch -p1 <patch.diff
+```
+
+## See also
+
+Mcllroy (the leader boss of K&R) 
+
+https://www.cs.dartmouth.edu/~doug/reader.pdf
