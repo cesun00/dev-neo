@@ -185,3 +185,32 @@ increase |       int             =   ...
 
  2. otherwise, to `unsigned int`.
 
+
+## Lambda
+
+
+TODO: size of lambda object? pass by value or reference? code storage?
+
+Lambda's design follows a one-type-per-instance policy. No lambda objects share the same type even if their bodies are identical.
+
+The only way to refer to the type of an labmda is through `decltype()` of the lambda object.
+
+### generic lambda
+
+Generic lambda is a syntax sugar for function template.
+Unlike normal labmda which gets into `.text` immediately, it gets instantiated (generates code) only upon invocation.
+
+## Argument-Dependent (Koeing) Lookup 
+
+Namespaces form lexical scopes of names, same as functions and whatever constructs involving a pair of brace `{}`.
+
+If the declaration of a name can't be found in the current scope, compiler repetitively perform lookup in scope one level up.
+If compiler finished examining the default global namespace and still no declaration of such name is found, program is ill-formed (with some compiler-specific exceptions that will assume the declaration and hope linker find the symbol later; ignore this mess for now).
+
+This is the common name lookup we are all familiar with.
+
+```c++
+namespace foo {
+    void bar();
+}
+
