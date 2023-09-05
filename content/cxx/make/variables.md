@@ -37,3 +37,38 @@ all:
 <--->
 
 #### the greedy flavor: *simply expanded variables*
+
+Require modern `make` implementations. Mandated by POSIX 2012.
+
+Both syntax are equivalent in GNU make:
+`foo := RHS` (GNU specific), or `foo ::= RHS` (POSIX)
+
+- Expansion of `RHS` happens immediately; if `RHS` further contains variable reference, it will be recursively expanded.
+- `foo` expands to result of `RHS` expansion upon request.
+
+```makefile
+x := foo
+y := $(x) bar   # expansion happen right now: y stores 'foo bar'
+x := later
+
+all:
+	@echo $(y)		# foo bar
+```
+
+{{</columns>}}
+
+
+
+
+
+Variable name cannot contain `:`, `#`, `=`, or ` ` (the 0x20 whitespace).
+
+GNU make documentation recommends that:
+1. use only letters, numbers and underscore for variable name for compatibility with certain shells.
+2. not use variable names beginning with `.` and an uppercase letter. Those may be assigned with special semantics in future release of GNU make.
+
+Case convention:
+1. lower case variables name for internal usage
+2. uppercase for parameters that
+    - control implicit rules, or
+    - user should override
