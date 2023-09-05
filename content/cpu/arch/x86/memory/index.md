@@ -326,3 +326,35 @@ at the beginning of the GDT. Such a selector is known as the null selector.
 Loading the null selector into 
 1. CS or SS register causes a general-protection exception (#GP) to be generated.
 2. DS, ES (and for later FS and GS) does not trigger a CPU exception per se.
+The exception occurs when trying to access an offset within this invalid segment.
+This can be used as a technique to initialize unused data segment registers and check unintentional memory access in code.
+
+TODO: `IDTR` (Interrupt Descriptor Table Register)
+
+At the end of the day, a 24-bit physical address is generated in the protected mode from 6 bytes + 16 bits of information.
+The cost made protection and task scheduling possible.
+
+## Paging + Segmentation v3
+
+
+
+
+
+---------------------
+---------------------
+---------------------
+---------------------
+---------------------
+---------------------
+---------------------
+---------------------
+---------------------
+
+
+
+
+
+
+
+`GDTR` and `IDTR` is a 40-bit register with 2 component:
+
