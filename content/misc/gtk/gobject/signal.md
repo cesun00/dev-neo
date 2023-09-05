@@ -90,3 +90,43 @@ Scope of actions
 Gtk associates an `GActionGroup` with a widget via one of:
 
 ``` c
+// #1 for a single widget instance
+void
+gtk_widget_insert_action_group (
+  GtkWidget* widget,
+  const char* name,     // only prefix, e.g. "app"
+  GActionGroup* group
+)
+
+// #2 for all instances of a certain class, but only one action a time
+void
+gtk_widget_class_install_action (
+  GtkWidgetClass* widget_class,
+  const char* action_name,    // full prefixed name, e.g. "default.activate"
+  const char* parameter_type,
+  GtkWidgetActionActivateFunc activate
+)
+```
+
+Such association is implemented with a helper class `GtkActionMuxer`, which is poorly documented.
+
+When such association happens, the GtkWidget is said to be the **scope** of those actions associated with it, and a prefix is given to a group of actions.
+
+Such mechanism is respected by `gtk_widget_activate_action*(widget, action_name)` family. When they are invoked on a specific widget `X`,
+the `action_name` e.g. `"app.quit"` is searched among all `GActionGroup`s associated with all ancestor widgets of `X`.
+
+There are lots of scenarios where, when specifying an action, scoped action name (i.e. prefixed name) are required, e.g. "app.quit" instead of "quit".
+
+(TODO: They eventually calls `gtk_widget_activate_action*()`?)
+
+
+GtkActionable
+------------------
+
+`GtkActionable` are interfaces implemented by simple widgets, e.g. `GtkButton`, setting whose `"action-name"` property to `XXX` will cause the action named `XXX` to receive `activate` signal when some hardcoded situation.
+
+For `GtkButton` essentially this happends when the button is clicked on UI.
+
+This provides an convenient way of invoking actions without boilerplate codes. E.g.If you `g_object_set(btn, "action-name", "window.close", NULL);`, the `GtkWindow` closest to the button in the UI widgets hierarchy will be closed once the button is clicked.
+
+Another fancy way of doing the same stuff in GTK.
