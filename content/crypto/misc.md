@@ -179,3 +179,34 @@ This could be VERY misleading since it feels like EVERY public key algorithm tha
 
 For example in Diffie-Hellman key exchange, there are public key and private key, but they are NEVER meant to be used to "encrypt" or "decrypt" anything.
 
+https://crypto.stackexchange.com/questions/835/why-cant-diffie-hellman-be-used-for-signing
+
+
+EtM / MtE / E&M
+====
+https://crypto.stackexchange.com/questions/202/should-we-mac-then-encrypt-or-encrypt-then-mac
+https://en.wikipedia.org/wiki/Authenticated_encryption#Approaches_to_authenticated_encryption
+
+
+PRF vs hash function
+===========
+https://crypto.stackexchange.com/questions/15935/is-there-a-difference-between-prf-and-a-hash-function
+
+I think apparently hash function takes arbitrary length input though...
+
+
+Compute the RSA public key from the private key
+==============
+RSA is a asymmetric cryptography system, of course meaning that no one can compute the private key from the public key ( in a reasonable time). But it's trivial to get the public key if you have the private key, because you always know those 2 primes p q and n=pq in the private key, and public key is just the fucking same n with `e=65537 or 3`. is exactly what the `openssl genrsa` and `openssl rsa` do.  See here for usage:
+    https://stackoverflow.com/questions/5244129/use-rsa-private-key-to-generate-public-key
+For ECDH it's also trivial:
+    https://stackoverflow.com/questions/696472/given-a-private-key-is-it-possible-to-derive-its-public-key
+
+
+
+KEM is real
+======
+https://tools.ietf.org/html/rfc5990
+
+
+Play with openssl rsa
