@@ -177,3 +177,33 @@ The same as `e_ident[EI_VERSION]`, must be `EV_CURRENT=1`.
 - For executable, `e_entry` holds memory address of the first instruction where the process start executing. Kernel will set the `PC` register to `e_entry` after loading is finished.
 - Otherwise, this field must hold 0.
 
+### `e_flags`
+
+processor-specific flags associated with the file.
+Semantics are upto the interpretation of `e_machine`.
+Linux AMD64 doesn't use this field, and usually holds 0.
+
+e.g. some valid value for ARM CPUs are :
+
+```c
+#define EF_ARM_RELEXEC		0x01
+#define EF_ARM_HASENTRY		0x02
+#define EF_ARM_INTERWORK	0x04
+#define EF_ARM_APCS_26		0x08
+#define EF_ARM_APCS_FLOAT	0x10
+#define EF_ARM_PIC		0x20
+```
+
+while some valid value for Intel Itanium are:
+
+```c
+#define EF_IA_64_ABI64		0x00000010	/* 64-bit ABI */
+```
+
+Section Header Table (SHT) & Sections
+-----------------
+
+Sections define the link-time view of an ELF file.
+A linker doesn't care about PHT or segments, which is discussed latter.
+
+An ELF file is divided into *sections*. Adjacent sections are combined into *segments*.
