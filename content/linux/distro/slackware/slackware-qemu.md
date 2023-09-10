@@ -125,3 +125,39 @@ qemu-system-x86_64 -m size=4G -cdrom ../slackware64-15.0-install-dvd.iso -boot o
 
 Skip kernel flags
 Skip keyboard
+login as root
+```sh
+# check disk
+lsblk
+#
+gdisk /dev/sda
+o
+n   # EFI sys: ef00
+n   # Linux: 8300
+w
+
+setup
+    TARGET
+        you don't need specify the EFI system part; will be auto detect
+    INSTALL FROM CD; auto SCAN /dev/sr0
+
+    REMOVE everything related to X, including `L` system libraries.
+
+        The division of software set is not makign sense TODO
+        for example, libsodium.so is required by vim (see ldd `which vim`). 
+        vim is in the `ap` set while libsodium is in the `l` set.
+        Deselcting the `L` set ... if needed by other software
+    
+    INSTALL
+        full: install all softwares in set you selected in the previous SELECT screen, with a cursee dialog shortly appears for each package
+        terse: for each package print one line of its title, short description and size
+        menu: a checkbox list screen for each software set to pick or unpick individual software ; then install
+        newbie: like full, but stop for non-mandatory software, and show a few options asking the user to install or not.
+
+        expert:     TODO
+        tagpath:    TODO
+```
+
+During the installation it's useful to switch to a second console by `ALT+F2` and check the disk usage by `df -hT` (usually by checking `/dev/sda?`).
+
+## CD ROM PATH TRICK
