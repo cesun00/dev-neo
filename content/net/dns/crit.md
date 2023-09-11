@@ -38,3 +38,10 @@ Writing a NS RR for a owner that is not `@` is the syntax of subzone delegation,
 RFC 1035:
 > @A free standing @ is used to denote the current origin.
 
+## CNAME
+
+>  A CNAME RR identifies its owner name as an alias, and specifies the corresponding canonical name in the RDATA section of the
+RR.
+> ****If a CNAME RR is present at a node, no other data should be present;****
+> this ensures that the data for a canonical name and its aliases cannot be different.
+> This rule also insures that a cached CNAME can be used without checking with an authoritative server for other RR types.
