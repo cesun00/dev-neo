@@ -71,3 +71,33 @@ git cat-file --batch-check --batch-all-objects
 # list all refs
 # TODO
 ```
+
+#### retrieve file content from arbitrary commit
+
+https://stackoverflow.com/questions/610208/how-to-retrieve-a-single-file-from-a-specific-revision-in-git
+
+```sh
+git show <path_from_repo_root> # from HEAD
+```
+
+## submodules
+
+- The root repository usually wants to lock a specific commit of submodule for use.
+- The remote upstream repo of a submodule should be publicly accessible.
+
+#### attach a submodule to the current repo
+
+```bash
+git submodule add 'git@github.com:cedric-sun/hugo-theme-hello-friend-ng.git'
+```
+
+#### clone a repo and populate its submodule
+
+```bash
+# assume repo has submodule lib
+git clone <repo>    # repo/lib is now empty
+git submodule init  # initailize .git metadata
+# "Submodule '...' (git://...) registered for path '...'"
+git submodule update --progress        # physically clone the submodule repo, with progress printed.
+```
+
