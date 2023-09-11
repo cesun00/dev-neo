@@ -87,3 +87,14 @@ autoconf-flavored wrappered around m4.
 ==============
 
 `.in` files are templates where `@XYZ@` are placeholders for
+`AC_SUBST([XYZ])` definitions.
+
+`Makefile.in`s also use `@XYZ@` as placeholders but Automake makes all `XYZ=@XYZ@` definitions, and you may simply use `$(XYZ)` as needed.
+
+aclocal
+================
+
+Program `aclocal` generates `aclocal.m4` by scanning `configure.ac`.
+
+libtool
+=================
