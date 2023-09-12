@@ -118,3 +118,31 @@ PDP-7 used 18-bit words. It used magnetic core memory, which is 4096 words in si
 A basic PDP-7 includes:
 
 - Multiplexed IO controller
+- IO devices:
+    - a punched paper tape reader works at 300 cps (characters per second).
+    - a paper tape punch works at 63.3 cps.
+    - a KSR 33 teleprinter works at 10 cps.
+
+Beyond this basic stock setup, user can optionally connect DEC modules. like a magnetic tape equipment.
+
+## memory
+
+coincident-current core
+
+cycle time = 1.75 µs
+
+In one cycle the memory control retrieves a single word from in the memory cell specified by the `MA` register into the `MB` register,
+
+Apparently a basic PDP–7 system could consist solely of 
+a type KA77A processor, 
+149 core memory stack and
+ a type KA71A I/O package 
+ 
+ and cost $45,000 in 1965
+
+
+DEC TYPE LIST
+=============
+
+- `TYPE 1xxx` are
+
