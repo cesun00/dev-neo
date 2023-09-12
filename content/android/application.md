@@ -327,3 +327,31 @@ TODO e.g.
 - might also register a BroadcastReceiver that monitors changes that are reflected in the UI
 
 onResume()
+---------------
+If the activity returns to the Resumed state from the Paused state, the system once again calls onResume() method. For this reason, you should implement onResume() to initialize components that you release during onPause().
+
+TODO:
+- initialize components that you release during onPause()
+- perform any other initializations that must occur each time the activity enters the Resumed state
+
+e.g.
+begin animations and initialize components that the activity only uses when it has user focus.
+
+onPause()
+--------------
+The system calls this method as the first indication that the user is leaving your activity (though it does not always mean the activity is being destroyed).
+
+Use the onPause() method to pause operations such animations and music playback that should not continue while the Activity is in the Paused state, and that you expect to resume shortly. 
+
+**TODO**: You can use the onPause() method to release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources that may affect battery life while your activity is paused and the user does not need them.
+
+**NOT TODO**: onPause() execution is very brief, and does not necessarily afford enough time to perform save operations. For this reason, you should not use onPause() to save application or user data, make network calls, or execute database transactions; such work may not complete before the method completes. Instead, you should perform heavy-load shutdown operations during onStop().
+
+onStop()
+-------------
+Fired when your activity is no longer visible to the user.
+
+In the onStop() method, the app should release almost all resources that aren't needed while the user is not using it.
+
+*e.g. if you registered a BroadcastReceiver in onStart() to listen for changes that might affect your UI, you can unregister the broadcast receiver in onStop(), as the user can no longer see the UI.*
+
