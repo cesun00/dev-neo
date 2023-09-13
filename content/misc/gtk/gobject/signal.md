@@ -52,3 +52,41 @@ The most widely-used impl is `GSimpleAction`.
 Group of `GAction`
 ---------------
 
+Almost always, you want expose a group of (implementation of) `GAction` in a structural way, rather than talking about a single instance of `GAction`.
+
+There are 2 types for such purpose, both being interface as well: 
+- `GActionMap` (newer)
+- `GActionGroup`
+
+### `GActionMap` interface
+
+`GActionMap` represent a map from action name to the `GAction` object itself.
+It is a simple interface of 4 operations whose only concern is to perform fast CRUD on collection of `GAction`s by their name:
+
+`g_action_map_...`:
+- `add_action`
+- `add_action_entries`
+- `lookup_action`
+- `remove_action`
+
+The API feels like a set though, e.g. `g_action_map_add_action( GActionMap* action_map, GAction* action)` does take a name for the key.
+The name is maintained within `GAction` as mentioned above, and queried via `g_action_get_name` upon its addition.
+
+### `GActionGroup` interface
+
+`GActionGroup` focus on invoking actions within the group, 
+
+
+`GApplication` as `GActionGroup` / `GActionMap`
+---------------
+
+Personally I consider this an abuse of inheritance - 
+
+
+
+Scope of actions
+--------------------
+
+Gtk associates an `GActionGroup` with a widget via one of:
+
+``` c
