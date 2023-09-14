@@ -36,3 +36,38 @@ Such change can be done by specifying a more detail selector thus override the g
 
 ```css
 .dark {
+
+}
+```
+
+Toggling of light / dark theme is done at user's request, usually a by clicking an toggle button. 2 things must happen in the event handler:
+
+1. the `dark` class is added to `<html>` by JavaScript, 
+2. a variable need to be persisted to the `LocalStorage`, 
+
+The basic idea is to save a variable in the browser `LocalStorage` and use a different set of color CSS variables upon opening a page or when the state change.
+The 
+
+## Detecting User's Preference
+
+The main
+
+Since 2018, CSS has builtin support for color schemes, which beceoms the de-facto standard way of implementing dark / light themes.
+
+The support works as follows: a new media query
+
+opted into
+
+### `prefers-color-scheme` media feature
+
+The browser provides each page with a color theme information of either `light` or `dark`.
+Its up to the browser vendor how 
+
+When a page is loaded, only those media query with correct
+
+```css
+@media (prefers-color-scheme: light) {
+    /* all rules here applies only if  */
+}
+@media (prefers-color-scheme: dark) {
+
