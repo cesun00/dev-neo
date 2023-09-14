@@ -65,3 +65,43 @@ Any implementation of methods in this interface must respect its parent `BeanFac
 ```
 BeanFactory             |
 HierarchicalBeanFactory | SingletonBeanRegistry
+            ConfigurableBeanFactory
+```
+
+⚠ SPRING'S INTERNAL USAGE ONLY.
+
+`ConfigurableBeanFactory` itself adds very rich APIs, to programmatically adjust the configuration of an existing `BeanFactory`;
+Such freedom of configuration are not meant to be available to application code, thus this interface is not included by the `ApplicationContext` hierarchy to prevent accidental upcast.
+
+`ConfigurableListableBeanFactory | ConfigurableBeanFactory` is always implemented by `ApplicationContext`'s composite `AutowireCapableBeanFactory`, though.
+
+| type            | subject                                                  | APIs                                              |
+|-----------------|----------------------------------------------------------|---------------------------------------------------|
+| singleton       | class loader for bean classes                            | get set                                           |
+| singleton       | `ConversionService`                                      | get set                                           |
+| singleton       | `BeanExpressionResolver`                                 | get set                                           |
+| singleton       | `ApplicationStartup` for measuring startup metrics       | get set                                           |
+| flag            | whether to cache bean metadata                           | get set                                           |
+| collection-list | `StringValueResolver` for Java annotation value          | add has delegate-do (resolve)                     |
+| collection-list | *!!* `BeanPostProcessor`                                 | add count                                         |
+| collection-map  | (custom) scopes                                          | add list-key get-by-key                           |
+| delegate read   | `AccessControlContext`                                   | get                                               |
+| delegate do     | bean alias                                               | register do (resolve)                             |
+| misc            | legacy `PropertyEditor` related objects                  | `PropertyEditorRegistrar` / `TypeConverter`, etc. |
+| misc            | point test by id whether a bean is `CurrentlyInCreation` | get set                                           |
+| misc            | point test by id whether a bean id is `FactoryBean`      |                                                   |
+
+<!-- 
+TODO
+
+copyConfigurationFrom
+
+getMergedBeanDefinition
+isFactoryBean
+
+registerDependentBean
+getDependentBeans
+getDependenciesForBean
+
+destroyBean
+destroyScopedBean
