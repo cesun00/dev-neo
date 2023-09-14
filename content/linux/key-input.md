@@ -232,3 +232,34 @@ To parse the output:
 #!/usr/bin/env python3
 
 import struct
+
+f = open("/dev/input/event4", "rb");
+
+while True:
+    data = f.read(24);
+    print(struct.unpack('4IHHI', data))
+```
+
+
+```sh
+# semantics are (epoch_second,0,epoch_microsecond,0, event type, code, make=1 or break=0)
+(1647595250, 0, 657151, 0, 4, 4, 33)
+(1647595250, 0, 657151, 0, 1, 33, 1)
+(1647595250, 0, 657151, 0, 0, 0, 0)
+f(1647595250, 0, 711337, 0, 4, 4, 33)
+(1647595250, 0, 711337, 0, 1, 33, 0)
+(1647595250, 0, 711337, 0, 0, 0, 0)
+```
+
+## CLI utilities
+
+### dumpkeys
+
+Without arguments, dump the current layout config in the keymaps syntax.
+
+- With `-i, --short-info`, print short into
+- With `-l, -s, --long-info`, print short into, plus the current charset's numeric assignment.
+
+### loadkeys
+
+### setkeycodes (8)
