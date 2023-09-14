@@ -124,3 +124,30 @@ It's not simply modeled by `the big-O complexity greater than ...` or `the proba
 though sometimes such statements do appear as supportive material for the hardness discussion.
 
 Hardness means the cost of computation (e.g. time / required memory / money to buy hardware) is greater than
+the rewards of success in the computation. (e.g. adversary reveal password of a single account or all accounts in the DB).
+
+Neither of the cost nor the rewards can be easily quantified, so the hardness can't be simply asserted by comparing 2 numbers.
+
+The definition of hardness heavily depends on the detailed context of security game in question,
+sometimes even on current productivity of current human's industry.
+(e.g. no reliable quantum computation is possible *for now*, so breaking discrete log thus AES is hard, *for now*).
+
+avalanche effect
+========================
+
+Intuition: flipping a single bit in the input will totally change the whole output.
+
+Terms
+==================
+integrity       the data i'm receiving is not tampered with. Middle Man flipping even a single bit will be detected.
+                but i'm not necessarily sure who the guy sending bits to me is.
+
+Authenticity    I'm doing tcp with remote peer 187.a.b.c:11223, bob told me this is his amazing server, 
+
+
+
+Man in the middle attack
+---------------
+A very nice intro to man in the middle : https://www.youtube.com/watch?v=-enHfpHMBo4
+
+They say ADH is vulerable to man in the middle.
