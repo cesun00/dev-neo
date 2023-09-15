@@ -206,3 +206,31 @@ See [](TODO) and also memory chip fuck for detailsTODO. -->
 
 3. Operand-size override `66H`
 
+    This prefix allows a program to switch between 16- and 32-bit operand sizes.
+    Either size can be the default; Using the prefix selects the non-default size.
+
+    Note that an operand of a memory reference is considered the word / dword data in memory,
+    not the static displacement encoded in the instruction.
+    The size of (which is specified by the `ModR/M` byte).
+
+    For example (NASM flavor),
+    - `INC DWORD [0]` encodes to `ff 05 00 00 00 00` which increases the 32-bit integer found at `offset=0` in the DS segment,  while
+    - `INC WORD [0]` encodes to `66 ff 05 00 00 00 00` which does the same except that it only interprets the first 2 bytes.
+
+    Regardlessly, the displacement is 4 bytes.
+
+    Some SSE2/SSE3/SSSE3/SSE4 instructions and instructions using a three-byte sequence of primary opcode bytes
+    may use 66H as a mandatory prefix to express distinct functionality.
+
+    Other use of the 66H prefix is reserved; such use may cause unpredictable behavior.
+
+4. Address-size override `67H`
+
+    switches between 32-bit and 16-bit address generation.
+    Either size can be the default; the prefix selects the non-default size.
+
+    When operands for the instruction do not reside in memory, using this prefix may cause unpredictable behavior.
+
+### Primary Opcode
+
+Opcode specifies the operation performed by the instruction.
