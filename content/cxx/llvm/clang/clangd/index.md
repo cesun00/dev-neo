@@ -23,3 +23,10 @@ Clangd uses the Language Server Protocol for communication with a client.
 
 > LSP was originally developed for Microsoft Visual Studio Code and is now an open standard. On June 27, 2016, Microsoft announced a collaboration with Red Hat and Codenvy to standardize the protocol's specification.
 
+The protocol was originally supported and adopted by these three companies. [Its specification is hosted and developed on GitHub.](https://microsoft.github.io/language-server-protocol/)
+
+
+### talk to clangd from command line
+
+```
+```
