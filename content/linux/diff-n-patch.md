@@ -30,3 +30,29 @@ This article will only discuss POSIX behavior, and won't distinguish between imp
 
 {{<columns>}}
 
+### context format
+
+This is the format used by the original UNIX `diff`.
+
+```diff
+# diff -c <(echo -e 'foo\nbar') <(echo -e 'foo\nzoo')
+*** /dev/fd/63	2024-03-30 22:29:07.600618249 +0800
+--- /dev/fd/62	2024-03-30 22:29:07.600618249 +0800
+***************
+*** 1,2 ****
+  foo
+! bar
+--- 1,2 ----
+  foo
+! zoo
+```
+
+<--->
+
+### unified format
+
+This is the format used by the Wayne's `unidiff`.
+
+```diff
+# diff -u <(echo -e 'foo\nbar') <(echo -e 'foo\nzoo')
+--- /dev/fd/63	2024-03-30 22:29:11.437284751 +0800
