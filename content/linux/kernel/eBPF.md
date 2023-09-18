@@ -96,3 +96,42 @@ struct sock_filter code[] = {
         { 0x15,  0, 12, 0x00000800 },
         { 0x30,  0,  0, 0x00000017 },
         { 0x15,  2,  0, 0x00000084 },
+        { 0x15,  1,  0, 0x00000006 },
+        { 0x15,  0,  8, 0x00000011 },
+        { 0x28,  0,  0, 0x00000014 },
+        { 0x45,  6,  0, 0x00001fff },
+        { 0xb1,  0,  0, 0x0000000e },
+        { 0x48,  0,  0, 0x0000000e },
+        { 0x15,  2,  0, 0x00000016 },
+        { 0x48,  0,  0, 0x00000010 },
+        { 0x15,  0,  1, 0x00000016 },
+        { 0x06,  0,  0, 0x0000ffff },
+        { 0x06,  0,  0, 0x00000000 },
+};
+
+struct sock_fprog bpf = {
+        .len = ARRAY_SIZE(code),
+        .filter = code,
+};
+
+sock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+if (sock < 0)
+        /* ... bail out ... */
+
+ret = setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, &bpf, sizeof(bpf));
+if (ret < 0)
+        /* ... bail out ... */
+
+/* ... */
+close(sock);
+```
+
+Linux implements the original BPF (now known as the classic BPF, or `cBPF`) from very beginning and is renamed as Linux Socket Filtering (LSF).
+
+`eBPF` (got its name from *extended BPF*) was introducedsince v3.18 in Dec 2014, which is a superset of cBPF in terms of features.
+
+`eBPF` is now no longer an acronym for anything:
+1. Linux folks really want to rebrand this technique and get rid of the misleading *Berkeley*;
+2. `eBPF` as a VM becomes more generic. It can complete tasks that have nothing to do with networking.
+
+
