@@ -285,3 +285,31 @@ std::vector<int> foo = {1,2,3};
 
 ### copy-initialization
 
+copy-initialization: any initialization happens with the syntax:
+    - `= {...}`(#3)
+    - `foo` as in `func_call(foo)`
+    - `bar` as in `return bar`
+    - `zoo` as in `catch (zoo)`
+    - aggregate member initialization other than by a designated-initializer-clause
+
+### direct initialization
+
+direct initialization: any initialization happens with the syntax
+- `type a(expression)` or `type a{expression}`; e.g. `int a(42);`, `int a{42};`
+- `new type(expression)` or `new type{expression}`
+- the temporary result of `static_cast<T>(expression)`
+
+### Aggregate Initialization
+
+Aggregate initialization, instead of being an initialization type, is any attempt to initialize an *aggregate*.
+
+An aggregate is an array, or a simple class that has:
+- no user-declared or inherited constructors ([class.ctor]),
+- no private or protected direct non-static data members ([class.access]),
+- no private or protected direct base classes ([class.access.base]), and
+- no virtual functions ([class.virtual]) or virtual base classes ([class.mi]).
+
+Aggregate captures an C array or C `struct`. C++ compiler must be able to parse C code from included C headers.
+Having a unique initialization for aggregates ensures the same syntax and behavior in C.
+Unlike initialization types that calls a constructor, aggregate initialization cannot fail.
+It is also the only initialization type that can use the designator syntax;
