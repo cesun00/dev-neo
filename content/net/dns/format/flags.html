@@ -1,0 +1,91 @@
+<table>
+    <thead>
+        <tr>
+            <td></td>
+            <td>bits</td>
+            <td>semantics in query</td>
+            <td>semantics in response</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>QR</td>
+            <td>1</td>
+            <td colspan="2">Whether this is a query (0) or an response (1).</td>
+        </tr>
+        <tr>
+            <td>Opcode</td>
+            <td>4</td>
+            <td>
+                The type of query desired by the client.
+
+                A few notable values are:
+
+                <ul>
+                    <li><code>0</code> a standard query (QUERY)</li>
+                    <li><code>1</code> an inverse query (IQUERY); this is currently obsolete but still functioning</li>
+                    <li><code>2</code> a server status request (STATUS)</li>
+                    <li><code>7-15</code> Unassigned</li>
+                </ul>
+
+                <p>
+                    This authoritative definition of values in this field is maintained at
+                    https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-5.
+                </p>
+
+            </td>
+            <td>
+                A name server must copy this field as-is into its response.
+            </td>
+        </tr>
+        <tr>
+            <td>AA (Authoritative Answer)</td>
+            <td>1</td>
+            <td>
+                undefine
+            </td>
+            <td>
+                Whether the answering name server is an authority for the (first? --TODO--)domain name in question.
+
+                For the concept of authoritative name server, see --TODO--.
+            </td>
+        </tr>
+        <tr>
+            <td>TC (TrunCation)</td>
+            <td>1</td>
+            <td colspan="2">
+                Whether this message was truncated due to length greater than that permitted on the transmission
+                channel.
+            </td>
+        </tr>
+        <tr>
+            <td>RD (Recursion Desired)</td>
+            <td>1</td>
+            <td>Whether the client wants the name server to pursue the query recursively.</td>
+            <td>undefined but usually echoed</td>
+        </tr>
+        <tr>
+            <td>RA (Recursion Available)</td>
+            <td>1</td>
+            <td>undefined</td>
+            <td>Whether recursive query support is available in the name server.</td>
+        </tr>
+        <tr>
+            <td>Z</td>
+            <td>3</td>
+            <td colspan="2">Reserved. DNSSEC uses some bits. --TODO-- </td>
+        </tr>
+        <tr>
+            <td>RCODE (Response code)</td>
+            <td>4</td>
+            <td> undefined </td>
+            <td>
+                <p>
+                    This authoritative definition of values in this field is maintained at
+                    https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-6
+                </p>
+                --TODO--
+            </td>
+        </tr>
+    </tbody>
+</table>
