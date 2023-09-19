@@ -1,0 +1,168 @@
+<table>
+    <thead>
+        <tr>
+            <td>byte offset</td>
+            <td>word content</td>
+            <td>changed when</td>
+            <td>description</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>0</td>
+            <td>back link</td>
+            <td>task-switching to the current TSS</td>
+            <td>
+                This is the 16-bit selector of the previous task's TSS, i.e. which task invoked the current task.
+
+                <p>
+                    This field provides a history of which tasks invoked others.
+                    The link word is important for restart-ing an interrupted task when the interrupt has been serviced.
+                    Placing the back link in the TSS protects the identity of the interrupted task from changes by the interrupt task,   since the TSS is not writable
+by the interrupt task. (In most systems only the operating system has sufficient privilege to create or
+use a writable data segment "alias" descriptor for the TSS.)
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>SP for CPL 0</td>
+            <td rowspan="2"></td>
+            <td rowspan="2">
+                The `SS` and `SP` register, 
+                define the stack to use upon entry to privilege level 0.
+            </td>
+        </tr>
+
+        <tr>
+            <td>4</td>
+            <td>SS for CPL 0</td>
+        </tr>
+
+        <tr>
+            <td>6</td>
+            <td>SP for CPL 1</td>
+        </tr>
+
+        <tr>
+            <td>8</td>
+            <td>SS for CPL 1</td>
+        </tr>
+
+        <tr>
+            <td>10</td>
+            <td>SP for CPL 2</td>
+        </tr>
+
+        <tr>
+            <td>12</td>
+            <td>SS for CPL 2</td>
+        </tr>
+
+        <tr>
+            <td>14</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>16</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>18</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>20</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>22</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>24</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>26</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>28</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>30</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>32</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>34</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>36</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>38</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>40</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>42</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
