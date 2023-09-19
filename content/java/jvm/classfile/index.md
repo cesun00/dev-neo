@@ -126,3 +126,35 @@ Fields that end with `_index` is the index of an entry in the `constant_pool` ar
 {{<fold "table: cp_info tags synopsis.">}}
 {{<wide>}}
 {{<content/classfile/cpinfo>}}
+{{</wide>}}
+{{</fold>}}
+
+**The constant pool is a critical part of a class file.**
+Its entries are extensively referred to (by index) by other structures and bytecode instructions.
+Whenever such references are made, 1-based indexes are used. To be precise:
+1. A use of `index=0` indicates an invalid reference or is reserved for special semantics.
+2. The very first entry in the `constant_pool` array is a valid constant that should be referred to as `index=1`.
+3. The total number of entries in the `constant_pool` array is `constant_pool_count - 1`. (this is only case in the classfile format where array length is not equal to its preceding number)
+
+## `attribute_info`: the heavy-duty structure
+
+`attribute_info` is discussed first due to its fundamental role in the classfile.
+
+Despite its name, the `attribute_info` structure is the real heavy-duty information carrier of a class file.
+Among other critical runtime information, the bytecode instructions are delivered within `attribute_info` instances.
+
+Its instances are extensively embedded in other structures in the clasfile, including
+- the top-level `ClassFile`
+- `field_info`
+- `method_info`
+- `Code_attribute` (sub structure of `method_info`)
+- `record_component_info` (since Java 14)
+
+An `attribute_info` instance has the following generic structure:
+
+```c
+struct attribute_info {
+    u2 attribute_name_index;        // CONSTANT_Utf8_info (the attribute name)
+    u4 attribute_length;
+    u1 info[attribute_length];
+}
