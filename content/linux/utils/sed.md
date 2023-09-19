@@ -173,3 +173,33 @@ sed -E '
   /\/\*/ { N; ba }
   :b
 '
+```
+
+### Branching
+
+A label is introduced by `:label` syntax
+
+- `t label`: jump to `label` if a previous `s` command successfully match and replace something
+- `T label`: jump to `label` if a previous `s` command matches nothing
+
+## Execution Flow
+
+`sed` maintains 2 buffers: the pattern space and the hold space.
+
+```js
+while (input EOF not reached) {
+    line number, pattern space = consume next line from input
+
+    for each command with (addr, X) {
+        if (line number in addr) {
+            execute(pattern space, X);   // different `X` command can have different logics of execute()
+        }
+    }
+
+    if (`-n` option) {
+        print(pattern space)
+    }
+}
+```
+
+## MISC
