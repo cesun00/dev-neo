@@ -188,3 +188,29 @@ type of
     ```c++
     int zero();
     // auto e = int(); // not this; this is copy-initialize with copy elision
+    ```
+
+5. otherwise, if the destination type is array, the `initializer` should be `( expression-list )` (i.e. `#1`), but can be `= { ... }` for backward-compatibility;
+   each element in the array that has an initializer is [copy-initialized](#copy-init), and the rest is [value-initialized](value-init).
+
+    ```c++
+    // clang++ -std=c++20
+    int inc() {
+        static int c = 0;
+        return ++c;
+    }
+
+    int foo[](1,2,3);
+    int bar[10](inc(), inc(), inc()); // guaranteed evaluation order of 1,2,3; index [3-9] are value-initialized
+    ```
+
+    For `Type array_name[n](a1, a2, ..., am);` or 
+
+6. otherwise, if the destination type is a class type, and is the same as source type:
+
+{{<fold>}}
+
+- if (i.e. #2 or #3)
+
+    ```c++
+    T x = T();
