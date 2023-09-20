@@ -252,3 +252,42 @@ A `CONSTANT_Utf8_info` constant stores strings for various purposes.
 Only some of them are literal `String` content presented in the program text, 
 while many others are bookkeeping information whose format is defined as contracts and understood by JVM.
 
+### Binary Name and Its Internal Form {#internal-form}
+
+Class and interface names are always stored in classfile in a fully qualified form known as **binary names** to avoid ambiguity.
+The formal definition of binary name is given by The Java language (i.e. JLS 13.1):
+
+> - The binary name of a top level class or interface (§7.6) is its canonical name (§6.7).
+> 
+> - The binary name of a member class or interface (§8.5, §9.5) consists of the binary name of its immediately enclosing class or interface, followed by $, followed by the simple name of the member.
+> 
+> - The binary name of a local class or interface (§14.3) consists of the binary name of its immediately enclosing class or interface, followed by $, followed by a non-empty sequence of digits, followed by the simple name of the local class.
+> 
+> - The binary name of an anonymous class (§15.9.5) consists of the binary name of its immediately enclosing class or interface, followed by $, followed by a non-empty sequence of digits.
+
+For historical reasons, a binary name when stored in a `CONSTANT_Utf8_info` constant takes an encoding of replacing all `.` with `/`.
+e.g. `com/foo/service/Main$Nested`. This encoding is known as the **internal form** of a binary name.
+
+### Unqualified Names
+
+Names of methods, fields, local variables, and formal parameters are stored as **unqualified names**.
+Unqualified names are simply tokens as appeared in the program source.
+Such constructs belong to a class, so there is no chance for their name to be ambiguous.
+
+2 special method name `<init>` and `<clinit>` are also unqualified names.
+
+<!-- ### Module and Package Names
+
+TODO -->
+
+### Descriptors
+
+A descriptor is a string that encodes the type information of JVM constructs.
+It's stored in a `CONSTANT_Utf8_info` constant.
+
+- A field descriptor describes the type of a class, instance, or local variable;
+
+    - for primitive types, it is one of `B / C / D / F / I / J / S / Z` for `byte / char / double / float / int / long / short / boolean` respectively.
+    - for object types, it is `L ClassName ;` (letter `L` followed by the [internal form](#internal-forms) of class binary name followed by a semicolon)
+    - for array type, it is `[ ComponentType` (left bracket followed by the descriptor)
+
