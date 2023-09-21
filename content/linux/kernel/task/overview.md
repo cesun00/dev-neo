@@ -850,3 +850,39 @@ struct thread_info {
 
 #ifdef CONFIG_BLK_CGROUP
 	struct gendisk			*throttle_disk;
+#endif
+
+#ifdef CONFIG_UPROBES
+	struct uprobe_task		*utask;
+#endif
+#if defined(CONFIG_BCACHE) || defined(CONFIG_BCACHE_MODULE)
+	unsigned int			sequential_io;
+	unsigned int			sequential_io_avg;
+#endif
+	struct kmap_ctrl		kmap_ctrl;
+#ifdef CONFIG_DEBUG_ATOMIC_SLEEP
+	unsigned long			task_state_change;
+# ifdef CONFIG_PREEMPT_RT
+	unsigned long			saved_state_change;
+# endif
+#endif
+	struct rcu_head			rcu;
+	refcount_t			rcu_users;
+	int				pagefault_disabled;
+#ifdef CONFIG_MMU
+	struct task_struct		*oom_reaper_list;
+	struct timer_list		oom_reaper_timer;
+#endif
+#ifdef CONFIG_VMAP_STACK
+	struct vm_struct		*stack_vm_area;
+#endif
+#ifdef CONFIG_THREAD_INFO_IN_TASK
+	/* A live task holds one reference: */
+	refcount_t			stack_refcount;
+#endif
+#ifdef CONFIG_LIVEPATCH
+	int patch_state;
+#endif
+#ifdef CONFIG_SECURITY
+	/* Used by LSM modules for access restriction: */
+	void				*security;
