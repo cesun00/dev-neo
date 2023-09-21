@@ -97,3 +97,30 @@ https://www.inseto.co.uk/resist-coating-methods-ikb-067/
 https://www.inseto.co.uk/lithography-basics/
 https://www.jdbbs.com/thread-4702483-1-1.html
 https://en.wikipedia.org/wiki/Electroforming
+    https://en.wikipedia.org/wiki/Electrophoretic_deposition
+
+ 
+
+## Specifications
+
+The specifications of various optical disk formats are collectively known as the rainbow books:
+
+| subject      | nickname     | specification index                                             | latest release |
+|--------------|--------------|-----------------------------------------------------------------|----------------|
+| CD, CD-Text, | the Red Book | IEC 60908 - Audio recording - Compact disc digital audio system | IEC 60908:1999 |
+| 
+
+non-circular CD: https://en.wikipedia.org/wiki/Shaped_compact_disc
+Shaped Disc: https://en.wikipedia.org/wiki/Shaped_compact_disc
+card-shape: DREXLER LASER CARD
+    https://commons.wikimedia.org/wiki/File:DREXLER_LASER_CARD-02.jpg
+
+
+- multiple layers of data on the disc...?
+- the method of rotation (Constant linear velocity (CLV), Constant angular velocity (CAV), or zoned-CAV)
+- the composition of lands and pits
+
+Both Gregg's and Russell's disc are floppy media read in transparent mode, meaning that a beam of laser comes from 1 side of the transparent disc
+and information is read by an laser sensor reading head from the other side.
+
+An optical disc is designed to support one of three recording types: read-only (e.g.: CD and CD-ROM), recordable (write-once, e.g. CD-R), or re-recordable (rewritable, e.g. CD-RW). Write-once optical discs commonly have an organic dye (may also be a (Phthalocyanine) Azo dye, mainly used by Verbatim, or an oxonol dye, used by Fujifilm[4]) recording layer between the substrate and the reflective layer. Rewritable discs typically contain an alloy recording layer composed of a phase change material, most often AgInSbTe, an alloy of silver, indium, antimony, and tellurium.[5] Azo dyes were introduced in 1996 and phthalocyanine only began to see wide use in 2002. The type of dye and the material used on the reflective layer on an optical disc may be determined by shining a light through the disc, as different dye and material combinations have different colors.
