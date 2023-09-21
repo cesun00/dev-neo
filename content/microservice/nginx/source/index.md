@@ -132,3 +132,41 @@ ngx_open_file_t *ngx_conf_open_file(ngx_cycle_t *cycle, ngx_str_t *name);
 ## Network I/O
 
 ### `ngx_connection_t`
+
+### Socket Abstraction
+
+### Epolling
+
+## Nginx Module
+
+A "module" in nginx is a set of source files that
+
+1. can be independently included in / excluded from an nginx build
+2. marked by a global `ngx_module_t` instance in one of those source files,
+3. provide specific functionalities (e.g. webp image support) and recognize new configuration directives, and
+4. whose functions will be invoked in some stage of the nginx lifecycle
+
+Some modules are built by default ([here for a list](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/#modules-built-by-default)), and are always statically-linked into the executable. Others requires explicit arguments to the `./configure` to be build, and most are still static-linked.
+
+Only 7 modules can be built as `.so` and loaded at runtime:
+
+```bash
+$ curl -s 'http://nginx.org/en/docs/configure.html' | grep '=dynamic'
+<code>--with-http_xslt_module=dynamic</code>
+<code>--with-http_image_filter_module=dynamic</code>
+<code>--with-http_geoip_module=dynamic</code>
+<code>--with-http_perl_module=dynamic</code>
+<code>--with-mail=dynamic</code>
+<code>--with-stream=dynamic</code>
+<code>--with-stream_geoip_module=dynamic</code>
+```
+
+A module is identified by the presence of a global variable of type `ngx_module_t` defined in one of that set of source files. For example, the `ngx_regex_module` global variable defined in `core/ngx_regex.c` marks the `ngx_regex_module`.
+
+It's confusing that nginx puts all source files together. You don't know which files belong to which module. For core modules (TODO: define "core modules"?), inspect `auto/sources`. For other modules, inspect `auto/modules`.
+
+### Module Type
+
+Each module has a type, marked by the `type` member of the `ngx_module_t`. It's meant to be one of the following macro:
+
+```c
