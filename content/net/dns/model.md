@@ -140,3 +140,33 @@ ns3.dnsv5.com.	172800	IN	A	1.12.14.17
 ns3.dnsv5.com.	172800	IN	A	1.12.14.18
 ns3.dnsv5.com.	172800	IN	A	108.136.87.44
 ns3.dnsv5.com.	172800	IN	A	125.94.59.200
+ns3.dnsv5.com.	172800	IN	A	163.177.5.75
+ns3.dnsv5.com.	172800	IN	A	35.165.107.227
+```
+
+- `name` must be a string of dot-separated segments, a syntax known as the domain name. 
+- `qtype` specifies the *type of RRs* to query.
+
+    The authoritative definition of RR types is maintained at https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-4.
+
+    Common values are `A` for RRs that represent an IPv4 address, or `MX` for RRs that represent the email address of the admin of this domain name.
+
+- `qclass` specifies the *class of service* to query.
+    
+    The class of service determines the semantics of DNS mapping service.
+
+    The authoritative definition of class of service values is maintained at https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml#dns-parameters-2.
+
+    DNS, when queried for `qclass=Internet (1)`, maps domain names to information related to that domain.
+    Historically, some projects used DNS as a general database functionality to serve information that changes infrequently.
+    e.g. Hesiod project used `qclass=Hesiod (3)` and delivery Unix `/etc/passwd` and `/etc/group` information via DNS.
+
+    This field is largely obsolete since DNS nowadays is queried sorely for Internet hosts' information.
+
+
+
+
+// ----------
+
+
+- Authoritative Name server Hirarchy:
