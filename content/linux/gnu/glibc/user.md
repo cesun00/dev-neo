@@ -33,3 +33,15 @@ struct passwd {
 
 ```c
 struct passwd *getpwnam(const char *name);  // get passwd by user name
+struct passwd *getpwuid(uid_t uid);         // get passwd by uid
+```
+
+Both has a `_r`-suffixed re-entrant version.
+
+### System user registry traversal: `getpwent` / `setpwend` / `endpwend`
+
+Globally stateful triplet; Cursor initially points at one-prior-start position (TODO: for newly created process? The behavior across fork? exec?)
+
+- `getpwent`: get the next `passwd*`, or `NULL` if the end is reached.
+- `setpwend`: rewind cursor to the one-prior-start position.
+- `endpwend`: close whatever resources used for reading the user registry.
