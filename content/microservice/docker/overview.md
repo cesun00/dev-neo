@@ -97,3 +97,17 @@ Server:
 
 ## Docker Compose
 
+https://docs.docker.com/compose/
+
+Docker Compose is another CLI client that communicates with the `dockerd`. Its executable is `docker-compose`.
+It specifies properties of containers using a `docker-compose.yml` file rather than, typing `docker run` options all over the place.
+This is useful for setting up reoccurring services that are frequently used and/or have complex configurations.
+
+## Others 
+
+## Docker Desktop
+
+The official Docker site usually leads you to download a peripheral project known as *Docker Desktop*, which is a 
+GUI program does image and containers management. Using the Docker Desktop application is not mandatory.
+<!-- Docker Desktop itself needs to run on a virtual machine which uses KVM on Linux; this has nothing to do with docker .
+You don't need it. -->
