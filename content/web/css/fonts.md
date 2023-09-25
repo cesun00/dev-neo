@@ -97,3 +97,30 @@ For example, `(await (queryLocalFonts())).filter(o=>o.family == "Noto Sans")` wi
         "postscriptName": "NotoSans-Bold",
         "style": "Bold"
     },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Bold Italic",
+        "postscriptName": "NotoSans-BoldItalic",
+        "style": "Bold Italic"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Italic",
+        "postscriptName": "NotoSans-Italic",
+        "style": "Italic"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Light",
+        "postscriptName": "NotoSans-Light",
+        "style": "Light"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Light Italic",
+        "postscriptName": "NotoSans-LightItalic",
+        "style": "Light Italic"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Medium",
