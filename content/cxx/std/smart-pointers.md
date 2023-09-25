@@ -85,3 +85,35 @@ To convert `weak_ptr` to a `shared_ptr`, use either of
 
 ## `make_unique` and `make_shared`
 
+### the unspecified-evaluation-order problem
+
+In C++14, the following was unsafe:
+
+```c++
+void foo(std::unique_ptr<A>, std::unique_ptr<B>);
+
+foo(std::unique_ptr<A>(new A), std::unique_ptr<B>(new B));
+```
+
+There are four operations that happen here during the function call
+
+1. `new A`
+2. `unique_ptr<A>` constructor
+3. `new B`
+4. `unique_ptr<B>` constructor
+
+C++14 and prior specification leaves the ordering of these completely unspecified, thus `(1), (3), (2), (4)` is a perfectly valid ordering.
+If (3) throws, then the memory from (1) leaks - we haven't run (2) yet, which would've prevented the leak.
+
+Such interleaving of evaluation is prohibited in C++17: 
+
+> For each function invocation ... F, each evaluation (in the same thread) that does not occur within F ...
+> is either sequenced before or sequenced after all evaluations that occur within F.
+> [cite: c++23 working draft](https://eel.is/c++draft/intro.execution#11)
+
+- Let `F` denote `std::unique_ptr<A>(new A)`,  this guaranteed `new B` and `unique_ptr<B>` ctor sequenced before or after `new A` as a whole.
+- Let `F` denote `std::unique_ptr<B>(new B)`,  this guaranteed `new A` and `unique_ptr<A>` ctor sequenced before or after `new B` as a whole.
+- Combined, this denies any intermediate evaluation bewtween `arg_expr` and `func_name(arg_expr)` call, regardless how many arbitrarily nested function calls appear in the same expression.
+
+## C++17 CTAD doesn't make raw use of ctor better
+
