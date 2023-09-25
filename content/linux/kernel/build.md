@@ -767,3 +767,30 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── bcm/
 │   │   ├── imgtec/
 │   │   ├── imx/
+│   │   ├── ingenic/
+│   │   ├── mediatek/
+│   │   ├── microchip/
+│   │   ├── mstar/
+│   │   ├── mvebu/
+│   │   ├── ralink/
+│   │   ├── renesas/
+│   │   ├── socfpga/
+│   │   ├── sprd/
+│   │   ├── starfive/
+│   │   ├── sunxi-ng/
+│   │   ├── ti/
+│   │   ├── versatile/
+│   │   └── xilinx/
+│   ├── clocksource/
+│   ├── connector/
+│   ├── cpufreq/
+│   ├── cpuidle/
+│   │   ├── governors/
+│   ├── crypto/
+│   │   ├── hisilicon/
+│   │   ├── intel/
+│   │   │   ├── ixp4xx/
+│   │   │   ├── keembay/
+│   │   ├── starfive/
+│   │   ├── stm32/
+│   │   └── xilinx/
