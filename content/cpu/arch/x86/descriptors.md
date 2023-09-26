@@ -31,3 +31,41 @@ It is a 40/48/80-bit register in real-address(16)/protected(32)/64-bit mode, and
  39/47/79                      15                 0
 +-----------------------------------------------+
 | base (24/32/64 bits)        | limit (16 bits) |         GDTR register
++-----------------------------------------------+
+```
+
+1. limit (bit 0 - 15): the size of the GDT in bytes, minus 1.
+
+    This field is always 16 bits in size regardless of the CPU mode.
+
+    The subtraction of 1 occurs since the max value of this field is 65535 while the GDT can be 65536 bytes in size.
+    Given the size of descriptors, `limit + 1` is always a multiple of 8.
+
+2. base: the base address where GDT starts
+    - For 80286 there is no paging, and this is the 24-bit *physical address* where the GDT starts.
+    - For the later CPU in the protected mode, this is a 32-bit address in the linear address space (i.e. before page translation). 
+    - For AMD64 CPU in the Long Mode, this is a 64-bit address in the linear address space (i.e. before page translation)
+
+The GDT holds various global descriptors visible to all tasks in the system, including
+1. code and data segment descriptors for kernel (or other ring 0 software) code
+2. LDT descriptors. Each locates an LDT for a specific protected mode task.
+3. TSS descriptors. Each locates a TSS for a specific protected mode task. Only the GDT can hold TSS descriptors.
+3. various gate descriptors
+
+### Local Descriptors table (LDT)
+
+A new register `LDTR` introduced in Intel 80286 locates a descriptors table known as the Local Descriptors table (LDT).
+The `LDTR` has the following structure:
+
+```goat
+ 55                39                       15             0
++---------------------------------------------------------+
+| 16-bit selector | 24-bit base            | 16-bit limit |     LDTR register
++---------------------------------------------------------+
+<--   visible  -->|<--              hidden              -->
+```
+
+Many registers have such 
+
+Unlike the `GDTR`, only the selector part (the most significant 16 bits) is visible.
+
