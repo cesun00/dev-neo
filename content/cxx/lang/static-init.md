@@ -32,3 +32,22 @@ This can happens in a more subtle way
 // File1.h
 class A {
   void doSomething() {} 
+}
+
+extern A aObj;
+
+//File1.cpp
+static A aObj;
+
+// File2.cpp
+class B {
+B() {}
+~B() {
+ aObj.doSomething(); // Not okay! aObj may have already been destructed!
+}
+}
+
+static B bObj;
+```
+
+https://isocpp.org/wiki/faq/ctors#static-init-order
