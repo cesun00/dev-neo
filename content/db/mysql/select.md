@@ -240,3 +240,38 @@ The `ON` clause specify a bool expression e.g. `SELECT * FROM t0 JOIN t1 ON t0.b
 	Mysql does not support `FULL JOIN`, `OUTER JOIN`, or `FULL OUTER JOIN` whatsoever. The fact that the SQL langauge was standardized too late is to blame.
 
 	When people use this type of join in Microsoft SQL Server, what they get is a inner join but:
+	1. a row from left table matching no row from right table still produce a row with columns from right table `NULL`;
+	2. a row from right table matching no row from left table still produce a row with columns from left table `NULL`;
+
+	This is feels like a combination of `LEFT JOIN` + `RIGHT JOIN`.
+
+	There is a way to emulate this in MySQL:
+	https://stackoverflow.com/questions/4796872/how-to-do-a-full-outer-join-in-mysql
+
+
+### `JOIN` vs `FROM cartesian WHERE`
+
+Note that the performance of the following query should be the same:
+
+```sql
+SELECT ...
+FROM t0,t1
+WHERE t0.xxx = t1.xxx;
+
+SELECT ...
+FROM t0 INNER JOIN t1
+ON t0.xxx = t1.xxx;
+```
+
+Ref: https://stackoverflow.com/questions/121631/inner-join-vs-where
+
+LIMIT and Pagination
+---------------
+
+The `LIMIT` clause is extensively used to implement pagination. 3 syntax exist:
+
+```sql
+SELECT ... FROM ...  LIMIT n; 				# get the first n rows
+SELECT ... FROM ...  LIMIT off,n; 			# skip the first off, then get n rows
+SELECT ... FROM ...  LIMIT n OFFSET off;	# ditto but sane syntax
+```
