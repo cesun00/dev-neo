@@ -35,3 +35,11 @@
 For a maximized chrome on 2K screen:
 
 ```js
+console.log(window.innerHeight) // 1082
+console.log(window.innerWidth) // 1044
+console.log(window.outerHeight) // 1440
+console.log(window.outerWidth) // 2560
+
+$('html').clientWidth   // 1032
+// or document.documentElement.clientWidth
+```
