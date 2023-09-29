@@ -427,3 +427,7 @@ Segment descriptors are stored in either of two kinds of descriptor table:
 
 
 <!-- ## Address Translation
+
+## call gates
+
+## INT gates -->
