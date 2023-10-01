@@ -103,3 +103,38 @@ Binary:
 
 ### Logical Operators For Numbers
 
+TODO
+
+### Branch if Pattern Matches
+
+The `[[]]` syntax is assumed in this section.
+All operators respect the `nocasematch` shopt option for case-sensitivity.
+
+#### Wildcard Pattern
+
+Operator `==` and `!=` can test whether a string matches a *glob* pattern.
+
+```bash
+if [[$MYVAR == pattern]];then
+    echo "asdasd"
+fi
+
+if [[""!=""]];then
+    echo "asdasd"
+fi
+```
+
+#### POSIX Extended Regex and Capturing Group Support (man 3 regex)
+
+Operator `=~` can perform POSIX extended regex, return 0 when match, 1 when mismatch, and 2 when RHS pattern has bad syntax.
+
+`shopt -s/-u nocasematch` for case-insensitive/sensitive matching.
+
+The scanning stops when the first match is found, i.e. `regexec` is called only once.
+
+After a successful match, the `BASH_REMATCH` array variable
+- stores the whole matched text at index 0
+- stores each capturing group since index 1
+
+```bash
+i='[Comic][JOJO 的奇妙冒險 Part7.STEEL.BALL.RUN][荒木飛呂彥][天下][小成]Vol_22.zip'
