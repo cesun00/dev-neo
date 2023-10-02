@@ -65,3 +65,22 @@ W
 
 # AKE_TERMOUT=/dev/pts/5
 # PWD=/home/bitier/maketest/envvar
+# MFLAGS=
+# MAKEFLAGS=
+# MAKE_TERMERR=/dev/pts/5
+# SHLVL=0
+# MAKELEVEL=1
+# foo=bar
+# _=/usr/bin/env
+
+```
+
+Parent-make won't modify existing envvars, only adding the `export`-ed, before calling the shell.
+
+<!-- ## BEFORE 
+
+
+## WHY USE submake at the first place
+
+
+## CRITICISM AGAINST the practice of submake -->
