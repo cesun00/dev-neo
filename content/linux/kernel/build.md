@@ -1098,3 +1098,43 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   └── xircom/
 │   │   ├── mdio/
 │   │   ├── pcs/
+│   │   ├── phy/
+│   │   ├── pse-pd/
+│   │   ├── usb/
+│   │   └── wireless/
+│   │       ├── admtek/
+│   │       ├── ath/
+│   │       ├── atmel/
+│   │       ├── broadcom/
+│   │       ├── intel/
+│   │       ├── intersil/
+│   │       ├── marvell/
+│   │       ├── mediatek/
+│   │       ├── microchip/
+│   │       ├── purelifi/
+│   │       ├── quantenna/
+│   │       ├── ralink/
+│   │       ├── realtek/
+│   │       ├── rsi/
+│   │       ├── silabs/
+│   │       ├── st/
+│   │       ├── ti/
+│   │       ├── virtual/
+│   │       └── zydas/
+│   ├── nfc/
+│   ├── nvme/
+│   │   ├── common/
+│   │   ├── host/
+│   │   └── target/
+│   ├── nvmem/
+│   │   ├── layouts/
+│   ├── pci/
+│   │   ├── controller/
+│   │   │   ├── dwc/
+│   │   │   ├── mobiveil/
+│   │   ├── hotplug/
+│   │   ├── msi/
+│   │   ├── pcie/
+│   │   ├── switch/
+│   ├── pcmcia/
+│   ├── perf/
