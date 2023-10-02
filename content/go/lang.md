@@ -183,3 +183,33 @@ func myFuncNeedGooler(g Gooler) {
 }
 
 func main() {
+	x:= B{}
+	myFuncNeedFooler(&x)
+    //myFuncNeedFooler(x)
+	myFuncNeedGooler(x)
+	myFuncNeedGooler(&x)
+}
+```
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type A struct {foo,zoo,too int}
+
+type B struct {
+    A
+    bar string
+}
+
+func main() {
+   x := B{}
+   fmt.Println(x.A) // {0 0 0} - access through "A" as a whole
+}
+```
+
+
+## Reference types 
