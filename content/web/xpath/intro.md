@@ -27,3 +27,22 @@ Let's first identify why selector can't be used. For CSS selectors:
 
     1. In simplest case, selecting a node by its descendent (i.e. parent selector - to select parents of known-to-be-selectable nodes) [is still poorly supported by browsers in 2023.](https://developer.mozilla.org/en-US/docs/Web/CSS/:has#browser_compatibility).
     2. complicated ones like select a node by its sibling's child is just impossible.
+
+The reluctance from standardization commitee and browser vendors makes sense, since it's questionable whether CSS programmers - as the DOM author - need such indirect selecting ability despite the fact that they can always introduce new css classes.
+
+The root cause, is that, CSS is not the correct tool for such task.
+
+## Introducing XPath
+
+Xpath is a set of query string syntax that allow you do *context-dependent* query in any XML document.
+What that really means is you can pick an DOM node (known as `context`), and look around for nodes that satisfies 
+custom criteria.
+
+Xpath is part of the XML standard defined by W3C, and since HTML is (supposed to be) a subset of XML, we are good to go.
+Actually, the DOM standard requires browsers to be able to evaluate Xpath query string, and expose such ability to Javascript runtime by the `document.evaluate()` API.
+
+Logically, the evaluation of any Xpath query string takes 2 arguments: the query string itself and an 
+
+```xpath
+
+```
