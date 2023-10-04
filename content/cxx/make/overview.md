@@ -265,3 +265,34 @@ ${function arguments}
 
 Define new functions
 ---------------
+
+```makefile
+call
+```
+
+Text Manipulation Exhaustive list
+---------------
+
+| function                               | short explanation                                                                                                                                             | e.g.                                  |
+|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------|
+| `$(subst from,to,text)`                | substitution.  Each occurrence of `from` in `text` is replaced with `to`. TODO: whitespace handling?                                                          |                                       |
+| `$(patsubst pattern,replacement,text)` | naive pattern substitution. `%` in `pattern` matches **any occurrence of any characters**; `%` in `replacement` back references `%`-matched text in `pattern` | `$(patsubst %.c,%.o,$(wildcard *.c))` |
+| `$(strip string)`                      |                                                                                                                                                               |                                       |
+| `$(findstring find,in)`                |                                                                                                                                                               |                                       |
+| `$(filter pattern…,text)`              |                                                                                                                                                               |                                       |
+| `$(filter-out pattern…,text)`          |                                                                                                                                                               |                                       |
+| `$(sort list)`                         |                                                                                                                                                               |                                       |
+| `$(word n,text)`                       | extract the n-th (1-indexed) word from text                                                                                                                   |                                       |
+| `$(wordlist s,e,text)`                 |                                                                                                                                                               |                                       |
+| `$(words text)`                        | count # of WS 0x20 separated words                                                                                                                            |                                       |
+| `$(firstword names…)`                  |                                                                                                                                                               |                                       |
+| `$(lastword names…)`                   |                                                                                                                                                               |                                       |
+
+## Path handling Exhaustive list:
+
+|                              |                                                                   |   |
+|------------------------------|-------------------------------------------------------------------|---|
+| `$(dir names…)`              |                                                                   |   |
+| `$(notdir names…)`           |                                                                   |   |
+| `$(suffix names…)`           |                                                                   |   |
+| `$(basename names…)`         |                                                                   |   |
