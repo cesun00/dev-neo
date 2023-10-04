@@ -202,3 +202,21 @@ Trap and interrupt gates both require a return via the interrupt return (IRET) i
 
 
 ## Selectors / segment registers / descriptor registers
+
+Descriptors store critical information which is frequently used during the execution of a program.
+The fact that they reside in memory implies that accessing them requires bus cycles.
+Such information is thus cached in registers known as descriptor registers.
+Old Intel manual
+
+A selector is a conventional 
+
+Registers that have a selector-only visible part are:
+1. segment registers `CS / SS / DS / ES`: as an index into the GDT or LDT for a valid code or data segment descriptor (i.e. `S=1`)
+2. `LDTR`: as an index into the GDT for a valid descriptor table descriptor.
+3. task register `TR`: as an index into GDT for a valid TSS descriptor
+4. `IDTR`:
+
+The phrase *descriptor registers* appears in more recent version of the Intel SDM, and refer to fact that 
+the hidden bits of a segment register are now implemented as a separate register, known as the descriptor register.
+And segment registers, in some context, refer to only the visible 16-bit selector part.
+Indeed, such details are implementation details.
