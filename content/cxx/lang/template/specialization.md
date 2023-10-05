@@ -194,3 +194,43 @@ This is a technique to prevent primary template from being instantiated, thus fo
 https://stackoverflow.com/questions/7064039/how-to-prevent-non-specialized-template-instantiation
 
 
+## The extensional nature of template specialization
+
+Specialization has an extensional nature: everyone can specialize a primary template as long as the definition of the primary template appears earlier in the same translation unit. This means you can specialize templates from included library header and even standard library header, and totally changes its definition:
+
+```c++
+// full specialization of std::vector
+template<>
+class std::vector<int> {
+public:
+    int bar;
+};
+
+
+// partial specialization of std::pair
+template<typename T>
+class std::pair<int, T> {
+public:
+    std::string_view value{"pair can be whatever I want"};
+};
+
+int main() {
+    using std::cout;
+    using std::endl;
+
+    std::vector<int> ff;
+    cout << ff.bar << endl;
+    cout << sizeof(ff) << endl;     // 4
+    // cout<< ff.size() << endl;    // error: no member named 'size' in 'std::vector<int>'
+    std::pair<int,double> my_pair;
+    cout << my_pair.value << endl;
+}
+```
+
+Such mechanics is frequently used in metaprogramming as compile-time user callback: library author simply use `library_namespace::query<T>` when coding `library_namespace::great_algorithm<T>` templates, and expects the user to provided a proper specialization of `query` on whatever same `T` they try to instantiate `great_algorithm` with. Templates like `query` exists sorely to let user specialize them, and the primary template can be as simple as no-op, or only works for a very limited range of types, or even incomplete (i.e. only declaration).
+
+Good exmaple being class template `std::hash<T>` used by hash-based associative containers i.e. `unordered_map` and `unordered_set`.
+Objects of an instantiation of this template is expected to provide an `operator()` as non-static member function and return a `std::size_t` hash value.
+Specification leave the definition of its primary template unspecified, and only requires vendors to provide specialization for certain common types.
+Apparently different `T` requires different ways of computing hash, and primary template can't do much on that.
+In gcc stdlibc++, the primary template only works for enumeration, and causes SFINAE if instantiated with non-enum `T`.
