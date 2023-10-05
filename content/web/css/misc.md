@@ -30,3 +30,28 @@ Absolute length
 - `px`: a CSS pixels
 
     > The reference pixel is the visual angle of one pixel on a device with a pixel density of 96 DPI and a distance from the reader of an arm’s length.
+
+    which implies
+    1. multiple device pixels for printers and high-resolution screens, one CSS pixel
+
+- `cm`: centimeters. Browser must be
+- `mm`: 
+- `Q`: 
+- `in`: 
+- `pc`: 
+- `pt`: 
+
+> Style sheets that use relative length units can more easily scale from one output environment to another.
+
+Advance measure: the length of a character box in either horizontal or verticle direction, depending on the current writing direction.
+
+e.g. For most monospace fonts, the advance measure of `0` is larger in top-to-bottom writing mode than in the left-to-right mode.
+
+Relative units:
+- `cap`: nominal height of capital letters
+- `ch`: the advance measure of the glyph `0` of the element's font.
+- `em`: `font-size` of the element resolved to 
+    - note that using `em`-unit value for `font-size` itself is permitted, and 
+- `ex`: x-height (i.e. height of the glyph `x`) of the element's font;
+- `ic`: advance measure of the `水` (U+6C34, a CJK character) glyph.
+- `lh`: 
