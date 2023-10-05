@@ -63,3 +63,29 @@ Beyond their kindred origin, at langauge level each `interface @Foo {...}` behav
 
     // it's weird to have implementation of annotation, but legal
     class FooTagImpl implements FooTag {
+        @Override
+        public Class<? extends Annotation> annotationType() { return null; }
+    }
+
+    // later in code ...
+    FooTag x = new FooTagImpl(); // ok
+    ```
+
+    That being said, I'm not awared of any use of this feature in real world code.
+    It's just fun to know and something you can impress your colleagues with.
+ 
+This is not some `javac` syntax sugar that compiles `@interface` to plain `interface`.
+The mechanics resides at a deeper layer, involving special treatment from both `javac` and JVM:
+1. If you decompiled a `FooTag.class` you will get the annotation back, not an interface.
+
+    You may doubt if you are using oracle's `javap`: it does emit sources like
+    
+    ```java
+    public interface FooTag extends java.lang.annotation.Annotation {}
+    ```
+
+    But if you inspect the bytecode and refer to JVMS, 
+
+2. run time JVM knows `Foo` is an annotation, instead of an interface.
+
+More to note:
