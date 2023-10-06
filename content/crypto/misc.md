@@ -31,3 +31,41 @@ The key's randomart image is:
 |        .. .O.=  |
 |           o.O.. |
 |          . =.+. |
+|           oo... |
++----[SHA256]-----+
+```
+
+In implementing bit-order and byte-order
+========
+
+|          | pro | con |
+|----------|-----|-----|
+| LSB0     |     |     |
+| MSB0     |     |     |
+| LSB last |     |     |
+| MSB last |     |     |
+
+### LSB0
+
+Pro
+1. C's unsigned integer widening conversion naturally serves as appending unused 0 bit to the bit sequence.
+
+Con
+1. Treating consecutive bits as an integer, with first bits be more significant, requires reversing the bit order.
+
+### MSB0
+
+
+
+
+Block Cipher
+=========
+
+A block cipher embodies a random permutation generator....
+
+
+## Windows Root CA Management
+
+Certificate Store is Windows's abstraction for security-sensitive information storage, e.g. SSL certificates.
+
+Windows support 2 certificate stores, a user-specific one and a system-wide one, search for `manage user/computer certificates` in startup respectively. (The latter requires admin privilege.)
