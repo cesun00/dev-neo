@@ -951,3 +951,11 @@ struct thread_info {
 	struct thread_struct		thread;
 
 	/*
+	 * WARNING: on x86, 'thread_struct' contains a variable-sized
+	 * structure.  It *MUST* be at the end of 'task_struct'.
+	 *
+	 * Do not put anything below here!
+	 */
+};
+```
+
