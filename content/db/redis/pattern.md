@@ -28,3 +28,37 @@ Quick Facts:
 
 ## 时间切片敏感key
 
+方案来自 https://redis.io/commands/INCR Rate limiter 1
+```
+MULTI
+INCR key
+EXPIRE key <#sec>
+EXEC
+
+cnt = response of INCR
+if (cnt > THRESHOLD)
+    return "rate overflow"
+
+your business goes here
+```
+
+## 固定时间切片
+
+错误示范1:
+
+```
+boolean isKeyExist = EXISTS key
+if (isKeyExist == 1)
+    cnt = INCR key
+    if (cnt > THRESHOLD)
+        return "rate overflow".
+else
+    SET key 1 EX <#sec>
+```
+
+```
+global clock tick
+        |   thread 1: find key not exist
+        |   thread 2: find key not exist
+        |   thread 1: set key to 1
+        |   thread 2: set key to 1
