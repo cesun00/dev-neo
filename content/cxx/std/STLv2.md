@@ -99,3 +99,37 @@ It's programmer's responsibility to guarantee that a `view` does not outlive its
 
 `ref_view` ctor takes any `range`, apparently when the argument is an rvalue expression, it dangles immediately:
 
+<!-- BEGIN TODO - this concept is still a myth to me. -->
+
+<!-- // ============= -->
+- Every `viewable_range` is `range`.
+- There is no subset or superset relationship between `viewable_range` and `view`.
+  - There can be `viewable_range` that is not a `view`. There can be `view` that is not a `viewable_range`.
+
+A `view` is a reference to a subsequence of a `range`.
+Due to its referencing nature, 
+
+
+<!-- -- `ref_view(rvalue expression of type range)` always dangle --  -->
+
+<!-- // ============ -->
+
+As a library author, when your function takes a `view`-constrained parameter, there are some cases you know it will NEVER dangle:
+
+```c++
+template<std::ranges::view T>
+void foo(T t) {}
+```
+
+<!-- 1. -->
+
+```c++
+using ref_view_vector_int_t = std::ranges::ref_view<std::vector<int>>;
+if constexpr (std::ranges::view<ref_view_vector_int_t>) {     // true
+    std::puts("ref_view<std::vector<int>> satisfies view");
+}
+
+// sizeof(std::ranges::ref_view<vec>) = 8
+std::printf("sizeof(std::ranges::ref_view<vec>) = %lu\n", 
+    sizeof(std::ranges::ref_view<ref_view_vector_int_t>));
+```
