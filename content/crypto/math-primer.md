@@ -30,3 +30,32 @@ Integer addition, at bit level has the following truth table
 |---|---|--------------|
 | 0 | 0 | 1            |
 | 1 | 1 | 0 with carry |
+
+Bitwise XOR, on the other hand
+
+| ^ | 0 | 1 |
+|---|---|---|
+| 0 | 0 | 1 |
+| 1 | 1 | 0 |
+
+If you are adding 2 integers `a + b`, and none of their bits are both set on the same position, (i.e. `1 + 1` never appears, )
+then `a + b` is the same as `a ^ b`. (sometimes referred to as "+ and ^ are the same in modular-2 arithmetic")
+
+## Mapping categories
+
+| normative name          | common name           | comment |
+|-------------------------|-----------------------|---------|
+| injective               | one-to-one  functions |         |
+| surjective              | onto  functions.      |         |
+| permutation / bijection | one-to-one and onto   |         |
+
+### mod
+
+
+#### math
+
+For an integer `n > 1`, modular arithmetic shows taht many interesting property on 
+
+
+#### C
+
