@@ -37,3 +37,17 @@ libc.so.6 => /usr/lib/libc.so.6 (0x00007fd259c21000)
 
 Add `-d` option to `make` will print the detailed linking step:
 
+```sh
+/bin/sh ../libtool --silent --tag=CC   --mode=link gcc -fvisibility=hidden -Wall -Wstrict-prototypes -Wmissing-prototypes -Wpointer-arith        -Wmissing-declarations -Wredundant-decls -Wnested-externs        -Wsign-compare -Wreturn-type -Wswitch -Wshadow        -Wcast-qual -Wwrite-strings -Wextra -Wunused-parameter -Wformat=2 -g -O2  -static -o file file.o seccomp.o libmagic.la -lm -lz 
+#                                       ^ LDFLAGS was fed here
+```
+
+TODO: unfinished
+
+01.18
+=============
+
+1. Done: git credentials
+
+01.19
+============
