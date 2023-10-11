@@ -369,3 +369,36 @@ Service unit usually starts a daemon process. In order for systemd to track the 
 
 - `Type=idle`
     1. Like `Type=simple`, except that systemd will delay execution of the service binary until all jobs are dispatched.
+
+### slice / scope
+
+A `.slice` unit corresponds to a cgroup in the cgroupv2 hierarchy. Slice unit can be said to have parent / ascendants / child / descedants.
+
+- Root slice unit is `-.slice`, stands for the root of cgroupv2 VFS.
+- If the segments of dash-separated name of a slice is the prefix of another, the latter will become child cgroup of the prior.
+
+    e.g. If both `user.slice` and `user-1000.slice` are active, `/sys/fs/cgroup` will contain nested directories `user.slice/user-1000.slice/`.
+
+A `.slice` unit corresponds to the presence of a cgroup in a cgroup hierarchy from systemd's perspective.
+
+## User Mode Systemd Instance
+
+Systemd is designed to support user-level multi-instancing. The aim is to allow non-root users to enjoy functionalities brought by systemd, though in a unprivileged fashion, including running their own unprivileged daemons, or mount filesystems etc.
+
+The exact timing for creation of a user-level instance depends on an option called *lingering*:
+
+When lingering is `off` for a specific user:
+1. The default configuration of in `/etc/pam.d/system-login` asks `pam_systemd` module to fork-exec a `systemd --user` process for a user when that user login for the first time.
+2. That process survives as long as there is some session for that user;
+3. and will be killed as soon as the last session for the user is closed
+
+When lingering is turned on by `loginctl enable-linger <login>`, the systemd user instance will be started right after boot (?), and keep running after the last session closes.
+
+The user-level systemd instance is forked from the root systemd (pid=1) process, and exec-ed with the `--user` flags:
+
+```sh
+# ps -F --ppid 1
+UID          PID    PPID  C    SZ   RSS PSR STIME TTY          TIME CMD
+cedo        1122       1  0  4580 11032   1 00:13 ?        00:00:00 /usr/lib/systemd/systemd --user
+cedo        1132       1  0 96046  7384  21 00:13 ?        00:00:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+```
