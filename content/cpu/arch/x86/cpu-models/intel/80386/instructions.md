@@ -210,3 +210,29 @@ e.g. invalid instruction or divide-by-zero. A system programmer is supposed to f
 
 An interrupt is assigned a number and range `0-31` are non-maskable interrupts (NMI).
 
+- `INT n` (software interrupt): same as `CALL`, except that
+    1. `operand` is an index into the interrupt table from which the jump target address can be lookup-ed, rather than an offset of register.
+    <!-- 2. -->
+- `INTO` (interrupt on overflow): invokes `INT 4` if OF is set.
+- `INT3` ()
+- `BOUND register, addr` (Detect Value Out of Range): `addr` is dereferenced to get adjacently stored `lower` and `higher` numeric values; invoke `INT 5` if the signed value contained in `register` is out of the range.
+- `IRET` (return from interrupt): same as `RET`, except that `EFLAGS` is also restored (i.e. `POP EFLAGS`)
+
+## Strings manipulations
+
+Indirect, indexed addressing, with automatic incrementing or decrementing of the indexes.
+
+string manipulation state registers:
+- `ESI` -- Source index register
+- `EDI` -- Destination index register
+
+Control flag:
+-DF -- Direction flag
+
+Control flag instructions:
+- CLD -- Clear direction flag instruction
+- STD -- Set direction flag instruction
+
+
+
+
