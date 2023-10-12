@@ -62,3 +62,31 @@ The following pairs differs in their storage of `X`: internal buffer v.s. client
 4. `srand48(long)` / `seed48(unsigned short[3])` / `lcong48(unsigned short param[7])`
 
 Seeding functions.
+
+- `srand48` sets the 32-MSB of `X` with the 32-LSB of argument `long`, and the 16-LSB of `X` with `0x330e`.
+- `seed48` sets 48-bit `X` directly, and return the previous value of `X`.
+- `lcong48` sets 48-bit `X` with `param[0-2]`, `a` with `param[3,5]`, `c` with `param[6]`; i.e. allow changing default slope and intercept of the line. Any subsequent call to `srand48` or `seed48` restores the default `a` and `c`.
+
+One of those must be called before using `[dlm]rand48()`, but not `[enj]rand48()`.
+
+## glibc-specific `getentropy()` (non-POSIX)
+
+Return array of random bytes.
+
+A wrapper to the kernel `getrandom()`.
+
+## Linux syscall `getrandom()`
+
+Return array of random bytes.
+
+This syscall shares the same random source as
+- `/dev/urandom` by default, thus usually won't block; exception is when urandom source is not initialize after boot (TODO: example).
+- `/dev/random`, if `GRND_RANDOM` flag is set. in which case `getrandom()` blocks if kernel entropy is low.
+
+ But is convenient when inside a chroot environment and filesystem pathes i.e. `/dev/?random` are not available.
+
+## `/dev/random` & `/dev/urandom`
+
+Convenient device files when array of random noise bytes are desired.
+
+If arithmetic types (e.g. long / double) are desired, consider using the `rand48()` family which directly return those with nice distribution promise.
