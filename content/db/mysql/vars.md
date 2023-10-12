@@ -29,3 +29,31 @@ SELECT @myvar:=SUM(Population) from city;
 
 select @myvar;
 # +------------+
+# | @myvar     |
+# +------------+
+# | 1429559884 |
+# +------------+
+# 1 row in set (0.00 sec)
+```
+
+If assigning to a whole column, the variable will record the value of the last row:
+
+```sql
+SELECT @myvar2:=Population FROM city LIMIT 10;
+# +---------------------+
+# | @myvar2:=Population |
+# +---------------------+
+# |             1780000 |
+# |              237500 |
+# |              186800 |
+# |              127800 |
+# |              731200 |
+# |              593321 |
+# |              440900 |
+# |              234323 |
+# |              201843 |
+# |              193238 |
+# +---------------------+
+# 10 rows in set, 1 warning (0.00 sec)
+
+SELECT @myvar2;
