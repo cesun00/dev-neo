@@ -1,0 +1,57 @@
+<table>
+    <thead>
+        <tr>
+            <td>option name</td>
+            <td>semantics</td>
+            <td>possible values</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>core.eol</code></td>
+            <td>
+                Determine the character sequence git uses as line separator when
+                <ol>
+                    <li>creating files in the working directory by checking out an existing commit</li>
+                    <li></li>
+                </ol>
+            </td>
+            <td>
+                <ul>
+                    <li><code>lf</code></li>
+                    <li><code>crlf</code></li>
+                    <li><code>native</code> (default)</li> 
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td><code>core.autocrlf</code></td>
+            <td>
+                Known as the end-of-line conversion, this option controls
+                <ol>
+                    <li>whether to convert an <code>LF</code> to <code>CRLF</code> when checking out a commit into the working directory.</li>
+                    <li>whether to convert a <code>CRLF</code> to <code>LF</code> when making a commit into the repository.</li>
+                </ol>
+            </td>
+            <td>
+                <ul>
+                    <li><code>true</code>: convert both 1 and 2</li>
+                    <li><code>false</code> (default): don't convert</li>
+                    <li><code>input</code>: convert only 1 </li>
+                </ul>
+                (<a href="https://github.com/git/git/blob/1a87c842ece327d03d08096395969aca5e0a6996/convert.h#L21">false is not mentioned in the doc, but supported</a>)
+            </td>
+        </tr>
+        <tr>
+            <td><code>core.safecrlf</code></td>
+            <td>ffffd</td>
+            <td>
+                <ul>
+                    <li><code>warn</code></li>
+                    <li><code>warn</code></li>
+                    <li><code>warn</code></li>
+                </ul>
+            </td>
+        </tr>
+    </tbody>
+</table>
