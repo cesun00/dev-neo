@@ -73,3 +73,38 @@ Misc:
 - PAR: (Command and Address) Parity Input.
 
 
+## Organization
+
+### Bank & Bank Group
+
+All DDR chips are organized into "banks".
+
+
+DDR4 further organizes banks into *bank group*. `JESD79-4` requires that all DDR4:
+- `x4` or `x8` chip has 4 bank groups of 4 banks each, i.e. 16 banks
+- `x16` chip has 2 bank groups with 4 banks each, i.e. 8 banks.
+
+Each bank has its own row of sense amplifier attached to its bitlines.
+
+Bank is the unit of
+- command handling. Each bank is able to handle a read ..., while rows from other banks can be read simultaneously.
+- row open/close. Only one row can be opened per bank, but each bank can open its own row independently.
+
+
+The purpose of such bank-based division is to that ...
+
+## Registers
+
+### Mode Registers
+
+
+DDR4 provides 7 mode registers named from `MR0` to `MR6`, each can be think as a 14-bit struct with bit field.
+They store parameters that determine runtime behavior of the SDRAM chip.
+
+To write to a mode register, issue the one-off `MRS` (mode register set) command, which uses the encoding:
+1. assert (lower) `RAS (A16)`, `CAS (A15)` and `WE (A14)`
+2. `BG0 BA0 BA1` as register selection (with `BG1` must be 0 reserved for future). `000` means `MR0` and `110` means `MR6` etc.
+3. `A0 - A13` as OPCODE (with `A17` must be 0 reserved for future)
+
+There is no partial write, and an `MRS` always clobber all bits. It's memory controller's responsibility to keep the state.
+Important time measures:
