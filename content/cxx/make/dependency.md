@@ -186,3 +186,15 @@ func_foo:
 	@echo "do you know that having phony target as prerequisites feels like function calls?"
 ```
 
+another example from kernel:
+
+```makefile
+$(MAKECMDGOALS): __build_one_by_one
+	@:
+
+__build_one_by_one:
+	$(Q)set -e; \
+	for i in $(MAKECMDGOALS); do \
+		$(MAKE) -f $(srctree)/Makefile $$i; \
+	done
+```
