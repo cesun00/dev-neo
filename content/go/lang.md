@@ -243,3 +243,37 @@ https://blog.golang.org/defer-panic-and-recover
     Deferred functions may read and assign to the returning function's named return values.
 
 ### Don't defer close on writable files
+
+https://www.joeshaw.org/dont-defer-close-on-writable-files/
+
+`func (*File) close` flush the write buffer and this flush might be unsuccessful. `defer` a function call ignores error.
+
+## Type declaration
+
+There are 2 syntaxes for introducing a new type:
+
+{{<columns>}}
+
+#### type alias
+
+```go
+type foo =  map[string]int
+```
+
+<--->
+
+#### type definition
+
+```go
+type foo map[string]int
+```
+
+{{</columns>}}
+
+
+Conceptually, aliased name is an alias for the original type, and is always considered identical to the original type.
+
+Type definition introduce a new type, is always considered different from the original type, but based on the original type, 
+
+For type alias, the following code fails to compile, because 2 identical types appear in the switch branches.
+For type definition, it prints "foo"
