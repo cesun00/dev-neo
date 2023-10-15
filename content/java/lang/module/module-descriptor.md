@@ -67,3 +67,5 @@ descriptor:
 `open` & `opens`
 =============
 
+`provides` and `uses` {#enhanced-spi}
+============
