@@ -825,3 +825,30 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── tegra/
 │   │   └── xilinx/
 │   ├── gpu/
+│   │   ├── drm/
+│   │   │   ├── arm/
+│   │   │   ├── bridge/
+│   │   │   │   ├── analogix/
+│   │   │   │   ├── cadence/
+│   │   │   │   ├── imx/
+│   │   │   │   └── synopsys/
+│   │   │   ├── display/
+│   │   │   ├── gud/
+│   │   │   ├── hisilicon/
+│   │   │   ├── i2c/
+│   │   │   ├── i915/
+│   │   │   │   ├── display/
+│   │   │   │   ├── gem/
+│   │   │   │   ├── gt/
+│   │   │   │   │   └── uc/
+│   │   │   │   ├── pxp/
+│   │   │   │   ├── soc/
+│   │   │   ├── imx/
+│   │   │   ├── mxsfb/
+│   │   │   ├── omapdrm/
+│   │   │   ├── panel/
+│   │   │   ├── renesas/
+│   │   │   │   └── rcar-du/
+│   │   │   ├── solomon/
+│   │   │   ├── tests/
+│   │   │   ├── tilcdc/
