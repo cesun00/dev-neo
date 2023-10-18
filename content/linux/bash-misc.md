@@ -637,3 +637,32 @@ But remember after desugaring the line is really:
 1>&2 echo "echo to stderr" 2>&1 | hexdump -C     # again, hexdump receives nothing
 ```
 
+Don't forget that pipeline happens first, and then redirection/duplication happens in textual order. So
+
+1. echo's stdout are connected to hexdump's stdin (pipeline)
+2. echo's stdout dup stderr (the tty)
+3. echo's stderr dup stdout (the tty)
+
+Thus everything is still sent to the terminal.
+
+### heredoc
+Heredoc is still affected by all the bash expansion rules:
+
+```bash
+cat <<EOF
+${BASHPID}
+EOF
+# prints: 11216
+```
+
+### here string
+
+### function / block construct can be redirected
+
+```bash
+fooo() {
+	head -c3 -
+	echo
+	head -c3 -
+	echo
+	head -c3 -
