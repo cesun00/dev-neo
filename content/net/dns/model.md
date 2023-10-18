@@ -170,3 +170,33 @@ ns3.dnsv5.com.	172800	IN	A	35.165.107.227
 
 
 - Authoritative Name server Hirarchy:
+
+    Such server will:
+    1. respond with `AA=1` for
+    2. respond with *referral*
+
+    - . The answer to the resolver’s QUESTION in the ANSWER section of the query response.
+    - 2. A referral (indicated by an empty ANSWER section but data in the AUTHORITY section, and typically IP addresses
+    - in the ADDITIONAL section of the response).
+    - 3. An error (such as NXDOMAIN - the name does not exist).
+
+- (caching) resolver:
+
+    These type of components
+
+    - full-service resolver / recursive resolver: a name server that is willing to accept `RD=1` query and iteratively sends multiple queries to the DNS hierarchy until the answer is obtained on behalf of a client.
+
+        The resolver always starts with root servers and sends an iterative query (4, 5, and 6).
+
+    - forwarding resolver: a name server that is willing to accept `RD=1` query but simply forward the query to a full-service resolver. This is useful in scenarios like a organization's intranet where a single forwarding resolver is deployed. All users in the intranet use this DNS, reducing total outbound network requests as well as easing the maintanance.
+    - stub resolvers: these are programs on an end-user's PC that send `rd=1` to an real dns server. Instead of accepting anything, they are more likely to accept library call from applications. Example being the GLIBC builtin DNS implementation, which respect the `/etc/resolv.conf` config file.
+
+    Not knowning these terms doesn't stop you from being a good DNS admin, but it's good to know the difference.
+
+
+
+Generically, the authoritative NS of suffix `foo.bar`
+
+## the problem
+
+Authorittaive server and zone transfer could use complete different protocol other than sharing the same DNS message format  (and there are good reasons are... )
