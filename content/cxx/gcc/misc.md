@@ -57,3 +57,31 @@ CORE_DEPS = src/core/nginx.h \
 	src/core/ngx_config.h \
 	src/core/ngx_core.h \
 	src/core/ngx_log.h \
+	src/core/ngx_palloc.h \
+	src/core/ngx_array.h \
+    # omitting...
+
+objs/src/core/nginx.o:	$(CORE_DEPS) \
+	src/core/nginx.c
+	$(CC) -c $(CFLAGS) $(CORE_INCS) \
+		-o objs/src/core/nginx.o \
+		src/core/nginx.c
+```
+
+Another way to do this is to let GCC generate that info.
+
+
+Suppose the line `#include "foo.h"` is in `main.c`: TODO
+
+```makefile
+all:main.o
+	gcc main.o
+
+# note that `foo.h` must be a dependency of `main.o`,
+# otherwise changes in `foo.h` won't lead to re-compilation of `main.o`
+main.o:main.c foo.h
+	gcc -c main.c
+
+clean:
+	rm *.o a.out
+```
