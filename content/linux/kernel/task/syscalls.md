@@ -146,3 +146,22 @@ struct kernel_clone_args {
 	/* Number of elements in *set_tid */
 	size_t set_tid_size;
 	int cgroup;
+	int idle;
+	int (*fn)(void *);
+	void *fn_arg;
+	struct cgroup *cgrp;
+	struct css_set *cset;
+};
+```
+
+
+
+### `clone` Flags
+
+{{<content/kernel-task/clone-flags>}}
+
+## pctrl
+
+## unshare
+
+## 
