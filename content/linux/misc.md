@@ -66,3 +66,8 @@ Width/Height of the resulting image will be the maximum width/height among all i
 convert -append 1.jpg 2.jpg out.jpg # vertically
 convert +append 1.jpg 2.jpg out.jpg # horizontally
 ```
+
+## symbol versioning
+
+https://stackoverflow.com/questions/2856438/how-can-i-link-to-a-specific-glibc-version
+https://man7.org/conf/lca2006/shared_libraries/slide19a.html
