@@ -134,3 +134,12 @@ private <T> void doRegisterBean(
     @Nullable Supplier<T> supplier,                         // override default way of creating an `T` instance by `new T(...)`
     @Nullable BeanDefinitionCustomizer[] customizers        // with callbacks allowing client to modify the `BeanDefinition` created
 )
+```
+
+## `class ClassPathBeanDefinitionScanner`
+
+This class extends root `class ClassPathScanningCandidateComponentProvider`, and 
+
+
+
+## `BeanDefinitionCustomizer`
