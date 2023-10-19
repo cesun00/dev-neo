@@ -30,3 +30,31 @@ The sub-interface `java.util.concurrent.ExecutorService` fixes these problems an
 ```java
 public interface ExecutorService extends Executor {
 
+    // shutdown request and management
+    void shutdown();
+    List<Runnable> shutdownNow();
+    boolean isShutdown();
+    boolean isTerminated();
+    boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException;
+
+
+    // better task submission APIs
+    <T> Future<T> submit(Callable<T> task);
+    <T> Future<T> submit(Runnable task, T result);
+    Future<?> submit(Runnable task);
+
+
+    // convenience methods for running all / any task(s) in a collection, and block until all have / any has completed
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)                              throws InterruptedException;
+    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException;
+    <T> T invokeAny(Collection<? extends Callable<T>> tasks)                                            throws InterruptedException, ExecutionException;
+    <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)               throws InterruptedException, ExecutionException, TimeoutException;
+}
+```
+
+Changing the task submission APIs to accept `Callable<T>` and return `Future<T>` permits type-safety and exception-tolerance codes.
+Also, methods that allow graceful handling of thread pool shutdown and resource reclamation are added.
+
+`java.util.concurrent.AbstractExecutorService` is the base implementation containing the common logic of all `ExecutorService`.
+All methods have been implemented (though the template method pattern is employed to leave some customization space for subclasses) except the 5 shutdown-handling ones, since shutdown codes are usually implementation-specific (see below).
+
