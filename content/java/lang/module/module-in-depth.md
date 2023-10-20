@@ -124,3 +124,18 @@ and will be respected by JVM when CLI invocation doesn't give a main class:
 java -m com.foo
 ```
 
+https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.7.27
+
+
+The main class name is stored in the constant pool of `an `attribute_info` instance which appears at the end of [a class file structure](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.1)
+
+An executable module is a module whose `module-info.class` has [the predefined `ModuleMainClass` Class-file attributes](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.7.27), and can be run directly by the `java` command. As of JDK 21, the only way to create such an attribute is to use the `jar` or `jmod` tool with the `--main-class` option, meaning that you must package a jar or jmod file if you want to execute a module from a certain `main()` method in one of its classes.
+
+The problem is that neither has `module-info.java` a directive to specify a main class, nor does `javac` provide an option to specify one at compile time.
+
+It turned out that this is by design, and there is a discussion on openjdk's maillist about this 
+
+https://mail.openjdk.org/pipermail/jigsaw-dev/2017-February/011464.html
+
+The JVM `java`
+==============
