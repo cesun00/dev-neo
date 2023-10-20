@@ -203,3 +203,22 @@ Depending on where those those `.woff2` font files are served from,
 - The Web Open Font Format (WOFF)
 
     WOFF is a font format for use in web pages. It was developed in 2009, and is now a W3C Recommendation. WOFF is essentially OpenType or TrueType with compression and additional metadata. The goal is to support font distribution from a server to a client over a network with bandwidth constraints.
+
+- The Web Open Font Format (WOFF 2.0)
+
+    TrueType/OpenType font that provides better compression than WOFF 1.0.
+
+- SVG Fonts/Shapes
+
+    SVG fonts allow SVG to be used as glyphs when displaying text. The SVG 1.1 specification defines a font module that allows the creation of fonts within an SVG document. You can also apply CSS to SVG documents, and the @font-face rule can be applied to text in SVG documents.
+
+- Embedded OpenType Fonts (EOT)
+
+    EOT fonts are a compact form of OpenType fonts designed by Microsoft for use as embedded fonts on web pages.
+
+## Variable font
+
+Variable fonts allow one font file to contain multiple variations.
+You can change the weight, width, style, optical size, and more. The variables within variable fonts are controlled by axes.
+
+https://fonts.google.com/knowledge/introducing_type/introducing_variable_fonts
