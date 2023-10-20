@@ -122,3 +122,34 @@ objects = *.o       # NO expansion. `objects` stores '*.o' literally
 output: $(objects)  # `$(objects)` substituted by '*.o', then make expands
 
 # to store all object files in `objects`, use
+objects := $(wildcard *.o)      # note the := syntax means to expand RHS immediately
+```
+
+### Patterned target & patterned dependency
+
+```makefile
+# a rule that are selected for all `make *.c` 
+
+%.c: 
+    # the actual invoked target is obtained by `$@`
+
+%.o: %c
+    # 
+```
+
+
+
+Collect file names in a variable with `$(wildcard)` and depend on the expanded result of that variable.
+
+
+### Empty recipe
+
+```
+target: ;
+```
+
+## Target Execution & Error Handling
+
+
+### 2 phase execution
+
