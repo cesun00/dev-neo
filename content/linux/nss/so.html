@@ -1,0 +1,84 @@
+<table>
+    <thead>
+        <tr>
+            <td>service</td>
+            <td>shared object</td>
+            <td>from package</td>
+            <td>semantics</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>compat</td>
+            <td><code>/lib/libnss_compat.so.X  </code></td>
+            <td>glibc</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>db</td>
+            <td><code>/lib/libnss_db.so.X      </code></td>
+            <td>glibc</td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>dns</td>
+            <td><code>/lib/libnss_dns.so.X     </code></td>
+            <td>glibc</td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>files</td>
+            <td><code>/lib/libnss_files.so.X   </code></td>
+            <td>glibc</td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>hesiod</td>
+            <td><code>/lib/libnss_hesiod.so.X  </code></td>
+            <td>glibc</td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>nis</td>
+            <td><code>/lib/libnss_nis.so.X     </code></td>
+            <td>
+                <a href="https://github.com/thkukuk/libnss_nis"></a>
+            </td>
+        </tr>
+        <tr>
+            <td>nisplus</td>
+            <td><code>/lib/libnss_nisplus.so.X </code></td>
+            <td>
+                <p>Isolated from <a href="https://github.com/thkukuk/libnss_nisplus"></a></p>
+                <p>This module is now deprecated. Its maintanence ceased.</p>
+            </td>
+        </tr>
+        <tr>
+            <td>sss</td>
+            <td><code>libnss_sss.so.2</code></td>
+            <td><a href="https://archlinux.org/packages/extra/x86_64/sssd/">sssd</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>mdns*_*</td>
+            <td>
+                <pre>
+libnss_mdns4_minimal.so.2
+libnss_mdns4.so.2
+libnss_mdns6_minimal.so.2
+libnss_mdns6.so.2
+libnss_mdns_minimal.so.2
+libnss_mdns.so.2
+                </pre>
+            </td>
+            <td><a href="https://archlinux.org/packages/extra/x86_64/nss-mdns/">nss-mdns</a></td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>systemd</td>
+            <td><code>libnss_systemd.so.2</code></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
