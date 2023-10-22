@@ -27,3 +27,31 @@ options {
     directory "/var/named";                 // the working directory contains zone files etc.
     pid-file "/run/named/named.pid";
 
+    listen-on-v6 {
+        // interfaces to listen on, IPv6 address
+        // ...
+
+        any;        // special `any` listen on all IPv6 ifaces
+    };
+
+    // Uncomment these to enable IPv6 connections support
+    // IPv4 will still work:
+    
+    // Add this for no IPv4:
+    //  listen-on { none; };
+
+    // 
+    allow-recursion {
+        127.0.0.1;
+    };
+    allow-transfer { none; };
+    allow-update { none; };
+
+    version none;
+    hostname none;
+    server-id none;
+};
+
+zone "localhost" IN {
+    type master;
+    file "localhost.zone";
