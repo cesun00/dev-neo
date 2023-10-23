@@ -1559,3 +1559,13 @@ $(KCONFIG_CONFIG):
 
 <!-- A variant that ensures `include/config/auto.conf` plus `include/generated/autoconf.h` exist
 
+```makefile
+include/config/auto.conf:
+	@test -e include/generated/autoconf.h -a -e $@ || (		\
+	echo >&2;							\
+	echo >&2 "  ERROR: Kernel configuration is invalid.";		\
+	echo >&2 "         include/generated/autoconf.h or $@ are missing.";\
+	echo >&2 "         Run 'make oldconfig && make prepare' on kernel src to fix it.";	\
+	echo >&2 ;							\
+	/bin/false)
+``` -->
