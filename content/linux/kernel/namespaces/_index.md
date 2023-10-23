@@ -37,3 +37,25 @@ e.g. A task associated
 
 As shown, there is 
 - a single `time` namespace instance
+- a single `cgroup` namespace instance
+- a single `uts` namespace instance 
+- a single `ipc` namespace instance
+- a single `mnt` namespace instance
+- 3 `user` namespace instances
+- 54 `pid` namespace instances
+
+```sh
+```
+
+## Create a new namespace instance
+
+A new namespace instance of a given type must be created by `clone`-ing a new task as the first process in that namespace.
+This has to be done via the `clone / __clone2 / clone3` syscalls with the following bits set in the `flag` bit field:
+- `CLONE_NEWCGROUP`: 
+- `CLONE_NEWIPC`: 
+- `CLONE_NEWNET`: 
+- `CLONE_NEWNS`: 
+- `CLONE_NEWPID`: 
+- `CLONE_NEWTIME`: 
+- `CLONE_NEWUSER`: 
+- `CLONE_NEWUTS`: 
