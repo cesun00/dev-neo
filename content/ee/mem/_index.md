@@ -120,3 +120,25 @@ A suffix `_n` or `#` indicate a low-active pin.
 
 `# of row > # of column`, so a `READ` or `WRITE` will not use all the address lines.
 An unused higher bit of `A[]` bus will be used to indicate whether this is a auto-precharge read / write.
+
+- `CL (CAS Latency)`:
+
+
+### `WRITE`: start write burst, or one-off write then precharge
+
+### `REFRESH` / `AUTO REFRESH` / self refresh mode
+
+Auto means chip maintain the self-incrementing address counter, thus user doesn't need to specify the address.
+
+## Burst
+
+All modern SDRAM chip performs read / write in a *burst* manner, parameterized by an `BL` value configurable via the mode register.
+Each row in a bank is logically divided into `BL`-sized blocks. 
+
+A `READ` command selecting a specific cell effectively selects the block that cell is in.
+Instead of only outputing the request cell, the content of all cells in that block will be made available on `DQ` one after one, in either `Sequential` or `Interleaved` order determined by the `burst type` field in the mode register.
+
+Common value of `BL` is 2/4/8.
+- When `BL=1`, a burst read effectively decay to a single cell read. Depending on the chip, `BL=1` may be not supported.
+- `SDR` and `DDR1` supports `BL=FULLPAGE`, a special enum that continuously output all cells in a row, until a `BURST TERMINATE` command is entered.
+- support `BL` of larger length isn't really useful, as it also increase the chance of giving user unwanted data willy nilly.
