@@ -36,3 +36,29 @@ This causes chaos in.
 Spring has a weirdly named iface hierarchy for representing parsed information on class and method:
 
 ```yml
+# common APIs for accesssing parsed annotation info on annotated *things* in java,
+interface AnnotatedTypeMetadata (core.type)
+
+    # adds API for accesssing parsed annotation on method - why not AnnotatedMethodMetadata??
+    - interface MethodMetadata (core.type)             
+        - class StandardMethodMetadata (core.type)
+        - class SimpleMethodMetadata (core.type.classreading)
+        - class MethodMetadataReadingVisitor (core.type.classreading)
+
+    # adds API for accesssing parsed annotation on class - why not AnnotatedClassMetadata??
+    - interface AnnotationMetadata (core.type)
+        - class StandardAnnotationMetadata (core.type)
+        - class SimpleAnnotationMetadata (core.type.classreading)
+        - class AnnotationMetadataReadingVisitor (core.type.classreading)
+```
+
+![](./AnnotatedTypeMetadata.png)
+
+## API & Parsing Details
+
+You always parse the annotation info of a given class, and annotation info on a specific method of that class comes as a gift,
+via the `AnnotationMetadata.getAnnotatedMethods()` method.
+
+Since Spring 5, static method `static AnnotationMetadata introspect(Class<?> type)` becomes the recommended API to introspect
+any class for its annotation info. It deprecates the old way of `new StandardAnnotationMetadata(clazz)` ctor.
+
