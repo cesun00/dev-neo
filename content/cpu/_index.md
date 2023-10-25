@@ -57,3 +57,38 @@ Deeper pipeline means
 
 ## "Superscalar" a.k.a multiple-issue
 
+"Superscalar" is Intel's marketing name of a instruction pipelining technique.
+ 
+pipelined computer usually has "pipeline registers" after each stage. These store information from the instruction and calculations so that the logic gates of the next stage can do the next step.
+
+It is common for even-numbered stages to operate on one edge of the square-wave clock, while odd-numbered stages operate on the other edge.
+
+Finding a branch instruction in the decode stage simply indicates that all later instructions currently in the pipeline before the decode stage is garbage.
+Design varies when it comes to the question "what to do when decode stage reports a branch instruction".
+
+1. Do nothing. The pipeline runs as usual, 
+2. Discard all garbage in the pipeline (known as *pipeline flushing*)
+
+### multiple-issue width
+
+- more issue width means
+- less TODO
+
+## hazard
+
+hazards are situations where the next instruction cannot execute in the following clock cycle, and, if it does so anyway, can potentially lead to incorrect computation results.
+
+Traditional programming model (i.e. before the advent of pipelined processor) assumes:
+1. instructions are executed one after one in their text order in the program; and
+2. the consequence of a previous instruction is immediately available to the next adjacent one:
+
+```
+# assuming old AX is 42
+ADD 1 to AX         
+MOV AX to BX        # according to SEA, a read from AX should observe incremented AX, i.e. 43
+```
+
+Applying naive pipeline will break that assumption: think about a sliding window over instruction texts unconditionally slide 1 instruction forward upon each clock tick. 
+In the example above, `read from AX` in the 2nd instructions can happen before `write of incremented value to AX` in 1st instruction, since execution stage is after read stage.
+
+Thus pipeline designer face the choice:
