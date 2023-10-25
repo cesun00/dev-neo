@@ -113,3 +113,38 @@ For 8086/8088, EA is computed by the execution unit (EU) when an instruction is 
 This value is then made available on an internal bus connecting the EU and the BIU (bus interface unit).
 The BIU reads the selected segment register, shifts its value, and adds it with EA to get the physical address.
 
+The term *segment* is really an illusion created by ...
+
+The consequences of such memory segmentation are:
+1. there are 4096 different combinations of `base + offset` to address any location in the physical memory.
+2. Each segment is thus naturally aligned on a 16-byte boundary and is 64KiB in size.
+3. Segments can thus be adjacent, disjoint, partially overlapped, or fully overlapped.
+
+In retrospect, the biggest motivation for having segmentation at all is the insufficient register width.
+Also, an implied segment base address reduces the size of each instruction,
+since only the offset needs to be mentioned in each instruction.
+
+There has long been criticism against this segmentation:
+1. TODO
+
+<!-- Memory segment is a weird solution indeed, and  - as you can see - not all CPU designs need it - at least not those whose # of address lines is equal to or less than the width of registers. I believe nowadays there is still  -->
+
+
+<!-- The Intel folks actually [had a plan](https://stevemorse.org/8086history/8086history.doc)
+to use an 8-bit shift to the segment register instead of the 4-bit, but this would allow a 24-bit memory space,
+which is considered too large for its time. this would have forced segments to begin on 256-byte boundaries -->
+
+### Addressing mode
+
+It is the mix and match of the presence of the 3 components that gives rise to the various addressing modes of x86.
+
+{{<include-html "addressing-mode.html">}}
+
+Also, x86 never had such a thing as "immediate addressing mode" - in case you might be hearing it from some half-baked article.
+
+The whole idea of addressing mode gets retired ...
+
+## Segmentation v2, 80286
+
+The Intel 80286 was released in 1982.
+It still uses 16-bit registers, but the # of address lines increased to 24, supporting physical memory of up to 16 MiB.
