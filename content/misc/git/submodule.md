@@ -92,3 +92,9 @@ drwxr-xr-x  3 bitier bitier 4096 Jan  8 16:49 themes
 # Register a new submodule for you repo
 
 # Clone a repository that use submodules
+
+# Delete a submodule
+
+# Update 
+
+```
