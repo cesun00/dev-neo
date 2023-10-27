@@ -31,3 +31,15 @@ timing restriction:
 
 encoding:
 
+The `PRECHARGE` command is used to deactivate the open row in a particular bank.
+
+### `PREA()`: precharge the currently opened rows in ALL banks
+
+### `MRS`: mode register set (write)
+
+encoding:
+
+### READ & variants
+
+
+### WRITE & variants
