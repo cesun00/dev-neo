@@ -86,3 +86,30 @@ cs uninstall [<appname> | --all]
 ## channel
 
 A channel is a collection of application descriptor `.json` files. 
+
+A channel is any of:
+1. a collection of `.json` files available under the same remote HTTP url path prefix.
+2. a collection of `.json` files available under the same local filesystem directory
+3. a `jar` file downloadable via HTTP. containing flat `.json` files at its root. This one is indeed bizarre - `jar` is used as archive of text files.
+
+By default, a `cs` invocation use a single channel `io.`
+
+
+## packaging
+
+### script-prepended jar
+
+Jar file use the zip format, which by design allows prepending
+arbitrary data before the zip magic number, and mandates all zip parser implementations to ignore those data. see [wiki](https://en.wikipedia.org/wiki/ZIP_(file_format)#Design).
+
+This allows a technique to run an executable jar by `./foo` as if it's a real executable, without user typing `java -jar foo.jar`:
+
+1. build the good old executable jar and name it without `.jar` extension
+2. prepend shell script that prepare the environment and eventually calls `exec java <jvm_args> -jar foo`.
+
+Now for the user
+1. explicitly typing `java <jvm_args> -jar foo` still works, since `java` will ignore the prepended scripts when extracting jar file.
+2. can just `chmod a+x foo` and `./foo`. 
+    - If JVM arguments are needed, `JAVA_OPTS` envvar always works.
+
+Coursier makes extensive use of this technique. All executables installed by `cs` is a script-prepended jar, referred to as *cousier application* below. Their scripts always collects `-J` prefixed argument as `<jvm_args>` to differentiate from program arguments. e.g. `./foo -J-Dkey=value -J-Xmx2048m progarg1 progarg2`.
