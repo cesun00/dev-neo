@@ -67,3 +67,33 @@ Server:
  Runtimes: io.containerd.runc.v2 runc
  Default Runtime: runc
  Init Binary: docker-init
+ containerd version: 3a4de459a68952ffb703bbe7f2290861a75b6b67.m
+ runc version: 
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.8.9-arch1-1
+ Operating System: Arch Linux
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 32
+ Total Memory: 62.7GiB
+ Name: bite-into-reality
+ ID: 9c945ae8-3982-4f10-9f78-36633c7ed914
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+```
+
+
+### pull a image from docker hub
+
+
+
+## Docker Compose
+
