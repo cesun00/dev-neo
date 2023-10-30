@@ -93,3 +93,37 @@ Purpose of the new division of value category is that, now overload resolution d
 1. type of argument expression
 
     - for member functions, dynamic type of the first argumnent (i.e. `this`) (single dynamic dispatch), and static type of the rest
+    - for free functions, static type of each argument expression (static dispatch)
+    
+    Both (?) may involve Koenig lookup
+
+2. if (1) still resolves to multiple candidates, which only differs by l/rvalue-ness of *reference* parameters, the following rules further applies
+
+    From the client's (caller's) perspective:
+    - lvalue expression argument invokes the one with (non-downgrading const-ness) lvalue reference parameter.
+    - rvalue (prvalue or xvalue) expression argument invokes
+        1. the overload with rvalue-reference parameter; or if no such overload is found, 
+        2. the overload with **const** lvalue-reference parameter
+            - this is the good old behavior for convenience since C++'s early days; it would be weird if `void foo(const std::string &s)` can't take a literal string.
+
+    Or reversely, from the library's (callee's) perspective:
+    - const lvalue refence parameter can bind to everything.
+    - non-const lvalue reference parameter can only bind to lvalue expression argument.
+    - rvalue reference parameter can only bind to rvalue expression argument.
+
+Plus, returning a function-local object by value now enables move semantics automatically.
+
+## Rvalue reference to raw pointer (as parameter) doesn't make sense
+
+```c++
+#include <cstdio>
+#include <utility>
+
+class RAIIFile {
+    public:
+        RAIIFile(std::FILE *&&f):file{f} { }
+        ~RAIIFile(){/*std::fclose and handle error*/}
+    private:
+        std::FILE *file;
+};
+
