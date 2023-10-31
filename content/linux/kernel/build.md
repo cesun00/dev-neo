@@ -212,3 +212,28 @@ if_changed_dep = $(if $(if-changed-cond),$(cmd_and_fixdep),@:)
 if-changed-cond = $(newer-prereqs)$(cmd-check)$(check-FORCE)
 
 # Find any prerequisites that are newer than target or that do not exist.
+# PHONY targets skipped in both cases.
+# If there is no prerequisite other than phony targets, $(newer-prereqs) becomes
+# empty even if the target does not exist. cmd-check saves this corner case.
+newer-prereqs = $(filter-out $(PHONY),$?)
+
+
+```
+
+## `script/Makefile.build`: the module builder{#makefile-build}
+
+The purpose of `script/Makefile.build` is to make life easier for kernel module maintainers, such that only variable definition, and no rule, needs to be defined in a module-specific Makefile (rules can be added for TODO, see below).
+
+When building a kernel subdirectory, the recommended `$(MAKE) $(build)=dir` syntax always runs a sub-make with the Makefile `script/Makefile.build`
+(via the `-f` option, see [`build`](#util-build) for detail).
+
+Among other scripting, this file includes the `$(kbuild-file)` (i.e. the `Makefile` in the `dir` as given in `$(build)=dir`, see [kbuild-file](#kbuild-file) for detail), and load a `scripts/Makefile.lib` to normalize the variables defined in the `$(kbuild-file)`:
+
+```makefile
+# script/Makefile.build
+
+# init variables, load util functions, load compiler setups ...
+include $(kbuild-file)
+include $(srctree)/scripts/Makefile.lib
+
+# Do not include hostprogs rules unless needed.
