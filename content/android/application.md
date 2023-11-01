@@ -409,3 +409,25 @@ public final void setResult(int resultCode, Intent data);
 onSaveInstanceState()
 ------------
 "Activity进入Destroyed的两种不同情况"中提到了activity可能被意外杀死，此时会调用onSaveInstanceState()，给Activity一次机会保存自己的状态。
+*Activity的正常终结不会调用该方法，因为正常终结的activity代表着该activity实例已没有用了，就算用户又回到该页面，那也应该是一个新的activity instance*
+
+在activity进入stop状态之前(after onPause() and before onStop() ?)，系统会调用onSaveInstanceState()，该方法默认只会保存整个view hierarchy的状态（每个View对象），诸如已经键入EditText的文字，ListView滚动条的位置都会默认保存，并不需要开发者编写任何代码。但是仅此而已，如果想要保存更多的状态，诸如Activity的某些field，则需要重载onSaveInstanceState()。
+// 重载不要忘记调用超类，否则基本的view hierarchy的状态也不会存储。
+
+*这里的关键是理解：系统认为意外杀死的activity是值得恢复的，而主动退出的activity直接扔了就完了。*
+
+然而Bundle对象并不适合保存过重的信息（Q: 因为仍然在内存中？）
+-----------
+如果需要全面的UI恢复解决方案，需要配合使用persistent local storage, onSaveInstanceState()回调，以及ViewModel类。
+
+See: https://developer.android.com/topic/libraries/architecture/saving-states.html
+for more info about saving & restoring UI
+
+Explicit Intent
+-----------------
+设定了ComponentName的Intent是Explicit Intent:
+1. 通过Intent的Constructor
+2. setComponent()
+3. setClass()
+4. setClassName()
+
