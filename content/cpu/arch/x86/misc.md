@@ -24,3 +24,30 @@ It is recommended for maximum performance, but not mandatory, that words be alig
 > transfers of data between processor and memory take place in units of
 > doublewords beginning at addresses evenly divisible by four; however, the
 > processor converts requests for misaligned words or doublewords into the
+> appropriate sequences of requests acceptable to the memory interface. Such
+> misaligned data transfers reduce performance by requiring extra memory
+> cycles.
+
+There is no requirement for instructions to be aligned on word or
+doubleword boundaries. (However, a slight increase in speed results if the
+target addresses of control transfers are evenly divisible by four.)
+
+## Glossary
+
+- virtual memory: this phrase originally refers to the practice of temporarily moving unused data from main memory to the hard drive to make room for active software that requires large memory resources. For 80286 the unit of such swap is a segment, since demand-page is not implemented for that CPU.
+However For all later models. The phrase *virtual memory* has nothing to do with the isolation of the address space between each process.
+
+- demand-paging: ; such a system is said to be demand-paged.
+- linear address space / processor's (addressable) memory space / processor's address space
+- canonical address: In 64-bit mode, an address is considered to be in canonical form if address bits 63 through to the most-significant
+implemented bit by the microarchitecture are set to either all ones or all zeros.
+
+```
+  63  ...    48   47
++---------------------------+
+| 0 | ....  | 0 | FC5E ...  |
++---------------------------+
+```
+
+
+## MISC
