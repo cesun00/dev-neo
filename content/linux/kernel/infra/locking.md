@@ -71,3 +71,40 @@ To initialize
 typedef struct raw_spinlock {
 	arch_spinlock_t raw_lock;
 // #ifdef CONFIG_DEBUG_SPINLOCK
+// 	unsigned int magic, owner_cpu;
+// 	void *owner;
+// #endif
+// #ifdef CONFIG_DEBUG_LOCK_ALLOC
+// 	struct lockdep_map dep_map;
+// #endif
+} raw_spinlock_t;
+```
+
+For x86, `arch_spinlock_t` uses the default `asm-generic` implementation:
+
+```c
+// include/asm-generic/qspinlock_types.h
+
+typedef struct qspinlock {
+	union {
+		atomic_t val;
+
+		/*
+		 * By using the whole 2nd least significant byte for the
+		 * pending bit, we can allow better optimization of the lock
+		 * acquisition for the pending bit holder.
+		 */
+#ifdef __LITTLE_ENDIAN
+		struct {
+			u8	locked;
+			u8	pending;
+		};
+		struct {
+			u16	locked_pending;
+			u16	tail;
+		};
+#else
+		struct {
+			u16	tail;
+			u16	locked_pending;
+		};
