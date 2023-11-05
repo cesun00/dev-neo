@@ -128,3 +128,18 @@ jlink --module-path app.jmod:lib.jmod --add-modules com.foo,org.bar --output myi
 
 Once the image is built, the `myimage` directory can be moved anywhere, and will still work.
 
+## 4. run
+
+Running a Java 9 program means running an executable module, which will execute the `main()` method of the declared `ModuleMainClass`:
+
+- If you omitted the link stage, and are using the stock image of a standard JDK release, you can do this by:
+
+    ```
+    java -p app.jar:lib.jar -m com.foo
+    ```
+
+- If you've generated your own JDK image, the command can be simplified since our 2 modules are merged into its `lib/modules`:
+
+    ```
+    myimage/bin/java -m com.foo
+    ```
