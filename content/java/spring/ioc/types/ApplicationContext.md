@@ -66,3 +66,31 @@ It is vaguely mentioned in the javadoc of `AbstractApplicationContext`, that
 > In contrast to a plain BeanFactory, an ApplicationContext is supposed to detect special beans defined in its internal bean factory.
 
 However `ApplicationContext` javadoc doesn't mention this.
+
+## `interface ConfigurableApplicationContext` (context)
+
+```
+ApplicationContext  Lifecycle   Closeable
+    ConfigurableApplicationContext
+```
+
+In contrast to the `ConfigurableBeanFactory`, it's perfectly fine for application code to use this interface.
+
+Extends `ApplicationContext` by
+    - 
+1. including `Lifecycle` to be used by code that care about container lifecycle
+2. including `Closable` allowing well-defined shutdown process of a container
+    - `close()` covariant no-throw
+3. adding configuration APIs, especially setters, for various previously getter-only internal states:
+    - corresponding setter for previous getter:
+        - `setId()`  ...  `ApplicationContext::getId()`
+        - `setParent()`  ...  `ApplicationContext::getParent()`
+        - `setEnvironment()` ...  `ApplicationContext | EnvironmentCapable::getEnvironment()`
+        - `setClassLoader()` ...  `ApplicationContext | ResourcePatternResolver | ResourceLoader::getClassLoader()`
+    - collection adder for
+        - `BeanFactoryPostProcessor`
+        - `ApplicationListener`
+        - `ProtocolResolver`
+    - getter and setter for `ApplicationStartup` (identical to `ConfigurableBeanFactory`'s ones)
+    - `getBeanFactory()` returns the composite `BeanFactory` in the name of `ConfigurableListableBeanFactory`
+        - return the same instance as `ApplicationContext::getAutowireCapableBeanFactory()`, and only differ by return type
