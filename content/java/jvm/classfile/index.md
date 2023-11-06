@@ -217,3 +217,38 @@ struct field_info {
     u2             access_flags;
     u2             name_index;          // CONSTANT_Utf8_info
     u2             descriptor_index;    // CONSTANT_Utf8_info
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
+```
+
+`access_flags` is a bit field that encodes the modifiers allowed on this field (in terms of Java). Defined bits are:
+
+{{<fold>}}
+
+| flag menomics   | value                            | description                                                                                                        |
+|-----------------|----------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| `ACC_PUBLIC`    | 0x0001: `0b 0000 0000 0000 0001` | Declared public; may be accessed from outside its package.                                                         |
+| `ACC_PRIVATE`   | 0x0002: `0b 0000 0000 0000 0010` | Declared private; accessible only within the defining class and other classes belonging to the same nest (§5.4.4). |
+| `ACC_PROTECTED` | 0x0004: `0b 0000 0000 0000 0100` | Declared protected; may be accessed within subclasses.                                                             |
+| `ACC_STATIC`    | 0x0008: `0b 0000 0000 0000 1000` | Declared static.                                                                                                   |
+| `ACC_FINAL`     | 0x0010: `0b 0000 0000 0001 0000` | Declared final; never directly assigned to after object construction (JLS §17.5).                                  |
+| `ACC_VOLATILE`  | 0x0040: `0b 0000 0000 0100 0000` | Declared volatile; cannot be cached.                                                                               |
+| `ACC_TRANSIENT` | 0x0080: `0b 0000 0000 1000 0000` | Declared transient; not written or read by a persistent object manager.                                            |
+| `ACC_SYNTHETIC` | 0x1000: `0b 0001 0000 0000 0000` | Declared synthetic; not present in the source code.                                                                |
+| `ACC_ENUM`      | 0x4000: `0b 0010 0000 0000 0000` | Declared as an element of an enum class.                                                                           |
+
+{{</fold>}}
+
+- `name_index` locates a `CONSTANT_Utf8_info` in the constant pool, i.e. the name of the field.
+- `descriptor_index` locates a `CONSTANT_Utf8_info` in the constant pool, i.e. a descriptor that encodes the type of this field.
+- The `attributes[]` array gives the attributes associated with this field. See TODO for allowed attributes here.
+
+## `methods[]` arary: methods of this class
+
+## Bookkeeping Strings: Names and Descriptors
+
+A `CONSTANT_Utf8_info` constant stores strings for various purposes.
+Only some of them are literal `String` content presented in the program text, 
+while many others are bookkeeping information whose format is defined as contracts and understood by JVM.
+
