@@ -128,3 +128,26 @@ while (input available) {
     # inflate has no param to configure
     inflate() call          
 }
+inflateEnd()
+```
+
+## convenient utilities
+
+## misc
+
+APIs:
+
+```
+compress() and uncompress()
+
+
+gzerror
+
+gzgetc gzungetc
+gzgets gzputc
+gzopen  gzclose
+
+gzprintf
+gzread  gzputs
+gzseek gztell
+```
