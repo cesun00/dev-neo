@@ -26,3 +26,13 @@ The `argv[]` array on Linux resides near the highest address in the stack VMA (t
 https://serverfault.com/questions/163371/linux-command-line-character-limit
 
 getconf ARG_MAX
+
+On my System this is 2MiB, which should be big enough for all purposes.
+
+### Find the Largest Files in the Tree
+
+```bash
+find . -printf '%s %p\n' | sort -nr | head
+```
+
+https://stackoverflow.com/questions/12522269/how-to-find-the-largest-file-in-a-directory-and-its-subdirectories
