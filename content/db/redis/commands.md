@@ -131,3 +131,42 @@ A key referring to a list is deleted when the list becomes empty.
 
 - `LRANGE key l r`: dump elements in range `[l,r]` **0-indexed and both inclusive**. 
 	- negative index counts from the end of the list. e.g. -1 is last element, `LRANGE mylist 0 -1` dump all elements in the list.
+	- e.g. `LRANGE mylist 0 10` will return 11 elements if `mylist` contains at least 11 elements.
+- `LLEN key`: return list length
+- `LTRIM key l r`: crop list to `[l,r]` **0-indexed and is both inclusive**.
+
+SET Commands
+-----------
+
+The underlying structure of a redis set is hash table.
+
+The following assumes `key` is a set.
+
+- `SADD hash_set values...` (variadic on values)
+
+- `SREM key value`
+    remove vlaue from key
+
+SCARD key
+    get cardinality.
+
+SMEMBERS key
+    dump all members of key
+
+SISMEMBER key value
+    test membership of value
+
+Set Algebra (does NOT modify each)
+    SUNION x y z ...
+    SUNIONSTORE dest x y z ...
+        set union
+    SINTER x y z ...
+    SINTERSTORE dest x y z ...
+        set intersection
+    SDIFF x a b c ...
+    SDIFFSTORE dest x a b c ...
+        set difference ((x \ a) \ b) \ c ...
+
+SPOP key count
+    randomly pop count element(s) from key
+
