@@ -184,3 +184,36 @@ struct ClassFile {
     // ...
 }
 ```
+
+Although the semantics of `this_class` and `super_class` should be axiomatic.
+
+1. a class can thus only have 1 parent at the JVM level. All high-level langauge that runs on JVM
+2. Only `java.lang.Object` can have `super_class=0`, since it doesn't have a super class.
+
+`access_flags` is a 16-bit bit flag field, whose bits are defined as:
+
+{{<fold>}}
+
+| flag menomics    | value                            | description                                                                       |
+|------------------|----------------------------------|-----------------------------------------------------------------------------------|
+| `ACC_PUBLIC`     | 0x0001: `0b 0000 0000 0000 0001` | Declared public; may be accessed from outside its package.                        |
+| `ACC_FINAL`      | 0x0010: `0b 0000 0000 0001 0000` | Declared final; no subclasses allowed.                                            |
+| `ACC_SUPER`      | 0x0020: `0b 0000 0000 0010 0000` | Treat superclass methods specially when invoked by the invokespecial instruction. |
+| `ACC_INTERFACE`  | 0x0200: `0b 0000 0010 0000 0000` | Is an interface, not a class.                                                     |
+| `ACC_ABSTRACT`   | 0x0400: `0b 0000 0100 0000 0000` | Declared abstract; must not be instantiated.                                      |
+| `ACC_SYNTHETIC`  | 0x1000: `0b 0001 0000 0000 0000` | Declared synthetic; not present in the source code.                               |
+| `ACC_ANNOTATION` | 0x2000: `0b 0010 0000 0000 0000` | Declared as an annotation interface.                                              |
+| `ACC_ENUM`       | 0x4000: `0b 0100 0000 0000 0000` | Declared as an enum class.                                                        |
+| `ACC_MODULE`     | 0x8000: `0b 1000 0000 0000 0000` | Is a module, not a class or interface.                                            |
+
+{{</fold>}}
+
+## `fields[]` array: fields of this class
+
+`fields[]` in the `ClassFile` structure is an array of `field_info`, defined as:
+
+```c
+struct field_info {
+    u2             access_flags;
+    u2             name_index;          // CONSTANT_Utf8_info
+    u2             descriptor_index;    // CONSTANT_Utf8_info
