@@ -32,3 +32,36 @@ do-submake:
 `MAKE` is a variable that expands to `argv[0]` of the `make` process, i.e. the program name by which `make` is invoked, without any arguments.
 This guarantees that sub-make will use the same `make` program along the calling hierarchy, avoiding the potential of `make` being resolved to another 
 program on the `PATH`. There is nothing special about the `MAKE` variable other than that it is set by `make` itself upon startup. You can change `MAKE := whatever` and break the whole `Makefile`.
+
+An ad-hoc special treatment indeed exists here, trivial for all users, just mentioned for completeness:
+
+> The ‘-n’, ‘-t’, and ‘-q’ options do not affect recipe lines that begin with ‘+’ characters or contain the strings ‘$(MAKE)’ or ‘${MAKE}’.
+
+There is another variant of sub-make, which only differs in that this one doesn't change the CWD:
+
+```makefile
+do-submake:
+    $(MAKE) -f target_dir/Makefile
+```
+
+### export variable to sub-make
+
+TODO: explain the variable passing is done via envvars
+
+The current `make` process now needs to communicate its `export`-ed variable to a grandson process - the `submake`.
+This is also done via modifying the environment variable:
+
+```makefile
+export foo := bar
+
+all:
+    env
+```
+
+```sh
+env -i make
+W
+# prints:
+
+# AKE_TERMOUT=/dev/pts/5
+# PWD=/home/bitier/maketest/envvar
