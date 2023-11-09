@@ -28,3 +28,42 @@ zlib/       # a minimal source-level copy of the zlib (TODO how this is extracte
 ```
 
 
+### `lib/utils/*`
+
+Contain implementations of utility functions
+1. that are original or copy-and-paste from other projects, with `sudo_` prepended to function names; or
+2. that are polyfills in case of a missing function.
+
+    e.g. for a missing `getdelim(3)` usually found in glibc, `getdelim.c` provides its `sudo_getdelim()` implementation which
+    is aliased to `getdelim`. No code should call `sudo_getdelim()` directly.
+
+    ```c
+    // include/sudo_compat.h
+    # define getdelim(_a, _b, _c, _d) sudo_getdelim((_a), (_b), (_c), (_d))
+    ```
+
+Their declarations are exposed in `include/sudo_utils.h` and included by other code.
+
+
+- `rcstr.c`: implements reference-counting strings that get free-ed when the counter reaches 0.
+- 
+
+## generated sources., lex, and yacc
+
+- gram.h gram.c: generated from yacc source file `gram.y`
+
+    Some tricks hide in the `Makefile.in` where `yacc` is invoked with `-p`, a deprecated equivalence of specifying `api.prefix` option.
+
+    This is why you can't find definition of `sudoersparse()` in the source.
+
+- getdate.c: generated from yacc source file `getdate.y`
+- toke.c: generated from flex source file `toke.l`. Note however `toke.h` is hand written.
+- def_data.c def_data.h: generated from `def_data.in`
+
+For some strange reason, these generated files are shipped in a source release, and are even committed into the repo.
+Unless a `DEVEL` make variable is set to a non-empty string, these file will not be generated again at host machine's `make` invocation.
+
+## the shitty `plugins` design
+
+The following executables are produced as defined by `Makefile.in`.
+Unfortunately, source files of each binary are clogged in the same directory, instead of nicely having their own dirs.
