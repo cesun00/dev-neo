@@ -34,3 +34,38 @@ SELECT ... FOR [UPDATE|SHARED];
 ```
 
 `UPDATE` acquires the X lock on the selected rows, and `SHARED` acquires the X lock, both until the end of the current transaction.
+
+### Intention Lock for Table
+
+Intention lock a pair of table-level readers-writer locks that a transaction must acquire before it can proceed to read/write that table. Their names are "intention shared lock (IS)" and "intention exclusive lock (IX)".
+
+Intention lock exists primarily for performance reason: https://stackoverflow.com/questions/33166066/why-do-we-need-intent-lock
+
+A protocol is designed 
+
+### Explicit Locking
+
+Interestingly enough MySQL exposes some explicit locking interface to the SQL language. I wonder if they have any practical programmatic use. All these functions acquire/release locks for **the current session** (and of course there is no way to get/release locks for other sessions):
+
+#### Named Lock
+
+```sql
+# acquire a named lock; negative `TIMEOUT` blocks forever
+GET_LOCK("named_lock",TIMEOUT); 
+
+# released the named lock
+RELEASE_LOCK("named_lock");
+
+# trylock
+IS_FREE_LOCK("named_lock")
+IS_USED_LOCK("named_lock")
+
+# release all
+RELEASE_ALL_LOCKS()
+```
+
+#### Explicit Table Lock
+
+https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html
+
+```sql
