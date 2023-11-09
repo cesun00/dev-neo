@@ -62,3 +62,29 @@ typedef uint32_t Elf32_Off;
 typedef uint64_t Elf64_Off;
 
 /* Type for section indices, which are 16-bit quantities.  */
+typedef uint16_t Elf32_Section;
+typedef uint16_t Elf64_Section;
+
+/* Type for version symbol information.  */
+typedef Elf32_Half Elf32_Versym;
+typedef Elf64_Half Elf64_Versym;
+```
+
+## ELF (File) Header
+
+The ELF header contains the offset of the section header table (SHT) and program header table (PHT) (if present) in the file,
+which in turn contains program headers and section headers that locate each section and segment.
+
+The ELF header is defined as:
+
+```c {tabWidth=8}
+#define EI_NIDENT (16)
+
+typedef struct
+{
+  unsigned char	e_ident[EI_NIDENT];	/* Magic number and other info */
+  Elf32_Half	e_type;			/* Object file type */
+  Elf32_Half	e_machine;		/* Architecture */
+  Elf32_Word	e_version;		/* Object file version */
+  Elf32_Addr	e_entry;		/* Entry point virtual address */
+  Elf32_Off	e_phoff;		/* Program header table file offset */
