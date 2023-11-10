@@ -287,3 +287,43 @@ int main() {
 ## const member function
 
 ```c++
+#include <cstdio>
+
+struct X{
+    void foo() const {
+        puts("foo const");
+    }
+
+    void foo() {
+
+        puts("foo non-const");
+    }
+};
+
+
+int main() {
+    X x;
+    const X cx;
+    x.foo();
+    cx.foo();
+}
+```
+
+TODO:: REALLY? A NON CONST object should be able to call a CONST member function.
+
+`void foo() const` can only be called on a const qualified `foo` instance. `const` effectively take part in the overload resolution.
+
+Inside the `const` qualified member function, `*this` is const qualified, which means among other member functions, only `const` qualified member functions can be called;
+
+Really, "const member function promised not to change its object", is a consequence, not its motivation.
+
+
+https://en.cppreference.com/w/cpp/language/overload_resolution
+
+> If any candidate function is a member function (static or non-static), but not a constructor, it is treated as if it has an extra parameter (implicit object parameter) which represents the object for which they are called and appears before the first of the actual parameters.
+
+Similarly, the object on which a member function is being called is prepended to the argument list as the implied object argument.
+
+For member functions of class X, the type of the implicit object parameter is affected by cv-qualifications and ref-qualifications of the member function as described in member functions.
+
+
