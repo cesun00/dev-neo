@@ -255,3 +255,17 @@ Top level keywords are:
 ## variables / external script evaluation
 
 Shell-alike parameter substitution / process substitution;
+
+## dependence
+
+## entry visibility (for `menuconfig`)
+
+Again, kernel doc exhibits terrible idea of tight coupling between Kconfig design and menuconfig.
+
+## Overriding mechanism
+
+`config` entries with the same name can occur multiple times across the recursive parsing starting from root `Kconfig`.
+
+- They translates to a single config entry in `.config`.
+- Attributes from earlier ones override those from later ones, except that
+    - Different `<type>`s are considered an error.
