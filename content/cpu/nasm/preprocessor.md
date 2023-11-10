@@ -34,3 +34,29 @@ A fixed length macro must be called with precisely required number of arguments.
 
 e.g.
 
+If `num_of_args` ends with a `+` symbol, this is a greedy macro:
+
+```
+%macro foo 2+
+    mov rax, %1         ; %1 expands to the first argument 
+    db %2               ; %2 expands to whatever text else
+%endmacro
+
+foo 42, "foo", "bar", "zoo"
+```
+
+If `num_of_args` is exactly `1-*`, this is a special macro where range access to parameters are allowed by a `%{x:y}` construct:
+
+```asm
+%macro mpar 1-*
+    db %{3:5}
+    db %{5:3}
+    db %{-1:-3}
+%endmacro
+
+mpar 1,2,3,4,5,6        ; expands to
+                        ; db 3,4,5
+                        ; db 5,4,3
+                        ; db 6,5,4
+```
+
