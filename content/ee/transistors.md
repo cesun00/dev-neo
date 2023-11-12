@@ -28,3 +28,39 @@ Multiple implementations of the idea of the transistor exist, based on different
     
     Sub-division of FET includes:
     1. MOS-FET (metal-oxide-semiconductor FET)
+    2. 
+
+
+## BJT
+
+
+A BJT is made by sandwiching 3 layers of 2 types of doped semiconducting material:
+
+Depending on how the sandwitch is made, 2 types of BJT exist:
+1. NPN
+2. PNP
+
+Regardlessly, these 3 regions are called `collector`, `base`, and `emitter`, thus also the electrode to them.
+- `base` is in the middle, and is always the one with different `N/P type`.
+
+A small current flowing between `base` and `emitter` (abbr. `I_B`) can control or switch a much larger current between the `collector` and `emitter` (abbr. `I_C`).
+
+- `emitter output current = I_B + I_C`
+
+- The `base-emitter / collector-emitter` ratio is a critical characteristic for a transistor, usually symbol `β` or `H_fe`.
+- the I-V curve of `base-emitter` path behaves like a simple diode. This fact is useful when sending signal input to base and use the transistor as an amplifier, you want the base's I/V curve to behave like a straight line, which determine the range the AC signal can swing.
+   but in real life the collector one is more than 80 times larger than the base one, so we often ignore the base current's contribution to the output.
+
+- For a given steup, we care about the `base current / collector current` ratio, usually denoted `β` or `H_fe`.
+
+   This ratio is almost constant when the transistor is working in the *active region*.
+   
+   This ratio is important, because for a given known `I_B` and enough external voltage supply, `I_C` can be simply calculated as `I_C = β * I_B`.
+
+For a fixed base current, `V_RC / I_C`
+
+
+## FET
+
+1. gate
+2. source
