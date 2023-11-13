@@ -38,3 +38,32 @@ To make life simple, a `scala` script was provided to do this. On my deployment,
 # todo: scala2
 
 
+# scala3 
+/home/bitier/.jdks/azul-21.0.1/bin/java 
+    -Dscala.home=/home/bitier/scala/scala3-3.4.2 \
+    -classpath /home/bitier/scala/scala3-3.4.2/lib/scala-library-2.13.12.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-library_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala-asm-9.6.0-scala-1.jar:/home/bitier/scala/scala3-3.4.2/lib/compiler-interface-1.9.6.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-interfaces-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-compiler_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/tasty-core_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-staging_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-tasty-inspector_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-reader-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-terminal-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-terminal-jna-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jna-5.14.0.jar:: \
+    dotty.tools.MainGenericRunner   \
+    -classpath /home/bitier/scala/scala3-3.4.2/lib/scala-library-2.13.12.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-library_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala-asm-9.6.0-scala-1.jar:/home/bitier/scala/scala3-3.4.2/lib/compiler-interface-1.9.6.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-interfaces-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-compiler_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/tasty-core_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-staging_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/scala3-tasty-inspector_3-3.4.2.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-reader-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-terminal-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jline-terminal-jna-3.25.1.jar:/home/bitier/scala/scala3-3.4.2/lib/jna-5.14.0.jar::
+```
+
+
+## Versions and Compatibility
+
+Scala 3 was released in 2017.
+So far Scala 2 is still the mainstream version.
+
+### Compatibility between Scala and JVM
+
+The Scala compiler needs to run on a JVM.
+
+As long as the compiler works, it compiles a Scala source and emits bytecode targeting a specific JVM version, which can be adjusted by the `scalac --java-output-version` option.
+
+
+### Compatibility Among Scala version
+
+Scala 2 and 3 are not source-compatible.
+A source written for Scala 2 won't compile with Scala 3, and vice versa.
+
+A compiled bytecode of Scala 2 program won't work if only Scala 3 runtime is presented on the JVM classpath, and vice versa.
+
+
