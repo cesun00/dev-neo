@@ -143,3 +143,38 @@ but the previous discussion has shown that such ideal world doesn't exist, and i
 The point is that one should not assume the structure of a written instruction to be preserved in its encoded binary.
 
 #### Address Arithmetic Expression Isn't Real
+
+Many assemblers support the `Mod=00/01/10` addressing mode (i.e. base + index + displacement) and `SIB` scaling-based addressing
+(i.e. base + index * scale + displacement) using the syntax of an arithmetic expression.
+For example, NASM encodes `INC DWORD [EAX+EBX*4+0x32]` to `ff 44 98 32`.
+
+The point is that the arithmetic expression a programmer wrote instructs the assembler to generate the correct addressing mode
+(encoded in the `ModR/M` byte) for the instruction, instead of making any arithmetic calculation happen like a high-level programming language does.
+Also, a programmer has limited choices for all of the base, index, and scale:
+
+{{<figure src="ea.png" caption="All possible mix-and-match of EA computation methods.">}}
+
+Of course, CPU hardware eventually reads `ff 44 98 32` and computes the address in order to access the memory, and in that sense, the arithmetic does happen.
+
+### Prefixes
+
+The prefixes component is a sequence of modifiers to the instruction, one byte each. The order among prefixes doesn't matter.
+
+There are 4 groups of prefixes in the protected mode. An instruction can have at most 1 prefix from each group, i.e. at most 4 prefixes.
+
+The 4 groups are:
+1. Lock and Repeat
+
+    - `F0H`: the `LOCK` prefix, indicating a memory bus lock for the address mentioned in the instruction.
+      This prefix is famous for implementing various so-called lock-free algorithms. For CPUs designed for a multi-socket motherboard,
+      this prefix causes a special `LOCK` pin to become low-active thus informing other CPUs to not access the same address before the signal is
+      canceled.
+
+    Repeat prefixes apply only to string instructions (e.g. `MOVS`, `CMPS` etc.), causing the instruction to act on each element of the string;
+    or input/output instructions;
+    Use of the repeat prefixes with instructions other than these 2 types may cause undefined behavior.
+    They are also mandatory for TODO instructions.
+    - `F2H`: the `REPNE/REPNZ` (Repeat-Not-Zero) prefix.
+    - `F3H`: `REP` or `REPE/REPZ` (Repeat) prefix.
+
+    - `BND` prefix is also encoded using `F2H` if the following conditions are true:
