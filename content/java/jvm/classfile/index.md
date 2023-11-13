@@ -63,3 +63,36 @@ struct ClassFile {
     u2             attributes_count;
     attribute_info attributes[attributes_count];
 }
+```
+
+## Magic and Versions
+
+- `magic` must be `0xCAFEBABE`.
+- `major_version`
+
+    Indicates the target JVM version which this classfile is compiled to run on.
+
+    The first Java release from Sun in 1996 has a compiler that generates `major_version=45` classfiles, and
+    a JVM that loads and runs `major_version=45` classfiles.
+    
+    Each new Java version thereafter is shipped with:
+    1. a JVM that supports incremented `major_version` (by 1) and all `major_version`s before; e.g. Java 11 JVM supports `major_version` from 45 to 55; and
+    2. a `javac` compiler that by default generates classfiles with incremented `major_version` (by 1), but can be configured to generate smaller `major_version` targeting historical JVM (via the `-source` and `-target` CLI flag).
+
+    See [this table](https://docs.oracle.com/javase/specs/jvms/se21/html/jvms-4.html#jvms-4.1-200-B.2) for correspondence between
+    Java versions and `major_version`.
+
+- `minor_version`
+
+    - Before Java 12 (exclusively), `minor_version` can be any integer.    
+    - Since Java 12 (inclusively, `major_version=56`), a class file that uses preview features must have `minor_version=65535`; otherwise, it must have `minor_version=0`. No other value of `minor_version` is allowed.
+
+    Historically (before Java 12) this field doesn't have well-defined semantics, and all Java releases (except ancient ones before 1.2)
+    have a different `major_version` with `minor_version=0`.
+    
+## `constant_pool[]` array: the constant pool
+
+`ClassFile.constant_pool[]` is an array of `cp_info` instances and stores all sorts of constant values, known as the constant pool.
+
+Each `cp_info` has the generic structure of:
+
