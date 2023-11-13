@@ -1030,3 +1030,38 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   ├── broadcom/
 │   │   │   ├── brocade/
 │   │   │   ├── cadence/
+│   │   │   ├── cavium/
+│   │   │   │   ├── common/
+│   │   │   │   ├── liquidio/
+│   │   │   │   ├── octeon/
+│   │   │   │   └── thunder/
+│   │   │   ├── chelsio/
+│   │   │   ├── cisco/
+│   │   │   ├── cortina/
+│   │   │   ├── dec/
+│   │   │   │   └── tulip/
+│   │   │   ├── dlink/
+│   │   │   ├── emulex/
+│   │   │   ├── engleder/
+│   │   │   ├── ezchip/
+│   │   │   ├── fujitsu/
+│   │   │   ├── fungible/
+│   │   │   ├── google/
+│   │   │   ├── huawei/
+│   │   │   ├── i825xx/
+│   │   │   ├── intel/
+│   │   │   │   ├── e1000/
+│   │   │   │   ├── e1000e/
+│   │   │   ├── litex/
+│   │   │   ├── marvell/
+│   │   │   │   ├── octeon_ep/
+│   │   │   │   ├── octeontx2/
+│   │   │   │   ├── prestera/
+│   │   │   ├── mellanox/
+│   │   │   ├── micrel/
+│   │   │   ├── microchip/
+│   │   │   ├── microsoft/
+│   │   │   ├── mscc/
+│   │   │   ├── myricom/
+│   │   │   ├── natsemi/
+│   │   │   ├── neterion/
