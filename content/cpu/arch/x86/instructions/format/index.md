@@ -330,3 +330,36 @@ an instruction may specify one or two register operands. Register specifiers may
 ### Displacement
 
 when the addressing-mode specifier indicates that a displacement will be used to compute the address of an operand, the displacement is encoded in the instruction. A displacement is a signed integer of 32, 16, or eight bits. The eight-bit form is used in the common case when the displacement is sufficiently small. The processor extends an eight-bit displacement to 16 or 32 bits, taking into account the sign.
+
+### Immediate operand
+
+when present, directly provides the value of an operand of the instruction. Immediate operands may be 8, 16, or 32 bits wide. In cases where an eight-bit immediate operand is combined in some way with a 16- or 32-bit operand, the processor automatically extends the size of the eight-bit operand, taking into account the sign.
+
+## 64-bit mode instruction format {#64-bit}
+
+An extra byte known as the `REX` prefix is introduced for encoding instructions written for 64-bit mode.
+The REX prefix must come after any optional/mandatory normal Group 1-4 prefixes and before the primary opcode.
+
+```goat
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| prefixes      | REX                 | primary opcode        | ModR/M                | SIB                   | displacement                  | immediate                     |
+| (1 byte each) | (1 byte if present) | (1, 2, or 3 bytes)    | (1 byte if present)   | (1 byte if present)   | (1, 2, or 4 byte if present)  | (1,2 or 4 bytes if present)   |
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+
+
+```goat
+  7   6   5   4   3   2   1   0
++-------------------------------+
+| 0 | 1 | 0 | 0 | W | R | X | B |
++-------------------------------+
+                  W: operand size indicator
+                      R: Extension bit to the ModR/M.reg field
+                          X: Extension bit to the SIB.index field
+                             B: Extension bit to one of: 1) ModR/M.r/m field; 2) the SIB.base field; 3) Opcode.reg (i.e. least significant 3 bits)
+```
+
+The high 4 bit of REX must be `0100`, rendering possible values of REX ranging from `40H` to `4FH`.
+
+Not all instructions require a REX prefix in 64-bit mode.
