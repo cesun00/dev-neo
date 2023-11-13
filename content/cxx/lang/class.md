@@ -224,3 +224,40 @@ Modern C++ code should follows the ultimate *rule of zero*:
 This rule also appears in the C++ Core Guidelines:
 > CCG C.20: If you can avoid defining default operations, do.
 
+## When you DO need to invent an RAII class
+
+<del>
+Pre C++11:
+- *the law of the big 2*: for implementing sane copy semantics, copy ctor and `copy=` should be both user-defined if either is.
+- *rule of three*: for implementing sane copy semantics and RAII, copy ctor, `copy=`, and dtor should be all user-defined if any is.
+
+If all data member is already RAII-managed, rule of 3 could downgrade to law of big 2, i.e. dtor can be omitted.
+e.g. a class holding only a `unique_ptr` with proper deleter as data member can omit dtor.
+
+Though both titled "copy", copy ctor and `copy=` differs
+- copy ctor *initialize* data member in `mem-initializer-list`.
+	- For data member with well-designed copy ctor, this simply delegates to their copy ctor.
+- copy assignment operator first destructs currently owned resources, then copy rhs's resources into self
+    - if designed properlly, this simply delegates to data member's copy assignment operator.
+
+Since C++11:
+- *the law of the big 4*:
+	- for implementing sane copy semantics, copy ctor and `copy=` should be both user-defined if either is.
+	- for implementing sane move semantics, move ctor and `move=` should be both user-defined if either is.
+	- it's common to design move-only class, so
+- *rule of three*: for implementing sane copy semantics and RAII, copy ctor, `copy=`, and dtor should be all user-defined if any is.
+</del>
+
+## misc consideration
+
+- Copy ctor is no more than a factory method. It can always be replaced by something like a `clone()`.
+- Copy assignment is literally a normal member function named `operator=`.
+
+https://stackoverflow.com/questions/45754226/what-is-the-rule-of-four-and-a-half
+https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
+
+
+## Operator Overload
+
+
+
