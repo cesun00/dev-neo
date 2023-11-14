@@ -141,3 +141,33 @@ To client, member functions with unsatisfied constraints behaves as if it's is r
 https://stackoverflow.com/questions/26633239/c-templates-conditionally-enabled-member-function
 
 This is a technique - member function's equivalence for SFINAE - since SFINAE only works for free function template - used by library authors to provide certain member function only when user's argument type satisfies certain constraints:
+
+```c++
+// empty() : Returns whether the derived view is empty. Provided if it satisfies sized_range or forward_range.
+template<typename _Derived>
+requires is_class_v<_Derived> && same_as<_Derived, remove_cv_t<_Derived>>
+class view_interface {
+    constexpr bool empty() noexcept(noexcept(_S_empty(_M_derived())))
+    requires forward_range<_Derived>
+    { return _S_empty(_M_derived()); }
+
+    constexpr bool empty() const noexcept(noexcept(_S_empty(_M_derived())))
+    requires forward_range<const _Derived>
+    { return _S_empty(_M_derived()); }
+}
+```
+
+This is not SFINAE, as there is no "substitution failure". Substitution succeeds and the class template is instantiated.
+
+## type-constraint induced SFINAE
+
+```c++
+// n4860 temp.inst.17
+
+template<typename T> concept C = sizeof(T) > 2;
+template<typename T> concept D = C<T> && sizeof(T) > 4;
+
+template<typename T> struct S {
+  S() requires C<T> { }         // #1
+  S() requires D<T> { }         // #2
+};
