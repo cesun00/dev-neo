@@ -177,3 +177,41 @@ Other ways include selecting non-aggregate columns without putting them or their
 	# +------+-------+-------------+----------+------------+
 	# |    1 | Kabul | AFG         | Kabol    |    1780000 |
 	# +------+-------+-------------+----------+------------+
+	```
+
+Those results are apparently wrong. What those queries mean is very different from what they mean in English. Again without a `GROUP BY`, there is only a single big group, and only the result of the aggregate function (which is not selected) makes sense.
+
+Aggregate function is allowed in `HAVING` clause, and forbidden in `WHERE` clause. **But whatever aggregate functions are used in `HAVING` clause, they must appear as well in the `SELECT` columns.** `HAVING` condition is applied on the result of grouping, and aggregate function inside `HAVING` clause won't be done if they haven't already been done as part of the `SELECT` scanning. That is, aggregate functions in `HAVING` are just references, not commands. Actually a symbol is preferred:
+
+```sql
+SELECT CountryCode, SUM(Population) AS Pop
+FROM city GROUP BY CountryCode HAVING Pop > 70000000;
+# +-------------+-----------+
+# | CountryCode | Pop       |
+# +-------------+-----------+
+# | BRA         |  85876862 |
+# | CHN         | 175953614 |
+# | IND         | 123298526 |
+# | JPN         |  77965107 |
+# | USA         |  78625774 |
+# +-------------+-----------+
+```
+
+For the 2 erroneous examples above to work, a subquery is required:
+
+```sql
+SELECT * FROM city WHERE Population = (SELECT MAX(Population) FROM city);
+SELECT * FROM city WHERE Population > (SELECT AVG(Population) FROM city);
+```
+
+Join
+----------
+
+The `ON` clause specify a bool expression e.g. `SELECT * FROM t0 JOIN t1 ON t0.b = t1.b`; while the `USING` clause specify the names of columns that must exist in both table, e.g. `SELECT * FROM t0 JOIN t1 USING(b);`. Those 2 examples are effectively the same, except that the `USING` one don't produce column `b` twice.
+
+- `[INNER|CROSS] JOIN [ON|USING ...]`
+
+	If the `ON|USING ...` clause is absent, whole cartesian product will be output, i.e. the same as the comma concatenation of 2 tables in the `FROM` clause.
+
+	If the `ON|USING ...` clause is presented, among all rows in the cartesian product, only those that matches the condition will be output.
+
