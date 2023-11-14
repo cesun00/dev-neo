@@ -149,3 +149,6 @@ Instead of the code above, You can
 
 credit:
 - https://stackoverflow.com/questions/28547085/stopping-macro-expansion
+- https://stackoverflow.com/questions/41734338/prevent-macro-expansion-within-levels-of-indirection
+- https://stackoverflow.com/questions/37461185/c-preprocessor-macro-arguments-with-space-at-the-end-for-concatenating
+- https://stackoverflow.com/questions/56045652/c-stop-preprocessor-macro-expansion
