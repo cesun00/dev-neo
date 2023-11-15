@@ -309,3 +309,30 @@ openssl x509 -in cert.pem -noout -text
 ```
 
 The "Fingerprint" thing
+=====================
+Fingerprint is just the hash of some data.
+
+In the certificate detail page of chrome and firefox, usually there will be a "Fingerprints" section showing the SHA256 and SHA1 checksum of something. Those are the checksum of the DER certificate, and is NOT a part of the certificate itself. Browsers provide those checksum to make it easier for user to check.
+
+To verify 
+```bash
+# wikipedia.org cert
+openssl x509 -in cert.pem -outform DER | sha256sum 
+9eb21a74a3cf1ecaaf6b19253025b4ca38f182e9f1f3e7355ba3c3004d4b7a10  -
+```
+
+https://security.stackexchange.com/questions/14330/what-is-the-actual-value-of-a-certificate-fingerprint
+
+HMAC
+===================
+
+A MAC is a conceptual combination of 3 algorithms:
+
+1. a key generation that sample a key uniformally random from the key space
+2. a signing algorithm that takes a)the key and b) the message to send, and produces a `tag`
+4. a verifying algorithm that takes the a)`tag`, the key and the message, and produce "accept" if the (message, tag) pair has not been tampered with since being produced, or "reject" otherwise.
+
+MAC is mainly a measure to ensure the integrity of data in transmission, since the key should never been send out or seen by the outside world.
+
+One technique to implement a MAC is to use a CHF, and such technique is called HMAC. CHF is known to produce a small fixed size bit sequence that can be used as a tag. The only problem is that CHF does not takes key. HMAC gives a way to wrap a CHF in its core and takes a key.
+
