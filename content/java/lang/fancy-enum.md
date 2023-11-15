@@ -62,3 +62,16 @@ public enum FooEnum implements Executor {
 Note that:
 1. This cause a anonymous class thus separate `.class` files to be generated for each enum instance. 
 2. 
+
+This technique is can be used to implement the strategy pattern, 
+
+Instances of such enum can implements its own abstract methods
+An example from Spring boot's `autoconfigure` package:
+
+```
+
+```
+
+
+If there is no fallback behavior, the method implementation can be completely removed from the `enum` body
+without causing an syntax error:
