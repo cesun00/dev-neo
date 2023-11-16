@@ -707,3 +707,35 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   │   ├── realmode.lds
 │   │   │   │   ├── realmode.relocs
 │   │   ├── tools/
+│   │   │   ├── relocs*
+│   │   └── virt/
+│   │       └── vmx/
+│   └── x86_64/
+│       └── boot/
+│           └── bzImage -> ../../x86/boot/bzImage
+├── block/
+│   └── partitions/
+├── certs/
+│   ├── extract-cert*
+│   ├── signing_key.x509
+│   ├── x509_certificate_list
+├── .checked-atomic-arch-fallback.h
+├── .checked-atomic-instrumented.h
+├── .checked-atomic-long.h
+├── .config
+├── crypto/
+│   ├── asymmetric_keys/
+│   │   ├── pkcs7.asn1.c
+│   │   ├── pkcs7.asn1.h
+│   │   ├── x509_akid.asn1.c
+│   │   ├── x509_akid.asn1.h
+│   │   ├── x509.asn1.c
+│   │   ├── x509.asn1.h
+│   ├── rsaprivkey.asn1.c
+│   ├── rsaprivkey.asn1.h
+│   ├── rsapubkey.asn1.c
+│   ├── rsapubkey.asn1.h
+├── drivers/
+│   ├── acpi/
+│   │   ├── acpica/
+│   │   ├── dptf/
