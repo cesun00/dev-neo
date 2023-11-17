@@ -196,3 +196,29 @@ Legacy source build & run with Java 9
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+JAR
+==========
+<!-- 
+This section only talks about jar, which is still the most useful storage & runtime format.
+jmod, only useful as a class file distribution format used by jlink, is discussed in the next chapter. -->
+
+
+
+Legacy jar load & run on new JVM with modular runtime SDK
+-----------
+
+
+2. Bytecode (instruction) backward compatibility
