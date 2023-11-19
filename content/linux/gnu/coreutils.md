@@ -104,3 +104,40 @@ math
 - `sleep`
 - `tee`: copy stdin to stdout and to a file
 - `pwd`
+- `printf`
+
+checksum
+- `sum`: BSD (16-bit) checksums.
+- `b2sum`: BLAKE2b digest
+- `cksum`: facade to various checksum algorithm
+- `md5sum`
+- `sha1sum`
+- `sha224sum`
+- `sha256sum`
+- `sha384sum`
+- `sha512sum`
+
+encode/decode
+- `base32`
+- `base64`
+- `basenc`
+
+
+
+- `cp`
+- `csplit`
+
+
+- `hostid`
+- `install`
+- `join`
+- `link`
+- `ln`
+- `logname`
+
+
+- `nl`
+- `nohup`
+
+- `numfmt`: convert a number between different units, e.g. `10Mi -> 10485760`
+- `paste`
