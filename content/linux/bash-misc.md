@@ -71,3 +71,35 @@ fi
 Return code 0 from `<list>` is considered true, and everything else is considered false.
 
 Many built-ins have been introduced to mimic the return value of a process, saving a real fork-exec of child process.:
+- `true` bash builtin: generate return code 0
+- `false` bash builtin: generate return code 1
+- `/usr/bin/[` executable and `[` bash builtin: POSIX compatible boolean expression evaluator
+- `[[ ... ]]`: this double square bracket is a bash builtin
+
+	```bash
+	if [[! -d "$1"]];then
+		>&2 echo "$1 is not an directory".
+		exit 1
+	fi
+	```
+
+### Logical Operators for Strings
+
+Unary:
+
+| syntax                         | semantics                                    |
+|--------------------------------|----------------------------------------------|
+| `-z string`                    | `true` if empty string (length zero)         |
+| `-n string` or simply `string` | `true` if non-empty string (length non-zero) |
+
+Binary:
+
+| operator                                    | semantics                                                | sidenote                                                  |
+|---------------------------------------------|----------------------------------------------------------|-----------------------------------------------------------|
+| `string1 = string2` or `string1 == string2` | `true` if strings are literally identical                | For POSIX-correctness, use `=` version with `test` or `[` |
+| `string1 != string2`                        | `true` if strings are not literally identical            |                                                           |
+| `string1 < string2`                         | `true` if string1 sorts before string2 lexicographically |                                                           |
+| `string1 > string2`                         | `true` if string1 sorts after string2 lexicographically  |                                                           |
+
+### Logical Operators For Numbers
+
