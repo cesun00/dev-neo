@@ -68,3 +68,38 @@ M and D for `FLOAT` and `DOUBLE` are deprecated.
 | TINYINT   | 1      | DW        | /         |
 | SMALLINT  | 2      | DW        | /         |
 | MEDIUMINT | 3      | DW        | /         |
+| INT       | 4      | DW        | /         |
+| BITINT    | 8      | DW        | /         |
+| DECIMAL   | TODO   | precision | scale     |
+| FLOAT     | 4      | DON'T USE | DON'T USE |
+| DOUBLE    | 8      | DON'T USE | DON'T USE |
+| BIT       |        | # of bit  | /         |
+
+*DW stands for "display width". Application can retrieve this value in the column description, thus decide how to display the number. Whether use it is application's choice. It does not constrain the storage range in any sense.*
+
+- `Boolean` is alias for `TINYINT(1)`
+- `Integer` for `INT`
+- `NUMERIC` for `DECIMAL`
+- `REAL` and `DOUBLE PRECISION` for `DOUBLE`
+
+### Byte/Text String Type
+
+Unit of `(M)` is byte, meaning that one chinese character in utf8mb4 requires at least `CHAR(3)`, i.e. charset sensitive.
+
+Byte string differs from text string in that all byte string are of charset `binary` and collation `binary`; padding is also different.
+
+| name         | description                 | (M)                                                      | if content length < capacity                        |
+|--------------|-----------------------------|----------------------------------------------------------|-----------------------------------------------------|
+| CHAR(M)      | fixed-length string         | fixed # of BYTE (0 to 255)                               | right padded with SP (but trimed when retrieved)    |
+| VARCHAR(M)   | variable-length string      | the maximum column length in **characters** (0 to 65535) | won't charge unused storage.                        |
+| BINARY(M)    | fixed-length byte string    | same as CHAR(M) (0 to 255)                               | right padded with 0x00 (NOT removed when retrieved) |
+| VARBINARY(M) | variable-length byte string | same as VARCHAR(M)                                       | won't charge unused storage.                        |
+
+
+
+### Time/Date Type
+
+TODO
+
+
+## expressions
