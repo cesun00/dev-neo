@@ -54,3 +54,34 @@ For custom deleter, (TODO: why)
 TODO
 
 ### `std::make_shared`
+
+### `shared_ptr` to `this`
+
+### internals
+
+## `weak_ptr`
+
+- `weak_ptr` can't prevent the pointed resources being deleted as a result of all `shared_ptr`s being destructed.
+- Conceptually `weak_ptr` is associated with the underlying resources, rather than a specific `shared_ptr` instance: 
+
+    ```c++
+    auto shared = std::make_shared<int>(42);
+    auto weak = std::weak_ptr(shared);
+    shared = std::make_shared<int>(99);
+    if (weak.expired()) { // true
+        std::puts("weak expired");
+    }
+    ```
+
+
+To convert `weak_ptr` to a `shared_ptr`, use either of
+
+|                                            | when `expired() == true`     |
+|--------------------------------------------|------------------------------|
+| `weak_ptr::lock()`                         | return an empty `shared_ptr` |
+| `shared_ptr(const std::weak_ptr<T>&)` ctor | throws `std::bad_weak_ptr`   |
+
+
+
+## `make_unique` and `make_shared`
+
