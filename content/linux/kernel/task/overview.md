@@ -296,3 +296,35 @@ struct thread_info {
 	 *     p->on_rq = 0;			p->sched_remote_wakeup = Y;
 	 *
 	 * guarantees all stores of 'current' are visible before
+	 * ->sched_remote_wakeup gets used, so it can be in this word.
+	 */
+	unsigned			sched_remote_wakeup:1;
+#ifdef CONFIG_RT_MUTEXES
+	unsigned			sched_rt_mutex:1;
+#endif
+
+	/* Bit to tell TOMOYO we're in execve(): */
+	unsigned			in_execve:1;
+	unsigned			in_iowait:1;
+#ifndef TIF_RESTORE_SIGMASK
+	unsigned			restore_sigmask:1;
+#endif
+#ifdef CONFIG_MEMCG
+	unsigned			in_user_fault:1;
+#endif
+#ifdef CONFIG_LRU_GEN
+	/* whether the LRU algorithm may apply to this access */
+	unsigned			in_lru_fault:1;
+#endif
+#ifdef CONFIG_COMPAT_BRK
+	unsigned			brk_randomized:1;
+#endif
+#ifdef CONFIG_CGROUPS
+	/* disallow userland-initiated cgroup migration */
+	unsigned			no_cgroup_migration:1;
+	/* task is frozen/stopped (used by the cgroup freezer) */
+	unsigned			frozen:1;
+#endif
+#ifdef CONFIG_BLK_CGROUP
+	unsigned			use_memdelay:1;
+#endif
