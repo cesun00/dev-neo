@@ -88,3 +88,22 @@ e.g. `www.cise.ufl.edu.` are divided into 5 labels, ending with a label of empty
 
 ## Question
 
+Only the question section (i.e. only the client) uses this structure.
+
+```goat
+                                    1  1  1  1  1  1
+      0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                                               |  Name in question in the length-prefixed segment format.
+    /                     QNAME                     /  
+    /                                               /  There is no padding. `QTYPE` follows immediately.
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                     QTYPE                     |  the RR type id. e.g. `00 01` for `A` record
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                     QCLASS                    |  `00 01`: IN - the Internet
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+```
+
+For an exhaustive list of `QTYPE` and `QCLASS`, see https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml
+
+## Resource Record
