@@ -26,3 +26,40 @@ The following convention is used across the definition of classfile format:
 Readers are encouraged to keep the following ideas in mind when studying the classfile structure:
 1. a classfile needs not only to be executed by a JVM, but also provide enough information for source files to be compiled against it. A lot of information that is non-critical to runtime JVM is planted because of that.
 2. Java is not the only language that compiles to a JVM bytecode. The classfile format has constructs that are meant to support other high-level languages or to make the virtual machine more extensible.
+
+## Overview
+
+The structure of a classfile binary can be described by the following C-like pseudo-struct:
+
+```c
+struct ClassFile {
+    // 1. file metadata: magic and versions
+    u4             magic;
+    u2             minor_version;
+    u2             major_version;
+
+    // 2. the `constant pool` lookup table
+    u2             constant_pool_count;
+    cp_info        constant_pool[constant_pool_count-1];
+
+    // 3. type metadata: access, self, and unique parent
+    u2             access_flags;
+    u2             this_class;
+    u2             super_class;
+
+    // 4. implemented interfaces
+    u2             interfaces_count;
+    u2             interfaces[interfaces_count];
+
+    // 5. fields
+    u2             fields_count;
+    field_info     fields[fields_count];
+
+    // 6. methods
+    u2             methods_count;
+    method_info    methods[methods_count];
+
+    // 7. class-level attributes
+    u2             attributes_count;
+    attribute_info attributes[attributes_count];
+}
