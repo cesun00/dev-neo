@@ -1425,3 +1425,43 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── msnd/
 │   │   ├── opti9xx/
 │   │   ├── sb/
+│   │   ├── wavefront/
+│   │   └── wss/
+│   ├── mips/
+│   ├── parisc/
+│   ├── pci/
+│   │   ├── ac97/
+│   │   ├── ali5451/
+│   │   ├── asihpi/
+│   │   ├── au88x0/
+│   │   ├── aw2/
+│   │   ├── ca0106/
+│   │   ├── cs46xx/
+│   │   ├── cs5535audio/
+│   │   ├── ctxfi/
+│   │   ├── echoaudio/
+│   │   ├── emu10k1/
+│   │   ├── hda/
+│   │   ├── ice1712/
+│   │   ├── korg1212/
+│   │   ├── lola/
+│   │   ├── lx6464es/
+│   │   ├── mixart/
+│   │   ├── nm256/
+│   │   ├── oxygen/
+│   │   ├── pcxhr/
+│   │   ├── riptide/
+│   │   ├── rme9652/
+│   │   ├── trident/
+│   │   ├── vx222/
+│   │   └── ymfpci/
+│   ├── pcmcia/
+│   │   ├── pdaudiocf/
+│   │   └── vx/
+│   ├── ppc/
+│   ├── sh/
+│   ├── soc/
+│   ├── sparc/
+│   ├── spi/
+│   ├── synth/
+│   │   ├── emux/
