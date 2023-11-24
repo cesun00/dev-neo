@@ -991,3 +991,42 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   ├── verisilicon/
 │   │   │   ├── via/
 │   │   │   └── xilinx/
+│   │   ├── rc/
+│   │   │   ├── keymaps/
+│   │   ├── spi/
+│   │   ├── test-drivers/
+│   │   ├── tuners/
+│   │   └── usb/
+│   │       ├── b2c2/
+│   │       ├── dvb-usb/
+│   │       ├── dvb-usb-v2/
+│   │       ├── s2255/
+│   │       ├── siano/
+│   │       ├── ttusb-budget/
+│   │       └── ttusb-dec/
+│   ├── mfd/
+│   ├── misc/
+│   │   ├── cardreader/
+│   │   ├── cb710/
+│   │   ├── eeprom/
+│   │   ├── lis3lv02d/
+│   │   ├── mei/
+│   │   └── ti-st/
+│   ├── mmc/
+│   ├── net/
+│   │   ├── ethernet/
+│   │   │   ├── 3com/
+│   │   │   ├── 8390/
+│   │   │   ├── adaptec/
+│   │   │   ├── agere/
+│   │   │   ├── alacritech/
+│   │   │   ├── alteon/
+│   │   │   ├── amazon/
+│   │   │   ├── amd/
+│   │   │   ├── aquantia/
+│   │   │   ├── arc/
+│   │   │   ├── asix/
+│   │   │   ├── atheros/
+│   │   │   ├── broadcom/
+│   │   │   ├── brocade/
+│   │   │   ├── cadence/
