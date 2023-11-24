@@ -235,3 +235,30 @@ e.g. in GNU's libstdc++, RAO `views::transform` is of type `struct _Transform : 
 | views::drop               | ranges::drop_view               | skip first `N` elements                                                           |
 | views::drop_while         | ranges::drop_while_view         | skip first few elements until predicate returns false                             |
 | views::filter             | ranges::filter_view             | elements satisfies a predicate                                                    |
+| views::join_with          | ranges::join_with_view          | `[a,b,c]` to `[a,x,b,x,c,x]`                                                      |
+| views::split              | ranges::split_view              | `[a,x,b,x,c,x]` to  `[a,b,c]`                                                     |
+| views::lazy_split         | ranges::lazy_split_view         | ditto but split lazily, losing properties of the original view e.g. random access |
+| views::keys               | ranges::keys_view               | `[[k1,v1],[k2,v2]]` to `[k1,k2]`                                                  |
+| views::values             | ranges::values_view             | `[[k1,v1],[k2,v2]]` to `[v1,v2]`                                                  |
+| views::elements           | ranges::elements_view           | `[[1,2,3],[a,b,c]]` to `[1,a]` or `[2,b]`,or `[3,c]`                              |
+| views::zip                | ranges::zip_view                | `[[1,2,3],[a,b,c]]` to `[[1,a],[2,b],[3,c]]`                                      |
+| views::zip_transform      | ranges::zip_transform_view      | `[[1,2,3],[a,b,c]]` to `[f(1,a),f(2,b),f(3,c)]`                                   |
+| views::adjacent           | ranges::adjacent_view           | `[1,2,3,4]` to `[[1,2],[2,3],[3,4]]`                                              |
+| views::adjacent_transform | ranges::adjacent_transform_view | `[1,2,3,4]` to `[f(1,2),f(2,3),f(3,4)]`                                           |
+| views::join               | ranges::join_view               | `[[1,2,3],[a,b,c]]` to `[1,2,3,a,b,c]`                                            |
+| views::common             | ranges::common_view             | to `common_range`                                                                 |
+| views::slide              | ranges::slide_view              | TODO                                                                              |
+| views::stride             | ranges::stride_view             | TODO                                                                              |
+| views::chunk              | ranges::chunk_view              | TODO                                                                              |
+| views::chunk_by           | ranges::chunk_by_view           | TODO                                                                              |
+| views::as_const           | ranges::as_const_view           | TODO                                                                              |
+| views::as_rvalue          | ranges::as_rvalue_view          | TODO                                                                              |
+| views:all                 | n/a (only alias `views::all_t`) | a view that includes all elements of a range. Spec reserves `A`'s name for        |
+|                           |                                 | future change, only alias `decltype<viwes:all(r,...)>` to `views::all_t`          |
+| - user constructed -      | ranges::ref_view                | a view of the elements of some other range                                        |
+| - user constructed -      | ranges::owning_view             | a view with unique ownership of some range                                        |
+| - user constructed -      | views::counted                  | creates a subrange from an iterator and a count                                   |
+
+
+
+companion concepts (type constraints)
