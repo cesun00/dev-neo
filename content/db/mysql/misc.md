@@ -35,3 +35,11 @@ CREATE USER IF NOT EXISTS <user>;
 ### Privilege
 
 ```sql
+# print all privileges granted
+SHOW GRANTS [FOR user]
+`GRANT` implicitly creates user is not exist:
+GRANT USAGE ON *.* TO 'user123'@'%' IDENTIFIED VIA PAM using 'mariadb' require ssl ;
+```
+
+### Role
+A role is a bundle of privileges. By assigning an user a role, that user gets all the privileges in the role bundle. Here goes the thought of (multiple) inheritance.
