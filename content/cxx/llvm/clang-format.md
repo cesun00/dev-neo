@@ -32,3 +32,21 @@ Target language is determined by inspecting file extension name:
 - Proto: .proto .protodevel
 - TableGen: .td
 - TextProto: .textpb .pb.txt .textproto .asciipb
+- Verilog: .sv .svh .v .vh
+
+## config file
+
+`.clang-format` or any alternative config file must be in YAML format.
+
+Format options are designed to be flat: there is no hierarchy of options and sub-options. The nesting structure of YAML and json are only useful when a option has multiple customizable properties.
+
+As for 2021.08, 141 format options are supported. For exhaustive list of supported format options: https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+
+## misc
+
+It's a common need to create a `.clang-format` in the root directory when creating new project:
+
+```bash
+clang-format --style=llvm --dump-config > .clang-format
+```
