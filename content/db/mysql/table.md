@@ -60,3 +60,35 @@ show tables;
 
 CREATE VIEW poplarge AS SELECT * FROM city where Population >10000000;
 # Query OK, 0 rows affected (0.02 sec)
+
+show tables;
+# +-----------------+
+# | Tables_in_world |
+# +-----------------+
+# | city            |
+# | country         |
+# | countrylanguage |
+# | poplarge        |
+# +-----------------+
+
+SELECT * FROM poplarge;
+# +------+-----------------+-------------+-------------+------------+
+# | ID   | Name            | CountryCode | District    | Population |
+# +------+-----------------+-------------+-------------+------------+
+# | 1024 | Mumbai (Bombay) | IND         | Maharashtra |   10500000 |
+# +------+-----------------+-------------+-------------+------------+
+
+INSERT INTO city (Name, CountryCode, District, Population)
+VALUES ("NNN","GBR","England",10300000);
+# Query OK, 1 row affected (0.02 sec)
+
+SELECT * FROM poplarge;
+# +------+-----------------+-------------+-------------+------------+
+# | ID   | Name            | CountryCode | District    | Population |
+# +------+-----------------+-------------+-------------+------------+
+# | 1024 | Mumbai (Bombay) | IND         | Maharashtra |   10500000 |
+# | 4081 | NNN             | GBR         | England     |   10300000 |
+# +------+-----------------+-------------+-------------+------------+
+
+DROP VIEW poplarge;
+```
