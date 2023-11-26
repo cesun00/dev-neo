@@ -165,3 +165,34 @@ is not possible without hacking.
 
 Finally, our intuition boils down to only 2 scenarios, which must be supported by Java 9:
 
+| source paradigm      | compiled with \* | runtime version \* | scenario                              |
+|----------------------|------------------|--------------------|---------------------------------------|
+| classes (non-module) | 8                | 9                  | Legacy jar runs on JVM 9              |
+| classes (non-module) | 9                | 9                  | Legacy source build & run with Java 9 |
+
+- \* compile-time version: `javac` & compile-time SDK & bytecode target JVM version
+- \* runtime version: JVM & runtime SDK version
+
+Legacy jar runs on JVM 9
+===============
+
+Legacy jars are built from non-modular projects and delivered without `module-info.class`.
+
+```sh
+# java 8:
+java -cp my-legacy-app.jar com.example.App
+
+# java 9:
+java -cp my-legacy-app.jar com.example.App
+```
+
+To fit them into the universe of observable modules, the concept of *unnamed module* is introduced.
+
+
+Legacy source build & run with Java 9
+===============
+
+
+
+
+
