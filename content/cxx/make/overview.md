@@ -357,3 +357,7 @@ vpath pattern directories   # search the colon or blank separated `directories` 
 vpath pattern               # Clear out the search path associated with pattern.
 vpath                       # Clear all search paths previously specified with vpath directives.
 ```
+
+```makefile
+vpath %.h ../headers    # search pwd first, then ../headers, but only when `.h` file targets / prerequisites are in question.
+```
