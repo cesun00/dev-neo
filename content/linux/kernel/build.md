@@ -403,3 +403,37 @@ Some build-optimization files pervasively exist in the
        - build a CLI prompt-based `conf` ELF executable or ncurses-based `mconf` in `scripts/kconfig/`; 
        - end up with 
               - `.config` file
+              - `include/config/auto.conf`
+              - `include/config/*`
+              - `include/generated/autoconf.h`
+
+The kernel uses [sub-make]({{<ref "../../cxx/make/submake.md">}}). Whether sub-make is a good practice is debatable.
+
+       logics of submake division of the linux kernel (which is also an pretty common and reasonable one):
+       All sub-Makefile only modify / depends on the files in its own directory (and sub-directories that is not managed by a sub-Makefile).
+       If some file depends on a file in another subMake directory to be up-to-date, a $`(Make)` calls should be invoked rather than 
+       typing literal depend on that file (in the dependency list).
+
+
+## Makefile distribution
+
+
+
+
+
+## User Interfaces
+
+### out-of-source build
+
+Linux supports out-of-source build by an `O=dir` make CLI argument:
+
+```sh
+cd linux-6.8.2
+mkdir build
+make O=build defconfig
+cd build
+make -j12
+```
+
+## before a build
+
