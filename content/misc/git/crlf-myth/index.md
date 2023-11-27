@@ -29,3 +29,4 @@ Git provides 3 options to help alleviate this problem:
 
 {{<wide>}}
 {{<include-html "./options.html">}}
+{{</wide>}}
