@@ -33,3 +33,32 @@ Actually, each enum instance can have a different implementation of the interfac
 
 ```java
 package com.example.bootdemo;
+
+import java.util.concurrent.Executor;
+
+public enum FooEnum implements Executor {
+    GG("12323", 42) {
+        @Override
+        public void execute(Runnable command) {
+
+        }
+    },
+    KK("332",22) {
+        @Override
+        public void execute(Runnable command) {
+
+        }
+    },
+    ;
+
+    private String code;
+    private int value;
+
+
+    FooEnum(String code, int value) {}
+}
+```
+
+Note that:
+1. This cause a anonymous class thus separate `.class` files to be generated for each enum instance. 
+2. 
