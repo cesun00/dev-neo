@@ -64,3 +64,13 @@ For a fixed base current, `V_RC / I_C`
 
 1. gate
 2. source
+3. drain
+
+## Complementary metal–oxide–semiconductor (CMOS)
+
+### MOSFET
+
+
+## `I/V` curve of collector-emitter (parameterized by `I_B`)
+
+
