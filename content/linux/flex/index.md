@@ -224,3 +224,31 @@ extern FILE *yyin, *yyout;
 ```
 
 ```
+yy_create_buffer
+yy_delete_buffer
+yy_flex_debug
+yy_init_buffer
+yy_flush_buffer
+yy_load_buffer_state
+yy_switch_to_buffer
+yyin
+yyleng
+yylex
+yylineno
+yyout
+yyrestart
+yytext
+yywrap
+yyalloc
+yyrealloc
+yyfree
+```
+
+## Customize Macros
+
+
+# MISC
+
+unless modified by `%option outfile=`.
+
+### IO related stdc functions in `action` -->
