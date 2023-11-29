@@ -299,3 +299,34 @@ It has the following structure:
 <!-- - The `R/M` field can specify a register as an operand, or it can be combined with the `mod` field to encode an addressing mode -->
 
 Someitmes The specification of register is encoded in the primary opcode instead of `R/M` field.
+
+The SIB byte doesn't exist in 16-bit machine, i.e. 80286 and prior.
+
+####
+
+An interesting design of the x86 ISA is the direction, i.e. a memory-register instruction and register-memory instruction only differs in opcode..?
+
+
+```
+0:	8b 91 12 12 25 32    	mov    edx,DWORD PTR [ecx+0x32251212]
+6:	89 91 12 12 25 32    	mov    DWORD PTR [ecx+0x32251212],edx
+```
+
+
+<!-- TODO: 386 Register specifiers may occur either in the same byte as the opcode or in the same byte as the addressing-mode specifier. -->
+<!-- - Sometimes, certain combinations of the mod field and the r/m field are used to express opcode information for some instructions.
+
+1. bit `[0,2]`:
+an instruction may specify one or two register operands. Register specifiers may occur either in the same byte as the opcode or in the same byte as the addressing-mode specifier. -->
+
+<!-- 4. Addressing-mode specifier
+
+    when present, specifies whether an operand is a register or memory location; if in memory, specifies whether a displacement, a base register, an index register, and scaling are to be used.
+
+5. SIB (scale, index, base) byte
+
+    when the addressing-mode specifier indicates that an index register will be used to compute the address of an operand, an SIB byte is included in the instruction to encode the base register, the index register, and a scaling factor. -->
+
+### Displacement
+
+when the addressing-mode specifier indicates that a displacement will be used to compute the address of an operand, the displacement is encoded in the instruction. A displacement is a signed integer of 32, 16, or eight bits. The eight-bit form is used in the common case when the displacement is sufficiently small. The processor extends an eight-bit displacement to 16 or 32 bits, taking into account the sign.
