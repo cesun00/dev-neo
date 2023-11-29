@@ -153,3 +153,34 @@ The target of a jump is always another instruction; depending where that instruc
     `dest` must be a 8-bit GP register or memory address of a byte. set `dest` byte (i.e. assign with 1) if condition `cc` is satisfied.
 
     `cc` includes:
+    1. `A` / `AE`: above / above or equal
+    2. ...TODO
+
+- `TEST a, b`: the same as `AND a,b`, except No write-back of the result.
+
+Jumps: these spelled instruction in assembly source code has different opcodes implementation, depending on the addressing nature of the operand.
+
+- `JMP operand`: one-way unconditional transfer of control.
+
+    Different opcode implementations exist depending on the nature of `operand`:
+    - direct jump: `EIP = EIP + operand`
+
+        Direct jump happens when `operand` is an immediate number. A direct jump is always a near jump (i.e. in the same segment)
+        and `operand` is treated as a signed integer displacement relateive the current `EIP`
+
+    - indirect near jump: happens when `operand` nominates a GP register. `EIP = operand`
+
+    The stack is unmodified.
+
+- `CALL operand`: `PUSH EIP + JMP operand`; save the current `EIP` (i.e. the address of the next instruction following the `CALL`) to stack for later use by a `RET` instruction, then do a jump.
+- `RET`: `POP EIP`
+
+unsigned conditionals jumps:
+- `JA/JNBE`
+- `JAE/JNB`
+- `JB/JNAE`
+- `JBE/JNA`
+- `JC`
+- `JE/JZ`
+- `JNC`
+- `JNE/JNZ`
