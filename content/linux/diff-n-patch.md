@@ -56,3 +56,29 @@ This is the format used by the Wayne's `unidiff`.
 ```diff
 # diff -u <(echo -e 'foo\nbar') <(echo -e 'foo\nzoo')
 --- /dev/fd/63	2024-03-30 22:29:11.437284751 +0800
++++ /dev/fd/62	2024-03-30 22:29:11.437284751 +0800
+@@ -1,2 +1,2 @@
+ foo
+-bar
++zoo
+```
+
+{{</columns>}}
+
+The unified format prevails nowadays since it's more compact, and the context format is deprecated.
+
+The report of the directory-wise comparison usually has a `.diff` extension if generated with `-c` flag,
+or a `.udiff` extension if with `-u` flag
+
+By convention, a diff file computed by `diff -ruN` on each file has 
+and a `diff -rcN` one has 
+
+## Making patches
+
+A standard patch file is made by:
+
+```sh
+cd COMMON_PARENT_DIR
+diff -ruN OLD_VER_DIR NEW_VER_DIR >patch.diff
+```
+
