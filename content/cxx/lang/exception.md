@@ -66,3 +66,27 @@ Function can declare whether it has the potential to throw an exception via the 
 A function is said to be *potentially-throwing* if `constant-expression` evaluate to `false` **at compile time**, and *non-throwing* otherwise.
 
 ```c++
+// potentially-throwing
+void foo() noexcept(false) { }
+
+// can condition on compile-time expression
+template<typename T>
+void bar() noexcept(sizeof(T) < 4) { }
+
+// parentheses-less shortcut = noexcept(true)
+void zoo() noexcept { }
+```
+
+The effects are:
+- Runtime Assertion: if an non-throwing function somehow throws an exception at runtime,
+    - `std::unexpected` will be called for `[c++11, c++17)`
+    - `std::terminate`  will be called since C++17.
+- Optimization hint:
+- TODO:
+
+By default (i.e. `noexcept` specifier is absent),
+- all functions are potentially-throwing;
+- since C++11, dtors are non-throwing; which means explicit `noexcept(false)` are required if you want throw from a dtor. Throwing from a dtor is considered dangerous, see below.
+
+
+## Throw from destructor
