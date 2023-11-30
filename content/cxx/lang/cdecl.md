@@ -56,3 +56,15 @@ int (*arr_nd)[NCOL] = malloc(NROW * sizeof *arr_nd);
  * @brief lvalue / rvalue Reference to a pointer
  */
 void foo(std::FILE *&file, std::FILE *&&unique_file) {
+
+}
+```
+
+## there is no array of / pointer to / reference to reference
+
+```c++
+// WRONG: syntax errors
+int& a[3]; // error
+int&* p;   // error
+int& &r;   // error
+```
