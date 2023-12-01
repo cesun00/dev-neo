@@ -84,3 +84,32 @@ known as memory segmentation:
 
     This memory operand consists of 3 components, all of which are optional:
     1. a base register: can be `BX` or `BP`
+    2. an index register: can be `SI` or `DI`
+    3. displacement: an immediate number
+
+    *It is the mix and match of the presence of the 3 components that gives rise to the various addressing modes of x86.*
+
+    The sum of these 3 components is known as the *effective address (EA) of the operand*.
+
+The EA is interpreted as an offset from a base address.
+The base address is obtained by left-shifting the value of the associated segment register by 4 bits.
+The physical address (the bits sent over the 20-bit address bus) is calculated by `((selected segment register) << 4) + EA`.
+
+```
+segment     4 5 0 0
+EA            F C 3 2
+-------------------------
+phy         5 4 C 3 2
+```
+
+There is no exception to the rules above. No memory access could circumvent this `base + offset (EA)` arithmetic regardless of the syntax.
+Instructions like `MOV AX, [BX]` or `MOV AX, [40]` could be very confusing to beginners as if
+they were using absolute address if no knowledge of the segmentation mechanism is priorly acquired.
+What makes it worse is that Certain retrospection material, including Intel's programmer reference manual for later models,
+> In this mode of operation, all memory addressing is performed in terms of real physical addresses.
+which is absolutely totally wrong to absurdity. You . Never . PROGRAM . WITH
+
+For 8086/8088, EA is computed by the execution unit (EU) when an instruction is decoded.
+This value is then made available on an internal bus connecting the EU and the BIU (bus interface unit).
+The BIU reads the selected segment register, shifts its value, and adds it with EA to get the physical address.
+
