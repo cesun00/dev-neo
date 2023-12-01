@@ -71,3 +71,32 @@ When a page is loaded, only those media query with correct
 }
 @media (prefers-color-scheme: dark) {
 
+}
+```
+
+There was an legacy `no-preference` value which is now permenantly removed.
+
+/* no-preference is an legacy value, removed permenantly */
+@media (prefers-color-scheme: []) {}gg
+
+If an element 
+
+A common technique to allow user-preferred theme to be automatically chosen even without javascript enabled. 
+
+```html
+<noscript>
+</noscript>
+```
+
+### problem with: iframe and embedded svg
+
+Many folks may have noticed the `color-scheme` CSS property which is widely supported by browsers since 2022.
+Don't worry, this property isn't as important as it sounds like.
+
+The problem with the aforementioned solution is 2 corner cases:
+1. 
+
+Settings `color-scheme: ` to a fixed value on an ancestor node of `<iframe>` or `<img>`
+prevents the `prefers-color-scheme` media query within such embeded elements from observing the real color scheme.
+
+```css
