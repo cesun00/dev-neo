@@ -25,3 +25,36 @@ Various config programs (e.g. `menuconfig`)
 `Kconfig` files are executed in 2-pass:
 `Kconfig` files are first scanned for replacing macros with values, and in the second pass, the macro-expanded intermediate form is parsed for structure analysis and dependency description.
 
+###  macro part
+
+Like Makefile, variables are defined with `:=` or `=`, appended to with `+=`, and referenced via `$(foo)` syntax. (`${foo}` and `$foo` are both illegal).
+
+A variable can contain `$(n)`placeholders. The expansion of such variables can take arguments which will replace the placeholders:
+
+```makefile
+foo = hello $(1) world $(2)! $(3)       # must use `=`, not `:=`
+
+bar := $(foo,arg1,arg2,arg3)   # which expands to `hello arg1 world arg2! arg3`
+```
+
+A variable can hold 
+
+
+
+
+
+## toxic
+
+1. `config` without a `prompt` string will never show up in `menuconfig` or `guiconfig`, not even in `EXPERT` mode and when their dependencies are satisfied.
+Such 
+2. a symbol's position in the `menuconfig` is determined in 2 ways:
+    1. an explicit `menu "title" ... endmenu` wraps all middle `config`s in an menu
+    2. analyzing the dependencies. if an `config` has only 1 `depends on`, meaning that it will only be visible if that `depends` is visible, a submenu will be made   https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html#menu-structure
+
+## pattern:  overrides archtecture-specific override
+
+`arch/$(SRCARCH)/Kconfig`
+
+{{<columns>}}
+
+#### arch/Kconfig
