@@ -96,3 +96,13 @@ s.t. `base/*` matches all `.jar` or `.JAR` under directory `base`.
 #### Reflection and Security
 
 `java.lang.SecurityManager`
+
+https://docs.oracle.com/javase/tutorial/essential/environment/security.html
+https://stackoverflow.com/questions/3002904/what-is-the-security-risk-of-object-reflection
+https://stackoverflow.com/questions/1239581/why-is-it-allowed-to-access-java-private-fields-via-reflection
+
+### Dual semantics of data member / field
+
+There are 2 reasons why class A want to have a reference to an object of class B.
+1. Encapsulatoin: B is some internal status of A, e.g. ArrayList internally keeps an `Object[]` as its content.
+2. Dependency: A depends on some B object to complete its task. e.g. a Controller instance have an instance of `IService`, and it's not because `IService` instance is some "internal states" of a Controller.
