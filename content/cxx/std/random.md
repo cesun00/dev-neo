@@ -71,3 +71,30 @@ These class templates don't themselves implement math algorithm, but work as ada
 
 ### `std::random_device`: Opportunistic Hardware Randomness
 
+Spec mandates class `std::random_device` to satisfy URBG and, if possible, provide uniformly random bits from hardware entrophy.
+
+Spec allows `std::random_device` to be pseudo-random if hardware randomness are not available.
+
+### The impl-defined `std::default_random_engine`
+
+Spec mandates a implementation-specific `std::default_random_engine` class that satisfies URBG.
+
+- GNU libstdc++
+
+    > The type default_random_engine is a synonym for minstd_rand0.
+
+    https://gcc.gnu.org/onlinedocs/libstdc++/manual/status.html#iso.specfun.specific
+
+- LLVM libc++
+
+    ```c++
+    typedef minstd_rand default_random_engine
+    ```
+
+    https://github.com/llvm/llvm-project/blob/e96123dfeabc0acfac6bc45f75237a01045f4e3b/libcxx/include/__random/default_random_engine.h#L21
+
+
+
+## Distributions
+
+The aforementioned URBG are all spit randomness in forms of uniformly random bits.
