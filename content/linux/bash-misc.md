@@ -358,3 +358,36 @@ declare -A map_a
 
 # Indexed Array
 declare -a arr_a
+# or
+arr_b[0]=42
+```
+
+
+#### Compound Assignment
+
+```bash
+# if `xxx` is not declared, this creates an indexed array of size 6;
+# or if `xxx` was declared as an indexed array, this overwrites it.
+xxx=(1 2 3 x y z)
+
+# if `yyy` was declared as an associative array, the same syntax
+# overwrites it as `([3]="x" [1]="2" [y]="z" )`.
+yyy=(1 2 3 x y z)
+# and is equivalent to `yyy=([1]=2 [3]=x [y]=z)`
+
+# if `zzz` is not declared, or was declared as an index array,
+# this produce undefined behavior:
+zzz=([a]=42 [b]=11)
+
+# if `uuu` was declared as an associative array,
+# this works as expected:
+uuu=([a]=42 [b]=11)
+```
+
+#### Push Back
+
+```bash
+arr_a=()
+arr_a+=('foo')  # the surrounding () is required
+arr_a+=('bar')
+# $ declare -p arr_a
