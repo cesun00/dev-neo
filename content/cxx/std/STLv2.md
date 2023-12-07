@@ -340,3 +340,19 @@ template <ranges::range R>
 using range_rvalue_reference_t = std::iter_rvalue_reference_t<ranges::iterator_t<R>>;
 ```
 
+
+Projection
+======================
+
+Projection `[defns.projection]` is defined to be a *unary function object* that takes an element in a range, performs a transformation, and return the transformed result, *before any other algorithm* are applied to the range.
+
+misc
+===============
+
+Namespace `std::ranges::views` is aliased to `std::views` for convenience:
+
+```c++
+namespace std {
+    namespace views = ranges::views;
+}
+```
