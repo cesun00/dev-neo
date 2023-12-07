@@ -129,3 +129,34 @@ struct thread_info {
 ```
 
 
+### TODO
+
+
+
+```c
+	unsigned int			__state;
+
+	/* saved state for "spinlock sleepers" */
+	unsigned int			saved_state;
+
+	/*
+	 * This begins the randomizable portion of task_struct. Only
+	 * scheduling-critical items should be added above here.
+	 */
+	randomized_struct_fields_start
+
+	void				*stack;
+	refcount_t			usage;
+	/* Per task flags (PF_*), defined further below: */
+	unsigned int			flags;
+	unsigned int			ptrace;
+
+#ifdef CONFIG_SMP
+	int				on_cpu;
+	struct __call_single_node	wake_entry;
+	unsigned int			wakee_flips;
+	unsigned long			wakee_flip_decay_ts;
+	struct task_struct		*last_wakee;
+
+	/*
+	 * recent_used_cpu is initially set as the last CPU used by a task
