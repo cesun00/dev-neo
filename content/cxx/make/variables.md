@@ -130,3 +130,35 @@ Use `$$` to escape for a literal `$`.
 
 
 ## Variables Used by Implicit Rules (VUIR)
+
+
+You can cancel all variables used by implicit rules with the `-R` or `--no-builtin-variables` option.
+
+Common ones:
+
+- CC: Program for compiling C programs; default ‘cc’.
+    - CFLAGS: Extra flags to give to the C compiler.
+- CXX: Program for compiling C++ programs; default ‘g++’.
+    - CXXFLAGS: Extra flags to give to the C++ compiler.
+- CPP: Program for running the C preprocessor, with results to standard output; default ‘$(CC) -E’
+    - CPPFLAGS: Extra flags to give to the C preprocessor and programs that use it (the C and Fortran compilers).
+- LDFLAGS: Extra flags to give to compilers when they are supposed to invoke the linker, `ld`, such as -L. Libraries (-lfoo) should be added to the LDLIBS variable instead.
+
+Specifically, note that the static linker `ld` is not one among the list. (Always `ld` thus hardcoded?).
+
+
+## Special variables
+
+Special variables are ones set by the `make` program itself, rather than set by the user in `Makefile`.
+- `MAKE`: this expands to `argv[0]` of the `make` process, i.e. the program name by which `make` is invoked.
+    
+    It's recommended to use this variable to initiate sub-make, avoids instead of a raw `make`.
+    
+    There is no other specialty about this variable. It can be override as any other variables.
+
+## Parameterized Variables (Functions)
+
+TODO
+
+## GNUmake-specific special variables
+
