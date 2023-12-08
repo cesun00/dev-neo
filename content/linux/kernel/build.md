@@ -1138,3 +1138,29 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── switch/
 │   ├── pcmcia/
 │   ├── perf/
+│   ├── platform/
+│   │   ├── surface/
+│   │   └── x86/
+│   │       ├── amd/
+│   │       ├── intel/
+│   ├── pnp/
+│   │   ├── pnpacpi/
+│   ├── power/
+│   │   └── supply/
+│   ├── pps/
+│   │   ├── clients/
+│   │   ├── generators/
+│   ├── ptp/
+│   ├── pwm/
+│   ├── rtc/
+│   ├── scsi/
+│   │   ├── pcmcia/
+│   │   ├── scsi_devinfo_tbl.c
+│   ├── soc/
+│   │   ├── amlogic/
+│   │   ├── apple/
+│   │   ├── aspeed/
+│   │   ├── bcm/
+│   │   ├── fsl/
+│   │   ├── fujitsu/
+│   │   ├── hisilicon/
