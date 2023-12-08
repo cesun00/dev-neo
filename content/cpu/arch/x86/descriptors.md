@@ -69,3 +69,30 @@ Many registers have such
 
 Unlike the `GDTR`, only the selector part (the most significant 16 bits) is visible.
 
+The hidden 40 bits are effectively used as cache for 
+
+The content of LDTR, including the hidden bits,  is reloaded under the following circumstances:
+1. when a task is created, i.e. ... TODO
+2. when a task switch happens
+
+### Interrupt Descriptors table (IDT)
+
+## Descriptors
+
+Descriptors are entries in descriptor tables.
+A descriptor is always 8 bytes in size in protected mode.
+IA32e/Long mode introduced 16-byte TSS descriptors and call gates descriptors.
+
+The 5th byte, known as the *access byte*, determines the nature of this descriptor and thus must be parsed first by the hardware:
+
+```goat
+  7   6   5   4   3   2   1   0   
++-------------------------------+
+| P | DPL   | S |  Type         |       the access byte
++-------------------------------+
+```
+
+Within the access byte, from the most significant bit:
+1. `P` (present): indicates whether this descriptor describes a segment currently in memory.
+
+    A virtual memory system swaps data between memory with hard drive to make room for large software.
