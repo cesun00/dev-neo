@@ -134,3 +134,31 @@ Notable `BeanFactory` Implementations
 ## `class AbstractBeanFactory` (beans.factory.support)
 ## `class AbstractAutowireCapableBeanFactory` (beans.factory.support)
 ## `class SimpleJndiBeanFactory` (jndi.support)
+## `class StaticListableBeanFactory` (beans.factory.support)
+
+## `class DefaultListableBeanFactory` (beans.factory.support)
+
+The most used `BeanFactory` implementation of all time, because an instance is composited by all subclasses of `AbstractApplicationContext`, i.e. all implementation of `ApplicationContext`.
+
+
+
+
+Auxillary Types
+====================
+
+## `interface BeanFactoryPostProcessor`
+
+Simple one-method interface describing something to do after a `BeanFactory` is 
+
+`BeanFactory` itself is not awared of `BeanFactoryPostProcessor`.
+`ApplicationContext` manages all `BeanFactoryPostProcessor` instances, specifically:
+
+```java
+public abstract class AbstractApplicationContext {
+    private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
+
+    // ... 
+}
+```
+
+`ApplicationContext` use this interface to do something after a BeanFactory finishs loading BeanDefinitions, but before any bean instance is created; mainly:
