@@ -60,3 +60,31 @@ mpar 1,2,3,4,5,6        ; expands to
                         ; db 6,5,4
 ```
 
+```asm
+; linux_syscall call_no, arg0, arg1, arg2, arg3, arg4, arg5
+%macro linux_syscall 1-7 0,0,0,0,0,0
+
+    mov rax, %1
+    mov rdi, %2
+    mov rsi, %3
+    mov rdx, %4
+    mov r10, %5
+    mov r8, %6
+    mov r9, %7
+    syscall
+
+%endmacro 
+
+SECTION .data
+msg:    db `hello world\n`
+msglen: equ $-msg
+
+GLOBAL manbaout
+
+SECTION .text
+manbaout:
+    ; write to stdout a string
+    linux_syscall 1,1,msg,msglen
+
+    ; exit the process with code 42
+    linux_syscall 0x3c, 42
