@@ -259,3 +259,23 @@ A HLL structure is just a wrapper of a redis string. You can `GET` it to see the
 
 ```redis
 127.0.0.1:6379> PFADD myhll a b c d e
+(integer) 1
+127.0.0.1:6379> PFADD myhll2 1 3 7 42 b c a f
+(integer) 1
+127.0.0.1:6379> PFCOUNT myhll
+(integer) 5
+127.0.0.1:6379> PFCOUNT myhll2
+(integer) 8
+127.0.0.1:6379> PFCOUNT myhll myhll2
+(integer) 10                <- count the tmp merge of myhll and myhll2; note the error
+127.0.0.1:6379> PFMERGE desthll myhll1 myhll2
+OK
+127.0.0.1:6379> KEYS *
+1) "myhll"
+2) "myhll2"
+3) "desthll"
+127.0.0.1:6379> PFCOUNT desthll
+(integer) 8
+127.0.0.1:6379> GET desthll
+"HYLL\x01\x00\x00\x00\b\x00\x00\x00\x00\x00\x00\x00Fm\x80V\xf7\x80C\x8b\x80D\x9a\x80EK\x80F\xc8\x84HN\x80C\xab\x80BZ"
+```
