@@ -427,3 +427,37 @@ echo ${arr_a[*]} # always equivalent to above
 echo "${arr_a[@]}" # echo receives 2 words: `a    b` and `c   d   e`
 echo "${arr_a[*]}" # echo receives 1 words: `a    b<FC_IFS>c   d   e`,
 # where <FC_IFS> is the first character of the special variable `IFS`
+```
+
+#### Iteration
+
+```bash
+a=(1 2 3 a b c)
+# get length
+echo "${#a[@]}" # 6
+# by value
+for v in "${a[@]}"; do echo "$v"; done
+# by index
+for i in "${!a[@]}"; do echo "cur: $i - ${a[$i]}"; done
+```
+
+#### Delete Element
+
+```bash
+a=(1 2 3)
+declare -p a # declare -a a=([0]="1" [1]="2" [2]="3")
+unset a[1]
+declare -p a # declare -a a=([0]="1" [2]="3")
+```
+
+#### Element-wise Mapping
+
+**Simple scenario**: prepend or append some characters to each element:
+
+https://stackoverflow.com/questions/27346410/expand-bash-array-into-curly-braces-syntax
+
+```bash
+oj=(uva poj hdu leetcode)
+
+for d in "${oj[@]/#/src/}"; do echo "$d"; done
+
