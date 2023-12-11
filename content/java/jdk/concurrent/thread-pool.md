@@ -87,3 +87,28 @@ Non-core threads are free-ed after being idle for a period of time defined by `k
 `handler` is another strategy interface that determines
 
 For simpler constructors:
+- `threadFactory` defaults to be `Executors.defaultThreadFactory()`, which returns a new `Thread` instance by simply calling the `new Thread()` constructor.
+- `handler` defaults to `new AbortPolicy();`.
+
+
+
+### What happens if a TPE can't execute a task
+
+`RejectedExecutionHandler` is a strategy interface.
+
+`ThreadPoolExecutor` has 4 static nested classes that implements this interface, representing 4 different ...:
+- `DiscardOldestPolicy`:
+- `AbortPolicy`:
+- `CallerRunsPolicy`:
+- `DiscardPolicy`:
+
+One of the `ThreadPoolExecutor` constructors allows specifying a `RejectedExecutionHandler` strategy instance.
+
+The problem being that a user holding an TPE instance now can't be sure what happens when `subimt` is called.
+Simply calls
+
+
+
+<!--
+
+So far, some problems still present:
