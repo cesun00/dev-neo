@@ -648,3 +648,30 @@ struct thread_info {
 #ifdef CONFIG_DEBUG_PREEMPT
 	unsigned long			preempt_disable_ip;
 #endif
+#ifdef CONFIG_NUMA
+	/* Protected by alloc_lock: */
+	struct mempolicy		*mempolicy;
+	short				il_prev;
+	u8				il_weight;
+	short				pref_node_fork;
+#endif
+#ifdef CONFIG_NUMA_BALANCING
+	int				numa_scan_seq;
+	unsigned int			numa_scan_period;
+	unsigned int			numa_scan_period_max;
+	int				numa_preferred_nid;
+	unsigned long			numa_migrate_retry;
+	/* Migration stamp: */
+	u64				node_stamp;
+	u64				last_task_numa_placement;
+	u64				last_sum_exec_runtime;
+	struct callback_head		numa_work;
+
+	/*
+	 * This pointer is only modified for current in syscall and
+	 * pagefault context (and for tasks being destroyed), so it can be read
+	 * from any of the following contexts:
+	 *  - RCU read-side critical section
+	 *  - current->numa_group from everywhere
+	 *  - task's runqueue locked, task not running
+	 */
