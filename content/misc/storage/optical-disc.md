@@ -198,3 +198,28 @@ The distance between the windings (the pitch) is 1.6 µm (measured center-to-cen
 Standard CDs have a diameter of 120 millimetres (4.7 in) and are designed to hold up to 74 minutes of uncompressed stereo digital audio or about 650 MiB (681,574,400 bytes) of data
 Capacity is routinely extended to 80 minutes and 700 MiB (734,003,200 bytes) by arranging data more closely on the same-sized disc
 (narrower track pitch of 1.5 µm)
+(A disc with data packed slightly more densely is tolerated by most players (though some old ones fail).)
+Even denser tracks are possible, with semi-standard 90 minute/800 MiB discs having 1.33 µm, and 99 minute/870 MiB having 1.26 µm,[12] but compatibility suffers as density increases
+
+The Mini CD has various diameters ranging from 60 to 80 millimetres (2.4 to 3.1 in); they are sometimes used for CD singles, storing up to 24 minutes of audio, or delivering device drivers.
+storing up to 24 minutes of audio, or delivering device drivers.
+
+*A single spiral* track spin from the inner side of a CD to the edge.
+
+## CDROM
+On early audio CD players that were released prior to the advent of the CD-ROM, the raw binary data of CD-ROM was played back as noise. To address this problem, the subcode channel Q has a "data" flag in areas of the disc that contain computer data rather than playable audio. The data flag instructs CD players to mute the audio.[12][13]
+
+the depth of the pits is approximately one-quarter to **one-sixth** ?? of the wavelength of the laser light used to read the disc
+
+The Yellow Book, created in 1983,[6][14] defines the specifications for CD-ROMs, standardized
+1. in 1988 as the ISO/IEC 10149[1] standard and
+2. in 1989 as the ECMA-130[15] standard
+
+Like audio CDs (CD-DA), 1 CD-ROM sector composed of 98 frames, and each frame consists of 33 bytes,
+among which 
+1. 24 bytes for the user data
+2. 8 bytes for error correction, and
+3. 1 byte for the subcode
+
+This makes a sector 3234 bytes, among which 2,352 bytes are user data.
+
