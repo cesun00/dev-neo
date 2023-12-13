@@ -99,3 +99,14 @@ pageup      Scroll 1 screen up in current node.
 
     The going-up counterpart of `space`
 
+ctrl-v
+
+    the same as space, but stop at the end of the current node
+
+ctrl
+
+
+
+b or <home>       scroll to beginning of current node
+e or <end>      scroll to the beginning of current node
+alt+r   put cursor to the middle of the screen
