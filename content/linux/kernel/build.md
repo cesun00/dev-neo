@@ -613,3 +613,31 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── crypto/
 │   │   ├── entry/
 │   │   │   ├── syscalls/
+│   │   │   ├── vdso/
+│   │   │   │   ├── vdso2c*
+│   │   │   │   ├── vdso32/
+│   │   │   │   │   ├── vdso32.lds
+│   │   │   │   ├── vdso32.so*
+│   │   │   │   ├── vdso32.so.dbg*
+│   │   │   │   ├── vdso64.so*
+│   │   │   │   ├── vdso64.so.dbg*
+│   │   │   │   ├── vdso-image-32.c
+│   │   │   │   ├── vdso-image-64.c
+│   │   │   │   ├── vdso.lds
+│   │   │   └── vsyscall/
+│   │   ├── events/
+│   │   │   ├── amd/
+│   │   │   ├── intel/
+│   │   │   └── zhaoxin/
+│   │   ├── ia32/
+│   │   ├── include/
+│   │   │   └── generated/
+│   │   │       ├── asm/
+│   │   │       │   ├── early_ioremap.h
+│   │   │       │   ├── irq_regs.h
+│   │   │       │   ├── kmap_size.h
+│   │   │       │   ├── local64.h
+│   │   │       │   ├── mcs_spinlock.h
+│   │   │       │   ├── mmiowb.h
+│   │   │       │   ├── module.lds.h
+│   │   │       │   ├── orc_hash.h
