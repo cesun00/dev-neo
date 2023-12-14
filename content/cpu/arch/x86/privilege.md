@@ -25,3 +25,27 @@ Task privilege is a dynamic value. It is derived from the code segment currently
 privilege can change only when a control transfers to a different code segment.
 
 Each task operates at only one privilege level at any given moment: namely that of the code segment
+being executed.
+
+The descriptor privilege attribute is stored in the access byte of a descriptor and is called the Descriptor Privilege Level (DPL). Task privilege is called the Current Privilege Level (CPL).
+
+<!-- ## selector register
+
+Loading a new selector into a relative register is a significant event in the privilege model.
+Several checks are performed by hardware:
+
+### load a new `CS` register: 
+### load a new `SS` register:
+
+Further memory access in the stack segment are presented in the form of offset.
+- For an expand-down stack (ED=1):
+- For an expand-up stack (ED=0):
+
+### load a new `DS/ES` register:
+### load a new ``
+
+## Privilege Transition
+
+```
+EPL := max(caller CPL, )
+``` -->
