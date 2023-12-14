@@ -162,3 +162,35 @@ Keysyms are just names. For an exhaustive list of recognized names: `dumpkeys -l
 ### The keymaps (5) syntax
 
 A line-oriented syntax for description of the kernel's translation rules from keycode to keysym.
+
+this syntax effectively define a table where rows are keycodes and 256 columns are all possible combination of 9 modifiers using the binary composition/decomposition.
+
+e.g. the 182-th column has index 181, to decompose: `181 = 10110101 b` = `CtrlR + ShiftR + ShiftL + Control + Shift`
+
+Note that `CapsShift` has weight 256, which means it can't be used under normal configuration.
+
+### Misc
+- Line comment starts with `!` or `#`
+- `\LF` join physical lines into one logical line.
+- `include "path"` include other map file
+
+### keycode
+
+Main part of the syntax are blocks of:
+
+```keymaps
+keycode <keycode> = <keysym> <keysym> ... (up to 256 <keysym>s)
+    <modifier> keycode = 
+```
+
+Modifers 
+
+
+## Device Nodes for keyboard
+
+For an exhaustive list of currently attached device:
+
+```sh
+$ cat /proc/bus/input/devices
+
+...
