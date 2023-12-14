@@ -125,3 +125,33 @@ In real design L1 cache has low assoc e.g. 2, while L2 can be 16-way assoc.
 | SSE2            | Pentium 4 & Xeon | XMM0~XMM31     | 128       |                                |
 | AVX2            |                  | YMM0~YMM31     | 256       |                                |
 | AVX512          |                  | ZMM0~ZMM31     | 512       |                                |
+
+
+## Instruction Cycle
+
+- Memory Data/Buffer Register (MDR / MBR): a two-way register that store
+  1. data just fetched from main memory; or
+  2. data wait to be send (write) to main memory
+- Memory Address Register (MAR): stores the memory address that MDR operation onto.
+  - Common pattern for the control unit (CU) is to first store the address of desired data into MAR, and send a READ command (TODO: micro-op?) to the control bus. Memory controller, as a response, will send data designated by MAR to MDR via the data bus.
+
+
+## CPU's perspective of the main memory: 2 types
+
+x86 supports 2 types of view of the main memory:
+
+- Byte addressing: Program live in a sequence of addressed byte called the *address space*. Uniform and simple.
+- Segment addressing: Program live in multiple addressable spaces called *segment*. To access data in a given segment, you need a segment register and offset into that segment.
+
+## classic 5-stage pipeline
+
+Denote the previous clock up edge as `A`, and the next as `B`.
+
+### instruction fetch
+
+For this part of circuit, the following happens between 2 clocks:
+
+1. the memory content (maybe in cache) pointed by `PC` register at the A is retrieved into the `IR` register.
+2. `PC += 4`, unless a jump instruction is made available to the circuit of `WB` stages at A. Signals are wired back from `WB` circuit to IF circuit to set `PC` value to the jump target.
+
+### instruction decode
