@@ -128,3 +128,32 @@ enum nss_status
   NSS_STATUS_TRYAGAIN = -2,
   NSS_STATUS_UNAVAIL,
   NSS_STATUS_NOTFOUND,
+  NSS_STATUS_SUCCESS,
+  NSS_STATUS_RETURN
+};
+```
+
+Glibc decides what to do with the answer produced by a service depending on the returned status enum.
+By default:
+
+| enum nss_status       | cause glibc to ...                                             |
+|-----------------------|----------------------------------------------------------------|
+| `NSS_STATUS_TRYAGAIN` | ignore the answer, and consult the next service down the chain |
+| `NSS_STATUS_UNAVAIL`  | ignore the answer, and consult the next service down the chain |
+| `NSS_STATUS_NOTFOUND` | ignore the answer, and consult the next service down the chain |
+| `NSS_STATUS_SUCCESS`  | return the answer immediately                                  |
+| `NSS_STATUS_RETURN`   | GLIBC INTERNAL USE ONLY.                                       |
+
+These default behavior can be overridden by an extended syntax supported by glibc and Solaris:
+
+```
+<database name>:          service1 [status=action] service2 [status=action] ...
+```
+
+`action` will be taken when the return status of the *previous* service matches `status`, instead of the default behavior.
+A `!` preceding `status`, e.g. `[!UNAVAIL=return]`, negates the condition.
+
+Permitted values of `status` are:
+
+```
+STATUS => success | notfound | unavail | tryagain
