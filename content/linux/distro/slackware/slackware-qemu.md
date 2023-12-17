@@ -89,3 +89,39 @@ Each set contains a different group of programs. This allowed for someone to get
 | KDEI   | Internationalization packages for the KDE desktop.                                                                      |
 | L      | Libraries. Dynamically linked libraries required by many other programs.                                                |
 | N      | Networking programs. Daemons, mail programs, telnet, news readers, and so on.                                           |
+| T      | teTeX document formatting system.                                                                                       |
+| TCL    | The Tool Command Language. Tk, TclX, and TkDesk.                                                                        |
+| X      | The base X Window System.                                                                                               |
+| XAP    | X Applications that are not part of a major desktop environment (for example, Ghostscript and Netscape).                |
+| Y      | BSD Console games                                                                                                       |
+
+
+Versions from 4.0 to 7.0 (exclusivly) doesn't exist.
+There was a bump from v4 to v7 for marketing purposes.
+http://www.slackware.com/faq/do_faq.php?faq=general#0
+Poor software people just get anxiety from everything related to money.
+
+## Installation
+
+ISO images before Slackware v14.1 cannot boot via UEFI.
+
+An ELILO installtion will be prompted during the setup only if the CDROM image is boot from UEFI.
+
+For QEMU this is achieved by:
+
+tar.xz compression was used to achieve a high ratio:
+
+```
+Total size of all packages (compressed):  3760 MB
+Total size of all packages (uncompressed):  17375 MB
+```
+
+```sh
+mkdir slack && cd slack
+wget 'https://mirrors.slackware.com/slackware/slackware-iso/slackware64-15.0-iso/slackware64-15.0-install-dvd.iso'
+qemu-img create -f raw slackdisk.raw 20G        # slackware 15 needs more than 17 GiB
+qemu-system-x86_64 -m size=4G -cdrom ../slackware64-15.0-install-dvd.iso -boot order=d -drive file=./slackdis.raw,format=raw -drive ip=fpslash
+```
+
+Skip kernel flags
+Skip keyboard
