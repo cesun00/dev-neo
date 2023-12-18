@@ -279,3 +279,9 @@ At the same time, specification made sure no one can abuse `enable_view` as a co
 ## Customization Point Object (CPO)
 
 A CPO is an function object `t` (i.e. has `operator()`) whose class `T` has `constexpr` ctor and dtor, and serves the following purpose:gh
+1. applies type constraint on its argument via `requires-clause` on its `operator()`
+2. delegate real business to corresponding implementation, e.g. member function of `t`.
+
+A good example is `ranges::begin(t)` which
+1. normally delegates to `t.begin()`
+<!-- 2.  -->
