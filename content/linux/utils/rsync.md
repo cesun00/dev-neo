@@ -92,3 +92,20 @@ The following features are only available when a rsync client is talking to a re
 
 ## Security Consideration
 
+
+cheatsheet
+========
+
+
+Here are a few options that you will almost always find useful:
+
+```
+-a, --archive           archive mode, i.e. preserving symbolic links, devices, attributes, permissions, ownerships, etc. in the transfer
+--compress, -z           compress file data during the transfer - usually always desirable
+
+--info=FLAGS            fine-grained informational verbosity
+-t
+-i
+
+-v, --verbose       verbose log
+```
