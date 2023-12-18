@@ -31,3 +31,28 @@ The following is what this directory looks like, with non-essential files omitte
 ├── logs/
 │   ├── HEAD
 │   └── refs/
+│       ├── heads/
+│       │   └── master
+│       └── remotes/
+│           └── origin/
+│               ├── HEAD
+│               └── master
+├── modules/            # .git directories of submodules are nested in the root repo's .git dir, instead of residing in the submodule directories
+│   └── themes/
+│       ├── ananke/                 # each structured just like a normal .git dir
+│       ├── hugo-papermod/
+│       └── papermod-modified/
+├── objects/            # the object storage
+├── ORIG_HEAD
+├── packed-refs
+└── refs/
+    ├── heads/
+    │   └── master
+    ├── remotes/
+    │   └── origin/
+    │       ├── HEAD
+    │       └── master
+    └── tags/
+
+353 directories, 740 files
+
