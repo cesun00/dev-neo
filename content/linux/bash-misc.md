@@ -774,3 +774,43 @@ https://unix.stackexchange.com/questions/32409/set-and-shopt-why-two
 
 - `nullglob`
 - `failglob`
+- `extglob`
+
+## Special Variables
+
+### IFS
+
+default: `<space><tab><newline>`
+
+```bash
+$ echo -n "$IFS" | xxd -p
+20090a
+```
+
+## MISC features
+
+### Escape-free Nested Double Quotes Across Subshell
+
+The following is legit bash:
+
+```bash
+FOO=$'a\nb\nc'
+# nested double quotes without escape, but work as intended:
+echo "$(echo"xx${FOO}yy"| head -n2)"
+```
+
+All **text** inside the subshell syntax `$(...)` is directly sent to the subshell for interpretation, i.e. a source-text-level separation.
+
+https://unix.stackexchange.com/questions/208309/nested-quotes-in-subshells
+
+### ANSI-C quoting
+
+- `$'string'`: escape sequences e.g. `\n` in `string` are respected in the evaluation result.
+- `$"string"`: `string` are translated according to the current locale via the `gettext` infrastructure (bash script's i18n support)
+
+### Check if array contains a certain element
+
+https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-value
+
+### Double Var Name Indirection
+
