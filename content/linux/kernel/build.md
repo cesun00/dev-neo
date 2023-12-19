@@ -550,3 +550,41 @@ Module directory has the commmon files:
 - `modules.order`:
 
 
+
+
+- `include/config/*`
+
+       This directory contains 
+       - `auto.conf.cmd`: 
+       - `auto.conf`: in the same syntax as the `.config`
+       - `kernel.release`: 
+       - empty files (around 1700 of them) with file name be kernel config options, 1 for each option whose value is `y` or `m`
+
+
+
+
+
+2 directories are generated at build time, holding important headers:
+- `$(objtree)/include/generated`
+- `$(objtree)/arch/x86/include/generated`
+
+A build will also create the directory `include/config` holding:
+- include/config/kernel.release
+- include/config/auto.conf.cmd
+- include/config/auto.conf
+- One empty file for each configs whose file name is ...
+
+
+- `include/generated`
+- `arch/<arch>/include/generated`
+
+{{<fold>}}
+
+
+After ignoring modules directory with only `build-in.a` and `modules.order`, we will end up with:
+
+```
+./
+├── arch/
+│   ├── x86/
+│   │   ├── boot/
