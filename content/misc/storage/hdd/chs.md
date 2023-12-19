@@ -66,3 +66,4 @@ The CHS addressing captures the way a magnetic read head inside a hard drive wou
 
 in CHS addressing:
 -  the sector numbers always start at 1
+- 
