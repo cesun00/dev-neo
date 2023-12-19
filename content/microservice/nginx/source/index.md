@@ -201,3 +201,32 @@ For a given module of type `NGX_X_MODULE` (X be one of `CORE|HTTP|EVENT|MAIL|STR
 ## Logging Facilities
 
 The form of logging functions heavily depends on if variadic macros are supported. On my system those 2 are defined to 1 in `ngx_auto_config.h`:
+
+- `NGX_HAVE_C99_VARIADIC_MACROS`
+- `NGX_HAVE_GCC_VARIADIC_MACROS`
+
+If any of the two macros if defined, a further macro `NGX_HAVE_VARIADIC_MACROS` will be set to 1.
+
+`ngx_log_error_core()` is the very core logging function. It's always a C function, although its signature depends on `NGX_HAVE_VARIADIC_MACROS`:
+
+```c
+#if (NGX_HAVE_VARIADIC_MACROS)
+void ngx_log_error_core
+(ngx_uint_t level, ngx_log_t *log, ngx_err_t err, const char *fmt, ...)
+#else
+void ngx_log_error_core
+(ngx_uint_t level, ngx_log_t *log, ngx_err_t err, const char *fmt, va_list args)
+#endif
+{
+// ... function body
+```
+
+Given the support for variadic macros on my OS, others are just wrappers around `ngx_log_error_core`:
+
+- `ngx_log_error()`
+    
+    Print a message to `log` only if `level` is equally or more severe than its threshold severity.
+
+    ```c
+    #define ngx_log_error(level, log, ...) \
+        if ((log)->log_level >= level) \
