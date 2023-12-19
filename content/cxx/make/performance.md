@@ -27,3 +27,21 @@ include include/config/auto.conf.cmd
 
 endif
 ```
+
+### Pre-compute Dependency Closure for Make
+
+???
+
+```makefile
+deps_kernel/sysctl.o := \
+    $(wildcard include/config/SYSCTL) \
+    $(wildcard include/config/X86) \
+    $(wildcard include/config/SPARC) \
+    $(wildcard include/config/RT_MUTEXES) \
+    ...
+    # omitted 1800 lines of dependencies
+
+kernel/sysctl.o: $(deps_kernel/sysctl.o)
+
+$(deps_kernel/sysctl.o):
+```
