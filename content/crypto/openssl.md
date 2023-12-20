@@ -57,3 +57,30 @@ openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
 # -in <file>: gives the input file
 openssl x509 -noout -text [-inform PEM] -in 1.pem
 ```
+
+## TLS stream from CLI
+
+## server 
+
+```sh
+# first generate a pair of self signed cert and key
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365
+# listening tcp 4433 by default
+openssl s_server -cert cert.pem -key key.pem
+```
+
+## client
+
+```sh
+openssl s_client -connect localhost:4433
+```
+
+## Transfer file like `nc` but secured
+
+```sh
+# sender
+<in_file openssl s_client -connect hostname:4433
+
+# receiver
+>out_file openssl s_server -cert cert.pem -key key.pem -quiet
+```
