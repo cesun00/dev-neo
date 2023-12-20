@@ -108,3 +108,33 @@ To write to a mode register, issue the one-off `MRS` (mode register set) command
 
 There is no partial write, and an `MRS` always clobber all bits. It's memory controller's responsibility to keep the state.
 Important time measures:
+1. `t_MRD`: minimum time required between two MRS commands
+2. `t_MOD`: the minimum time required from an MRS command to a non-MRS command (except a `DESELECT`)
+
+#### `OPCODE` sematics by register
+
+- MR0:
+- 
+
+
+### General Purpose Registers
+
+
+## Chip Lifecycle
+
+### `MR` default reset
+
+A common subroutine that sets critical MRs is often used during setup and reset:
+
+SUBROUTINE: MR default reset
+
+| MR & pin   | value         | desc                          |
+|------------|---------------|-------------------------------|
+| MR3 A[3]   | 0 = 1/2 rate  | gear-down mode                |
+| MR3 A[4]   | 0 = disable   | per-DRAM addressability       |
+| MR4 A[1]   | 0 = disable   | maximum power-down            |
+| MR4 A[8:6] | 000 = disable | CS to command/address latency |
+| MR5 A[2:0] | 000 = disable | CA parity latency mode        |
+| MR4 A[13]  | 0 = Disable   | Hard Post Package Repair mode |
+| MR4 A[5]   | 0 = Disable   | Soft Post Package Repair mode |
+
