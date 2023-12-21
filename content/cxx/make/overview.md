@@ -296,3 +296,30 @@ Text Manipulation Exhaustive list
 | `$(notdir names…)`           |                                                                   |   |
 | `$(suffix names…)`           |                                                                   |   |
 | `$(basename names…)`         |                                                                   |   |
+| `$(addsuffix suffix,names…)` |                                                                   |   |
+| `$(addprefix prefix,names…)` |                                                                   |   |
+| `$(join list1,list2)`        |                                                                   |   |
+| `$(wildcard pattern)`        | file name globbing. **Return empty string if no match is found.** |   |
+| `$(realpath names…)`         |                                                                   |   |
+| `$(abspath names…)`          |                                                                   |   |
+
+## ternary expression functions; Exhaustive list
+
+
+- `$(if condition,then-part[,else-part])`
+
+    The ternary expression `?:`.
+
+    Can be used for 
+
+- `$(or condition1[,condition2[,condition3…]])`
+
+    SLKDJF
+
+- `$(and condition1[,condition2[,condition3…]])`
+
+    SLKDJF
+
+Don't be confused with `7 Conditional Parts of Makefiles` condition directives.
+
+
