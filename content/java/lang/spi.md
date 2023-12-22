@@ -29,3 +29,36 @@ From the library authors' perspective, it is ideal that the client programmers p
 There are good reasons for doing so:
 1. This prevents users from accessing internal APIs since downcasts to implementation won't compile;
 2. When there are multiple implementation jars, the choice of implementation can be deferred to deployment time, perhaps made by a different person (DevOps Admin, instead of the application developer).
+3. This allows the separation of parties: API designers and implementation authors may come from different parties. The API jar is published before any implementation jar is released.
+
+From the client's perspective, library instances are returned from factory methods by interface type,
+which is the reason why you almost can't see constructor calls when using such a library.
+The real challenge boils down to how such a factory method locates actual implementation instances of given interfaces at runtime.
+
+In fact, the practice of separating API and implementation jars has long existed.
+A good example is the JDBC driver, where a user programs to the `java.sql.*` APIs which are parts of standard JDK `rt.jar`; the vendor's implementation is only required at runtime, e.g. for MySQL it's `mysql-connector-java-8.X.XX.jar`.
+At compile time, client calls `java.sql.DriverManager#getDriver` to obtain a `java.sql.Driver` reference, which refers to a `com.mysql.cj.jdbc.Driver` instance at runtime.
+
+Let's see how the aforementioned challenge is solved traditionally:
+`java.sql.DriverManager` maintains a static registry, a list of known `Driver` implementations:
+
+```java
+private final static CopyOnWriteArrayList<DriverInfo> registeredDrivers = new CopyOnWriteArrayList<>();
+```
+
+Each implementation vendor is expected to report their `Driver` implementation by adding an implementation instance to
+this registry. This is always done by a static initializer. `mysql-connector-java` does the following:
+
+```java
+package com.mysql.cj.jdbc;
+
+public class Driver extends NonRegisteringDriver implements java.sql.Driver {
+    // Register ourselves with the DriverManager.
+    static {
+        try {
+            java.sql.DriverManager.registerDriver(new Driver());
+        } catch (SQLException E) {
+            throw new RuntimeException("Can't register driver!");
+        }
+    }
+}
