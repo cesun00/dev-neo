@@ -535,3 +535,31 @@ Given `print-args`, a simple C-program that dumps its `argv[]` array:
 ```bash
 #!/bin/bash
 
+foo() {
+    ./print-args $@
+# argc=4
+# argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args $*
+# argc=4
+# argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args "$@"
+# argc=4
+# argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args "$*"
+# argc=2
+# argv[0]=>./print-args<
+# argv[1]=>a b c<
+    OLDIFS="$IFS"
+    IFS="S"
+    ./print-args $@
+# argc=4
+# argv[0]=>./print-args<
