@@ -119,3 +119,34 @@ endif # need-sub-make
 
 ```makefile
 config: outputmakefile scripts_basic FORCE
+	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+
+%config: outputmakefile scripts_basic FORCE
+	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+```
+
+Slash-separated segments are not treated specially:
+
+```makefile
+# matches both foo/config/auto.conf and bar/zoo/config/auto.conf
+%/config/auto.conf:
+	@:
+```
+
+Can appear multiple times:
+
+```makefile
+$(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
+	$(call cmd,asn1_compiler)
+```
+
+### Misc features
+
+#### Multiple Occurrences of the same Target
+
+A target name (usually a file name) can appear in multiple rules, and only 1 of them can have a recipe:
+
+```makefile
+__all:
+
+# later... 
