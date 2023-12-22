@@ -215,3 +215,43 @@ Top level keywords are:
     CONFIG_ILLEGAL_POINTER_VALUE=0xdead000000000000
     #define CONFIG_ILLEGAL_POINTER_VALUE 0xdead000000000000
     ```
+
+- `prompt <prompt> [if <expr>]`
+
+    Displayed label for this option.
+
+    If not prompt is effectively set (via this keyword or `<type> <prompt>` shorthand) or the condition failed, menuconfig won't display this config entry.
+
+- `select`
+
+    Declare that, by turning on the current option (TODO: not bool?), some other symbols is equivalently turned on.
+
+    `select` selects an item without inspecting their dependency at all.
+    
+    those `select`-ed symbols are forcefully selected, regardless whether themselves has currently unstaisfied dependencies.
+
+
+- `depends on <expr>`
+- `default <expr> [if <expr>]`
+- `help`
+
+### shorthands
+
+- `<type> "optional prompt"` is equivalent to
+
+    ```
+    <type>
+    prompt "optional prompt"
+    ```
+
+- `def_bool <expr> [if <expr>]` / `def_tristate <expr> [if <expr>]`
+
+    Define type + (optionally conditioned) default value
+
+## `menu` attributes
+
+## expression
+
+## variables / external script evaluation
+
+Shell-alike parameter substitution / process substitution;
