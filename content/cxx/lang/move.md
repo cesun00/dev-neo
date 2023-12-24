@@ -191,3 +191,29 @@ It's now recommended to pass object by value and move-construct in member initia
 
 ```c++
 FileHolder::FileHolder(std::filesystem::path p) : path{std::move(p)}, f{std::fopen(path.c_str(), "r")} {
+	// ...
+}
+```
+
+## scenario for rvalue function invocation
+
+Call to a function becomes an rvalue expression if the function return rvalue reference. This is useful when ... TODO
+
+## How to pass smart pointer around (function arguments / function return / etc.)
+
+Guideline:
+
+- Always consider ownership semantics first. Just because a function needs an `unique_ptr`-managed resources to work doesn't means you should make it `shared_ptr` and pass the `shared_ptr` around.
+- Don't pass around raw pointer (and reference to it) in modern C++ code.
+    - The only exception should be interfacing with legacy API. See Scott's `Item 15: Provide access to raw resources in resource-managing classes.`
+- Avoid reference to smart pointer.
+
+
+In action:
+
+- Pass around `unique_ptr`-managed resource by native reference to that resources.
+    - If `unique_ptr` destructs and that reference dangles - let it be. It's a bug in your program and you don't fix it by distorting the ownership semantics. Find ways to guarantee the lifetime of that resources instead.
+
+
+## TODO: untitled
+
