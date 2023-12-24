@@ -55,3 +55,40 @@ The `MOV` variants take 2 operands, at most one can be memory access:
 - `SUB dest, src`: `dest = dest - src`; set `CF` if borrow, and update all of `OF, SF, ZF, AF, PF` accordingly
 - `CMP dest, src`: like `SUB` but don't write back the result.
 - `SBB dest, src` (subtract with borrow): `dest = dest - src - CF`;
+
+    Pattern: `SUB` followed by multiple `SBB` instructions may be used to subtract numbers longer than 32 bits.
+
+- `DEC dest`: `dest = dest - 1`; `CF` unaffected.
+
+- `MUL src` (Unsigned Integer Multiply): `AX = AL * src` or `DX:AX = AX * src` or `EDX:EAX = EAX * src`;
+
+- `IMUL` (Signed Integer Multiply):
+    - `IMUL dest`:
+    - `IMUL dest, src`
+    - `IMUL dest, src1,src2,`
+
+- DIV
+- IDIV
+
+
+## Decimal
+
+x86 has some limited support for decimal arithmetic (let's reserve the word floating point to x87 coprocessor).
+It is based on packed BCD representation:
+
+All these instructions cause undefined behavior in AMD64 architecture:
+1. `DAA`
+2. `DAS`
+3. `AAA`
+4. `AAS`
+5. `AAM`
+6. `AAD`
+
+See also AMD64 architecture instruction `fbld` and `fbstp` which don't exist in 80386.
+
+### bitwise operation & Manipulation
+
+The following 4 instructions update `SF, ZF, and PF` flags according to the result, clears `OF` and `CF`, and leaves `AF` undefined.
+- `NOT dest`: flip each bit in `dest`
+- `AND dest, src`: bitwise AND and store result to `dest`; See `TEST` for a no-write-back version of AND.
+- `OR dest, src`:  bitwise OR and store result to `dest`
