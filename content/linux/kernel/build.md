@@ -1385,3 +1385,43 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── devicetable-offsets.s
 │   │   ├── elfconfig.h
 │   │   ├── mk_elfconfig*
+│   │   ├── modpost*
+│   ├── module.lds
+│   ├── selinux/
+│   │   ├── genheaders/
+│   │   │   ├── genheaders*
+│   │   └── mdp/
+│   │       ├── mdp*
+│   ├── sorttable*
+├── security/
+│   ├── integrity/
+│   ├── keys/
+│   └── selinux/
+│       ├── av_permissions.h
+│       ├── flask.h
+│       ├── ss/
+├── sound/
+│   ├── arm/
+│   ├── atmel/
+│   ├── core/
+│   │   ├── seq/
+│   ├── drivers/
+│   │   ├── mpu401/
+│   │   ├── opl3/
+│   │   ├── opl4/
+│   │   ├── pcsp/
+│   │   └── vx/
+│   ├── firewire/
+│   ├── hda/
+│   ├── i2c/
+│   │   └── other/
+│   ├── isa/
+│   │   ├── ad1816a/
+│   │   ├── ad1848/
+│   │   ├── cs423x/
+│   │   ├── es1688/
+│   │   ├── galaxy/
+│   │   ├── gus/
+│   │   ├── msnd/
+│   │   ├── opti9xx/
+│   │   ├── sb/
