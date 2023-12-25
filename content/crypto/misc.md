@@ -269,3 +269,43 @@ X509 CSR for existing keys
 # generate a rsa private key as usual
 openssl genrsa -out priv.pem 4096
 # create a pkcs10 csr for it
+openssl req -new -key priv.pem -out req.csr
+# verify that the request contains only the public key,
+openssl req -in req.csr -noout -text
+# and the modulus are the same
+openssl req -in req.csr -noout -modulus
+openssl rsa -in priv.pem -noout -modulus
+# TODO ... sign it and return the cert...
+# openssl ca ...?
+```
+
+The `-key` here has to be the private key, I think it's because the CSR need to be signed by the request maker, but the private key is NOT stored in the CSR. The CSR is a request to the CA to sign your (public key, identity info) you know. And the public key for RSA is trivially got from the private key.
+
+All right, wikipedia's certificate is signed by a CA whose common name is "Let's Encrypt". But how do I find this issuer's public key so that I can verify the signature on wikipedia's cert?
+=======
+The "distinguished name" seems to be important
+https://security.stackexchange.com/questions/20869/how-is-an-x509-certificate-signer-verified
+https://stackoverflow.com/questions/28147848/how-do-i-check-if-certificate-a-got-certfiicate-b-as-issuer-in-java-x509cer
+
+not very sure ... these are "extensions" ... 
+```bash
+openssl x509 -in cert.pem -noout -text
+...
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                EA:38:F6:8E:A8:D2:66:AA:4C:64:73:89:B7:35:BB:F8:7E:DF:B1:FE
+            X509v3 Authority Key Identifier: 
+                keyid:A8:4A:6A:63:04:7D:DD:BA:E6:D1:39:B7:A6:45:65:EF:F3:A8:EC:A1
+
+            Authority Information Access: 
+                OCSP - URI:http://ocsp.int-x3.letsencrypt.org
+                CA Issuers - URI:http://cert.int-x3.letsencrypt.org/
+```
+
+The "Fingerprint" thing
