@@ -108,3 +108,30 @@ typedef struct qspinlock {
 			u16	tail;
 			u16	locked_pending;
 		};
+		struct {
+			u8	reserved[2];
+			u8	pending;
+			u8	locked;
+		};
+#endif
+	};
+} arch_spinlock_t;
+```
+
+The 
+
+### spin lock API
+
+spin_lock_irq
+
+`includ/linux/rwlock.h` must be included as part of `include/linux/spinlock.h`, otherwise a precompiler error will arise.
+
+```c
+// define a rwlock by:
+DEFINE_RWLOCK(tasklist_lock);  /* outer */
+```
+
+#include <linux/wait.h>
+#include <linux/mutex.h>
+
+### read-write spin lock
