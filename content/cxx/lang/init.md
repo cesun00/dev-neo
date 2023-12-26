@@ -116,3 +116,36 @@ initializer:
     brace-or-equal-initializer
     ( expression-list )             # 1
 
+brace-or-equal-initializer:
+    = initializer-clause
+    braced-init-list                # 4
+
+initializer-clause:
+    assignment-expression           # 2
+    braced-init-list                # 3
+
+braced-init-list:           # roughly, curly brace surrounded stuff
+    { initializer-list , }
+    { designated-initializer-list , }
+    { }
+```
+
+\* this AST is simplified and might be changed by future C++ versions. Check the latest specification for anything serious.
+
+It's the lexical syntax of `initializer`, combined with the grammar analysis context, determines the initialization types in C++.
+
+In the following discussion:
+1. The type of the declared variable to which the `initializer` applies, is known as source type
+2. **initializer expression** is the the [constituent expression](https://eel.is/c++draft/basic.exec#def:constituent_expression) (roughly means removing the outermost parentheses, curly brace, and equal mark, for each comma-separated element, if any) of the token sequence of`initializer`; the type of the initializer expression is known as destination type.
+
+type of
+
+### `initializer` Semantics
+
+1. If the `initializer` is a (non-parenthesized) `braced-init-list` or is `= braced-init-list` (i.e. `#3` or `#4`); if the destination type is object (including array, class instance, primitives, etc) or reference, the variable is [list-initialized](#list-init); otherwise, program is ill-formed.
+
+    ```c++
+    int a{42};
+    int b = {42};
+    std::vector<int> c = {1,2,3}
+    int &d{a};
