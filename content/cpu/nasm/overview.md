@@ -85,3 +85,31 @@ mov [es:bx], ax
 
 ### NASM directives
 
+- `BITS [16|32|64]`
+
+    Explicitly specify the target processor mode, characterized by the GP register size.
+    If not present, the target processor mode will be inferred from the target object file, e.g. `-f elf32` implies a `BITS 32`.
+
+    Spelling `BITS 16` is useful for generating 8086-compatible machine code.
+
+
+
+### Pseudo instructions
+
+Nasm provides a few directives which don't map to real CPU instruction.
+Instead they are used to define storage space, introduce compile-time constants,
+
+The current pseudo-instructions are
+
+DB, DW, DD, DQ, DT, DO, DY and DZ;
+their uninitialized counterparts
+RESB, RESW, RESD, RESQ, REST, RESO, RESY and RESZ;
+
+the INCBIN command, the EQU command, and the TIMES prefix
+
+### syscalls
+
+The first six integer or pointer arguments are passed in registers RDI, RSI, RDX, RCX, R8, R9
+
+User-level applications use as integer registers for passing the sequence %rdi, %rsi, %rdx, %rcx, %r8 and %r9.
+The kernel interface uses %rdi, %rsi, %rdx, %r10, %r8 and %r9.
