@@ -76,3 +76,36 @@ https://stackoverflow.com/questions/62581829/satisfied-and-modeled-concept
 ```c++
 #include <cstdio>
 #include <type_traits>
+
+template<typename T, std::enable_if_t<(sizeof(T) > 4), bool> = true>
+void foo(T t) {
+    std::puts("sfinae sizeof(T) > 4");
+}
+
+template<typename T, std::enable_if_t<(sizeof(T) <= 4), bool> = true>
+void foo(T t) {
+    std::puts("sfinae sizeof(T) <= 4");
+}
+
+template<typename T>
+requires ( sizeof(T) > 4 )
+void bar(T t) {
+    std::puts("concept sizeof(T) > 4");
+}
+
+template<typename T>
+requires ( sizeof(T) <= 4 )
+void bar(T t) {
+    std::puts("concept sizeof(T) <= 4");
+}
+
+int main() {
+    foo(4);     // sfinae sizeof(T) <= 4
+    foo(4.0);   // sfinae sizeof(T) > 4
+    bar(4);     // concept sizeof(T) <= 4
+    bar(4.0);   // concept sizeof(T) > 4
+}
+```
+
+## constrained (non-template) function
+
