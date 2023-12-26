@@ -124,3 +124,42 @@ For example, `(await (queryLocalFonts())).filter(o=>o.family == "Noto Sans")` wi
     {
         "family": "Noto Sans",
         "fullName": "Noto Sans Medium",
+        "postscriptName": "NotoSans-Medium",
+        "style": "Medium"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Medium Italic",
+        "postscriptName": "NotoSans-MediumItalic",
+        "style": "Medium Italic"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Regular",
+        "postscriptName": "NotoSans-Regular",
+        "style": "Regular"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Thin",
+        "postscriptName": "NotoSans-Thin",
+        "style": "Thin"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Thin Italic",
+        "postscriptName": "NotoSans-ThinItalic",
+        "style": "Thin Italic"
+    }
+]
+```
+
+{{</fold>}}
+
+## Use web fonts
+
+CSS author instructs the browser to download a specific font from Web for later use via the `@font-face` [CSS at-rule](https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule).
+
+```css
+
+@font-face {
