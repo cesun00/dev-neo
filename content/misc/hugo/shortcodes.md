@@ -84,3 +84,42 @@ You should be concerned with
     1. if it is a piece of markdown, go through goldmark renderer, and append the html result to output buffer
     2. if it is a shortcode, its shortcode template is executed by receiving `.Inner` as the literal enclosed text (doesn't go through markdown renderer), and appends the HTML result to output buffer.
 3. dump the output buffer for the final HTML files
+
+<--->
+
+#### percentalge calls
+
+1. A markdown file is first split with shortcodes as the delimeter.
+
+1. enclosed text go through markdown renderer
+2. `YOURCODE.html` get executed by receiving `.Inner` as the rendered result html
+3. the html becomes part of the markdown doc
+4. the combined markdown doc go through the markdown renderer
+    
+    the fucking result is that
+    1. the markdown contains some HTML already; the markdown renderer if configured to be unsafe=false, you will get `<!-- raw HTML omitted -->` in the final web page.
+    2. indentation in `YOURCODE.html` is now considered code block section from the markdown renderer's perspective. GGGGEEEEEz
+    
+{{</columns>}}
+
+## Escape for Literal shortcode syntax
+
+`{{</* codedd */>}}`
+
+## Correct design
+
+shortcode should do only one thing: allow user to use HTML structure.
+
+
+
+
+- `\{\{< YOURCODE >\}\}` get replaced first, then the whole markdown was send to the goldmark renderer
+- `\{\{% YOURCODE %\}\}` render its `.Inner` markdown into html first, then fill the rendered html into the `YOURCODE.html` template
+
+```
+\\{\\{<wide>\}\}
+
+##foo
+
+\\{\\{</wide>\}\}
+```
