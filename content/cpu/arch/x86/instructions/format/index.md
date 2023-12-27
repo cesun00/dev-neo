@@ -265,3 +265,37 @@ It has the following structure:
     | Mod | displacement size                                  |
     |-----|----------------------------------------------------|
     | 00  | no displacement                                    |
+    | 01  | 8 bit                                              |
+    | 10  | 32 bit                                             |
+    | 11  | there is no memory access, and operand is register |
+
+    When Mod is not `11`, EA is specified as `[reg] + displacement`; `R/M` gives which register to be used as `[reg]`
+
+    Otherwise, EA is simply  register, i.e. there won't be memory access.
+
+    Mod is and 24 possible combinations of `Mod:R/M` designate 24 different ways an effective address can be synthesized.
+
+    When `Mod=11`, 8 possible values of `R/M` select one of the 8 groups of registers.
+    The 8 groups are:
+
+    | R/M   | register group       |
+    |-------|----------------------|
+    | `000` | `EAX/AX/AL/MM0/XMM0` |
+    | `001` | `ECX/CX/CL/MM/XMM1`  |
+    | `010` | `EDX/DX/DL/MM2/XMM2` |
+    | `011` | `EBX/BX/BL/MM3/XMM3` |
+    | `100` | `ESP/SP/AH/MM4/XMM4` |
+    | `101` | `EBP/BP/CH/MM5/XMM5` |
+    | `110` | `ESI/SI/DH/MM6/XMM6` |
+    | `111` | `EDI/DI/BH/MM7/XMM7` |
+
+    Each group contains 5 registers of different sizes, i.e. 32, 16, 8, 64, or 128 bits in length.
+    Within a selected group, the register to be used is determined by the operand size of the instruction.
+    Any instruction that accepts a register operand has a default operand size, which can be overridden by the `66H` prefix.
+
+- The `reg/opcode` field,
+    - for instruction with 2 operands, this field designates the second operand which must be a register
+    - otherwise, this field may be used to encode 3 more bits of opcode information.
+<!-- - The `R/M` field can specify a register as an operand, or it can be combined with the `mod` field to encode an addressing mode -->
+
+Someitmes The specification of register is encoded in the primary opcode instead of `R/M` field.
