@@ -62,3 +62,39 @@ This forms an electrical unbalanced area near the junction surface known as the 
 This phenomenon has significant consequences. Under an external voltage:
 1. it's trivial to move electrons from `N` to `P`, as if the whole device is a conductor.
 2. it's hard to move electrons from `P` to `N`, since that voltage must be large enough to power electrons to get over the electron aggregation on `P` side.
+   - when that voltage is indeed large enough, it is known as as *breakdown*. Depending on the component, a breakdown might be desired and by design. (See zener diode.)
+
+This structure of single-direction condutivity is the basis of all semiconductor component.
+
+## electron hole
+
+The absence of 1 or 2 electron in an ion can be equivalently viewed as imaginary positive-charged particle at the location of the absense electron. A hole is a quasiparticle, i.e. doesn't really exists, but just a math illusion for convenience of physical computation.
+
+
+## Diode
+
+An ideal diode is 2 terminal device that only allows current flow in one direction:
+1. toward one direction it behaves like a wire: no resistance
+2. towrad the other direction it behaves like an insulator: infinitely large resistance
+
+In real engineering:
+1. for forward cururent, diode consumes a little bit voltage (about 0.6 volt) before its resistance is negligable low
+2. for backward current:
+   1. before breakdown: a tiny leakage current exists like any insulator
+   2. after breakdown: low resistance and fixed voltage like any brokedown insulator
+
+### Zener Diode
+
+Zener diode is a diode with known and reliable breakdown voltage. It normally and intentionally works in breakdown, so that the voltage between its 2 termianls is always fixed (i.e.the known breakage voltage).
+
+When any insulator gets electrical brokedown, its resistance becomes very low (i.e. the `I/V` slope is very high), at the price of given high enough voltage.
+But this doesn't mean it consume no voltage. Rather, it obtains large current with that voltage (and you can't decrease the volt for free!), such that increasing the voltage becomes very hard since that will doubly increase the power `P = IV = V^2 / R` and you have a external power source with fixed power output.
+
+When a diode breakdown, it's still able to create a electric potential drop.
+
+### Photo Diode
+
+When photon hits the depletion area ...
+
+A photo diode work in breakdown mode:
+- For forward current: identical to normal diode
