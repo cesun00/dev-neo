@@ -97,3 +97,36 @@ There are 4 ways variables are introduced to make runtime context, in the decrea
 Use the `$(origin var)` function to check in which way a variable is defined.
 
 ### Via command line
+
+A invocation like `make foo=bar all` runs the `all` target with a variable named `foo` having value of `bar`.
+All assignments to `foo` originally in the Makefile are ignored, unless it's governed by the `override` directive:
+
+```makefile
+override foo := baz     # ignore whatever end user says and use baz
+```
+
+### Via explicit Makefile source
+
+(see 3.7 for detailed explain of the expansion / execution phase)
+
+These 2 flavors mainly differs by whether `RHS` is expanded immediately.
+
+### Via OS envvar
+
+
+Other than being explicitly defined by Makefile text, variable can be introduced from the "environment
+
+
+## Use Variables
+
+To reference a defined a variable, use either `$(foo)` or `${foo}` syntax, both equivalent.
+Use `$$` to escape for a literal `$`.
+
+*Deprecated*: Without parentheses or brace, the character after `$` is always treated as a single-character variable name, e.g. `$foo` is `$f` concated with string `oo`. This causes confusion. Don't do this.
+
+
+
+## Automatic Variables
+
+
+## Variables Used by Implicit Rules (VUIR)
