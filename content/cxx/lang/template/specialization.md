@@ -234,3 +234,33 @@ Objects of an instantiation of this template is expected to provide an `operator
 Specification leave the definition of its primary template unspecified, and only requires vendors to provide specialization for certain common types.
 Apparently different `T` requires different ways of computing hash, and primary template can't do much on that.
 In gcc stdlibc++, the primary template only works for enumeration, and causes SFINAE if instantiated with non-enum `T`.
+If user want to use a custom type as key for unordered map or set, they must provide specialization of `std::hash` on that type.
+
+side note: `std::hash` is not a function template, because function template can't be partially specialized as far as C++23.
+`std::hash` must support partial specialization so that people can have things like specialization for all pointer type `template<typename T> class std::hash<T*>`.
+Making it a class template which provides an `operator()` is simply a workaround against that.
+
+
+
+## as a way of saying if-else in metaprogramming
+
+`is_void<T>` is equivalent of saying:
+
+```c++
+metafunction is_void(typename T) {
+    if (T  == void) {
+    return true;
+} else {
+    return false;
+}
+```
+
+## as a way of externally associating traits with type in metaprogramming
+
+We hope to associate certain type definition with `MyType`:
+
+```c++
+// approach #1 (intrusive)
+class MyType1 {
+    public:
+        using foo_type = int;
