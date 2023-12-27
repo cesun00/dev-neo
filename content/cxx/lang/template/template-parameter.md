@@ -30,3 +30,31 @@ A template declares its parameters list in a pair of angle brackets. There are 3
     ```
 
 2. non-type template parameter receives a value as an argument
+
+    It's led by the name of a [structural type](https://en.cppreference.com/w/cpp/language/template_parameters#Non-type_template_parameter) (roughly, integrals, pointers, enums - specifically, not `std::string` ), or `auto`
+
+    ```c++
+    template<int N>
+    void make_array() {}
+
+    template<auto N>
+    void make_array() {}
+    ```
+
+3. template template parameter (a template parameter that takes another class / function template as argument), led by the keyword `template`
+
+    ```c++
+    template<template TMPL>
+    void make_array() {}
+    ```
+
+## Template Parameter Pack (since C++11)
+
+A template can have a variable-length parameter list, introduced by an ellipsis (`...`):
+
+```c++
+// non-type pack
+template<int... pack_name>
+
+// type pack
+template<typename... pack_name>
