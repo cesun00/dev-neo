@@ -155,3 +155,23 @@ For this part of circuit, the following happens between 2 clocks:
 2. `PC += 4`, unless a jump instruction is made available to the circuit of `WB` stages at A. Signals are wired back from `WB` circuit to IF circuit to set `PC` value to the jump target.
 
 ### instruction decode
+
+For this part of circuit, the following happens between 2 clocks:
+
+1. content of `IR` is inspected.
+   1. If registers are referred (RISC allows referring to most 2 registers), their name is resolved to real indexes into the register file.
+   2. If it's a jump instruction, the target address is computed. This step potentially requires simple arithemtic, and sometime ALU from `EX` circuit will be borrowed (which decreases the pipeline throughput if only 1 ALU is available)
+      1. If the jump is conditional, it took the next cycle to evaluate the condition also in `ID` stage, which cause the `IF` stage to stall.
+2. The status of `EX` circuit is inspected.
+   - If it was running a multi-cycle operation during `PreA -> A`, this implies (at least) the `A -> B` interval will also be busy, and can't accept new command (i.e. input flip flops in `EX` circuit will not accept new bits). `IF` and `ID` stages stall.
+    - otherwise, content of nominated registers are made available to the input flip flops of `EX` circuit and get hold there.
+
+### execute
+
+For this part of circuit, the following happens between 2 clocks:
+
+1. content of `IR` is inspected to determine instruction behavior, and operand  
+
+###
+
+### write back
