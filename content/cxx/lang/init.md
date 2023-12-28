@@ -313,3 +313,24 @@ Aggregate captures an C array or C `struct`. C++ compiler must be able to parse 
 Having a unique initialization for aggregates ensures the same syntax and behavior in C.
 Unlike initialization types that calls a constructor, aggregate initialization cannot fail.
 It is also the only initialization type that can use the designator syntax;
+
+```c++
+// aggregate type class
+struct X { int first; double second; };
+
+X x0{42,99.01};
+X x1{.first = 42, .second = 99.01};
+auto x2 = X{.first = 42, .second = 99.01};
+
+// error: std::pair is not aggregate type, can't be initailized via designated initializer list.
+auto pair = std::pair<int,double>{.first = 42, .second=99.01};
+```
+
+## Distinguish Initialization and Assignment
+
+In C, there is little need to distinguish between initialization and assignment.
+There is always an assignment remedy for an previous declaration without initializer.
+
+In C++, initialization of a class instance variable calls one of the constructor, while assignment calls the copy or move assignment 
+operator. Thus these 2 operation needs to be distinguished.
+The mess of initialization syntax in C++ makes it worse.
