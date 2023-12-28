@@ -95,3 +95,32 @@ meaning that there is a good chance unused JDK modules are excluded:
 ```sh
 $ du -h myimage/lib/modules $(dirname $(which java))/../lib/modules
 29M	    myimage/lib/modules
+136M	/home/user/.jdks/azul-21.0.1/bin/../lib/modules
+```
+
+Executable Module
+=============
+
+Any Java program starts running from a main method whose containing class is known as a main class.
+There is a problem fitting this class-grained practice into our module-oriented Java 9+, because we want to keep the
+consistency and say "Just run a module".
+
+There are 2 obvious solutions:
+1. specify the main class of a module somewhere along with the module release; running a module would then be running that main class. 
+2. break the module encapsulation and specify the main class of the module on the command line.
+
+Both are supported by Java 9 and later, but the second way, though breaking consistency, seems to be more popular these days, since it only requires typing on the CLI:
+
+```sh
+# java -m module.name/class.name
+java -m com.foo/com.foo.app.App
+```
+
+Let's take a look at the first solution since its support in the current JDK 21 is somewhat peculiar.
+As you may have guessed, `module-info.class` can store the full qualified main class name of the module,
+and will be respected by JVM when CLI invocation doesn't give a main class:
+
+```sh
+java -m com.foo
+```
+
