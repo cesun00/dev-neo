@@ -62,3 +62,9 @@ at 3.html:10:17
 
 When you have a library that depends on jQuery, it's you, the client programmer's responsibility to ensure that `<script src="./jq/jquery-3.7.1.js"></script>` is placed before `<script src="./libfoo_that_depends_on_jq.js"></script>`. Now imagine a more complicated dependency tree.
 
+Worse things can happens. Think about circular dependency.
+
+
+## the hacks
+
+## the sincere browser-native support
