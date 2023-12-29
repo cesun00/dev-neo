@@ -67,3 +67,6 @@ A source written for Scala 2 won't compile with Scala 3, and vice versa.
 A compiled bytecode of Scala 2 program won't work if only Scala 3 runtime is presented on the JVM classpath, and vice versa.
 
 
+TODO - try document the bullshit "dotty" those animals are hyping about.
+
+
