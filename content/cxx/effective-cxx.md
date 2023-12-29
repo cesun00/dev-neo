@@ -110,3 +110,32 @@ foo(d);
 2. Now you have design jurisdiction on whatever classes we are going to talk about. Suppose Both `class Foo1` and `class Foo2` needs functionality from `class Bar`.
     1. Use public inheritance if and only if liskov substitution from `Bar` referrence to `Foo?` is exactly what you want. Otherwise, NEVER.
     2. 
+
+Public data member is evil. Protected data member is evil. USE ONLY private data member, and expose `public` / `protected` member function to support operations on them.
+Try you best to avoid getters and setters to internal data structures (e.g. vector / set / etc.), because that would make no difference than exposing data member directly.
+Instead, expose only semantic / business-related operations on those data members.
+
+# 32: Make sure public inheritance models `is-a` relationship (a.k.a liskov works iff public inheritance)
+
+```c++
+class Derived: [public | protected | private] Base {
+    // ...
+}
+```
+
+- Public inheritance enables liskov substitution (so called `models "is-a" relationship`, this phrase never makes much sense to me)
+- Priavte / protected inheritance is an exotic form of composition as a `private` / `protected` data member
+
+`Base` has `protected` members because, apart from hiding them from public interface, it expects someone inherits from it and
+1. override them (e.g. the template method pattern)
+2. use them (i.e. provided utility functions / modifiable data members for derived classes)     ()
+
+Private / protected inheritance breaks `Base`'s encapsulation: `protected` members of `Base` is accessible, which is impossible if composition is used. Breaking encapsulation is generally considered bad practice, but in this inheritance-or-composition case you can argue . Know the rules so 
+    - Private inheritance has the effect that derived class of `Derived` can't see `Base` anymore. If this not intended, see `protected` inheritance.
+    - protected inheritance is not cult, gcc stdlibc++ uses it.
+- protected inheritance is an exotic form of composition (as a `protected` data member)
+    -  solve the aforementioned problem, since `public/protected` members of `protected Base` becomes `protected`, and is visible along the downward hierarchy.
+
+- Good design prevent invalid code from compiling (as early as possible), rather than raise runtime error.
+- Good API design make it hard / impossible to use it wrong.
+- `OperationNotSupportedException` is a joke confirmed. Shame on you oracle JDK designer.
