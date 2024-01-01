@@ -28,3 +28,31 @@ const int *ptr_a;	// pointer to const
 int *const ptr_b;	// const pointer; Recommended: asterisk preceeds const immediately
 ```
 
+## a pointer to array vs. array of pointers
+
+```c
+int (*ptr_to_arr)[42];      // Pointer to an array
+int *ptr_arr[42];           // Array of pointers.
+```
+
+## 2d Array on Heap
+
+```c
+/**
+ * @brief 2D array malloc with compilation-time known size.
+ *
+ * The pointed value has type int[NCOL], meaning
+ * that pointer arithmetic on arr_p will use
+ * sizeof(int) * NCOL as a unit.
+ * 
+ */
+#define NROW 10
+#define NCOL 10
+int (*arr_nd)[NCOL] = malloc(NROW * sizeof *arr_nd);
+```
+
+```c++
+/**
+ * @brief lvalue / rvalue Reference to a pointer
+ */
+void foo(std::FILE *&file, std::FILE *&&unique_file) {
