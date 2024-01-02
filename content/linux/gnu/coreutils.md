@@ -30,3 +30,43 @@ math
 ## users / permission / security
 
 - `id`
+- `who`
+- `whoami`
+- `users`: print currently loggged-in users
+
+- `stty`
+- `tty`
+
+- `chgrp`
+- `chmod`
+- `chown`
+- `chcon`
+- `chroot`
+
+## device
+
+- `du`
+- `dd`
+- `df`
+
+## filesystem tree structure / metadata
+
+- `unlink`
+- `touch`
+- `stat`
+- `ls`
+- `dir`: equivalent to ‘ls -C -b’
+- `vdir`: equivalent to `ls -l -b`
+- `rm`
+- `rmdir`
+- `mv`
+- `mkdir`
+
+- `mkfifo`
+- `mknod`
+- `mktemp`
+
+## file content transform
+
+- `cat`
+- `tac`
