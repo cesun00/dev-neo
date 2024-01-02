@@ -58,3 +58,34 @@ This is why you always see `loaded` in the output of the above command.
 ## Dependency & The workflow engine
 
 - *requirement* dependency
+
+    **UNORDERED** edge established via
+    - `Requires=`,`RequiredBy=`
+    - `Requisite=`, `RequisiteOf=`
+    - `Wants=`, `WantedBy=`, and
+    - `Conflicts=`, `ConflictedBy=`
+
+- *ordering* dependency
+
+    ordered edge established via `Before=` and `After=`
+
+Unit file declare dependency on other units in its `[Install]` section.
+
+Booting:
+1. Start from `default.target`, compute the transitive closure following all directed edges formed by *forward requirement dependencies*.
+2. 
+
+Then systemd tries to parallelly start as much units as possible,
+but repsect all the ordering dependencies.
+
+> Also note that the majority of dependencies are implicitly created and maintained by systemd.
+> In most cases, it should be unnecessary to declare additional dependencies manually, however it is possible to do this.
+
+### Explicit Dependencies
+
+### Implicit Dependencies
+
+### Transaction
+
+## CLI cheatsheet
+
