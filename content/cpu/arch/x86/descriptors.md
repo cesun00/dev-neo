@@ -96,3 +96,40 @@ Within the access byte, from the most significant bit:
 1. `P` (present): indicates whether this descriptor describes a segment currently in memory.
 
     A virtual memory system swaps data between memory with hard drive to make room for large software.
+    In the old days, this is done in the unit of segment. This bit flags whether the segment described by this descriptor
+    is currently in memory. If not, i.e. `P=0`, this descriptor doesn't, meaning that the base and limit, freeing 
+    most bits in this field available to software to bookkeep the whereabout of the missing segment on the hard disk.
+
+    Nowadays such swapping is implemented in the unit of page, and segment-based swapping is simply abandoned,
+    rendering this field unused.
+
+2. `DPL` (Descriptor Privilege Level): an integer value of 0 to 3 indicates
+    - the exact privilege level required to load this descriptor to the `CS / SS` register (unless the `C` - Conforming flag is set)
+    - the minimum privilege level required to load this descriptor to the `DS / ES` register
+3. `S=1` indicates this segment contains program code or data; `S=0` indicates that it is a control segment related to certain features of the CPU.
+4. The interpretation of other bits depends on the type of descriptors.
+
+### Segment descriptor
+
+In very old Intel manuals, the phrase *segment descriptors* only refers to those with `S=1`.
+Now the speech changes, since they fucking agreeeee that.
+
+#### Code or Data Segment descriptor (`S=1`)
+
+```goat
+15                                                              7                                                               0
++-------------------------------------------------------------------------------------------------------------------------------+
+| base 31 - 24                                                  | G     | D/B   | L     | AVL   |  limit 19 - 16                |
++-------------------------------------------------------------------------------------------------------------------------------+
+| P     | DPL           |   S   |  Type                         | base 23 - 16                                                  |
++-------------------------------------------------------------------------------------------------------------------------------+
+| base 15 - 0                                                                                                                   |
++-------------------------------------------------------------------------------------------------------------------------------+
+| limit 15 - 0                                                                                                                  |
++-------------------------------------------------------------------------------------------------------------------------------+
+```
+
+This type of descriptor identifies a segment holding program code or data.
+
+```goat
++-------------------------------+
