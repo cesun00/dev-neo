@@ -273,3 +273,31 @@ For each task, the `LDTR` register is only accessible via 2 special instructions
 Loading a new value for `LDTR` automatically load the invisible base and limit part from ... TODO
 
 
+But when context-switching occurs, the content of this register will be automatically altered to reflect
+the location and size of the LDT of the active task.
+
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+2. segment v2 are the bookkeeping unit of many important attribute of the program
+
+#### segment registers
+
+At anytime during the run of a program, 2 descriptor tables are viewable, `GDTR` and `LDTR`,
+
+The old 4 segment registers, `CS / SS / DS / ES`, are now each 64-bit register in the Protected Mode, all of which have the following format:
+
+```
+ 63                      47          39                                  15                      0
++-----------------------------------------------------------------------------------------------+
+|   16-bit selector     | access    |  segment base address             | segment size          |
++-----------------------------------------------------------------------------------------------+
+```
+
+Further, the 16-bit selector has to following format:
+
+```
++-----------------------------------------------------------+
+|   index (13 bits)             | TI (1 bit) | RPL (2 bit)  |
