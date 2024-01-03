@@ -252,3 +252,41 @@ int main() {
 ```
 
 <!-- ## if xvalue expression fire rv-ref overload, and prvalue expression fire rv-ref overload too, why differentiating these two? -->
+
+## The expression after the return keyword is implicit treated as a rvalue
+
+https://stackoverflow.com/questions/4986673/c11-rvalues-and-move-semantics-confusion-return-statement
+"Please do not return local variables by reference, ever. An rvalue reference is still a reference."
+
+
+## Rare case when return a rvalue ref is useful
+
+https://stackoverflow.com/questions/5770253/is-there-any-case-where-a-return-of-a-rvalue-reference-is-useful
+
+
+## reuse a moved container
+
+https://stackoverflow.com/questions/9168823/reusing-a-moved-container
+
+Technically when the moving `x.push_back()` is called (thus work on y destructively), the lifetime of `y` is far from ending; but's it's still okay to do the following. It avoid creating a vector<int> inside the loop every round. Also mind the moved-from vector problem.
+
+```c++
+#include <utility>
+#include <vector>
+
+using std::vector;
+
+#include <cstdio>
+#include <stdio_ext.h>
+
+
+void print_vec(const vector<int> &vec) {
+    for (const int x: vec) {
+        printf("%d\t",x);
+    }
+    putchar('\n');
+}
+
+int main() {
+    __fsetlocking(stdout,FSETLOCKING_BYCALLER);
+    vector<vector<int>> x;
