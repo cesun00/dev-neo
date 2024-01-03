@@ -261,3 +261,37 @@ https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom
 
 
 
+| member    | signature                               |
+|-----------|-----------------------------------------|
+| copy=     | constexpr T& operator=(const T& other); |
+| move=     | constexpr T& operator=(T&& other);      |
+| prefix++  | constexpr T& operator++()               |
+| postfix++ | constexpr T operator(int)               |
+| prefix--  | constexpr T& operator--()               |
+| postfix-- | constexpr T operator--(int)             |
+
+### cast operator
+
+### literal operator (user-define literals)
+
+C++11 allows integer, floating-point, character, and string literals to produce objects of user-defined type by appending a user-defined suffix.
+This can be viewed as a fancy factory method which only takes a single literal as argument.
+
+2 syntaxes for defining user-defined literal suffix for a class. Rules:
+1. literal operator must be free function, for it's not associated with any instance. (can be friend)
+2. User-defined literal suffix must start with an underscore, except those from standard library which don't start with underscore.
+3. Identifiers start with an underscore followed by an uppercase letter is reserved by spec, and canont be used in the first syntax.
+4. The second syntax is designed to lift #3's restriction: keyword and reserved identifiers are allowed. Example being `std::complex` has `operator""if(arg)` to form a `0 + arg i` floating complex number.
+
+```c++
+struct MyType {};
+
+// user-defined literal suffix should start with an underscore followed by an lowercase letter.
+MyType operator"" _x(/* parameter-list */);
+
+// By omitting the middle space, user are allowed to use language keyword and reserved identifiers as suffix
+MyType operator""_X(/* parameter-list */);
+```
+
+For `parameter-list`, only 5 are allowed:
+- `unsigned long long int`
