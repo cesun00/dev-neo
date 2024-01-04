@@ -127,3 +127,31 @@ class RAIIFile {
         std::FILE *file;
 };
 
+int main(void) {
+    std::FILE *etc = std::fopen("/etc/fstab", "r");
+    // RAIIFile f{etc}; // ill-formed program: cannot bind rvalue reference of type ‘FILE*&&’ to lvalue of type ‘FILE*’
+    RAIIFile f{std::move(etc)}; // ok
+}
+```
+
+In the snippet above, RAIIFile ctor takes a rvalue reference to raw pointer as parameter.
+The merit is this would force the client to provide a rvalue expression argument.
+
+- if the client uses a prvalue expression, this forbids him from using a named raw pointer on stack
+- if he uses a named raw pointer, this force him to use `std::move`, which reminds him that "ownership" has been transferred.
+
+("ownership" is quoted since technically speaking [holding a raw pointer is not considered *owning* the pointed resource](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#r3-a-raw-pointer-a-t-is-non-owning))
+
+But essentially that merit is inherent in rvalue reference & move semantics, and has nothing to do with raw pointer.
+In fact, using rvalue reference to raw pointer NEVER makes sense. The design above will be better if `RAIIFile` ctor takes an `unique_ptr` by value.
+
+In this example, replace `RAIIFile` totally with an `unique_ptr` instantiation with custom deleter *is not recommended*, since the execution of deleter is usually part of stack unwinding during which throwing exception is forbidden; i.e. client will have no chance to handle `fclose` error.
+
+See [this](https://stackoverflow.com/questions/130117/if-you-shouldnt-throw-exceptions-in-a-destructor-how-do-you-handle-errors-in-i) for the necessity of `RAIIFile` and a better pattern.
+
+## API design under move semantics
+
+### From intent's perspective
+
+For parameter type `T`
+- if public API intends to assume **exclusive** ownership
