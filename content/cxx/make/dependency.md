@@ -94,3 +94,28 @@ PHONY += $(MAKECMDGOALS) __sub-make
 $(filter-out $(this-makefile), $(MAKECMDGOALS)) __all: __sub-make
 	@:
 
+# Invoke a second make in the output directory, passing relevant variables
+__sub-make:
+	$(Q)$(MAKE) $(no-print-directory) -C $(abs_objtree) \
+	-f $(abs_srctree)/Makefile $(MAKECMDGOALS)
+
+else # need-sub-make
+
+# all rules goes here, till the end of the Makefile
+
+endif # need-sub-make
+```
+
+{{</fold>}}
+
+{{</card>}}
+
+
+
+
+### Patterned Rules
+
+`%` matches 1 or more characters. You need 2 rules to achieve the same effect as the `*` wildcard in glob:
+
+```makefile
+config: outputmakefile scripts_basic FORCE
