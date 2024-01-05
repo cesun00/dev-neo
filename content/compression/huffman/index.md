@@ -99,3 +99,27 @@ We need a good code design that is:
 Well, still something worth frowning upon.
 
 `{a -> 0, b -> 10, c -> 110}`
+
+The problem is that, 
+
+Imagine you are the receiver seeing bits coming one by one on the wire.
+At any given moment, 
+
+
+we want to be clear about what to do next. At any moment within a codeword, we known whether this
+is the end of a codeword or not (i.e. we need to consume the next bit)
+
+Let's capture the essence of being concise: 
+We want to following behavior when decoding a bit string: no lookahead is required.
+
+**Proof.** 
+
+Prefix codes are a nice category of uniquely decodable codes.
+
+Given an alphabet, Huffman coding is the most known algorithm for deriving prefix codes.
+
+Prefix codes are widely referred to as "Huffman codes" even when the code was not produced by a Huffman algorithm.
+
+The reverse of a prefix code is known as suffix code.
+- Suffix code is still uniquely decodable, and it may still be a prefix code, though not necessarily.
+
