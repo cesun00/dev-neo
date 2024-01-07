@@ -600,3 +600,40 @@ foo 2>&1 | bar		# foo's stdout to bar's stdin, then foo's stderr to foo's stdout
 Bash support a dangerous syntactic sugar for this:
 
 ```bash
+foo |& bar		    # equivalent to `foo 2>&1 | bar`
+```
+
+### FD duplication
+
+`n>&m` clones the file descriptor `fd[n] = fd[m]` so that `fd[n]` and `fd[m]` refer to the same file description.\
+
+If `n` is 1 (stdout), it could be omitted. When more than 1 redirection/duplication are put on the cli, they happen in textual order.
+
+Under the hood bash use `man 2 dup` syscalls. See [](./linux-pipe.md) for a kernel perspective of such duplication.
+
+```bash
+>&2 echo "echo to stderr" # equivalent to: 1>&2 echo "echo to stderr"
+```
+
+FD duplication is just one type of redirection, so it happens after pipeline establishment. For instance, neither of the following will pipe stuff to `hexdump`:
+
+```bash
+>&2 echo "echo to stderr" | hexdump -C      # hexdump receives nothing
+```
+
+1. echo's stdout to hexdump's stdin (pipe)
+2. echo's stdout to echo's stderr (dup) ; Thus hexdump receives nothing.
+
+Mixing `|&` syntax and fd duplication is dangerous:
+
+```bash
+>&2 echo "echo to stderr" |& hexdump -C     # again, hexdump receives nothing
+```
+
+The above may feels like we are sending stdout to stderr's device, and pipe everything via stderr to `hexdump`.
+But remember after desugaring the line is really:
+
+```bash
+1>&2 echo "echo to stderr" 2>&1 | hexdump -C     # again, hexdump receives nothing
+```
+
