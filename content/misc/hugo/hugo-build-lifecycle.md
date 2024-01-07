@@ -57,3 +57,21 @@ func (m *pageMap) AddFi(fi hugofs.FileMetaInfo, buildConfig *BuildCfg) (pageCoun
 }
 ```
 
+The `AddFi` method assembles a new `pageMeta` instance and delegates to the `HugoSites`.newPage()` method.
+`pageMeta` is a huge structure and is now almost empty except those 3 fields about the markdown file path.
+
+The construction of an endpoint page from a markdown file begins by executing the `HugoSites.newPage()` method, during which the `pageMeta` will be gradually filled (alert: code smell).
+
+```go
+func (h *HugoSites) newPage(m *pageMeta) (*pageState, *paths.Path, error) {
+    
+}
+```
+
+
+
+```go
+// https://github.com/gohugoio/hugo/blob/1aacfced390604eee7fc48eb13b9b45f8399a557/hugolib/page__new.go#L36
+
+func (h *HugoSites) newPage(m *pageMeta) (*pageState, *paths.Path, error) { ... }
+```
