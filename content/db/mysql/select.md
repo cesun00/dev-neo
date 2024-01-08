@@ -275,3 +275,36 @@ SELECT ... FROM ...  LIMIT n; 				# get the first n rows
 SELECT ... FROM ...  LIMIT off,n; 			# skip the first off, then get n rows
 SELECT ... FROM ...  LIMIT n OFFSET off;	# ditto but sane syntax
 ```
+
+[Some best practice](https://stackoverflow.com/a/3799223/8311608) recommends that `LIMIT` clause always be used with the `ORDER BY` clause, even if it's on the clustered index which is no-op, e.g. the example above.
+
+Designating `page_idx` (1-indexed) and `page_size` for what they obviously mean, rows of a page can be queried by:
+
+```sql
+SELECT ...
+LIMIT page_size OFFSET (page_idx - 1) * page_size;
+```
+
+### LIMIT when ORDER BY columns have duplicated values
+https://dev.mysql.com/doc/refman/8.0/en/limit-optimization.html
+
+A peculiar phenomenon when combining `ORDER BY` and `LIMIT` is that a query may return rows in a different order comparing to `ORDER BY` **without** `LIMIT`, when those `ORDER BY` columns have identical values on multiple rows:
+
+```sql
+SELECT * FROM ratings ORDER BY category;
+# +----+----------+--------+
+# | id | category | rating |
+# +----+----------+--------+
+# |  1 |        1 |    4.5 |
+# |  5 |        1 |    3.2 |
+# |  3 |        2 |    3.7 |
+# |  4 |        2 |    3.5 |
+# |  6 |        2 |    3.5 |
+# |  2 |        3 |    5.0 |
+# |  7 |        3 |    2.7 |
+# +----+----------+--------+
+
+SELECT * FROM ratings ORDER BY category LIMIT 5;
+# +----+----------+--------+
+# | id | category | rating |
+# +----+----------+--------+
