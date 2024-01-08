@@ -1280,3 +1280,40 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   ├── entry/
 │   ├── events/
 │   ├── futex/
+│   ├── irq/
+│   ├── livepatch/
+│   ├── locking/
+│   ├── module/
+│   ├── power/
+│   ├── printk/
+│   ├── rcu/
+│   ├── sched/
+│   ├── time/
+│   ├── trace/
+├── lib/
+│   ├── crc32table.h
+│   ├── crypto/
+│   │   ├── mpi/
+│   ├── dim/
+│   ├── fonts/
+│   ├── gen_crc32table*
+│   ├── lib.a
+│   ├── lz4/
+│   ├── lzo/
+│   ├── math/
+│   ├── oid_registry_data.c
+│   ├── test_fortify/
+│   ├── xz/
+│   ├── zlib_deflate/
+│   ├── zlib_inflate/
+│   └── zstd/
+│       ├── common/
+│       ├── decompress/
+├── Makefile
+├── mm/
+├── modules.builtin
+├── modules.builtin.modinfo
+├── Module.symvers
+├── net/
+│   ├── 802/
+│   ├── 9p/
