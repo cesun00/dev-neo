@@ -93,3 +93,35 @@ See also: http://nginx.org/en/docs/http/server_names.html
 Exact match, multiple names are supported:
 
 ```nginx
+server {
+    server_name example.com www.example;
+}
+```
+
+Use `_` as a default capture-all name:
+
+https://stackoverflow.com/questions/9454764/nginx-server-name-wildcard-or-catch-all
+
+```nginx
+server {
+    server_name _;
+}
+```
+
+
+Use `*` for prefix or suffix glob. Nginx calls this feature "wildcard name".
+Note that `*` will **not** expand to empty string; thus the following won't match `example.com`.
+
+```nginx
+server {
+    server_name *.example.com www.example.*;
+}
+```
+
+[RFC1034](https://datatracker.ietf.org/doc/html/rfc1034#section-3.5) mandates that domain name can't start with `.`.
+Nginx use this syntax as a shortcut, and the following lines are identical:
+
+```nginx
+server_name .example.com;                   # shortcut for
+server_name example.com *.example.com;
+```
