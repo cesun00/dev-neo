@@ -129,3 +129,36 @@ However, do use the right words for declaration when declaration only is of conc
 <!-- The main purpose of defining "trivial-ness" is to ... -->
 
 ## Inheritance Type
+
+1. liskov doesn't work for protected / private inheritance.
+2. public / protected members of private Base equivalently become private access inside Derived.
+3. private members of Base always become inaccessible in Derived, regardless of inheritance type.
+
+## virtual member function & abstract class
+
+An abstract class is defined to be a class with 1 or more pure virtual member functions, either owned or inherited.
+
+By the design of C++, the purpose of PVMF, as well as abstract class, is to force subclasses to override its PVMF with an implementation, with the side-effect of preventing itself and non-implementing derived class from being instantiated.
+
+Such design leads to several consequences:
+- One can't have abstract class without introducing PVMF.
+    - one way to prevent instantiation without PVMF is to make all ctors `protected`
+    - another way, suggested by scott (effective c++ 2005 item7), is to have pure virtual dtor, since abstract class is always meant to be polymorphism base class. However, when abstract class itself also owns resources to be cleaned, this might lead to over-complicated design.
+- A class can provide implementation for its own PVMF, which will never be called unless subclass explicitly does so via `Base::Function(...)`.
+    - Not very common / useful, but base class can put some reusable logics / reasonable default here, accessible by all subclasses.
+    - The class, including non-overrriding subclasses, are still abstract classes, thus can't be instantiated.
+    - Again the purpose of PVMF is to force subclasses to override it. (well ... Unfortunately ?) it can't prevent base class from providing an implementation.
+
+## inherited virtual-ness
+
+TLDR
+- virtual-ness is inherited, for both member functions and destructor, regardless of the presence of `virtual` keyword when overriding. Do always keep it, for the sake of readability.
+- Maximize the use of c++11's `final` and `override`.
+
+The longer:
+
+> A non-static member function is a virtual function if it is first declared with the keyword virtual or if it
+overrides a virtual member function declared in a base class.
+> <cite>c++20 11.7.2.1</cite>
+
+c++11 introduced a non-terminator `virt-specifier-seq` which expand to `final` or `override` or both in arbitrary order.
