@@ -252,3 +252,36 @@ To value-initialize
     - has default ctor: first zero-initialize then default-initialize.
     - has no default ctor: default-initialize it, [which is guaranteed to fail](https://stackoverflow.com/questions/50393837/could-a-class-type-with-deleted-default-constructor-be-default-initialized)
 - an array: value-initialize each element
+- a reference: the program is ill-formed
+- everything else: zero-initialized
+
+### `opt-out` default-initialize
+
+Default-initialization occurs when the `initialize` is opt-out, e.g. `T obj;` or `T *p = new T;`
+
+To default-initialize:
+- a class instance: run overload resolution on all constructors with an empty argument list; call the best matched one, or abort if no match.
+- an array: to default-initialize each element
+- a reference: the program is ill-formed
+- everything else: no initialization
+
+### list-initialization {#list-init}
+
+List-initialize means a curly brace enclosed list `{ ... }` thus a `std:initializer_list` is involved in the initialization.
+It has nothing to do with a list or array or some kind of linear list has is being initialized.
+
+List-initialization occurs when the `initialize` is is `brace-init-list` without `=` (syntax #4),
+e.g. `T obj;` or `T *p = new T;`
+
+List-initialization is famous for prioritize the `std:initializer_list` constructor during overload resolution.
+
+<!-- object (including class instance, array, scalars, etc.) or reference  -->
+
+```c++
+// foo is copy-initialized;
+// the temporary std::vector on the RHS is list-initialized.
+std::vector<int> foo = {1,2,3};
+```
+
+### copy-initialization
+
