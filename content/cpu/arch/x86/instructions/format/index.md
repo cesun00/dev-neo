@@ -363,3 +363,10 @@ The REX prefix must come after any optional/mandatory normal Group 1-4 prefixes 
 The high 4 bit of REX must be `0100`, rendering possible values of REX ranging from `40H` to `4FH`.
 
 Not all instructions require a REX prefix in 64-bit mode.
+A REX prefix is necessary only if an instruction
+1. references one of the extended registers (r8 to r15) or one of the byte registers SPL, BPL, SIL, DIL; or
+2. uses a 64-bit operand
+
+A REX prefix is ignored, as are its individual bits, when it is not needed for an instruction or when it does not immediately
+precede the opcode byte or the escape opcode byte (0FH) of an instruction for which it is needed.
+This implies that only one REX prefix, properly located, can affect an instruction.
