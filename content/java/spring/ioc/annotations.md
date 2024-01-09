@@ -129,3 +129,38 @@ However, jdk assigns very little semantics to meta-annotation,
 i.e. what it means if an `annotation-definition` is tagged with another annotation.
 Without custom parser logics, an `@Foo public @interface Bar {}` is no different from `@Foo public class Zoo {}` - none of them cause code to execute.
 
+Perhaps the only meaningful usage within JDK is the `@Inherited`:
+Certain APIs on `Class<?>` instance (e.g. `getAnnotationsByType`, `isAnnotationPresent`)
+will respect `@MyAnno` tagged on `public class Base{}` when introspecting `public class Derived extends Base{}`
+and `@MyAnno` is not there. 
+Remember you can always `getSuperclass()` and do the same manually. So these `@Inherited`-respecting APIs
+are simply convenient helpers.
+
+The fact that `@Inherited` being the only meta-annotation treated specially
+
+## Spring's use of meta-annotation
+
+Just because `public @interface Service` is annotated with `@Component` does not make `java.lang.reflect`'s API think
+that  is also `@Component`-annotated.
+At least there is no code in plain JDK that respect meta-annotation in this way.
+
+It is now clear that Spring 
+
+But 
+
+ special. No API in JDK respected a `@Service`-annotated class in the same way it respect
+
+JDK's reflection
+treat  a candidate for component scanning.
+
+Spring has a different interpretation of annotation compare to what `java.lang.reflect` natively provides:
+
+*This mechanics is never a thing in raw JDK.*
+So Spring must implement the meta-annotation interpretation itself.
+[Unfortunately, Spring authors choose to also call this programming model *meta-annotation* in their document.](https://docs.spring.io/spring-framework/docs/5.3.24/reference/html/core.html#beans-meta-annotations)
+We will be calling it the *spring-meta-annotation* from now to differentiate from jdk's meta-annotation.
+
+Spring's definition of "what annotations are *tagged* onto a class" is represented by `interface MergedAnnotations`.
+The idea is that `MergedAnnotations.from(clazz)` returns an `MergedAnnotations` instance 
+which answers queries in a fashion consistent with Spring's meta-annotation ideology.
+
