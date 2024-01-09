@@ -30,3 +30,4 @@ The size of a block is arbitrary, except that non-compressible blocks are limite
 DEFLATE is defined in terms of a sequence of bits where each bit is addressable.
 The first bit of a byte is defined as the least significant bit.
 (little-endian byte order + little-endian bit order)
+
