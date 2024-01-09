@@ -101,3 +101,36 @@ The `W` and `w` command, and the `s` command with the `/w` flag, allow writing t
 the following attempt to edit a file in-place won't work and will erase your input file:
 
 ```sh
+sed 'pattern' <input >input
+```
+
+This phenomenon is not specific to `sed`, and holds for all Unix pipeline-oriented programs.
+
+See [pipeline redirection](#TODO) for an explanation
+
+{{</card>}}
+
+<!-- `sed` is not aware of the concept of line. -->
+
+## Commands
+
+Sed commands are given by one or more `-e <expression>` and / or `-f <script file>` options.
+Within the same expression or script file, multiple command can be given by separating them with a semicolon (`;`):
+
+```sh
+sed -n '16224,16482p;16483q' filename
+```
+
+A sed command conforms to the 
+
+```
+[addr]X[options]
+```
+
+- `[addr]` selects the lines only on which `X` commands are executed
+- `[options]` are only required by some `X` that need additional
+- `X` can be a `{...}` group 
+
+### `[addr]` specification
+
+1. specify a unique line by its line number
