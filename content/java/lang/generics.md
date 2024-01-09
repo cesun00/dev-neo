@@ -123,3 +123,34 @@ A<Set<Integer>> v= new A<>(new ArrayList<Integer>()); // compilation fail: can't
 Note:
 1. how the reference can be declared using a supertype type parameter; this is **not** because `A<List<Integer>>` is a subtype of `A<ArrayList<Integer>>`, and has nothing to do with the liskov.
 2. Diamond use both static type of left-hand side reference and type of arguments to ctor to infer. If they are not consistent, inference fails and compiler complains.
+
+(Upper) Bounded Type Parameter
+--------------
+
+There is no lower-bounded type parameters. The `super` keyword can only appears as in type **arguments** in wildcards.
+
+We can limit the upperbound on the inheritance hierarchy for type parameter, so that more abilities on the type parameter are exposed to us:
+
+```java
+interface I0 { int add(int a,int b); }
+interface I1 { int sub(int a, int b);}
+interface I2 { }
+
+class A<E extends I0> {
+    int foo(E e) {return e.add(1,2);}
+}
+class B<E extends I0 & I1 & I2> {
+    int bar(E e) {return e.add(3,4);}
+    int zoo(E e) {return e.sub(5,6);}
+}
+
+class X implements I0, I1, I2 {
+    @Override public int add(int a, int b) { return 0; }
+    @Override public int sub(int a, int b) { return 0; }
+}
+
+X x = new X();
+A<X> a= new A<>();
+B<X> b = new B<>();
+a.foo(x);
+b.bar(x);
