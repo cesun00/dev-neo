@@ -308,3 +308,33 @@ SELECT * FROM ratings ORDER BY category LIMIT 5;
 # +----+----------+--------+
 # | id | category | rating |
 # +----+----------+--------+
+# |  1 |        1 |    4.5 |
+# |  5 |        1 |    3.2 |
+# |  4 |        2 |    3.5 |
+# |  3 |        2 |    3.7 |
+# |  6 |        2 |    3.5 |
+# +----+----------+--------+
+```
+
+Since the order of rows returned is non-deterministic when `ORDER BY` columns have identical values on multiple rows, relying on such behavior is insane already, set aside wondering why `LIMIT` changes the order. Anyway, just knowledge for fun.
+
+LIMIT ... OFFSET is slow
+--------
+
+MySQL cannot seek directly to the `OFFSET ...` row on the disk, cause it's not sure how many rows are there in each page (recall that each page is not necessarily full, actually usually half to 15/16 full).
+
+This means that even a `LIMIT ... OFFSET ...` query even `ORDER BY` the clustered index will brings a full table scan up to the `offset+limit`.
+
+The correct way is to write a range condition on the PK based on the page # and row per page:
+
+https://stackoverflow.com/questions/4481388/why-does-mysql-higher-limit-offset-slow-the-query-down
+
+Considerations for `ORDER BY`
+-------
+
+1. You can `ORDER BY` multiple columns. The ordering of the first designated column has the highest priority.
+
+2. When the `ORDER BY` columns have identical values on mutiple rows, the order of those rows upon return is not deterministic. `ORDER BY` more columns you care to solve this problem. There is even no guarantee that, the first 5 rows returned by `ORDER BY`
+
+3. When a query is `ORDER BY` indexed columns, there is no need to really sort anything.
+
