@@ -123,3 +123,32 @@ SELECT a,b,MAX(C),MIN(C) FROM t GROUP BY a,b;
 # +------+------+--------+--------+
 # | a    | b    | MAX(C) | MIN(C) |
 # +------+------+--------+--------+
+# |    1 |    1 |    200 |    100 |
+# |    1 |    2 |    300 |    200 |
+# |    2 |    1 |    200 |    100 |
+# |    2 |    2 |   3300 |    500 |
+# +------+------+--------+--------+
+# 4 rows in set (0.00 sec)
+```
+
+One exception to this rule is when the non-aggregate selected columns functionally depend on the `GROUP BY` columns:
+
+```sql
+# find how many languages is spoken in each country
+SELECT co.Name, COUNT(*)
+FROM countrylanguage cl, country co
+WHERE cl.CountryCode = co.Code
+GROUP BY co.Code;
+```
+
+Here `Code` is the primary key of table `country`. We are grouping by `Code` but we have a non-aggregate selected column `Name`. This is well-defined, since `Code` uniquely identify a country thus its name.
+
+However, even if a non-aggregate selected column doesn't functionally depends on the `GROUP BY` columns, evil mysql still accept such query by default (controlled by `ONLY_FULL_GROUP_BY`), but the result is undefined. 
+
+HAVING Clause
+----------
+
+`HAVING` works on the result of the grouping, while `WHERE` clause works on-the-fly while scanning each rows.
+
+There are lots of way to abuse the `HAVING` clause. Without aggregate functions and `GROUP BY`, `HAVING` is the same as `WHERE` (at least mysql behaves the same, not sure about the performance, anyway don't do this, and use `WHERE` instead):
+
