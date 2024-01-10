@@ -55,3 +55,34 @@ This second syntax is used to initialize either an array or a struct instance.
 - The optional `designator-list =` assigns explicit values to certain fields, instead of writing an initializer for each array item / struct field in the order.
 
 This can lead to a rather complex nested initializer already:
+
+```c
+// declarator               = initializer
+struct { int a[3], b; } w[] = {
+    [0].a = {1},
+    [1].a[0] = 2,
+    [3] = {{1, 2, 3}, 5}
+};
+
+printf("%d\n", sizeof(w) / sizeof(w[0])); // 4
+```
+
+{{<card "info">}}
+
+In C, objects are never "partially" initialized;
+if there are fewer initializers than the size of the array or the number of structure elements, unmentioned elements / fields are initialized to zero.
+For static storage no-op would suffice, and for stack allocation the compiler generates explicit `MOV [BP - n], 0` instructions.
+
+{{</card>}}
+
+#### The takeaways are:
+
+1. The only part where `{}` is even relevant to initialization is when a nested initializer is needed.
+2. The `=` between the `declarator` and `initializer` is mandatory.
+
+## Initialization in C++: The Chaos
+
+Declaration of variables can be simplified to a `decl-specifier-seq` followed by a comma-separated list of `declarator initializer` sequence, where the `initializer`, like in C, is optional:
+
+```
+simple-declaration:
