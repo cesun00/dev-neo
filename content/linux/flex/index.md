@@ -95,3 +95,31 @@ A name definition is a line of the following format:
 ```
 name    definition
 ```
+
+There must be no indentation before `name`.
+`name` conforms to the same rules of a C variable name, except that `-` (dash) is allowed in the middle.
+
+```
+DIGIT   [0-9]
+ID      [a-z][a-z0-9]*
+```
+
+Name definitions can be referred to later in the rules section by `{name}` (i.e. surrounded by a pair of curly brace),
+which will expand to `(definition)` (i.e. surrounded by a pair of parentheses). e.g. `{DIGIT}+"."{DIGIT}*`  is identical to `([0-9])+"."([0-9])*`.
+
+#### start conditions
+
+If you have experience with a manually written lexer, start conditions are equivalent to (actually, implemented as) the `enum State` whose instance will be switched on in the while-switch idiom.
+
+A scanner is essentially a state machine, where the same character sequence can have different interpretations depending on the current state
+of the scanner. Some character sequences aren't even allowed in some states. For example, a `*/` marks the end of a comment when a previous `/*` has put the scanner into the `COMMENT` state, but means a multiplication operator and a division operator in an arithmetic expression
+(of course, such an operator sequence is a syntax error in most programming languages, but judging that is the job of the parser).
+
+Each start condition is defined on un-indented lines beginning with either `%s` or `%x` followed by a list of names.
+- `%s` introduces an inclusive start condition
+- `%x` introduces an exclusive start condition
+
+To write a rule that is active only when the scanner is in a given state `sc`, prefix that rule with `<sc>`.
+Use a comma-separated list for a rule that is active for more than 1 state, e.g. `<sc1, sc2, sc3>`.
+
+An example of start conditions would be like this:
