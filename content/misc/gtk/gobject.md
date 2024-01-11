@@ -90,3 +90,30 @@ For custom GType `Bar` of application `Foo`
 Misc
 1. If B inherits from A, is B's base_init 
 
+GTypes
+----------------
+                    classed                 non-classed
+instantiable        GOBJECT                 no such thing
+non-instantiable    abstract/interface      fundamentals
+
+G_TYPE_FUNDAMENTAL_SHIFT = 2
+    
+`G_TYPE_FUNDAMENTAL_MAX = 255<<GTFS = 255<<2`
+
+at most 255 fundamental type.
+a static array of length 255 of type `TypeNode*` is there to store info of fundamental types.
+GType id greater than 255<<2 = 1020 is reserved for derived types.
+
+-------------------------------
+        G_TYPE_FLAG_
+// GTypeFundamentalFlags
+0       CLASSED
+1       INSTANTIATABLE
+2       DERIVABLE
+3       DEEP_DERIVABLE
+// GTypeFlags
+4       ABSTRACT
+5       VALUE_ABSTRACT
+// unused
+-------------------------------
+
