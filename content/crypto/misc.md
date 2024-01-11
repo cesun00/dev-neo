@@ -210,3 +210,32 @@ https://tools.ietf.org/html/rfc5990
 
 
 Play with openssl rsa
+==================
+Everywhere a public key can be used, a private key can be used too (without -pubin), 
+since for RSA build public key from private key is trivial
+
+### private key generation
+```bash
+openssl genrsa -out priv.pem
+```
+
+### extract n and e from that private key and form its public key
+```bash
+openssl rsa -in priv.pem -out pub.pem -pubout
+```
+
+### full asymmetric encryption
+```bash
+echo -n 'fuck' | openssl rsautl -encrypt -inkey pub.pem -pubin -out fuck_encrypted
+```
+
+
+### full asymmetric decryption
+```bash
+# only private key can be used to decrypt
+openssl rsautl -decrypt -inkey priv.pem -in fuck_encrypted
+```
+
+
+### signature
+```bash
