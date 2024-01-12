@@ -291,3 +291,29 @@ It's stored in a `CONSTANT_Utf8_info` constant.
     - for object types, it is `L ClassName ;` (letter `L` followed by the [internal form](#internal-forms) of class binary name followed by a semicolon)
     - for array type, it is `[ ComponentType` (left bracket followed by the descriptor)
 
+- A method descriptor describes the signature of a method.
+
+    It takes the form of zero or more concatenated `ParameterDescriptor` (without separator) enclosed with parentheses, followed by one `ReturnDescriptor`:
+
+    ```
+    (<ParameterDescriptor><ParameterDescriptor><ParameterDescriptor>... )<ReturnDescriptor>
+    ```
+
+    where
+    - each `ParameterDescriptor` is simply a field descriptor, and
+    - `ReturnDescriptor` is either a field descriptor or a letter `V` for `void` return.
+
+    For example, `(Ljava/lang/String;[Ljava/lang/String;)Ljava/lang/String;` stored in a is a `CONSTANT_Utf8_info` constant is a descriptor of the function:
+
+    ```java
+    String funcName(String , String[] ) { ... }
+    ```
+
+### Modified UTF-8 Encoding
+
+Modified UTF-8 strings are encoded so that code point sequences that contain only non-null ASCII characters can be represented using only 1 byte per code point, but all code points in the Unicode codespace can be represented. Modified UTF-8 strings are not null-terminated.
+
+<!-- ## Annotation Storage {#struct-annotation} -->
+
+
+
