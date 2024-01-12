@@ -64,3 +64,33 @@ Size of the PermGen also grow but there is an explicit upperbound. Since the max
 
 Metaspace replaces PermGen since Java8, but they basically contains the same thing, i.e. method area, class definition, and string constant pool.
 
+Metaspace doesn't have a default upper bound (other than the size of the physical memory available), unless user specifies that manually on the CLI.
+
+```txt
+-XX:MetaspaceSize=size
+-XX:MaxMetaspaceSize=size
+```
+
+
+
+GC Algorithms
+-------------------
+
+### Mark and Sweep
+
+GC Triggering
+------------
+
+https://stackoverflow.com/questions/39932939/what-cause-objects-to-move-from-young-generation-to-old-generation
+
+1. When eden is full, a minor GC is issued.
+
+    What a minor GC do are:
+    1. All garbages in eden is collected, copy all remaining objects in eden to S0 with age=1.
+    2. All garbages in S1 is collected, copy all remaining objects in S1 to S0 with age = age + 1.
+    3. When S0 is not large enough to contains object in the above 2 steps, a full GC is triggered.
+    4. If any object in S0 now has age > threahold (16 by default), it is moved to the Old Gen.
+    5. Role of S0 and S1 ans swapped, so the next minor GC we copy in the other direction.
+
+    Why we need 2 survivor spaces:
+    1. Decrease the # of objects we move to old gen; thus decrease the speed old space is filled, and decrease the chance of Major GC.
