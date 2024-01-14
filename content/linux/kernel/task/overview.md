@@ -104,3 +104,28 @@ struct pid
 struct task_struct {
 #ifdef CONFIG_THREAD_INFO_IN_TASK
 	/*
+	 * For reasons of header soup (see current_thread_info()), this
+	 * must be the first element of task_struct.
+	 */
+	struct thread_info		thread_info;
+#endif
+```
+
+The kernel build option `CONFIG_THREAD_INFO_IN_TASK` determines whether the `struct thread_info` instance is embedded in `task_struct` or found in a hash table linked by a pointer (see `PID/PID hash table linkage` below).
+
+`struct thread_info` is a CPU-specific structure defined in `arch/<archtecture>/`. For x86, it is:
+
+```c
+// arch/x86/include/asm/thread_info.h
+
+struct thread_info {
+	unsigned long		flags;		/* low level flags */
+	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+	u32			status;		/* thread synchronous flags */
+#ifdef CONFIG_SMP
+	u32			cpu;		/* current CPU */
+#endif
+};
+```
+
+
