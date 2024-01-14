@@ -108,3 +108,38 @@ Depending on one's interpretation, he can claim that either
 
 The Intel SDM takes the first figure of speech: `Exchanging EAX with foo` is an operation with opcode `0b 1001 0xxx`, and 8 possible
 choices of operand register are encoded in the least significant 3 bits of the `opcode` byte.
+
+Such encoding is documented using a `<base> +rd` syntax where `<base>` is an integer in hex whose least significant 3 bits are 0 (i.e. either `?0` or `?8` in hexadecimal).
+For example, "exchanging EAX with a 32-bit register" [is documented as `90 +rd`](https://www.felixcloutier.com/x86/xchg), indicating
+that for all possible values of the least significant 3 bits of the opcode (i.e. 0 to 7), adding it with `90` obtains a different opcode that
+adds `EAX` with a different register.
+The least significant 3 bits of the last byte of `primary opcode` is sometimes referred to as the "reg field of the opcode".
+
+Assigning frequently used instructions with shorter encoding makes programs more compact.
+However, this reduces human-readability and makes documentation harder to write and understand.
+Fortunately, it's only possible to encode a single register in the `opcode` byte,
+and other operands must be either implied register (e.g. EAX) or an immediate.
+Because of that, only a few frequently used forms of certain instructions employed such encoding.
+They are:
+
+| instruction name | base |
+|------------------|------|
+| `PUSH`           | 50   |
+| `XCHG`           | 90   |
+| `BSWAP`          | 0FC8 |
+| `DEC`            | 48   |
+| `INC`            | 40   |
+| `MOV`            | b8   |
+| `POP`            | 58   |
+
+### Encoded Instructions (Binary) and Assembler Instructions (Text Lines) are Different Animals
+
+From the assembler language's perspective, an instruction can have 0, 1, 2, or even 3 operands.
+Intuitively, the `opcode` field should correspond to the instruction name (e.g. `MOV` / `XCHG` / etc) and define what the operation is,
+and the other fields should give the operands;
+but the previous discussion has shown that such ideal world doesn't exist, and it's sometimes hard to divide operation and operand:
+`XCHG EAX, ?` is a 2-operand instruction but ends up assembled as a single byte;
+
+The point is that one should not assume the structure of a written instruction to be preserved in its encoded binary.
+
+#### Address Arithmetic Expression Isn't Real
