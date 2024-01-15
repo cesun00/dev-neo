@@ -154,3 +154,38 @@ A<X> a= new A<>();
 B<X> b = new B<>();
 a.foo(x);
 b.bar(x);
+b.zoo(x);
+```
+
+Note the `&` syntax to specify multiple bounds. When one of those bounds is a class, it must be the first in the `&`-ed types:
+
+```java
+class B<E extends T & I0 & I1 & I2> { ... } // assuming T is a class type
+```
+
+Wildcard
+------------
+
+The wildcard character `?` is useful when you want your type A to be parameterized by some other type B but you don't really care about what B is, thus we don't capture B using a named type paramteter nor refer to it.
+
+Wildcard is usually used as a **type argument for reference declaration**, but **never** as a type argument for a generic method invocation, a generic class instance creation, or a supertype.
+
+```java
+// if capturing T is not really interesting ...
+static <T> void zoo(List<T> myList) { for (T o : myList) System.out.println(o); }
+// we can use wildcard to take a List of anything
+static void foo(List<?> myList) { for (Object o : myList) System.out.println(o); }
+// compilation error when taking a List<Integer>
+static void bar(List<Object> myList) { for (Object o : myList) System.out.println(o); }
+```
+
+### upperbound wilcard
+
+```java
+// we know myList is at least a list of Number
+static double sum(List<? extends Number> myList) {
+    double ans = 0;
+    for (Number a : myList)
+        ans += a.doubleValue();
+    return ans;
+}
