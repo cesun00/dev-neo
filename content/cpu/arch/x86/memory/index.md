@@ -57,3 +57,30 @@ But this time, spelling physical addresses as immediate operands simply didn't m
 2. the static nature of the immediate operand makes it inflexible; there is no virtual memory yet, and a program with absolute addresses as immediate operands expects itself to be loaded at a specific memory location. Two such programs thus can't be loaded at the same time. Given the 1MiB memory which is considerably huge contemporarily, this is a waste of memory.
 3. Meanwhile, everything done with an absolute address immediate operand can be achieved by first loading the address into a register then playing with that register.
 4. introducing more complexity into the instruction set, costing more circuitry than the Intel folks were willing to pay, etc.
+
+Anyway, absolute address immediate operands are gone forever.
+
+Designers and programmers were facing a situation where they had to use 16-bit registers to address the 20-bit address space.
+Instead of using the good old way inherited from 8080/8085 of concatenating 2 registers, a rather weird solution was devised,
+known as memory segmentation:
+
+1. 4 new registers were introduced, known as the segment registers: `CS / SS / DS / ES`.
+2. Each instruction that accesses memory is associated with an implicit segment register.
+
+    For example, a `MOV` from/to memory is implicitly associated with `DS`.
+
+<!-- | instruction category | default register | allowed override to |
+-----|----------------------|------------------|---------------------|----
+     |                      |                  |                     | -->
+
+    Most such instructions also allow overriding the default segment with an instruction prefix.
+    e.g. `MOV AX, [4]` encodes to `a1 04 00` but `MOV AX, [CS:4]` encodes to `2e a1 04 00`; the `2e` prefix
+    tells the CPU to use the `CS` segment register instead of the default `DS` for `MOV`.
+
+    Also note that different assemblers may allow different syntax for such segment override.
+    e.g. All of `CS MOV AX, [4]`, `CS MOV AX, [4]`, and `MOV AX, CS:[4]` generate identical instructions in NASM.
+
+3. Each instruction that accesses memory can have at most 1 memory operand, i.e. an operand that references a memory location (instead of the value of a register or immediate number).
+
+    This memory operand consists of 3 components, all of which are optional:
+    1. a base register: can be `BX` or `BP`
