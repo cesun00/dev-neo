@@ -327,3 +327,34 @@ Similarly, the object on which a member function is being called is prepended to
 For member functions of class X, the type of the implicit object parameter is affected by cv-qualifications and ref-qualifications of the member function as described in member functions.
 
 
+TODO: see ref-qualified member funciton, and relate to the implied object parameter/argument as well.
+
+
+
+## polymorphismn
+
+*polymorphism* refers to the fact that a single "interface" works for different argument types.
+
+Depending on your interpretation of what "interface" is / includes, polymorphism can further be divide into:
+
+1. ad-hoc polymorphism.
+
+    You write multiple pieces of source code but keep the same interface, in order to make that interface works for multiple types.
+
+    Almost always this means function overload. Here "interface" is cunningly interpreted to contains only the function name used for invocation, without parameter types and count, etc.
+
+2. parameteric polymorphism (a.k.a static / compile-time polymorphism)
+
+    You write a single piece of source code, thus having a single interface, and make it works for multiple argument types by 
+
+3. subtyping (a.k.a runtime polymorphism)
+
+    You write a single piece of source code, thus having a single interface, and make it works for multiple argument types by
+
+
+
+Function name as pointer type
+=================
+
+## C
+
