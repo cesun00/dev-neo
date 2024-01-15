@@ -155,3 +155,39 @@ See [this](https://stackoverflow.com/questions/130117/if-you-shouldnt-throw-exce
 
 For parameter type `T`
 - if public API intends to assume **exclusive** ownership
+    - if parameter type is moveable: pass by rvalue reference `&&T`
+    - else: pass `unique_ptr<T>` by value
+- else if public API intends to assume **shared** ownership:
+- else, `T` is copyable and the unique-ness of underlying resources is NOT of concern (e.g.`std::string` and its `char[]`). Ownership semantics is irrelevent. 
+    - If        API implementation intends to keep a copy of the argument (e.g. a class ctor): pass by value (invoke copy ctor), and move construct the local copy.
+    - else if   API implementation intends to access the argument readonly: pass by lvalue reference-to-const
+    - else if   API implementation intends to modify the argument in-place: Avoid such design.
+
+### From form's perspective
+
+- Pass by: lvalue reference
+- Pass by: lvalue reference-to-const
+- Pass by: rvalue reference
+- Pass by: value, move-able type
+    - then move: ... ; see clang-tidy's `modernize-pass-by-value`
+- Pass by: value, unmove-able type
+
+## pass by `unique_ptr` vs pass by rvalue reference
+
+What type should parameter of public API be in order to clearify the intent of ownership assumption?
+
+- use `&&T` when you can (i.e. when `T` is move-able), 
+- use `unique_ptr<T>` when you must (transfer of exclusive ownership, but class is not movable).
+
+Both express the intent of ownership transfer.
+- `unique_ptr` forced a heap allocated object to be used.
+- `&&T` allows a stack allocated instanced to be moved in. If client has an `unique_ptr` instead, he can always pass in `*up.release()`.
+
+## pass by value VS pass by lvalue / rvalue reference
+
+It's now recommended to pass object by value and move-construct in member initializer list. Rationales are:
+- Client now doesn't need to worry about his own object being changed, since a copy is send, rather than reference to the original object
+- TODO: performance ...
+
+```c++
+FileHolder::FileHolder(std::filesystem::path p) : path{std::move(p)}, f{std::fopen(path.c_str(), "r")} {
