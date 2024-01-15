@@ -35,3 +35,21 @@ But as it turns out, everything got done twice, despite that only one HTTP GET w
 
     ```log
     # [dev@VM-4-46-centos cloud-gateway]$ grep '/task/main' $(ls -t | head)
+    cloud-gateway-fbbddf959-t8mx4-2023-12-04.1.log:2023-12-04 11:31:16.130|[reactor-http-epoll-2]|1701660676130|||INFO |c.c.g.f.TraceGlobalFilter[filter,36]|[Gateway] - path=/oms/autoerp/task/main, traceId=1701660676130, requestIp=xxx.157.172.201
+    cloud-gateway-fbbddf959-ndv9q-2023-12-04.2.log:2023-12-04 11:32:16.131|[reactor-http-epoll-2]|1701660736131|||INFO |c.c.g.f.TraceGlobalFilter[filter,36]|[Gateway] - path=/oms/autoerp/task/main, traceId=1701660736131, requestIp=xxx.157.172.201
+    ```
+
+2. the application server logged the ends of 2 calls:
+
+    ```log
+    # [dev@VM-4-46-centos oms-portal]$ grep '/task/main' $(ls -t | head -20)
+    oms-portal-666c4b5d8b-96nnd-2023-12-04.7.log:2023-12-04 11:54:22.238|[XNIO-1 task-4]|1701660676130|-|-|INFO |c.c.w.f.ElapsedTimeFilter[after,45]|path=/autoerp/task/main, elapsed time:1386106 (ms)
+    oms-portal-666c4b5d8b-96nnd-2023-12-04.7.log:2023-12-04 11:54:25.484|[XNIO-1 task-2]|1701660736131|-|-|INFO |c.c.w.f.ElapsedTimeFilter[after,45]|path=/autoerp/task/main, elapsed time:1329352 (ms)
+    ```
+
+3. 2 report emails were sent.
+
+So who made the second request?
+Notice that the gateway log reported a precise 1-minute interval between the arrival of the 2 requests,
+while the client-gateway timeout is exactly 2 minutes.
+Needless to say, a retry happened outside the client-nginx connection, and the biggest suspect is Nginx itself.
