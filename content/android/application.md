@@ -129,3 +129,37 @@ activities, services, and content provider MUST be declared in the manifest file
 
 However, broadcast receiver can be either declared in the manifest or 
 1. create in code at runtime as "BroadcastReceiver" object
+2. register dynamically at runtime by calling "registerReceiver()"
+
+Declaring component capabilities
+------------
+如Activating components中所说，Intent有2种：explicit intent & implicit intent
+explicit intent指明了希望启动的组件的class name
+而implicit intent仅指定了希望启动的组件的类型，告诉系统自己寻找合适的组件。如果有多个组件满足该类型，则可以由用户自行选择。
+
+### implicit intent的安全性
+使用intent启动service的时候，出于安全性的考虑尽量使用explicit intent
+因为如果使用implicit intent，开发者无法得知运行时到底启动了哪个服务，且用户也无法看到启动了哪个服务
+>=Android 5.0 (API Level 21)的版本，如果为`bindService()`传入一个implicit intent参数，则会抛出异常
+*不要为service声明intent filter*
+
+每个app的AndroidManifest.xml声明了该app的每个组件所能接受的intent
+当你的app发起一个intent的时候，Android搜索系统中所有app的manifest，来找到可响应的组件
+
+*Q: 对于implicit intent是寻找合适的组件；对于explicit intent是验证目标组件是否能响应发起的intent？*
+*A: 只作用于implicit intent*
+
+在manifest的组件tag中使用`<intent-filter>` tag来声明一个所能接受的intent
+比如，下面是一个email app中用于编写邮件的activity的声明
+```
+<manifest ... >
+    ...
+    <application ... >
+        <activity android:name="com.example.project.ComposeEmailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <data android:type="*/*" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
