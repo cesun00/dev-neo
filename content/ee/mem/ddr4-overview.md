@@ -138,3 +138,41 @@ SUBROUTINE: MR default reset
 | MR4 A[13]  | 0 = Disable   | Hard Post Package Repair mode |
 | MR4 A[5]   | 0 = Disable   | Soft Post Package Repair mode |
 
+### power up init
+
+1. supply the 1.2V power to `Vdd` and `Vddq`.
+2. deassert `RESET_n`
+3. wait 500us for SDRAM self-initialization; Micron guarantees to do the MR default reset during this, but not standardized. 
+4. start feeding the `CK_t` and `CK_c` diff clock
+5. *CRITICAL*: set `CKE` HIGH and keep it to start the synchronized world. The very next up edge of `CK_t` (thus down edge of `CK_c`) will be the first COMMAND the chip will interpret, must be `DESELECT`
+6. issue `MRS` to load (in order) `MR3`, `MR6`, `MR5`, `MR4`, `MR2`, `MR1` with application setting, wait `t_MRD` after each `MRS`.
+7. issue `MRS` to load (in order) `MR0` with application setting, then wait `tMOD`
+8. Issue a `ZQCL` command to start ZQ calibration, then wait for `t_DLLK` and `t_ZQinit` for its completion
+9.  DONE. we good for all normal operation.
+
+### reset
+
+TODO
+
+### Gear-down mode
+
+### Max Power-saving mode
+
+### Self Refresh mode
+
+### Delay-locked loop (DLL) and `DLL-off` mode
+
+### read & Read Burst
+
+1. MC registers the `ACTIVATE` command, i.e. open a row. 
+
+    At the same up edge:
+    - lower `CS` and `ACT`
+    - address the row by `BG0-1`, `BA0-1`, `A0-A17` (`A17` unused for `x8`).
+    
+    `RAS` doesn't involve, since it's the same pin as `A16`.
+
+4. MC register the `READ` command. 
+
+    At the same up edge:
+    - lower `CS` and `CAS (A15)`
