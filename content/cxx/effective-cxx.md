@@ -73,3 +73,40 @@ delete p;
 Scott mentioned the so-called *slicing problem*, which is essentially a misunderstanding about polymorphism in C++ which only happens via pointer or reference.
 
 ```c++
+class Base {
+public:
+    Base(const Base &other) {
+
+    }
+};
+
+class Derived : public Base {
+public:
+    Derived(const Derived &other): Base{other} {
+        
+    }
+};
+
+void foo(Base base) {
+
+}
+
+// A Base instance is required but a Derived instance is provided.
+// Compiler tries to find a conversion path from Derived to Base, and the one found is Base's copy ctor:
+// overloads resolution succeeds due to C++'s reference/pointer-based polymorphism,
+// i.e. an base class reference can bind to a derived class instance
+//
+// Eventually only Base's copy ctor is executed, leaving Derived's copy semantics totally ignored.
+Derived d{};
+foo(d);
+```
+
+> In general, the only types for which you can reasonably assume that pass-by-value is inexpensive are built-in types and STL iterator and function object types.
+
+## MYTH
+
+1. Don't inherit from classes from library, unless the library author explicitly recommended.
+    - No matter what, public API should be `public`. Whatever library exposes to client via protected interface is a design smell.
+2. Now you have design jurisdiction on whatever classes we are going to talk about. Suppose Both `class Foo1` and `class Foo2` needs functionality from `class Bar`.
+    1. Use public inheritance if and only if liskov substitution from `Bar` referrence to `Foo?` is exactly what you want. Otherwise, NEVER.
+    2. 
