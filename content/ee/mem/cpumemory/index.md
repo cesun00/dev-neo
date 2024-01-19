@@ -113,3 +113,14 @@ Port vs Channel
 -------
 
 
+Pumping
+---------
+
+Pumping refers to the generic technique of transfer data more than once per clock cycle.
+
+FSB was often quad-pumped back in its days. DDR improves SDRAM by being double-pumped, i.e. push bits on its data bus on both the rising and falling edges in a clock cycle.
+
+Planar vs. 3D Stacking (3DS)
+----------
+
+Traditional circuitry in SDRAM chip is organized as rows and columns, i.e. a planar design. 3DS refers to the technology to stack multiple die to reach a higher density.
