@@ -100,3 +100,39 @@ InnoDB supports 4 isolation level, from the lowest protection to the highest:
 
 	Under RC, reads in a transaction can only sees changes made by other transactions that have alread committed.
 
+	Each non-locking `SELECT` inside a transaction see a fresh snapshot, i.e. consecutive non-locking `SELECT` may see different snapshots.
+
+	2 consequences of such different snapshots are:
+	
+	1. "Non-repeatable read": The same row is read twice, but its values changes.
+	2. "Phantom rows": The same query is issued twice, but more rows is returned in the second time.
+
+	Under RC, both can happen.
+
+	TOD: Gap locking is never used. Phantom rows can happen.
+
+2. `REPEATABLE READ` (default IL for InnoDB)
+
+	Like RC (i.e. only see committed changes), except:
+
+	1. multiple non-locking `SELECT` inside a transaction will see **the same** snapshot, taken when the first `SELECT` is executed, or when a transaction starts with `WITH CONSISTENT SNAPSHOT` (RR is also the only IL that allows this clause).
+	2. For statements that requires locking (e.g. `UPDATE`, `DELETE`, `SELECT ... FOR UPDATE`, ...):
+		- For unique index with unique search condition, only index record will be locked; gap won't be locked;
+		- For other search, gap locks or next-key locks will be used.
+	
+	Under RC, dirty read and non-repeatable read are eliminated, **but phantom read can still happen!**.
+
+4. `SERIALIZABLE`
+
+	Like RR, but 
+
+Here is a chart for summary:
+
+| IL               | Dirty read | Non-repeatable read | Phantom read |
+|------------------|------------|---------------------|--------------|
+| READ UNCOMMITTED | ✓          | ✓                   | ✓            |
+| READ COMMITTED   | x          | ✓                   | ✓            |
+| REPEATABLE READ  | x          | x                   | ✓            |
+| SERIALIZABLE     | x          | x                   | x            |
+
+### Get/Set isolation level
