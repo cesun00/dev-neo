@@ -358,3 +358,37 @@ The cost made protection and task scheduling possible.
 
 `GDTR` and `IDTR` is a 40-bit register with 2 component:
 
+`LDTR` is a 56-bit register with the
+1. limit
+2. base:
+3.
+
+The good old 4 segment register are actually 64-bit, with 16
+
+
+Certain region in the physical memory is used to store the *segment descriptor table*.
+Each item is known as a segment descriptor which has the following structure:
+
+```
+```
+
+The value of a segment register now has the following format:
+
+```
+```
+
+- `RPL` (bits 0 to 2):
+- `TI` (table indicator, bit 3): is the , 0 indicate a GLT should be used, 1 task-local
+- index (bits 3 to 15): the index into the GLT
+
+
+
+### gloss
+
+virtual address space (VAS) is
+
+- virtual memory refers to the fact that the combination of main and external storage can be used as a single large memory. In such a system,
+  the user can write large programs without worrying about the physical memory limitations of the system.
+-
+
+
