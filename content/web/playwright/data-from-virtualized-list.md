@@ -28,3 +28,42 @@ virtualized list usually takes the following DOM structure:
             <li></li>
         </div>
     </div>
+```
+
+[react-virtualized](https://www.npmjs.com/package/react-virtualized).
+
+The use of virtual list introduce difficulties for frameworks like playwright or puppeteer.
+
+## solution 1
+
+```ts
+            const locator = page.locator("li[role='option']", {hasText: targetAddr});
+            while (await locator.count() != 1) {
+                await page.keyboard.down("ArrowDown");
+            }
+            await locator.click();
+```
+
+## solution 2
+
+```ts
+            const scroller = page.locator('ul[role="listbox"] > div');
+            const locator = scroller.locator("li[role='option']", {hasText: targetAddr})
+            while (await locator.count() != 1) {
+                // be careful about this scroll step length
+                await scroller.evaluate((div) => div.scrollBy(0, 30));
+            }
+            await locator.click();
+```
+
+## solution 3
+
+
+```ts
+            const scroller = page.locator('ul[role="listbox"] > div');
+            await scroller.evaluate(async (div, addr) => {
+                while (true) {
+                    const it = document.evaluate(`.//span[text()="${addr}"]`, div).iterateNext();
+                    if (it != null) {
+                        (it as HTMLElement).click()
+                        return;
