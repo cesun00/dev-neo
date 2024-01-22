@@ -167,3 +167,38 @@ Hardware task switches are not supported in IA-32e mode. However, TSSs continue 
 
 
 3. Gate Descriptors
+
+```goat
++---------------------------------------------------------------+
+| Access Byte   |   |   |   |   |   |   |   |   |   |   |   | x |
++---------------------------------------------------------------+
+ 15                      7                       0
++-----------------------------------------------+
+|                                               |   6
++-----------------------------------------------+           ^
+| ACCESS BYTE           | x |   |   |   |   |   |   4   increasing address
++-----------------------------------------------+
+| destination selector 15-2             | x | x |   2
++-----------------------------------------------+
+| destination offset 15 - 0                     |   0
++-----------------------------------------------+
+```
+
+Type:
+- 4: Call Gate Descriptor
+- 5; Task Gate Descriptor
+- 6: Interrupt Gate Descriptor
+- 7: Trap Gate Descriptor
+
+
+A call gate normally specifies a subroutine at a greater privilege level, and the called routine returns via a `return` instruction.
+
+A call gate descriptor may reside in either the GDT or the LDT, but not in the IDT.
+
+
+
+Interrupt gates cause interrupts to be disabled; trap gates do not.
+Trap and interrupt gates both require a return via the interrupt return (IRET) instruction.
+
+
+## Selectors / segment registers / descriptor registers
