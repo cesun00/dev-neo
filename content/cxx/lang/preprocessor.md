@@ -54,3 +54,29 @@ Among those header search paths:
 
 `-nostdinc++` turns off all C++ specific standard header search path. `-nostdinc` turns off all standard header search path, leaving a blank start for the CLI flags controlling header search path listed below.
 
+
+### CLI flags that affects header search
+
+Quote include search starts from 1.
+
+Angle bracket include search starts from 3.
+
+1. The current directory of the source file.
+2. `-iquote` left to right.
+3. `-I` left to right.
+4. `-isystem` left to right.
+5. Standard header search paths.
+6. `-idirafter` left to right.
+
+
+
+## Macro Expansion
+
+- Object-like macro, e.g. `#define A (X,Y,Z)`, establish a rule of replacement between a preprocessor token `X` and an ordered list of preprocessor tokens `X COMMA Y COMMA Z`.
+- Function-like macro, e.g. `#define A(X) (X,Y,Z)`, is simply a parameterized object-like macro.
+
+Those rules of replacement are between preprocessor tokens. Recursive expansion happens *lazily* only upon the invocation of a macro (regardless object / function macro): its expansion replaces the i7
+
+```c
+// It's okay to have undefined BAR when `#define FOO`, ...
+
