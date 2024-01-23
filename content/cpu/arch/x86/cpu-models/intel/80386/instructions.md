@@ -92,3 +92,38 @@ The following 4 instructions update `SF, ZF, and PF` flags according to the resu
 - `NOT dest`: flip each bit in `dest`
 - `AND dest, src`: bitwise AND and store result to `dest`; See `TEST` for a no-write-back version of AND.
 - `OR dest, src`:  bitwise OR and store result to `dest`
+- `XOR dest, src`: bitwise OR and store result to `dest`
+
+AND, OR, and XOR clear OF and CF, leave AF undefined, and update SF, ZF, and PF.
+
+The location of the bit is specified as an offset from the low-order end of the operand.
+
+- `BT src, offset` (Bit test): store the `offset`-indexed bit in `src` to `CF`
+- `BTS src, offset` (Bit test and set): same as `BT`, plus set that bit in `src` to 1
+- `BTR src, offset` (Bit test and reset): same as `BT`, plus set that bit in `src` to 0
+- `BTC src, offset` (Bit test and complement): same as `BT`, plus flip that bit in `src`
+
+- `BSF dest, src` (Bit Scan Forward): find the least significant 1 in `src` and store its bit index to `dest`.
+- `BSR` (Bit Scan Reverse): find the most significant 1 in `src` and store its bit index to `dest`
+
+(The bit index of the least significant bit is 0.)
+
+```
+<-most significant (left)           least significant (right)->
+31 30 29 28     ...                                       2 1 0
+```
+
+- `SAL dest` / `SAL dest, count` (Shift Arithmetic Left): shift `dest` left by `1` or `count`, pad 0 from right.
+- `SHL` (Shift Logical Left): identical to `SAL`
+- `SAR` (Shift Arithmetic Right):
+- `SHR` (Shift Logical Right):
+- `SHLD` (Shift Left Double)
+- `SHRD` (Shift Right Double)
+
+Pattern: `SAR` can be used to simulate `IDIV`:
+
+```asm
+TODO
+```
+
+- `ROL` (Rotate Left)
