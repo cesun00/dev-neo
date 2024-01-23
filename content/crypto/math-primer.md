@@ -59,3 +59,6 @@ For an integer `n > 1`, modular arithmetic shows taht many interesting property 
 
 #### C
 
+For 2 signed integer, the C standard mandates the following equation to hold: `(a/b)*b + a%b == a`.
+
+
