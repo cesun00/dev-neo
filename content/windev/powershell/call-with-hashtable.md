@@ -28,3 +28,39 @@ Now to access value by a key you just:
 ```ps1
 # print to console
 Write-Host $CONFIG.app_id
+Write-Host $CONFIG.app_secret
+```
+
+Problem happens when I tried to fork-exec the external service:
+
+```ps1
+$connector_exe = "located_from_win_registry.exe"
+
+& "$connector_exe" `
+    --server_mode=http `
+    --threads=10 `
+    --http_port=6873 `
+    --app_id=$CONFIG.app_id  `
+    --app_secret=$CONFIG.app_secret  `
+    --group_code=$CONFIG.group_code
+```
+
+`connector.exe` keeps warning me that `app_secret` doesn't pass authentication.
+This is weird because, if you inline the literal value of these 3 fields into the CLI invocation, everything is fine.
+
+After perusing the error messages, I found `connector.exe` claimed that it received something like `"System.Collections.Hashtable.app_secret"` as `app_secret`. Obvious something was wrong with parameter substitution that happens only when
+the call operator (`&`) is used.
+
+It turned out that the call operator works by first stringize each whitespace-separated token, and then send them to windows's
+fork-exec syscall flows, with the first token string as command name. So our CLI arguemnts actually looks like:
+
+```ps1
+& "$connector_exe" "--app_id=$CONFIG.app_id" "--app_secret=$CONFIG.app_secret" "--group_code=$CONFIG.group_code" # ...
+```
+
+This is why the Powershell's common string interpolation rules comes into the play.
+What `connector.exe` received is stringized `$CONFIG` which is a `Hashtable` object thus `"System.Collections.Hashtable"`, concatenated with whatever string literal that follows.
+
+You may recall that *powershell allows space in variable name*, and occurrence of such name must be surrounded with braces:
+
+```ps1
