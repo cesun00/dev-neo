@@ -138,3 +138,43 @@ For example:
 # scripts/Makefile.build
 
 # obj is an export-ed variable to this submake
+src := $(obj)
+
+# later ...
+
+# include `$(obj)/Kbuild` or `$(obj)/Makefile`
+include $(kbuild-file)
+```
+
+### `build`: invoke make in a subdirectory {#util-build}
+
+`$(Q)$(MAKE) $(build)=<dir>` is the recommended way to invoke make in a subdirectory.
+(`$(Q)` expands to `@` or empty, determining whether to echo the recipe.)
+
+You will see recipes like the following one pervasively in Makefiles:
+
+```makefile
+%config: outputmakefile scripts_basic FORCE
+	$(Q)$(MAKE) $(build)=scripts/kconfig $@
+```
+
+`build` is defined as: 
+
+```makefile
+###
+# Shorthand for $(Q)$(MAKE) -f scripts/Makefile.build obj=
+# Usage:
+# $(Q)$(MAKE) $(build)=dir
+build := -f $(srctree)/scripts/Makefile.build obj
+```
+
+Without changing the current working directory, `$(MAKE) $(build)=dir some-target` uses `scripts/Makefile.build` as the primary Makefile, and
+executes its `some-target` goal with an `obj=dir` argument, where `dir` must be a directory name without the trailing slash.
+Most often, executing the default goal is desired, so `some-target` is omitted.
+
+There are 2 other shortcuts that work similarly:
+
+```makefile
+###
+# Shorthand for $(Q)$(MAKE) -f scripts/Makefile.dtbinst obj=
+# Usage:
