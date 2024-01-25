@@ -29,3 +29,4 @@ pulseaudio /usr/lib/systemd/user/pulseaudio.socket
 
 ## misc
 
+https://www.reddit.com/r/archlinux/comments/r3be0v/youtube_videos_not_playing_in_any_browser_or_even/
