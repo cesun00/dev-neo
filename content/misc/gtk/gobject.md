@@ -63,3 +63,30 @@ typedef struct _GTypeInfo {
 
    // classed types, instantiated types
    GClassInitFunc         class_init;
+   GClassFinalizeFunc     class_finalize;
+   gconstpointer          class_data;
+
+   /* instantiated types */
+   guint16                instance_size;
+   guint16                n_preallocs;
+   GInstanceInitFunc      instance_init;
+
+   /* value handling */
+   const GTypeValueTable *value_table;
+} GTypeInfo;
+```
+
+To register a new type, use one of:
+1. `g_type_register_static()`
+2. `g_type_register_dynamic()`
+3. `g_type_register_fundamental()`.
+   - Register a new fundamental type like `TODO`, etc. It's not likely to be used by application developers.
+
+## Macros Internals
+
+For custom GType `Bar` of application `Foo`
+
+
+Misc
+1. If B inherits from A, is B's base_init 
+
