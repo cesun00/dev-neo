@@ -55,3 +55,33 @@ since syscall is uninterruptable and entering kernel mode requires privilege rin
 `INLINE_SYSCALL_CALL` is defined as:
 
 ```c
+#define INLINE_SYSCALL_CALL(...) \
+  __INLINE_SYSCALL_DISP (__INLINE_SYSCALL, __VA_ARGS__)
+
+#define __INLINE_SYSCALL_DISP(b,...) \
+  __SYSCALL_CONCAT (b,__INLINE_SYSCALL_NARGS(__VA_ARGS__))(__VA_ARGS__)
+```
+
+<!-- There is a little trick going on here. The glibc team wants to use `SYSCALL_CANCEL` (and `INLINE_SYSCALL_CALL`) -->
+
+where `__INLINE_SYSCALL_NARGS` computes the number of arguments collected in `...`, 
+and `__SYSCALL_CONCAT` concate the original syscall name with the computed number of arguments.
+In our `write` case, `INLINE_SYSCALL_CALL(write, fd, buf, nbytes)` intermediately expands to `__INLINE_SYSCALL3(write, fd, buf, nbytes)`.
+
+(Its implementation uses an interesting trick similar to the [double-stringize trick](https://stackoverflow.com/questions/2751870/how-exactly-does-the-double-stringize-trick-work) to ensure the expansion of argument macros happens before the concatenation of tokens.)
+
+`__INLINE_SYSCALLN()` are a collection of telescoping function macros:
+
+```c
+#define __INLINE_SYSCALL0(name) \
+  INLINE_SYSCALL (name, 0)
+#define __INLINE_SYSCALL1(name, a1) \
+  INLINE_SYSCALL (name, 1, a1)
+#define __INLINE_SYSCALL2(name, a1, a2) \
+  INLINE_SYSCALL (name, 2, a1, a2)
+#define __INLINE_SYSCALL3(name, a1, a2, a3) \
+  INLINE_SYSCALL (name, 3, a1, a2, a3)
+#define __INLINE_SYSCALL4(name, a1, a2, a3, a4) \
+  INLINE_SYSCALL (name, 4, a1, a2, a3, a4)
+#define __INLINE_SYSCALL5(name, a1, a2, a3, a4, a5) \
+  INLINE_SYSCALL (name, 5, a1, a2, a3, a4, a5)
