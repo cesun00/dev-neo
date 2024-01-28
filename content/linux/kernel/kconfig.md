@@ -183,3 +183,35 @@ Top level keywords are:
 - type: `bool | tristate | string | hex | int ["optional prompt"]`
 
     Mandatory. Declare the type of this config.
+
+    | type       | `.config`                                           | `#define`                                                              | semantics                                   | GUI or TUI rendered as     |
+    |------------|-----------------------------------------------------|------------------------------------------------------------------------|---------------------------------------------|----------------------------|
+    | `bool`     | `CONFIG_<name>=y` / comment out                     | `#define CONFIG_<name> 1` / absent                                     | build this feature or not (can't SO anyway) | checkbox                   |
+    | `tristate` | `CONFIG_<name>=y` / comment out / `CONFIG_<name>=m` | `#define CONFIG_<name> 1` / absent /  `#define CONFIG_<name>_MODULE 1` | static link / don't build / build as SO     | tristate checkbox / select |
+    | `string`   | `CONFIG_<name>="double quoted"`                     | `#define CONFIG_<name> "double quoted"`                                |                                             | input box                  |
+    | `hex`      | `CONFIG_<name>=0x0123456789abcdef`                  | `#define CONFIG_<name> 0x0123456789abcdef`                             |                                             | input box                  |
+    | `int`      | `CONFIG_<name>=42`                                  | `#define CONFIG_<name> 42`                                             |                                             | input box                  |
+
+    `.config` and `autoconf.h` example:
+
+    ```conf
+    # string
+    CONFIG_CC_VERSION_TEXT="gcc (GCC) 12.1.0"
+    #define CONFIG_CC_VERSION_TEXT "gcc (GCC) 12.1.0"
+
+    # bool
+    CONFIG_CC_IS_GCC=y
+    #define CONFIG_CC_IS_GCC 1
+
+    # integer
+    CONFIG_GCC_VERSION=120100
+    #define CONFIG_GCC_VERSION 120100
+
+    # tristate
+    CONFIG_NF_LOG_IPV4=m
+    #define CONFIG_NF_LOG_IPV4_MODULE 1
+
+    # hex
+    CONFIG_ILLEGAL_POINTER_VALUE=0xdead000000000000
+    #define CONFIG_ILLEGAL_POINTER_VALUE 0xdead000000000000
+    ```
