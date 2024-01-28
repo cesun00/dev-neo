@@ -123,3 +123,42 @@ e0 08:    0   0   0   0   0   0   0   0
 e0 10:  165   0   0   0   0   0   0   0
 e0 18:    0 163   0   0  96  97   0   0
 e0 20:  113 140 164   0 166   0   0   0
+e0 28:    0   0 255   0   0   0 114   0
+e0 30:  115   0 172   0   0  98 255  99
+e0 38:  100   0   0   0   0   0   0   0
+e0 40:    0   0   0   0   0 119 119 102
+e0 48:  103 104   0 105 112 106 118 107
+e0 50:  108 109 110 111   0   0   0   0
+e0 58:    0   0   0 125 126 127 116 142
+e0 60:    0   0   0 143   0 217 156 173
+e0 68:  128 159 158 157 155 226   0 112
+e0 70:    0   0   0   0   0   0   0   0
+e0 78:    0   0   0   0   0   0   0   0
+```
+
+Keycode is in a relative small range. Kernel of common distros usually emit keycode from 1 to 255.
+
+The result keycode is roughly numerically the same as scancode. For my linux thinkpad builtin keyboard, key `F` emits scancode `0x21` and produce keycode `33` (decimal), but USB external keyboard produce scancode `0x70009` and keycode `33`.
+
+```
+IF (SCANCODE MODE) {
+    The kernel keyboard driver just transmits whatever it receives to the TERMIANL DRIVER when it is in scancode mode, like when X is running. 
+} else {
+    it parses the stream of scancodes into keycodes, corresponding to key press or key release events. (A single key press can generate up to 6 scancodes.)
+
+    // regarding 
+    if (KEYCODE MODE) {
+        These keycodes are transmitted to the TERMIANL DRIVER directly (as used, for example, by showkey and some X servers).
+    } else {
+        Otherwise, these keycodes are looked up in the keymap, and the character or string found there is transmitted to the TERMINAL DRIVER, or the action described there is performed
+    }
+}
+```
+
+## Keyboard Layout & Charset
+
+Keysyms are just names. For an exhaustive list of recognized names: `dumpkeys -l`.
+
+### The keymaps (5) syntax
+
+A line-oriented syntax for description of the kernel's translation rules from keycode to keysym.
