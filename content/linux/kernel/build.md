@@ -265,3 +265,40 @@ ifeq ($(CONFIG_GENERIC_CLOCKEVENTS_BROADCAST),y)
 endif
 obj-$(CONFIG_GENERIC_SCHED_CLOCK)		+= sched_clock.o
 obj-$(CONFIG_TICK_ONESHOT)			+= tick-oneshot.o tick-sched.o
+obj-$(CONFIG_LEGACY_TIMER_TICK)			+= tick-legacy.o
+obj-$(CONFIG_HAVE_GENERIC_VDSO)			+= vsyscall.o
+obj-$(CONFIG_DEBUG_FS)				+= timekeeping_debug.o
+obj-$(CONFIG_TEST_UDELAY)			+= test_udelay.o
+obj-$(CONFIG_TIME_NS)				+= namespace.o
+obj-$(CONFIG_TEST_CLOCKSOURCE_WATCHDOG)		+= clocksource-wdtest.o
+obj-$(CONFIG_TIME_KUNIT_TEST)			+= time_test.o
+
+```
+
+The whole purpose of `script/Makefile.build` is to make life 
+
+
+With all this trouble, `script/Makefile.build`, which powers the `$(build)=dir` pattern, makes writing a kernel module Makefile much easier.
+
+it defines the value of the received `$(obj)/` as its default goal; which depends on 
+       also note that `$(obj)/` is listed as PHONY, so the target is simply a goal, and doesn't represent the existing directory of the same name:
+
+
+```makefile
+# scripts/Makefile.build
+
+PHONY := $(obj)/
+$(obj)/:
+
+# later ...
+
+$(obj)/: $(if $(KBUILD_BUILTIN), $(targets-for-builtin)) \
+	 $(if $(KBUILD_MODULES), $(targets-for-modules)) \
+	 $(subdir-ym) $(always-y)
+	@:
+```
+
+and: 
+
+
+## `Makefile.lib`: the `obj-*` build target variable normalizer
