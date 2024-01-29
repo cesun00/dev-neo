@@ -55,3 +55,33 @@ https://dev.mysql.com/doc/refman/8.0/en/regexp.html
 
 case-insensitive by default;
 
+```sql
+select * from pet where owner REGEXP '^b';
++------+-------+---------+------+------------+-------+
+| name | owner | species | sex  | birth      | death |
++------+-------+---------+------+------------+-------+
+| Fang | Benny | dog     | m    | 1990-08-27 | NULL  |
+| Slim | Benny | snake   | m    | 1996-04-29 | NULL  |
++------+-------+---------+------+------------+-------+
+2 rows in set (0.000 sec)
+```
+
+3 ways to make regex pattern matching case-sensitive:
+
+```sql
+SELECT * FROM pet WHERE REGEXP_LIKE(name, '^b' COLLATE utf8mb4_0900_as_cs);
+SELECT * FROM pet WHERE REGEXP_LIKE(name, BINARY '^b');
+SELECT * FROM pet WHERE REGEXP_LIKE(name, '^b', 'c'); 
+```
+
+For MariaDB:
+```sql
+MariaDB [menagerie]> select * from pet where owner REGEXP BINARY '^b';
+Empty set (0.000 sec)
+
+MariaDB [menagerie]> select * from pet where owner REGEXP BINARY '^B';
++------+-------+---------+------+------------+-------+
+| name | owner | species | sex  | birth      | death |
++------+-------+---------+------+------------+-------+
+| Fang | Benny | dog     | m    | 1990-08-27 | NULL  |
+| Slim | Benny | snake   | m    | 1996-04-29 | NULL  |
