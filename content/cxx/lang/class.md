@@ -188,3 +188,39 @@ Compiler flags / code prettier that force `virt-specifier-seq` and `virtual` key
         int a;
         int b;
 
+        A(int x): b(x), a(b){} // warning: a(b) but b is not initializerd
+    }
+
+    struct B {
+        int b;
+        int a;
+
+        B(int x): a(b), b(x){} // Okay
+    }
+    ```
+
+    Always type the `member-init-list` in the identical order as declared members in the class body.
+
+4. Finally, the body of the constructor is executed
+
+## `Rule of 0`
+
+### TLDR
+
+Big 5: copy ctor, move ctor, copy assignment, move assignment, destructor
+
+- Make a clear separation in mind between (1) resource-managing class, a.k.a (not precise, but) RAII class and (2) everything else (e.g. business related class)
+- (1) should having no more public APIs other than the big 5, optionally a raw resource getter, and an potentially-throwing `close()`. One seldom needs to write their own (1). STL containers and smart pointer with custom deleter should suffice. But rare cases like RAII wrapper around `std::FILE*` exists, and smart pointer can't satisfy exception handling.
+- In (2), Never write the big 5;
+
+## The longer
+
+Modern C++ code should follows the ultimate *rule of zero*:
+
+> Classes that have custom destructors, copy/move constructors or copy/move assignment operators should deal exclusively with ownership (which follows from the Single Responsibility Principle).
+>
+> Other classes should not have custom destructors, copy/move constructors or copy/move assignment operators.
+
+This rule also appears in the C++ Core Guidelines:
+> CCG C.20: If you can avoid defining default operations, do.
+
