@@ -194,3 +194,30 @@ func:
     enter
 
     leave
+    ret
+```
+
+{{</columns>}}
+
+A compiler may choose to use the first (manually stack frame maintainnace) or the latter (native instruction stack frame maintainance),
+or use only `LEAVE` and no `ENTER` (yes GCC does this).
+
+## 64-bit x86
+
+Code generated for running in 64-bit mode of x86-64 architecture - calling conventions take advantage of the added register.
+These registers are made possible by the `REX` prefix byte added for 64-bit mode instructions.
+
+## Variadic arguments
+
+C variadic arguments is introduced by an ellipsis `...` in the function declaration
+which must appear last in the parameter list and must follow at least one named parameter.
+
+
+```c
+
+// Prototyped declaration
+int printx(const char* fmt, ...); // function declared this way
+
+
+// the variadic function can be called like:
+int main() {
