@@ -371,3 +371,35 @@ $(deps_vmlinux):
 
 source_foo/bar/zoo := ../kernel/pid.c
 deps_foo/bar/zoo := 
+```
+
+
+
+---------------------------------
+
+## Make invocation
+
+The kernel supports multiple flavor of `make` invocation:
+
+- `make`
+
+       make without goal
+
+- `make [O=<dir>] *config`
+
+       This creates
+
+       triggers `config-build := 1`
+
+- `make 
+
+
+Some build-optimization files pervasively exist in the 
+
+1. the config process
+
+       By invoking one of the `make *config` goal,
+
+       - build a CLI prompt-based `conf` ELF executable or ncurses-based `mconf` in `scripts/kconfig/`; 
+       - end up with 
+              - `.config` file
