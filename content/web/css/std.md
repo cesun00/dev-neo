@@ -26,3 +26,32 @@ It turned out that browser vendors at that time were reluctant / unskilled enoug
 
 
 The standardization of CSS took a level-based design from the very beginning.
+The idea was to compile specifications incrementally, such that the CSS next-level specification would be built upon the CSS previous-level specification, adding features and making old definitions obsolete.
+However, this idea of incremental documentation never becomes a practice.
+
+This avoids republishing the whole document every few years,
+
+Whether this operational pattern is worth it remains a question.
+[The very first CSS specification](https://www.w3.org/TR/REC-CSS1-961217) was published by The W3C in 1996,
+known as the *Cascading Style Sheets, level 1*.
+It turned out that CSS level 2 changed so much from level 1 such that
+level 2 became a complete rewrite. [The level 1 document is now considered completely obsolete.](https://www.w3.org/TR/CSS/#css-level-1)
+
+
+Cascading Style Sheets does not have versions in the traditional sense; instead it has levels
+
+
+## Significant Documents
+
+### CSS Snapshots
+
+CSS is moving forward fast. W3C has a document called the *CSS Snapshot* that captures the lastest state the  since 2007. A new version is released every 1 to 2 years.
+
+The latest snapshot can always be found at https://www.w3.org/TR/CSS/.
+
+### Current Works
+
+https://www.w3.org/Style/CSS/current-work
+
+shows the current status and a short description of all existing parts of CSS.
+
