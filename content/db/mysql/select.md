@@ -152,3 +152,28 @@ HAVING Clause
 
 There are lots of way to abuse the `HAVING` clause. Without aggregate functions and `GROUP BY`, `HAVING` is the same as `WHERE` (at least mysql behaves the same, not sure about the performance, anyway don't do this, and use `WHERE` instead):
 
+```sql
+SELECT Name, Population FROM city HAVING Population>9600000;
+# +-----------------+------------+
+# | Name            | Population |
+# +-----------------+------------+
+# | São Paulo       |    9968485 |
+# | Jakarta         |    9604900 |
+# | Mumbai (Bombay) |   10500000 |
+# | Shanghai        |    9696300 |
+# | Seoul           |    9981619 |
+# +-----------------+------------+
+```
+
+Other ways include selecting non-aggregate columns without putting them or their functional dependency into `GROUP BY`:
+
+	```sql
+	SELECT * FROM city HAVING Population = MAX(Population);
+	# Empty set (0.01 sec)
+
+	SELECT * FROM city HAVING Population > AVG(Population);
+	# +------+-------+-------------+----------+------------+
+	# | ID   | Name  | CountryCode | District | Population |
+	# +------+-------+-------------+----------+------------+
+	# |    1 | Kabul | AFG         | Kabol    |    1780000 |
+	# +------+-------+-------------+----------+------------+
