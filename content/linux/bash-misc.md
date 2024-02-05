@@ -814,3 +814,36 @@ https://stackoverflow.com/questions/3685970/check-if-a-bash-array-contains-a-val
 
 ### Double Var Name Indirection
 
+https://www.linuxquestions.org/questions/linux-software-2/double-variable-indirection-in-bash-914109/
+https://stackoverflow.com/questions/16553089/dynamic-variable-names-in-bash
+
+```bash
+a_foo='hello world'
+x='a'
+# echo ${${x}_foo} # won't work
+
+# solution 1: associate array
+
+# solution 2
+tmp="${x}_foo"
+echo "${!tmp}"
+```
+
+### non-printables or escape
+
+Writing non-printables in shell script isn't that horrible.
+
+There are workarounds for you to NOT write non-printables in code, e.g. Bash will convert `\e` to `\033` during the expansion of `$PS1`
+
+The echo trick:
+`sed -e 's/'$(echo "octal-value")'/replace-word/g'`
+
+### open new fd for current bash
+
+```
+exec 100<file
+```
+
+## ANSI escape
+
+`man 4 console_codes`
