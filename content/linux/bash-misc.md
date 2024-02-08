@@ -499,3 +499,39 @@ invalid() { echo 42 }
 
 The closing curly brace must either
 - be in a separate line; or
+- preceded by a `;` token 
+
+Function name is simply a variable storing the literal source code of the function body.
+
+Nothing is done at parse time. Not even syntax check, set aside vairable expansion.
+
+Export a function (bash specific):
+
+```sh
+foo() {
+    echo 'foo'
+}
+
+export -f foo # done by creating a env var `BASH_FUNC_foo%%`
+```
+
+### Arguments
+
+```bash
+funcName() {
+    # $0 is always the invoked name of the shell
+    echo "${0}"
+
+    # access individual argument
+    echo "${1}" "${2}" "${15}"
+
+    # access all arguments as a sequence of bash token
+    echo "$@"
+}
+```
+
+Given `print-args`, a simple C-program that dumps its `argv[]` array:
+
+```bash
+#!/bin/bash
+
