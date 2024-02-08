@@ -58,3 +58,32 @@ Also, methods that allow graceful handling of thread pool shutdown and resource 
 `java.util.concurrent.AbstractExecutorService` is the base implementation containing the common logic of all `ExecutorService`.
 All methods have been implemented (though the template method pattern is employed to leave some customization space for subclasses) except the 5 shutdown-handling ones, since shutdown codes are usually implementation-specific (see below).
 
+So far this hierarchy simply accepts tasks and runs them; There is nothing to do with thread pooling yet: an implementation may choose to run the submitted tasks in any thread (even the calling thread - thus blocking) in any way (e.g. create a new thread for each task without reusing).
+It is the subclass `public class ThreadPoolExecutor extends AbstractExecutorService` that executes submitted tasks with pooled threads.
+
+## `ThreadPoolExecutor` (TPE)
+
+`ThreadPoolExecutor` is the implementation of `ExecutorService` that is guaranteed to use a thread pool.
+Its internal structure can be easily understood by studying the most argument-rich constructor:
+
+*(TPE has 4 [telescoping constructors](https://medium.com/@modestofiguereo/design-patterns-2-the-builder-pattern-and-the-telescoping-constructor-anti-pattern-60a33de7522e), so the other 3 aren't very interesting - see defaults below)*
+
+```java
+public ThreadPoolExecutor(  int corePoolSize,
+                            int maximumPoolSize,
+                            long keepAliveTime,
+                            TimeUnit unit,
+                            BlockingQueue<Runnable> workQueue,
+                            ThreadFactory threadFactory,
+                            RejectedExecutionHandler handler) {
+}
+```
+
+A `ThreadPoolExecutor` uses a blocking queue to buffer submitted tasks.
+It keeps `corePoolSize` threads alive even in the most idle time, and creates new threads to handle incoming tasks if
+all `corePoolSize` threads are currently busy. In all cases, no more than `maximumPoolSize` threads will be managed by this TPE.
+New threads are created by calling the strategy interface `threadFactory`.
+Non-core threads are free-ed after being idle for a period of time defined by `keepAliveTime + unit`.
+`handler` is another strategy interface that determines
+
+For simpler constructors:
