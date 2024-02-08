@@ -85,3 +85,31 @@ int printx(...); // allowed in C++ but not in C
 
 #### access & implementation
 
+```c++
+#include <cstdarg>
+
+int printx(const char* fmt...) {
+    // 1. Allocate an instance of va_list on stack.
+    va_list args;
+    // 2. Initialization.
+    va_start(args, fmt);
+
+    // 3. call va_arg with type
+    int a = va_arg(args, int);
+    double b = va_arg(args, double);
+    const char *const c = va_arg(args, const char*);
+
+    // 4. destruction
+    va_end(args, fmt);
+}
+```
+
+1. `va_start` and `va_args` are macros. (mandated by spec?)
+2. It's undefined behavior if `va_arg` is called when there are no more arguments in `va_list`.
+3. Spec leave content of `va_list` unspecified. It has to be stateful (i.e. hold a cursor) in order to implement such API pattern.
+
+    `sizeof(va_list)` under amd64 gcc is 24 bytes.
+
+    ```c
+    typedef __builtin_va_list __gnuc_va_list;
+    typedef __gnuc_va_list va_list;
