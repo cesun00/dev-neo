@@ -334,3 +334,40 @@ For a `foo/bar/zoo`, its companion `foo/bar/.zoo.cmd` file is a Makefile snippet
 
 ```makefile
 savecmd_<path> :=
+source_<path> :=
+deps_<path> :=
+
+<path>: $(deps_<path>)
+
+# mark the dependencies of dependencies to be empty,
+# since we compute the transitive closure already for make
+$(deps_<path>):
+```
+
+```makefile
+savedcmd_vmlinux := ../scripts/link-vmlinux.sh "ld" "-m elf_x86_64 -z noexecstack --no-warn-rwx-segments" "--emit-relocs --discard-none -z max-page-size=0x200000 --build-id=sha1 --orphan-handling=error";  make -f ../arch/x86/Makefile.postlink vmlinux
+
+source_vmlinux := ../scripts/link-vmlinux.sh
+
+deps_vmlinux := \
+    $(wildcard include/config/LTO_CLANG) \
+    $(wildcard include/config/X86_KERNEL_IBT) \
+    $(wildcard include/config/MODULES) \
+    $(wildcard include/config/VMLINUX_MAP) \
+    $(wildcard include/config/CPU_BIG_ENDIAN) \
+    $(wildcard include/config/KALLSYMS_ALL) \
+    $(wildcard include/config/KALLSYMS_ABSOLUTE_PERCPU) \
+    $(wildcard include/config/KALLSYMS_BASE_RELATIVE) \
+    $(wildcard include/config/SHELL) \
+    $(wildcard include/config/DEBUG_INFO_BTF) \
+    $(wildcard include/config/KALLSYMS) \
+    $(wildcard include/config/BPF) \
+    $(wildcard include/config/BUILDTIME_TABLE_SORT) \
+
+vmlinux: $(deps_vmlinux)
+
+$(deps_vmlinux):
+
+
+source_foo/bar/zoo := ../kernel/pid.c
+deps_foo/bar/zoo := 
