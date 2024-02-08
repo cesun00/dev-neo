@@ -57,3 +57,15 @@ SELECT @myvar2:=Population FROM city LIMIT 10;
 # 10 rows in set, 1 warning (0.00 sec)
 
 SELECT @myvar2;
+# +---------+
+# | @myvar2 |
+# +---------+
+# |  193238 |
+# +---------+
+# 1 row in set (0.00 sec)
+```
+
+Preparing Statement
+-----------
+
+Another important usage of UDV is for "preparing" a statement.
