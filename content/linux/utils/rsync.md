@@ -27,3 +27,28 @@ These programs are:
 - `rstat`
 - `ruptime`
 - `rwho` (remote who)
+
+`rdist`
+
+rsync
+==========
+
+```sh
+rsync [options] <src_specification> <dest_specification>
+```
+
+The `rsync` program keeps the filesystem tree at `<dest_specification>` synchronized with that at `<src_specification>`
+by transferring only the difference, known as the delta-transfer algorithm. It's similar to `git` but doesn't track the history, and
+is capable of handling a tree with a much larger total file size - think about giga/tera -bytes.
+
+`rsync` support both pull and push, but not copying between 2 remote hosts, meaning that either, but not both, of `<src_specification>` and `<dest_specification>` can nominate a remote host.
+
+The default strategy to compute the difference between `<src_specification>` and `<dest_specification>` is the "quick check" algorithm which
+compares only file size and EXT3/4 `mtime`. Use `-??` options to change this strategy.
+
+## src/dest specification
+
+The syntax of `src_specification` / `dest_specification` is only interesting when 
+
+Whichever of `src_specification` and `dest_specification` specifies a remote host, 
+the other must be a local filesystem path since copying between 2 remote hosts is not supported.
