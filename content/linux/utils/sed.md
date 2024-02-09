@@ -62,3 +62,42 @@ bar
 
 However, there is a wonderful technique that allows you to be non-greedy matching a region of text if that region has an explicit
 end mark, e.g. a `/* */` comment:
+
+```sh
+sed -z -E 's:/\*([^*]|\*[^/])*\*/::g'
+```
+
+{{</card>}}
+
+
+
+## CLI invocation
+
+Not surprisingly, `sed` without any command prints the file intact. Keep in mind that `sed` is line-based, meaning that if you want to do anything that cross the boundary of lines, expect difficulties to be encountered.
+
+- reads from stdin, unless files are given as positional arguments
+
+    multiple input files are concatenated to form a single stream, unless `-s` is used.
+
+- write to stdout, unless
+    - `-i` is requested to overwrite the given input file
+    - `-n` is used for quiet mode
+
+```sh
+# read from stdin, print to stdout
+sed <pattern>
+
+# read from file, print to stdout
+sed <pattern> <files...>
+sed <files...> -e <pattern>
+```
+
+The `W` and `w` command, and the `s` command with the `/w` flag, allow writing the current [pattern space](#execution-flow) to an extra file.
+
+{{<card "info">}}
+
+#### Note for beginner shell user
+
+the following attempt to edit a file in-place won't work and will erase your input file:
+
+```sh
