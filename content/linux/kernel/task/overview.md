@@ -429,3 +429,37 @@ struct thread_info {
 #endif
 
 #ifdef CONFIG_NO_HZ_FULL
+	atomic_t			tick_dep_mask;
+#endif
+	/* Context switch counts: */
+	unsigned long			nvcsw;
+	unsigned long			nivcsw;
+
+	/* Monotonic time in nsecs: */
+	u64				start_time;
+
+	/* Boot based time in nsecs: */
+	u64				start_boottime;
+
+	/* MM fault and swap info: this can arguably be seen as either mm-specific or thread-specific: */
+	unsigned long			min_flt;
+	unsigned long			maj_flt;
+
+	/* Empty if CONFIG_POSIX_CPUTIMERS=n */
+	struct posix_cputimers		posix_cputimers;
+
+#ifdef CONFIG_POSIX_CPU_TIMERS_TASK_WORK
+	struct posix_cputimers_work	posix_cputimers_work;
+#endif
+
+	/* Process credentials: */
+
+	/* Tracer's credentials at attach: */
+	const struct cred __rcu		*ptracer_cred;
+
+	/* Objective and real subjective task credentials (COW): */
+	const struct cred __rcu		*real_cred;
+
+	/* Effective (overridable) subjective task credentials (COW): */
+	const struct cred __rcu		*cred;
+
