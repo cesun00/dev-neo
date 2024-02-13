@@ -113,3 +113,6 @@ int printx(const char* fmt...) {
     ```c
     typedef __builtin_va_list __gnuc_va_list;
     typedef __gnuc_va_list va_list;
+    ```
+
+Variadic parameters are essentially unnnamed and untyped. Caller push whatever arguments onto its own (?) stack frame, and make a `callq` instruction on x86.
