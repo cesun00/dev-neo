@@ -163,3 +163,36 @@ explicit intent指明了希望启动的组件的class name
             </intent-filter>
         </activity>
     </application>
+</manifest>
+```
+则如果某个别的app向`startActivity()`传递了`ACTION_SEND`类型的intent (implicit intent?)，系统就可能会启动该activity
+
+Declaring app requirements - 声明app需求
+--------------
+Android可以运行在各种各样的设备上，这些设备并没有统一的软硬件规格
+
+在manifest中声明app的软硬件需求。这种需求大多数是informational only的，Android系统不会理会，但是例如Google Play这样的外部服务会读取这些需求并根据用户软硬件配置做出过滤。
+```
+<manifest ... >
+    <uses-feature android:name="android.hardware.camera.any"
+                  android:required="true" />
+    <uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19" />
+    ...
+</manifest>
+```
+例如上面的例子中，app要求设备拥有相机，并声明自己使用了Android 2.1 (API Level 7)引入的API
+这样，没有相机、或Android 2.1以下的设备就无法从Google Play安装该app
+
+然而，可以声明该app使用了相机，但是并非required // `android:required="false"`
+此时必须在运行时检查是否有相机，并根据结果决定是否打开/关闭特定的camera feature
+
+App Resources
+==================
+
+Providing Resources
+=================
+https://developer.android.com/guide/topics/resources/providing-resources.html
+
+"res/" folder用于存放资源
+### default resource folders
+1. animator/
