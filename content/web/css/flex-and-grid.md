@@ -33,3 +33,23 @@ The `flex-direction` property of a flexbox determines the direction of the main 
 For each axis
 
 ### alignment container
+
+An alignment container is computed for each flex item in a flexbox.
+
+
+## Detail Control by CSS Properties
+
+### Layout control
+
+- `justify-*` controls the main axis
+- `align-*` controls the cross axis
+- `*-content` controls how free space is distributed among alignment containers along an axis.
+- `*-self` (must be set on a flex item) controls where a flex item resides in its alignment container.
+- Setting `*-items` on flex container is equivalent to setting `*-self` to the same value on each child flex item.
+
+
+### Misc shorthands
+
+| css property | shorthands for ...         |
+|--------------|----------------------------|
+| flex-flow    | flex-direction + flex-wrap |
