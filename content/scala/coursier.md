@@ -59,3 +59,30 @@ Under the hood, coursier uses the maven's coordinate (group-artifact-version) mo
 
 By default, Coursier 
 - installs executables in `$HOME/.local/share/coursier/bin`; can be changed by `--dir <DIR>` (or equivalently `--install-dir <DIR>`) per `cs` cli invocation. It's recommended to add whatever installation directories to `PATH`.
+- keep dependencies maven jar in `$HOME/.cache/coursier/v1`; can be changed by `--cache <DIR>` per `cs` cli invocation. Coursier calls these jars "cache" which can be confusing: they are permenantly stored, and seldomly deleted.
+- keep JVMs in `$HOME/.cache/coursier/jvm`
+
+## official scala suite executables management
+
+Currently the scala suite consists of 37 executables, which are also script-prepended jars.
+
+These are commands that install / manages locally installed ones:
+
+```sh
+cs list
+cs search [<keyword>]
+cs install <appname>[:<version>]
+cs update [<appname>]
+cs uninstall [<appname> | --all]
+```
+
+- `search` command search available executables by keywords. Without keyword it dumps an exhaustive list of known remote executables
+- `list` lists installed executables.
+- `install` command installs an . **Installing a different version of the same application will overwrite the locally existing one**
+- `update`
+
+## application descriptor
+
+## channel
+
+A channel is a collection of application descriptor `.json` files. 
