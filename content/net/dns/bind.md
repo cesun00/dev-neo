@@ -123,3 +123,33 @@ Class and type use the mnemonics
 
 
 ```
+usr/lib/
+usr/lib/bind/
+usr/lib/bind/filter-a.so
+usr/lib/bind/filter-aaaa.so
+usr/lib/libbind9-9.18.24.so
+usr/lib/libbind9.so
+usr/lib/libdns-9.18.24.so
+usr/lib/libdns.so
+usr/lib/libirs-9.18.24.so
+usr/lib/libirs.so
+usr/lib/libisc-9.18.24.so
+usr/lib/libisc.so
+usr/lib/libisccc-9.18.24.so
+usr/lib/libisccc.so
+usr/lib/libisccfg-9.18.24.so
+usr/lib/libisccfg.so
+usr/lib/libns-9.18.24.so
+usr/lib/libns.so
+usr/lib/systemd/
+usr/lib/systemd/system/
+usr/lib/systemd/system/named.service
+usr/lib/sysusers.d/
+usr/lib/sysusers.d/bind.conf
+usr/lib/tmpfiles.d/
+usr/lib/tmpfiles.d/bind.conf
+```
+
+## References
+
+1. https://kb.isc.org/docs/aa-01031 BIND 9 Administrator Reference Manual, a.k.a the ARM
