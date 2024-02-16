@@ -298,3 +298,21 @@ struct QueryFooType<MyType2> {
 //      template<>
 //      using query_foo_type_cool<MyType2> = int;
 //      
+//      // "type alias template partial specialization"
+//      template<typename E>
+//      using query_foo_type_cool<GenericMyType<E>> = /* T-parameterized type reasoning */;
+// 
+// But so far, spec says no.
+//
+template<typename T>
+using query_foo_type_t = typename QueryFooType<T>::foo_type;
+//                          ^ keyword `typename` is mandatory (the dependent name rule)
+
+int main() {
+    MyType1::foo_type a;
+    // is equivalent to
+    query_foo_type_t<MyType2> b;
+    // is library's sugar to
+    QueryFooType<MyType2>::foo_type c;
+}
+```
