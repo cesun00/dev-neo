@@ -79,3 +79,7 @@ It is the value of template argument inferred, not the type of function argument
 
 
 1. the type argument
+2. the 
+
+template argument deduction (which is only applicable for function template) does not requires definition.
+Declaration of the function template is enough for TAD to work:
