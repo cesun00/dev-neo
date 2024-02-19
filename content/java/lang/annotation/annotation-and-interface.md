@@ -89,3 +89,5 @@ The mechanics resides at a deeper layer, involving special treatment from both `
 2. run time JVM knows `Foo` is an annotation, instead of an interface.
 
 More to note:
+1. manually writing an normal `interface Bar extends Annotation {}` does not make it an annotation. 
+2. The fact that `@Foo` is a subinterface of `Annotation` somewhat explains why you can't have `extends` or `implements` keyword after `@interface Foo`. But again, we are already studying black magics, so don't take this too seriously.
