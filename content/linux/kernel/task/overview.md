@@ -823,3 +823,30 @@ struct thread_info {
 	struct kcov			*kcov;
 
 	/* KCOV common handle for remote coverage collection: */
+	u64				kcov_handle;
+
+	/* KCOV sequence number: */
+	int				kcov_sequence;
+
+	/* Collect coverage from softirq context: */
+	unsigned int			kcov_softirq;
+#endif
+
+#ifdef CONFIG_MEMCG
+	struct mem_cgroup		*memcg_in_oom;
+	gfp_t				memcg_oom_gfp_mask;
+	int				memcg_oom_order;
+
+	/* Number of pages to reclaim on returning to userland: */
+	unsigned int			memcg_nr_pages_over_high;
+
+	/* Used by memcontrol for targeted memcg charge: */
+	struct mem_cgroup		*active_memcg;
+#endif
+
+#ifdef CONFIG_MEMCG_KMEM
+	struct obj_cgroup		*objcg;
+#endif
+
+#ifdef CONFIG_BLK_CGROUP
+	struct gendisk			*throttle_disk;
