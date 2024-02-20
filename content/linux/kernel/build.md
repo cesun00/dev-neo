@@ -1164,3 +1164,43 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── fsl/
 │   │   ├── fujitsu/
 │   │   ├── hisilicon/
+│   │   ├── imx/
+│   │   ├── ixp4xx/
+│   │   ├── loongson/
+│   │   ├── mediatek/
+│   │   ├── microchip/
+│   │   ├── nuvoton/
+│   │   ├── pxa/
+│   │   ├── qcom/
+│   │   ├── renesas/
+│   │   ├── rockchip/
+│   │   ├── sunxi/
+│   │   ├── ti/
+│   │   └── xilinx/
+│   ├── thermal/
+│   │   ├── broadcom/
+│   │   ├── intel/
+│   │   │   ├── x86_pkg_temp_thermal.ko
+│   │   │   ├── x86_pkg_temp_thermal.mod
+│   │   │   ├── x86_pkg_temp_thermal.mod.c
+│   │   ├── mediatek/
+│   │   ├── qcom/
+│   │   ├── samsung/
+│   │   ├── st/
+│   │   ├── tegra/
+│   ├── tty/
+│   │   ├── hvc/
+│   │   ├── ipwireless/
+│   │   ├── serial/
+│   │   │   ├── 8250/
+│   │   └── vt/
+│   │       ├── conmakehash*
+│   │       ├── consolemap_deftbl.c
+│   │       ├── defkeymap.c
+│   ├── ufs/
+│   ├── usb/
+│   │   ├── class/
+│   │   ├── common/
+│   │   ├── core/
+│   │   ├── early/
+│   │   ├── host/
