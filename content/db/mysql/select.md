@@ -338,3 +338,42 @@ Considerations for `ORDER BY`
 
 3. When a query is `ORDER BY` indexed columns, there is no need to really sort anything.
 
+4. When a query is `ORDER BY` columns not all of which are indexed, a real sorting algorithm is required, and is known as the `filesort` operation.
+
+Temporary Table
+----------
+
+Being the non-scalar counterpart of a [user-defined variable](../mysql-variable), a temporary table is used to store the result set of a query that could be useful later.
+
+Note that `CREATE VIEW` with `ALGORITHM = TEMPTABLE` also create a temporary table (TODO).
+
+Locking SELECT
+---------
+
+```sql
+SELECT ...
+FROM ...
+WHERE ...
+FOR [SHARED|UPDATE]
+```
+
+- For `FOR SHARED` select, a S lock will be acquired for all rows involved in the result (consider join), and a IS lock will be acquired for all tables containing those rows.
+- For `FOR UPDATE` select, a X lock will be acquired for all rows involved in the result (consider join), and a IX lock will be acquired for all tables containing those rows.
+
+For rules regarding whether any such lock acquisition will block, see:
+https://dev.mysql.com/doc/refman/8.0/en/innodb-locking.html#innodb-intention-locks
+
+
+## subquery
+
+A subquery is a SELECT statement within another statement.
+
+A subquery can return a scalar (a single value), a single row, a single column, or a table (one or more rows of one or more columns). These are called scalar, column, row, and table subqueries.
+
+
+## with clause
+
+
+```sql
+-- INVALID SQL: foo must be re-mentioned in `from` clause
+with foo as (select * from x where x.type = 13)
