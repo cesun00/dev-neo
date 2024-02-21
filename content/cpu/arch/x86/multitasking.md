@@ -32,3 +32,37 @@ TSS is made up of 2 parts:
 
 ## Task Creation
 
+Creating a task 
+
+
+## Task Switching
+
+Switching the CPU from executing one task to executing another can occur as the result of either
+an interrupt or an inter-task CALL, JMP or IRET.
+
+A task switch may occur in one of four ways:
+1. The destination selector of a long JMP or CALL instruction refers to a TSS descriptor. The offset
+portion of the destination address is ignored.
+2. An IRET instruction is executed when the NT bit in the flag word = 1. The new task TSS
+selector is in the back link field of the current TSS.
+3. The destination selector of a long JMP or CALL instruction refers to a task gate. The offset
+portion of the destination address is ignored. The new task TSS selector is in the gate. (See section
+8.5 for more information on task gates.)
+4. An interrupt occurs. This interrupt's vector refers to a task gate in the interrupt descriptor table.
+The new task TSS selector is in the gate. See section 9.4 for more information on interrupt tasks.
+
+All of these are known as task-switching operations, and has the following effect:
+1. reload `LDTR` register
+2. 
+
+## 80286
+
+A new register `TR` - the Task Register - was introduced.
+Like the descriptor table registers, it has the following structure:
+
+`TR`  is only accessible via `STR` and `LTR` instructions.
+`TR` is visible to the programmer as a 16-bit selector.
+
+The selector part identifies an descriptor in the GDT.
+
+<!-- A full task-switch takes 22 microseconds at 8 MHz. -->
