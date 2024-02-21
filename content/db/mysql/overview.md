@@ -103,3 +103,16 @@ TODO
 
 
 ## expressions
+
+### Datetime Arithmetic
+
+Expression `INTERVAL <expr> <unit>` can be used in an datetime arithmetic expression to designated a interval.
+For a complete list of valid `<unit>` and corresponding `<expr>`, see:
+https://dev.mysql.com/doc/refman/8.0/en/expressions.html#temporal-intervals
+
+e.g.
+
+```sql
+select '20210101' + INTERVAL '15 14:13' DAY_MINUTE; # 2021-01-16 14:13:00
+```
+
