@@ -59,3 +59,39 @@ A module is searched in the following order:
     1. `--system <path>`, if given; otherwise
     2. the default module image shipped with the JDK release will be used; in all current JDKs I'm aware of, it's the `lib/modules` file.
 4. `--module-path`, if given. This module path is used to reference all compiled library modules.
+
+These module paths define the compile-time universe of observable modules.
+
+For each module to be compiled, an exhaustive list of its dependencies is first computed, before any class sources are parsed. The module to be compiled is known as the *compile-time root module*, and its `module-info.java` is parsed for all `requires` directives. Note that [the `java.se` module is always `requires`-ed](https://docs.oracle.com/javase/specs/jls/se21/html/jls-7.html#jls-7.7.1):
+
+> If the declaration of a module does not express a dependence on the java.base module, and the module is not itself java.base, then the module has an implicitly declared dependence on the java.base module.
+
+For each `requires`-ed module name, its module definition must be found in the universe; They are added into the list of dependencies, and their `module-info.{java|class}` are also read for `requires` directives. This happens recursively for the dependencies of dependencies, until no new module can be reached and added to the list. This well-known algorithm has a name for computing the [*transitive closure*](https://en.wikipedia.org/wiki/Transitive_closure).
+
+Then `javac` begins to compile each `.java` source in the module into class files.
+It's a compile-time error if any type mentioned in the sources is from a package that is not `exports`-ed by any module in the transitive closure.
+
+The "Linker" `jlink`
+==============
+
+Despite its name, [the Java linker](https://openjdk.org/jeps/282) `jlink` is very different from a native OS object file linker. Given a compiled executable module, the only purpose of `jlink` is to create a standalone minimal JRE directory that contains everything you need to run that module.
+
+An invocation of `jlink` takes the following form:
+
+```sh
+jlink   --module-path ... \         # mandatory, the only module path
+        --add-module a,b,c,...      # mandatory, the root modules
+        --output dirname            # mandatory, the output directory
+```
+
+Transitive closure is first computed in the same way as discussed above, where
+`--add-module` specifies the *link-time root modules*, i.e. starting points of the algorithm.
+
+The output directory is mostly formed by simply copying files from the JDK release `jlink` belongs to,
+including the `java` executable and other runtime libraries crucial for JVM. The exception, and the
+essential reason one wants to create a customized JRE, is the `lib/modules` [module image file]({{<ref "./modularized-jdk.md#module-image">}}). Only modules in the computed transitive closure get into the module image,
+meaning that there is a good chance unused JDK modules are excluded:
+
+```sh
+$ du -h myimage/lib/modules $(dirname $(which java))/../lib/modules
+29M	    myimage/lib/modules
