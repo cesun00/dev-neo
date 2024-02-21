@@ -358,3 +358,43 @@ Function name as pointer type
 
 ## C
 
+C99 states that
+> (6.7.5.3.8) A declaration of a parameter as ‘‘function returning type’’ shall be adjusted to ‘‘pointer to
+> function returning type’’, as in 6.3.2.1.
+
+This means the following both compile and are equivalent:
+
+```c
+void foo1(void f(void)) {}
+void foo2(void (*f)(void)) {}
+```
+
+Function parameter declaration is the only place where function type name can be spell without an parentheses-enclosed asterisk.
+e.g. the following variable declarations are illegal:
+
+```c
+void foo(void){}
+
+// WRONG
+void f1(void) = foo;
+void (f2)(void) = foo;
+```
+
+Also:
+> (6.3.2.1.4) Except when it is the
+> operand of the sizeof operator or the unary & operator, a function designator with
+> type ‘‘function returning type’’ is converted to an expression that has type ‘‘pointer to
+> function returning type’’.
+
+This means the following both compile and are equivalent:
+
+```c
+void foo(void) {}
+
+int main() {
+    void (*f1)(void) = foo;
+    void (*f2)(void) = &foo;
+}
+```
+
+Combined, this is a well-formed c99 program:
