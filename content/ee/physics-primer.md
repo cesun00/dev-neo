@@ -34,3 +34,31 @@ An EMF is generated to alleviate the change of magnetic flux, governed by the Le
 It takes more charges (thus, more charging time) for a high capacitance object to reach electrostatic equilibrium when attached to a cathode / anode.
 
 When 2 objects have different net charge, electric potential drops from the positive one to the negative one, i.e. voltage exists.
+- For 2 point charges, the E-field along their connecting line is of strength
+- In real world there is no point charge, instead charges are evenly distributed on the surface of these 2 objects (under the assumption of their being good conductors thus electrostatic equilibrium forms instantaneously).
+
+## reactance (电抗)
+
+## impedance (阻抗)
+
+## resistivity
+
+Unit: Ohm per meter (Ω⋅m)
+
+## P/N rationale
+
+All semiconductors revolves around 2 types of semiconducting material: `P` (from positive) and `N` (from negative) type semiconductor.
+
+Both `N` and `P` are made by lacing impurities atoms into pure semiconductor (e.g. sillicon), a technique known as *doping*:
+- `N` uses impurities that provides mobile electrons (such as phosphorus or arsenic) 
+- `P` uses impurities that provide holes that readily accept electrons (such as boron)
+
+Note that both `N` and `P` are electrically neutral.
+But when `N` and `P` are attached, `P` begins to suck electrons through their junction surface. 
+This forms an electrical unbalanced area near the junction surface known as the *depletion region*, where the `P` side is negatively charged with more electrons, while `N` side is positively charged with holes:
+
+![](./depletion_region.png)
+
+This phenomenon has significant consequences. Under an external voltage:
+1. it's trivial to move electrons from `N` to `P`, as if the whole device is a conductor.
+2. it's hard to move electrons from `P` to `N`, since that voltage must be large enough to power electrons to get over the electron aggregation on `P` side.
