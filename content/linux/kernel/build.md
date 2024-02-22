@@ -1465,3 +1465,30 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   ├── spi/
 │   ├── synth/
 │   │   ├── emux/
+│   ├── usb/
+│   │   ├── 6fire/
+│   │   ├── bcd2000/
+│   │   ├── caiaq/
+│   │   ├── hiface/
+│   │   ├── misc/
+│   │   └── usx2y/
+│   ├── virtio/
+│   ├── x86/
+│   └── xen/
+├── source -> ../
+├── System.map
+├── t
+├── .tmp_vmlinux.kallsyms1*
+├── .tmp_vmlinux.kallsyms1.S
+├── .tmp_vmlinux.kallsyms1.syms
+├── .tmp_vmlinux.kallsyms2*
+├── .tmp_vmlinux.kallsyms2.S
+├── .tmp_vmlinux.kallsyms2.syms
+├── tools/
+│   └── objtool/
+│       ├── arch/
+│       │   └── x86/
+│       │       ├── lib/
+│       │       │   └── inat-tables.c
+│       ├── fixdep*
+│       ├── libsubcmd/
