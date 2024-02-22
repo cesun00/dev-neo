@@ -102,3 +102,31 @@ a.out: main.c
 
 {{</columns>}}
 
+### `list_head` APIs Synopsis
+
+First, the special head node. It can be defined (at global or function lexical scope) by:
+
+```c
+LIST_HEAD(foo_list_head);
+// expands to
+struct list_head foo_list_head = LIST_HEAD_INIT(foo_list_head);
+// expands to
+struct list_head foo_list_head = { &foo_list_head, &foo_list_head}; // i.e. both next and prev points to self, indicating an empty list
+```
+
+The `static` keywords can be applied as appropriate.
+Since such declaration can appear in both the global scope and the function scope, the semantics of `static` differs as it does in ordinary C.
+
+`LIST_HEAD_INIT` can be used independently to initialize an existing list as long as you know the expansion result is valid syntax:
+
+```c
+struct apei_resources {
+	struct list_head iomem;
+	struct list_head ioport;
+};
+
+// instantiated like
+
+static struct apei_resources apei_resources_all = {
+	.iomem = LIST_HEAD_INIT(apei_resources_all.iomem),
+	.ioport = LIST_HEAD_INIT(apei_resources_all.ioport),
