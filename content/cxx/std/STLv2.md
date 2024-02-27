@@ -301,3 +301,42 @@ ranges::cdata       // obtains a pointer to the beginning of a read-only contigu
 
 type traits (meta programming helper)
 ================
+
+```c++
+// foobar2000
+template <class T>
+using iterator_t = decltype(ranges::begin(std::declval<T&>()));
+
+// foobar2000
+template <ranges::range R>
+using const_iterator_t = std::const_iterator<ranges::iterator_t<R>>;
+
+// foobar2000
+template <ranges::range R>
+using sentinel_t = decltype(ranges::end(std::declval<R&>()));
+
+// foobar2000
+template <ranges::sized_range R>
+using range_size_t = decltype(ranges::size(std::declval<R&>()));
+
+// foobar2000
+template <ranges::range R>
+using range_difference_t = std::iter_difference_t<ranges::iterator_t<R>>;
+
+// foobar2000
+template <ranges::range R>
+using range_value_t = std::iter_value_t<ranges::iterator_t<R>>;
+
+// foobar2000
+template <ranges::range R>
+using range_reference_t = std::iter_reference_t<ranges::iterator_t<R>>;
+
+// foobar2000
+template <ranges::range R>
+using range_const_reference_t = std::iter_const_reference_t<ranges::iterator_t<R>>;
+
+// foobar2000
+template <ranges::range R>
+using range_rvalue_reference_t = std::iter_rvalue_reference_t<ranges::iterator_t<R>>;
+```
+
