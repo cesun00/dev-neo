@@ -104,3 +104,28 @@ Intent在运行时将两个组件绑定，是组件之间的信使。
 2. Service:
 	if >= Android 5.0 (API Level 21), use `JobScheduler` class
 	otherwise:
+		start service: pass Intent to startService()
+		bind service: pass Intent to bindService()
+3. BroadcastReceiver: pass Intent to methods such as `sendBroadcast()`, `sendOrderedBroadcast()`, or `sendStickyBroadcast()`.
+4. ContentProvider: call `query()` on a `ContentResolver`.
+
+AndroidManifest.xml
+-------------
+0. Declare all the components of the app
+1. Identifies any user permissions the app requires, such as Internet access or read-access to the user's contacts.
+2. Declares the minimum API Level required by the app, based on which APIs the app uses.
+3. Declares hardware and software features used or required by the app, such as a camera, bluetooth services, or a multitouch screen.
+4. Declares API libraries the app needs to be linked against (other than the Android framework APIs), such as the Google Maps library.
+
+Declaring Components
+--------------
+In `<application>`:
+`<activity>` for activity
+`<service>` for service
+`<receiver>` for broadcast receiver
+`<provider>` for content provider
+
+activities, services, and content provider MUST be declared in the manifest file, otherwise they will never be run.
+
+However, broadcast receiver can be either declared in the manifest or 
+1. create in code at runtime as "BroadcastReceiver" object
