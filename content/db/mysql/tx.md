@@ -176,3 +176,21 @@ Snapshot Isolation / Consistent Read / Multiversioning
 Consistent read refers to the fact that, for plain lock-less `SELECT` (in contrary to `SELECT ... FOR [SHARED|UPDATE]` which locks rows), MySQL provides a snapshot of the database, instead of actually trying to acquire locks for tables/rows. This features enables a non-blocking plain `SELECT`, even when querying rows locked by other transaction.
 
 Given that the isolation level is, "The moment" is one of the following:
+
+1. The first (?) `SELECT` in the transaction.
+2. `START TRANSACTION WITH CONSISTENT SNAPSHOT`
+
+Implicit Committing
+------------
+
+Some statements end the current transaction implicitly, as if a `COMMIT` were issued before them:
+
+https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html
+
+Write-Write Conflict
+----------
+
+Distributed (XA) Transaction / 2 Phase Commit
+---------
+
+https://dev.mysql.com/doc/refman/8.0/en/xa.html
