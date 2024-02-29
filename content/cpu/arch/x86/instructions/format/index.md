@@ -234,3 +234,34 @@ See [](TODO) and also memory chip fuck for detailsTODO. -->
 ### Primary Opcode
 
 Opcode specifies the operation performed by the instruction.
+Some instruction encodes 3 more bits of opcode information into the `ModR/M` byte.
+While such bits are all logically considered opcode, this field is called the primary opcode, and the 3 bits (`Reg/Opcode` field below) are known as
+the extended opcode.
+
+A primary opcode can be 1, 2, or 3 bytes in length. An additional 3-bit opcode field is sometimes encoded in the `ModR/M` byte.
+Smaller fields can be defined within the primary opcode. Such fields define the direction of operation, size of displacements, register encoding, condition codes, or sign extension. Encoding fields used by an opcode vary depending on the class of operation.
+
+- 1 byte opcode includes all `00` to `FFH` except a reserved `0FH`.
+- 2 bytes and 3 bytes opcode always start with a `0FH` escape. Such instruction may have a mandatory prefix of (66H, F2H, or F3H), creating a 3 or 4 bytes encoding <!--, e.g. TODO-->
+
+Note that different opcodes may, depending on the design of the assembler, be mapped to the same spelled instruction in the assembly source.
+
+### `ModR/M` & `SIB`
+
+The `ModR/M` byte, if present, specifies the registers and addressing mode to be used.
+It has the following structure:
+
+```goat
+  7   6   5   4   3   2   1   0
++-------------------------------+
+| Mod   | Reg/Opcode| R/M       |
++-------------------------------+
+```
+
+- `Mod` and `R/M`
+
+    `Mod` gives the size of displacement:
+
+    | Mod | displacement size                                  |
+    |-----|----------------------------------------------------|
+    | 00  | no displacement                                    |
