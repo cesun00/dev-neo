@@ -91,3 +91,43 @@ int main() {
     std::printf("%d\n", c.x);   // unknown x
     std::printf("%d\n", c.y);   // unknown y
     std::printf("%d\n", c.z);
+}
+```
+
+The sole purpose of `partial-specialization-paramter-list` is to introduce template parameters (as valid placeholders) in this specialization. It won't change the template's interface to clients, e.g. won't allow you to pass less / more number of template argument upon instantiation whatsoever. Client must always respect the interface of primary template (i.e. number of / type-or-non-type-ness of template parameter), regardless of whether primary template or any specialization will be used.
+
+## Ordering among specializatoins (specialization resolution)
+
+When a class or variable template is instantiated, and there are partial specializations available, the compiler has to decide if the primary template is going to be used or one of its partial specializations. This process feels like function overloads resolution, and is known as (TODO)
+
+## pattern-based specialization resolution
+
+Partial specialization are more expressive, in that it allows a specialization to be selected due to arguments satisfying certain traits, or exhibits certain patterns, rather than being a specific concrete type, compared to full specialization:
+
+```c++
+// primary template
+template<typename T>
+struct Foo {
+    Foo() {std::puts("Foo primary template");}
+};
+
+// partial specialization selected when T is a (possibly cv-qualified) pointer
+template<typename E>
+struct Foo<E*> {
+    Foo() {std::puts("Foo partial specialization for pointer");}
+}; 
+
+// primary template
+template<typename T, typename E>
+struct Bar { int x; };
+
+// partial specialization selected when T == E
+template<typename G>
+struct Bar<G,G> { int y; };
+
+int main() {
+    Foo<int> f0;            // Foo primary template
+    Foo<int*> f1;           // Foo partial specialization for pointer
+    Foo<const int*> f2;     // Foo partial specialization for pointer
+
+    Bar<int,double> a;          // hits primary Bar
