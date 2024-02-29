@@ -94,3 +94,29 @@ https://stackoverflow.com/questions/39932939/what-cause-objects-to-move-from-you
 
     Why we need 2 survivor spaces:
     1. Decrease the # of objects we move to old gen; thus decrease the speed old space is filled, and decrease the chance of Major GC.
+    2. Every time a copy happen from Eden to Sx, or from Sa to Sb, fragmentation is removed
+
+2. When Old Gen is full, a major GC is issued.
+
+    What a major GC do are:
+    1. 
+
+Determine whether an object is garbage
+-----------
+
+### Reference Counting
+
+This method can't handle cyclic reference.
+
+#### Type of reference
+
+- Strong
+
+### Reachability
+
+GC roots are:
+
+- local variables
+- active threads
+- static variables
+- JNI references
