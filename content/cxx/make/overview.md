@@ -323,3 +323,37 @@ Text Manipulation Exhaustive list
 Don't be confused with `7 Conditional Parts of Makefiles` condition directives.
 
 
+
+
+## vpath buliding
+
+By default, a non-PHONY target / prerequisite name, i.e. file name, is searched only in the current Makefile directory:
+
+```makefile
+main.o: main.c      # right in the current directory, or ...
+    cc -c main.c
+
+lib/lib.o: lib/lib.c    # with respect to the current directory.
+    cc -c -o lib/lib.o lib/lib.c 
+```
+
+The idea of the vpath feature is to set more directories as the search root of **both target and preresuisites**.
+(resemble the `PATH` envvar so you can refer to binary without fixed absolute path, or java `classpath` stuffs)
+
+### `VPATH` special variable
+
+Directory names separated by **colons or blanks**, searched in order:
+
+```makefile
+VPATH = src:../headers      # search pwd first, then src, then ../headers
+```
+
+### `vpath` directive
+
+Specify the search directories per file name pattern:
+
+```makefile
+vpath pattern directories   # search the colon or blank separated `directories` for file target / prereq whose name matches `pattern`
+vpath pattern               # Clear out the search path associated with pattern.
+vpath                       # Clear all search paths previously specified with vpath directives.
+```
