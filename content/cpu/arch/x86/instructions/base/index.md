@@ -57,3 +57,36 @@ The following prefixes can be applied as alternatives to an explicit loop struct
 
 #### Verification of pointer parameters (refer to Chapter 6):
 ARPL> -- Adjust RPL
+LAR -- Load Access Rights
+LSL -- Load Segment Limit
+VERR -- Verify for Reading
+VERW -- Verify for Writing
+
+
+#### Addressing descriptor tables (refer to Chapter 5):
+LLDT -- Load LDT Register
+SLDT -- Store LDT Register
+LGDT -- Load GDT Register
+SGDT -- Store GDT Register
+
+
+#### Multitasking (refer to Chapter 7):
+LTR -- Load Task Register
+STR -- Store Task Register
+
+
+#### Coprocessing and Multiprocessing (refer to Chapter 11):
+CLTS -- Clear Task-Switched Flag
+ESC -- Escape instructions
+WAIT -- Wait until Coprocessor not Busy
+LOCK -- Assert Bus-Lock Signal
+
+
+#### Input and Output (refer to Chapter 8):
+IN -- Input
+OUT -- Output
+INS -- Input String
+OUTS -- Output String
+
+
+#### Interrupt control (refer to Chapter 9):
