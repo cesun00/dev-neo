@@ -151,3 +151,31 @@ Man in the middle attack
 A very nice intro to man in the middle : https://www.youtube.com/watch?v=-enHfpHMBo4
 
 They say ADH is vulerable to man in the middle.
+
+I used to think that man-in-the-middle doesn't work if you put a tag with the ciphertext.
+
+Say Alice and Bob have a 128-bit shared secret already:
+    1. They start to talk in AES128-CBC; Eve sees noise, but she can flip a bit, and the recipient can't detect by just looking at the received ciphertext. After decryption the recipient always see garbage, but the crypto system itself doesn't provide a way to detect tampering. Plus, you always have to decrypt first, which is a cost.
+    2. They start to talk in AES128-CBC and each ciphertext is appended with the sha256 result of the ciphertext
+
+The real world problem is 
+
+Active MITM don't work if you have a tag. Flipping a single bit will be detected.
+
+Passive MITM
+
+To even have ciphertext, you need to do all the PKE thing and get a shared secret. The PKE thing starts with the server sending its public key to the client IN PLAIN TEXT. A man in the middle can intercept that and replace it with its own public key.
+
+
+TODO: does self-signed cert protect against MITM attack?
+https://security.stackexchange.com/questions/184969/how-mitm-attack-got-performed-on-self-signed-certificate-while-private-keys-is-g
+
+
+Digital Signature
+=======================
+People used to say that digital signature is just to use the private key to encrypt the hash of the plaintext.
+
+This could be VERY misleading since it feels like EVERY public key algorithm that has public-private key-pair can be used to do "signature". But actually this mindsetting only works for RSA, and ignorant people just think RSA is the whole public key encryption world.
+
+For example in Diffie-Hellman key exchange, there are public key and private key, but they are NEVER meant to be used to "encrypt" or "decrypt" anything.
+
