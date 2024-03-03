@@ -90,3 +90,35 @@ A `Makefile` contains the following of constructs:
 
     **Comments are not always ignored:**
 
+    1. Comments within a recipe are passed to the shell, just as with any other recipe text. The shell decides whether this is a comment.
+    2. Within a `define` directive, comments are not ignored during the definition of the variable, but rather kept intact in the value of the variable. When the variable is expanded they will either be treated as make comments or as recipe text, depending on the context in which the variable is evaluated.
+
+{{</boldlist>}}
+
+## Recipe Execution
+
+For each logical line, make forks an isolated shell to execute the text on that line.
+
+
+## Makefile
+
+### Wildcards
+
+Wildcards characters `*`, `?` and `[…]` are supported in 3 context:
+
+- in the target and prerequisite line, wildcards are natively supported by GNU make;
+    - In this context, a subtle problem is that, like shell globbing, patterns text like `*.c` are preserved literally when no file are matched, which could cause a problem sometimes, e.g. as prerequisite.
+- in recipe lines, each recipe are passed to the shell, and wildcard characters' support are up to the shell;
+- in all other places, wildcard expansion must be explicitly requested by the `wildcard` function.
+
+To get a literal asterisk or question mark, use `\*` or `\?`.
+
+```makefile
+doStuff: *.c        # make expands
+    rm *.o          # shell expands
+
+objects = *.o       # NO expansion. `objects` stores '*.o' literally
+
+output: $(objects)  # `$(objects)` substituted by '*.o', then make expands
+
+# to store all object files in `objects`, use
