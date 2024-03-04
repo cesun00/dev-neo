@@ -738,3 +738,39 @@ fi
 ```
 
 ### Remove preceding `0`
+
+scenario: for a directory holding `{0000..1000}.jpg` files, move the odd number files to `foo/` and even ones to `bar/`:
+
+`$(( $f  % 2))` expands to `$(( 0005 % 2 ))` then interpreted as an octal number, and fails at `0008`.
+
+```sh
+mkdir fr en
+
+for i in *.jpg;do
+    c=$(expr ${i%.jpg} + 0)
+    if [[ $(( $c % 2 )) == 0 ]] ; then
+        cp $i fr
+    else
+        cp $i en
+    fi
+done
+```
+
+## `shopt` and `set` flags
+
+https://unix.stackexchange.com/questions/32409/set-and-shopt-why-two
+
+- `shopt` is bash-specific.
+- `set` is in POSIX.
+
+### `set` flags
+
+`set -e`: Exit upon error
+
+
+### `shopt` flags
+
+#### Control Globbing Behavior
+
+- `nullglob`
+- `failglob`
