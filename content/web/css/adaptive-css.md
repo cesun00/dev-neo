@@ -30,3 +30,30 @@ main {
 @media (max-width: 600px) {
     main {
         max-width: 80%;
+    }
+}
+```
+<--->
+
+```css
+main {
+    max-width: 60%;
+    min-width: 480px;
+    margin: 160px auto;
+    flex: 1;
+}
+```
+
+{{</columns>}}
+
+
+```css
+.foo {
+    border: 2px green solid;
+    width: 50%;
+    margin: 0 auto;
+    min-width: 900px;
+}
+```
+
+## 
