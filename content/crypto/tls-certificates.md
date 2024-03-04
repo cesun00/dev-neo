@@ -57,3 +57,9 @@ Location and directory structure for storing those pem files on an unix system a
 
 Historically, OpenSSL first used a structure under `/etc/ssl`, leading to many later softwares errorneously assumes this directory.
 Different distros still use different directories today, but provide `/etc/ssl/*` as a collection of symlinks for compatibility.
+
+Archlinux follows the convention of Fedora.
+
+## x509
+
+TODO.
