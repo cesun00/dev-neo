@@ -107,3 +107,7 @@ https://stackoverflow.com/questions/30074492/what-is-the-difference-between-utf8
 Take-away: **DO NOT USE `charset=utf8`!**
 
 USE `utf8mb4` and a reasonable collation like `utf8mb4_unicode_ci` (which is the default my arch linux mariadb package use)
+
+For difference between `utf8mb4_unicode_ci` and `utf8mb4_general_ci`, See:
+
+https://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
