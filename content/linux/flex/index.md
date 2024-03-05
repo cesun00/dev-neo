@@ -187,3 +187,40 @@ If there is more than 1 rule whose `pattern` matches, the one that matches the l
 or a sequence of one of
 1. a C statement
 3. an `ECHO;` directive, which prints the content of `yytext` to the `yyout` file
+4. a `BEGIN sc;` or `BEGIN(sc);` directive, which transfers the state of the scanner to `sc` start condition.
+
+    The parenthesized syntax is recommended.
+
+5. a `REJECT;` directive, which ends the execution of the current action, and in case more than 1 rule matches a current prefix,
+executes the action of the next best matches.
+6. a `yymore();` function call, which does nothing immediately, but tells the scanner to, in the next call to `yylex()`, append the next token to the current `yytext`, instead of overwriting it.
+7. a `yyless(n);` macro, which puts back to the input stream all but the first `n` character of the current `yytext`.
+8. a `unput(c);` function call, which puts back to the input stream an arbitrary character `c`.
+9. a `input();` function call, which consumes and returns the next character from the input stream.
+10. a `YY_FLUSH_BUFFER;` directive, which clears the internal buffer of the scanner, such that the next call to `yylex()` must fill the buffer first (with `YY_INPUT` macro).
+11. a `yyterminate();` macro, which cause the `yylex()` to return 0 to its caller, indicating "all done". This is equivalent of an `return 0`.
+
+All statements in `action` must be on the same line of `pattern`, unless surrounded by a pair of `{}`,
+in which case all texts within are considered `action`.
+
+Special caution must be taken when one wants to have comments about a rule in the rules section.
+Comments may not appear in the `rules` section wherever flex is expecting a regular expression.
+A `/*` appears at the beginning of a line is considered a regexp instead of marking the start of comments.
+
+### `user code` section
+
+All text in the `user code` section is copied to the output file verbatim.
+
+<!-- ## Generated Parser Internals
+
+Unless changed by the 
+
+The generated parser calls a macro `YY_INPUT(buf,result,max_size)` to ...
+The default implementation of `YY_INPUT` is to 
+
+
+```c
+extern FILE *yyin, *yyout;
+```
+
+```
