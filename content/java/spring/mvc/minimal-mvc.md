@@ -68,3 +68,38 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 /**
+ * Tomcat will run Spring's implementation of javax.servlet.ServletContainerInitializer#onStartup,
+ * which will in turn calls this method.
+ */
+public class MyWebApplicationInitializer implements WebApplicationInitializer {
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        context.register(MyConfig.class);
+        // no need to call refresh()
+        DispatcherServlet s = new DispatcherServlet(context);
+        ServletRegistration.Dynamic reg = servletContext.addServlet("app", s);
+        reg.setLoadOnStartup(1);
+        reg.addMapping("/");  // Be careful not to write `/*`
+    }
+}
+```
+
+Take care of the last line where mapping for `DispatchServlet` instance is added: writing `/*` will capture all requests, even those that end with `*.jsp`. This will break all your JSP/Thymeleaf workflow. See also [this section of Spring MVC doc](https://docs.spring.io/spring-framework/docs/5.3.24/reference/html/web.html#mvc-handlermapping-path) for the `addMapping()` myth.
+
+We still need a simple `@Configuration` class that registers the controller bean, which can be done by either enabling `@ComponentScan` or explicitly writing JavaConfig methods; and a dummy controller:
+
+```java
+// MyConfig.java
+package com.example;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan
+public class MyConfig {
+}
+
+
+// MyController.java
