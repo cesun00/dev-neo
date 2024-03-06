@@ -27,3 +27,28 @@ Be aware that any instances of any type can have signals and signal handlers ass
 
 Such unbounded freedom of using signals facilitates the following  (arguably not well-documented) pattern: 
 - party A registers type `T`, declare signal `S` on it, **and** connect a signal handler `SH` to a well-known instance `t` of `T`.
+- party B expects `SH` to be invoked as long as it knows `t` the signal name `S` (a runtime string).
+
+This is essentially a simple service locator pattern: a fancy way of calling certain function without known its symbol name at compile-time.
+- It's very useful for app programmer to expose application's ability to the gnome DE ecosystem, e.g. provide media play controls to dashboard, or perform certain task when notification popup is clicked.
+- Note how it's the type author who also connect signal handler for client, compare to the classic callback pattern, where type author only declare signal, and expect client to connect handler to it.
+
+The take-away is, it doesn't even matter any more what the instance or its GType is.
+It's whatever instance holding the signal handlers, that's all.
+
+`GAction` is such an interface, whose implementation must:
+1. support the signal name `"activate"` via `g_signal_new*("activate", ...)`
+   - as an interface, `GAction` cannot itself declare signal
+2. install the "four pieces of information" properties: namely:
+   1. `"name"` string for a identifier for the action
+   2. `"enabled"` boolean indicating whether the action is dead
+   3. `"parameter-type"` the `GVariantType` of parameter
+   4. `"state"` and `"state-type"`
+3. override vfunc `GActionInterface::activate`, to which the free function `g_action_activate()` delegates properly.
+   - within that overridden vfunc, signal `"activate"` must be emitted, so that signal handlers are invoked.
+
+The most widely-used impl is `GSimpleAction`.
+
+Group of `GAction`
+---------------
+
