@@ -64,3 +64,31 @@ int deflate(z_stream *strm, int flush);
 Each call to `deflate()` either
 1. compresses as much data as possible and returns when the input buffer becomes empty or the output buffer becomes full.
 2. reports that no progress of compression can be made due to the end of input or insufficient space in the output buffer
+
+1. Part of the input buffer will always be consumed, signaled by the `next_in` and `avail_in` being updated accordingly.
+2. The output buffer may or may not receive compressed bytes, depending on the `flush` flag.
+
+| flush               | after deflate return ... |
+|---------------------|--------------------------|
+| Z_NO_FLUSH      (0) |                          |
+| Z_PARTIAL_FLUSH (1) |                          |
+| Z_SYNC_FLUSH    (2) |                          |
+| Z_FULL_FLUSH    (3) |                          |
+| Z_FINISH        (4) |                          |
+
+An ideal `deflate()` invocation returns `Z_OK` with non-zero `avail_out`. 
+
+Returns:
+1. `Z_OK`: some progress has been made.
+    1. with `avail_out == 0`:
+2. `Z_BUF_ERROR`: no progress is possible due to the end of input or insufficient space in the output buffer. This is not a fatal error, and `deflate()` can be called again once more input or more space in output buffer is available.
+3. `Z_STREAM_END`: all input has been consumed and all output has been written; only possible when `flush == Z_FINISH`.
+4. `Z_STREAM_ERROR`: fatal error; stream state is broken by external code.
+
+```c
+z_stream ctx;
+// 1.zalloc, zfree, and opaque must be setup before deflateInit()
+ctx.zalloc = Z_NULL;
+ctx.zfree = Z_NULL;
+ctx.opaque = Z_NULL;
+
