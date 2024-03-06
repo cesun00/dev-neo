@@ -597,3 +597,28 @@ struct thread_info {
 #endif
 	/* Ptrace state: */
 	unsigned long			ptrace_message;
+	kernel_siginfo_t		*last_siginfo;
+
+	struct task_io_accounting	ioac;
+#ifdef CONFIG_PSI
+	/* Pressure stall state */
+	unsigned int			psi_flags;
+#endif
+#ifdef CONFIG_TASK_XACCT
+	/* Accumulated RSS usage: */
+	u64				acct_rss_mem1;
+	/* Accumulated virtual memory usage: */
+	u64				acct_vm_mem1;
+	/* stime + utime since last update: */
+	u64				acct_timexpd;
+#endif
+#ifdef CONFIG_CPUSETS
+	/* Protected by ->alloc_lock: */
+	nodemask_t			mems_allowed;
+	/* Sequence number to catch updates: */
+	seqcount_spinlock_t		mems_allowed_seq;
+	int				cpuset_mem_spread_rotor;
+	int				cpuset_slab_spread_rotor;
+#endif
+#ifdef CONFIG_CGROUPS
+	/* Control Group info protected by css_set_lock: */
