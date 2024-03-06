@@ -48,3 +48,40 @@ The dot-separated syntax of `name` is not original to DNS, and has a long histor
 m
 
 
+DNS is designed with a hierarchical namespace corresponding to the hirarichchial organizaiion of human society.
+This has several important implications:
+
+> the idea of a hierarchical name space, with the
+> hierarchy roughly corresponding to organizational structure, and names
+> using "."  as the character to mark the boundary between hierarchy
+> levels.
+
+The vanilla spec requires a name server to faithfully reflect a real existing file locally on its disk named the *master file*. 
+The master file thus become the main configuration file of the name server.
+In modern implementatoins such file may be omitted.
+
+------
+
+
+
+The number of resource records are too large to reside on a single server's storage. plus ...
+
+To solve this, DNS allows a name server to only know a subset of the map.
+When a query arrives and the server knows the precise mapping, ;
+otherwise, it might:
+
+1. reject with `RCODE=REFUSED (5)`; or
+2. if client set `rd=1` and the server is willing to perform recursive query on behalf of it.
+   In this case, `ra=1` must be set in the response.
+3. otherwise, 
+
+I see real world cases where server ignore `rd=0` and return recursively fetched Answer willy-nilly, as well as return with `SERVFAIL`.
+
+
+
+ns3.dnsv5.com.	172800	IN	AAAA	2402:4e00:1430:1102:0:9136:2b2b:ba61
+
+ns4.dnsv5.com.	172800	IN	A	1.12.0.16
+ns4.dnsv5.com.	172800	IN	A	1.12.0.19
+ns4.dnsv5.com.	172800	IN	A	1.12.14.16
+ns4.dnsv5.com.	172800	IN	A	1.12.14.19
