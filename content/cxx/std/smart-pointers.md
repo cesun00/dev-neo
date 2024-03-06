@@ -117,3 +117,24 @@ Such interleaving of evaluation is prohibited in C++17:
 
 ## C++17 CTAD doesn't make raw use of ctor better
 
+### make_unique
+
+```c++
+std::unique_ptr<Foo> foo_up1{new Foo{a,b,c}};
+auto foo_up2 = std::make_unique<Foo>(a,b,c);
+```
+
+1. `make_unique` saves you from spelling the `Foo` twice.
+2. `make_unique` prevents the unspecified-evaluation-order problem in pre-c++17 environment:
+
+    ```c++
+    bar(std::unique_ptr<Foo>(new Foo), std::unique_ptr<Bar>(new Bar));
+    bar(std::make_unique<Foo>(), std::make_unique<Bar>());
+    ```
+
+3. Exterminate the last need of typing `new`.
+
+### When not to use `make_*`
+
+1. When you need a custom deleter
+2. When you are adopting an existing raw pointer from elsewhere.
