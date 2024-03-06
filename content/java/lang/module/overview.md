@@ -55,3 +55,36 @@ $ tree -I .git -a --gitignore
 
 10 directories, 7 files
 ```
+
+Conventionally, a module is named in reverse-domain style like packages. The name of the containing directory of a module must be identical to the module name, i.e. the name declared in `module-info.java`. Thus it's an error to nest modules like `src/com/foo/module-info.java`. You simply create `com.foo/` and directories of other modules at the same top level.
+
+Any type defined in other modules must be visible to your module before you can mention it in your source.
+This is done by:
+1. the external module's `module-info.java` declares an `exports` for the package containing that type; and
+2. your `module-info.java` declares a `requires` on that external module.
+
+In the example above, `class App` calls a method in `PathFinder`, so the following config is mandatory:
+
+```java
+// com.foo/module-info.java
+module com.foo {
+    requires org.bar;
+}
+
+// org.bar/module-info.java
+module org.bar {
+ exports org.bar.libfoo;
+}
+```
+
+## 2. compile
+
+A module is the minimal unit of compilation.
+
+Invoke the following to compile your modules:
+
+```
+javac -d out --module-source-path src -m com.foo,org.bar <options>
+```
+
+where `-d` specifies the output directory, `--module-source-path` specifies where to find project source modules,
