@@ -194,3 +194,41 @@ For an exhaustive list of currently attached device:
 $ cat /proc/bus/input/devices
 
 ...
+I: Bus=0011 Vendor=0001 Product=0001 Version=ab83
+N: Name="AT Translated Set 2 keyboard"
+P: Phys=isa0060/serio0/input0
+S: Sysfs=/devices/platform/i8042/serio0/input/input4
+U: Uniq=
+H: Handlers=sysrq kbd leds event4 
+B: PROP=0
+B: EV=120013
+B: KEY=402000000 3803078f800d001 feffffdfffefffff fffffffffffffffe
+B: MSC=10
+B: LED=7
+...
+```
+
+To read from that device driver:
+
+```sh
+sudo cat /dev/input/event4  | hexdump -C
+
+# a single press `f`
+
+00000000  07 4f 34 62 00 00 00 00  76 5d 03 00 00 00 00 00  |.O4b....v]......|
+00000010  04 00 04 00 21 00 00 00  07 4f 34 62 00 00 00 00  |....!....O4b....|
+00000020  76 5d 03 00 00 00 00 00  01 00 21 00 01 00 00 00  |v]........!.....|
+00000030  07 4f 34 62 00 00 00 00  76 5d 03 00 00 00 00 00  |.O4b....v]......|
+f00000040  00 00 00 00 00 00 00 00  07 4f 34 62 00 00 00 00  |.........O4b....|
+00000050  e7 23 04 00 00 00 00 00  04 00 04 00 21 00 00 00  |.#..........!...|
+00000060  07 4f 34 62 00 00 00 00  e7 23 04 00 00 00 00 00  |.O4b.....#......|
+00000070  01 00 21 00 00 00 00 00  07 4f 34 62 00 00 00 00  |..!......O4b....|
+00000080  e7 23 04 00 00 00 00 00  00 00 00 00 00 00 00 00  |.#..............|
+```
+
+To parse the output:
+
+```python
+#!/usr/bin/env python3
+
+import struct
