@@ -355,3 +355,31 @@ In the onStop() method, the app should release almost all resources that aren't 
 
 *e.g. if you registered a BroadcastReceiver in onStart() to listen for changes that might affect your UI, you can unregister the broadcast receiver in onStop(), as the user can no longer see the UI.*
 
+When your activity enters the Stopped state, the Activity object is kept resident in memory: It maintains all state and member information, but is not attached to the window manager. When the activity resumes, the activity recalls this information. You don’t need to re-initialize components that were created during any of the callback methods leading up to the Resumed state. The system also keeps track of the current state for each View object in the layout, so if the user entered text into an EditText widget, that content is retained so you don't need to save and restore it.
+
+Activity Memory Ejection
+----------
+系统从不单独杀死Activity，而是总是以进程为单位杀死Activities，以及进程中的所有内容。
+目的：腾出内存。
+系统杀死特定进程的可能性取决于该进程的状态，此处“进程状态”取决于该进程中正在运行的Activity的状态。
+*Q: 此处的进程状态应该取决于Activities Stack最上层的Activity的状态？还是所有Activities的状态都会评估？*
+
+用户同样可以主动通过设置中的Application Manager杀死进程。
+
+Activity进入Destroyed的两种不同情况
+-----------
+1. 用户按下返回键，或者activity自己调用了finish()。此时从系统的角度来看，该Activity这一概念就用不存在了，因为Activity的行为表示了它不再有用。
+2. 系统出于系统限制，杀死了Activity（而不是正常的app行为）（e.g. 为了腾出内存），此时尽管内存中Activity的实例已经不存在了，但是系统知道它曾经存在过，并仍然为其保存了部分状态，这样用户再次返回到该Activity时，系统会用保存的状态重新创建一个Activity实例。保存下来的being destroyed时的状态称为instance state，具体是一个Bundle对象，是键值对的集合。
+
+*isFinishing()可以判断向Destroyed状态的transition是否由app通过finish()主动发起,
+尽管这一方法通常用在onPause()中，判断现在进行的到底是临时Pause还是彻底摧毁*
+
+button view的onClick()回调的条件
+-------------
+1. public
+2. void
+3. A View as the only parameter (it is the View object that was clicked)
+
+启动child activity并获得返回值
+--------------
+startActivityForResult(Intent intent, int requestCode);
