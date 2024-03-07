@@ -53,3 +53,39 @@ A SDRAM chip of given bit capacity can come in the form of different *configurat
 as long as the product of these 2 numbers is the same.
 
 For all SDARM chip, these quantities ALWAYS equal:
+1. its width, usually 4/8/16, denoted `x4`/`x8`/`x16`
+2. number of bits stored per cell (per column location in a row)
+3. number of its `DQ` lines.
+
+e.g. An 1 Gigabits chip may comes 3 flavor:
+
+| cell count | width | bank count |
+|------------|-------|------------|
+| 32 Meg     | x4    | 4          |
+| 16 Meg     | x8    | 4          |
+| 8 Meg      | x16   | 4          |
+
+where 1 `Meg` is 1024*1024 cells.
+
+## Bank
+
+A SDRAM chip is internally organized as banks. Each bank is a plane matrix of some number of rows and columns.
+Each cell holds its width number of bits.
+
+For example, `micron MT48LC16M8A2` is a x8 chip which has 4 banks of 4096 rows x 1024 columns each.
+
+The purpose of the bank division is to allow accessing other banks while a given bank is prechraging (thus must wait `t_RP`).
+A smart user should be able to distribute data into different banks s.t. `PRECHARGE` punishment in a bank can be hide by accessing other banks.
+
+Each bank can only have 1 `ACTIVATE`d row. It's an error to `ACTIVATE` a second row before `PRECHARGE` a first one.
+
+## Common Pins
+
+A suffix `_n` or `#` indicate a low-active pin.
+
+| symbol         | name                  | type           | desc                                                                                                                                                                                                                          |
+|----------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Vdd`          | chip power            | power          | chip basic power supply                                                                                                                                                                                                       |
+| `Vss`          | chip ground           | power          |                                                                                                                                                                                                                               |
+| `Vddq`         | DQ power              | power          | `DQ` uses isolated power and ground for improved noise immunity.                                                                                                                                                              |
+| `Vssq`         | DQ ground             | power          |                                                                                                                                                                                                                               |
