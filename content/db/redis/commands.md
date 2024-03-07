@@ -102,3 +102,32 @@ Note that `GET/SET` is only valid for string type, e.g. illegal to `GET` a hash 
 
 - `GETSET key new_value`: set key to `new_value` and return the original value
 
+- `MSET k0 v0 k1 v1 k2 v2 ...`, `MGET k0 k1 k2 ...`: multiple get and set
+
+- `INCR key`, `DECR key`, `INCRBY key delta`, `DECRBY key delta`: increase/decrease by 1/delta
+
+List Commands
+-----------
+
+List is implemented as a double-linked list in redis. Conceptually "left" is "begining", and "right" is "end".
+
+A key referring to a list is deleted when the list becomes empty.
+
+- `LPUSH|RPUSH key values...`: (variadic on value) left push / right push
+- `LPOP|RPOP key`: left/right pop; `nil` is returned if list is empty;
+
+- `BLPOP|BRPOP keys... timeout`: (variadic on key but at least 1) blocking left/right pop
+	- `timeout` is mandatory; double, non-negative in seconds; 0 means wait forever
+    - Return value are `(key, value)` pair indicating that among those `keys`, which one offer the value; or error when timeout
+	- Return immediately if any keys (all of which are lists) are non-empty
+	- If multiple lists specified in `keys` are non-empty, ...
+    - Fairness: If multiple client waiting on the same list, first come first serve.
+
+- `RPOPLPUSH src_list dest_list`
+
+- `BRPOPLPUSH src_list dest_list timeout`
+
+*prefix L below stands for list, not left.*
+
+- `LRANGE key l r`: dump elements in range `[l,r]` **0-indexed and both inclusive**. 
+	- negative index counts from the end of the list. e.g. -1 is last element, `LRANGE mylist 0 -1` dump all elements in the list.
