@@ -127,3 +127,29 @@ TODO
 ```
 
 - `ROL` (Rotate Left)
+- `ROR` (Rotate Right)
+- `RCL` (Rotate through carry left)
+- `RCR` (Rotate through carry Right)
+
+<!-- Pattern: Fast "BIT BLT" TODO 3.4.4.4 -->
+
+## Condition and Branching (Jump)
+
+Jump instructions can be more complicated than one imagine - due to the complexity introduced by the segmented memory model.
+
+The target of a jump is always another instruction; depending where that instruction is, 4 types of jumps are defined:
+1. Near jump (a.k.a intra-segment jump): target instruction is within the current code segment (the segment currently pointed to by the CS register).
+
+    A short jump is a near jump whose target is within
+
+     limited to –128 to +127 from the current `EIP` value.
+
+2. Far jump: A jump to an instruction located in a different segment than the current code segment but at the same privilege level, sometimes referred to as an intersegment jump.
+4. Task switch: A jump to an instruction located in a different task.
+
+
+- `SETcc dest` (Set Byte on Condition cc)
+
+    `dest` must be a 8-bit GP register or memory address of a byte. set `dest` byte (i.e. assign with 1) if condition `cc` is satisfied.
+
+    `cc` includes:
