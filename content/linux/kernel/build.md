@@ -588,3 +588,28 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 ├── arch/
 │   ├── x86/
 │   │   ├── boot/
+│   │   │   ├── bzImage
+│   │   │   ├── compressed/
+│   │   │   │   ├── drivers/
+│   │   │   │   │   └── firmware/
+│   │   │   │   │       └── efi/
+│   │   │   │   │           └── libstub/
+│   │   │   │   ├── mkpiggy*
+│   │   │   │   ├── piggy.S
+│   │   │   │   ├── vmlinux*
+│   │   │   │   ├── vmlinux.bin*
+│   │   │   │   ├── vmlinux.bin.gz
+│   │   │   │   ├── vmlinux.lds
+│   │   │   │   └── vmlinux.relocs
+│   │   │   ├── cpustr.h
+│   │   │   ├── mkcpustr*
+│   │   │   ├── setup.bin*
+│   │   │   ├── setup.elf*
+│   │   │   ├── tools/
+│   │   │   │   ├── build*
+│   │   │   ├── vmlinux.bin
+│   │   │   ├── voffset.h
+│   │   │   ├── zoffset.h
+│   │   ├── crypto/
+│   │   ├── entry/
+│   │   │   ├── syscalls/
