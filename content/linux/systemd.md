@@ -142,3 +142,33 @@ Systemd has moved away from cgroup v1. Only cgroupv2 behavior is discussed.
 If a unit spawn a process (e.g. service `ExecStart=`), systemd fork-exec the process into a new cgroup named after that unit.
 
 Processes spawned by each service unit live in their own cgroup named after the service unit.
+e.g. `/sys/fs/cgroup/system.slice/NetworkManager.service` is the cgroup holding the processes of gnome's NetworkManager.
+
+## Critical Units
+
+## `default.target`
+
+The target to reach on each boot. Usually `[Install].aliases`-ed of `multi-user.target` or `graphical.target`, but it's the admin's discretion to make whatever it is.
+
+### logind
+
+`systemd-logind.service` is *wanted* by `multi-user.target`:
+
+```sh
+# ls /usr/lib/systemd/system/multi-user.target.wants/
+dbus.service  systemd-ask-password-wall.path  systemd-user-sessions.service
+getty.target  systemd-logind.service
+```
+
+Unit file `/usr/lib/systemd/system/systemd-logind.service` defines the service. It will start the binary:
+
+```ini
+# ...
+ExecStart=/usr/lib/systemd/systemd-logind
+```
+
+
+## The boot target
+
+systemd boot to the first target found in:
+
