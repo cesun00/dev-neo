@@ -134,3 +134,42 @@ A sed command conforms to the
 ### `[addr]` specification
 
 1. specify a unique line by its line number
+2. specify a range of lines by `start,end`, both inclusive.
+3. specify lines that contains a specific pattern by `/pattern/`
+
+The last one needs to be distinguished from commands that itself can have `pattern` as options, e.g. `s`:
+
+```sh
+# replace all `hello` with `world` across the whole file
+sed 's/hello/world/' input.txt > output.txt
+
+# replace all `hello` with `world` only on line 144
+sed '144s/hello/world/' input.txt > output.txt
+
+# replace all `hello` with `world` only on line 4 to 17
+sed '4,17s/hello/world/' input.txt > output.txt
+
+# replace all `hello` with `world` only on line that contains `apple`
+sed '/apple/s/hello/world/' input.txt > output.txt
+```
+
+
+### common `[options]`
+
+## Scripting
+
+Sed exhibits a certain level of programmability, specifically, it supports loop and branching.
+
+```sh
+# Read from stdin and process the input to remove Java comments
+sed -E '
+  # Remove multi-line comments (handling nested properly)
+  :a
+
+  s:/\*([^*]|\*[^/])*\*/::g;
+  t b
+
+  # If there are still multi-line comments, restart from label a
+  /\/\*/ { N; ba }
+  :b
+'
