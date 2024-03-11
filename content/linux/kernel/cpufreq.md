@@ -62,3 +62,12 @@ kernel/drivers/cpufreq/intel_pstate.ko
 
 https://www.kernel.org/doc/html/v5.8/admin-guide/pm/intel_pstate.html
 
+Since Skylake (6-th gen), a hardware implemented frequency scaling controller is builtin in the CPU, meaning that the kernel can now delegate the frequency scaling decision to the CPU itself. Intel's commercial name for this technology is "Speed Shift". Technically it's also known in the kernel community as HWP (Hardware Managed P-state).
+
+For `intel_pstate` driver,
+- Active mode mean the driver is bypassing the gorvernor layer, and directly talk to the scaling core & CPU scheduler.
+    - HWP: ...
+    - without HWP: ...
+- Passive mean the gorvernor layer is there.
+
+
