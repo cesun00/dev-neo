@@ -100,3 +100,34 @@ Only leaf cgroups and the root cgroup can contain processes; all other cgroups a
 3. subdirectories represents children cgroups
 
 - `cgroup.controllers`: a read-only file that lists all controllers that *may* be enabled for this cgroup.
+No controllers listed in this file are enabled by default. Controllers can be enabled and disabled by writing to the `cgroup.subtree_control` file.
+- `cgroup.subtree_control`:
+	- reading this file prints enabled controller, one per line
+	- writing to this file must be in the format of `+controller` or `-controller`; e.g. `echo "+cpu +memory -io" > cgroup.subtree_control`;
+- `cgroup.procs`
+	- `read`: unorderly lists pids in this cgroup. Some cgroup exists only for organization purposes and has no process itself (e.g. `system.slice`)
+	- `write`: migrate process `pid` to this cgroup. 
+		- 1 process per `write` call.
+		- No `O_APPEND` is required for `open`.
+		- For multi-thread process, migrating any thread migrates all other threads.
+
+
+
+## Internals
+
+[`task_struct`](https://github.com/torvalds/linux/blob/ef8e4d3c2ab1f47f63b6c7e578266b7e5cc9cd1b/include/linux/sched.h#L728) holds a reference-counted pointer to `struct css_set`:
+
+```c
+struct task_struct {
+    // ...
+
+#ifdef CONFIG_CGROUPS
+	/* Control Group info protected by css_set_lock: */
+	struct css_set __rcu		*cgroups;
+	/* cg_list protected by css_set_lock and tsk->alloc_lock: */
+	struct list_head		cg_list;
+#endif
+}
+```
+
+`struct css_set` defined in [linux/cgroup-defs.h](https://github.com/torvalds/linux/blob/6f38be8f2ccd9babf04b9b23539108542a59fcb8/include/linux/cgroup-defs.h#L199) is a set of `struct cgroup_subsys_state`, thus the name:
