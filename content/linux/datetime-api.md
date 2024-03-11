@@ -81,3 +81,18 @@ Converts a calendar time into break-down time in UTC.
 Converts a calendar time into break-down time in local time zone.
 
 ### Build: `mktime`
+
+## Stringify
+
+- `asctime(_r)` (deprecated by POSIX)
+- `ctime(_r)` (deprecated by POSIX)
+- `strftime`
+
+## CPU Time
+
+
+Type: `clock_t` (C99).
+
+1 `clock_t` is called "1 Clock Tick", and usually map to a few real-world CPU cycle (TODO: 100?).
+
+API: `clock_t clock(void);`
