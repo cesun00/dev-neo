@@ -89,3 +89,28 @@ but repsect all the ordering dependencies.
 
 ## CLI cheatsheet
 
+### Edit vendor unit files
+
+Many occasions admin may find it necessary to edit vanilla unit files provided by package vendors. Best practice suggested by systemd is to use the drop-in mechanism, and not touch the original unit file.
+
+```sh
+systemctl edit <unit name>
+
+# Query vendor units which are extended by drop-in directories
+systemd-delta
+```
+
+### Dump all known unit files
+
+```
+systemctl list-unit-files
+```
+
+### Dump all units in memory
+
+regardless of whether the unit is from a unit file / an instantiated template / or programmatically generated.
+
+```sh
+# list active / jobs-pending / failed units
+systemctl list-units <glob pattern>
+
