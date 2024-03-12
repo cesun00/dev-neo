@@ -123,3 +123,12 @@ shortcode should do only one thing: allow user to use HTML structure.
 
 \\{\\{</wide>\}\}
 ```
+
+
+## foo
+
+| from \ to | md           | shortcode template | layout templates |
+|-----------|--------------|--------------------|------------------|
+| md        | not possible | just do            | {{ partial }}    |
+| shortcode | not possible |                    |                  |
+| layout    | why          |                    |                  |
