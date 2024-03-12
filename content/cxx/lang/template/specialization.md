@@ -31,3 +31,35 @@ void foo() {
     std::printf("primary template - %s\n", __PRETTY_FUNCTION__);
 }
 
+// function template - full specialization
+template <>
+void foo<const int, 42>() {
+    std::printf("full specialization - %s\n", __PRETTY_FUNCTION__);
+}
+
+int main() {
+    foo<int, 42>();       // primary template - void foo() [with T = int; long unsigned int N = 42]
+    foo<const int, 42>(); // full specialization - void foo() [with T = const int; long unsigned int N = 42]
+}
+```
+
+## Partial Specialization (class template / variable template only)
+
+Syntax:
+
+```c++
+template<partial-specialization-paramter-list>
+class-key primary-template-name<template-argument-list> {
+    // ...
+}
+```
+
+where `template-argument-list` must contains at least 1 parameter from `partial-specialization-paramter-list`.
+i.e. `template-argument-list` can't be already fully determined (that's the syntax for full specialization).
+
+```c++
+// class template - primary template
+template <typename T, std::size_t N>
+struct MyArray {
+    int x = 42;
+};
