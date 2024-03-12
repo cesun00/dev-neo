@@ -171,3 +171,35 @@ template<typename T> struct S {
   S() requires C<T> { }         // #1
   S() requires D<T> { }         // #2
 };
+
+S<char> s1;                     // error: no matching constructor (generation of implicit default ctor suppressed)
+S<char[8]> s2;                  // OK, calls #2 (goverened by the partial ordering of constraints)
+```
+
+Constructor #1 and #2 are always members of any instantiation, thus the generation of implicit default ctor is suppressed.
+<!--
+1. 
+2.  
+
+-->
+
+
+## ad-hoc constraint idiom (double requires)
+
+For the ones with `requires` only (i.e. #1 and #2), a pattern named by some author *ad-hoc constraint* or *requires requires* exists:
+
+```c++
+// ad-hoc constraint, note keyword used twice
+template<typename T>
+requires requires (T x) { x + x; }
+T add(T a, T b)
+{ return a + b; }
+
+template<typename T>
+T add2(T a, T b) requires requires (T x) { x + x; }
+{ return a + b; }
+
+// constraint logical operators work fine
+template<typename T>
+requires requires (T x) { x + x; } && std::convertible_to<T,int>
+T addIntAlike(T a, T b) 
