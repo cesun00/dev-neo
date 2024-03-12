@@ -63,3 +63,32 @@ BEGIN       {RS='\t'}      # BEGIN is executed only once; Setup variables like `
 
 # for each record; do:
 pattern     {print $1}    # if current record matches <pattern>, perform action in parentheses
+            {nlines++}    # patternless rules: run action unconditionally
+            ...
+# done
+
+END         {print nlines;}          # END is executed only once; e.g. print final statistics here.
+```
+
+gawk program is executed as:
+
+```
+BEGIN();
+
+for (record : records) {
+    for (rule : rules) {
+        if (record matches rule) {
+            rule.action();
+        }
+    }
+}
+
+END()
+```
+
+### Actions
+
+- `print` append a newline automatically. `printf` does not. Do it with `\n` in format string.
+
+
+## Variable and data structures
