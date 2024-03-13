@@ -38,3 +38,9 @@ There is seldom a chance for a 32-bit x86 CPU to encounter a legacy 16-bit progr
 
 To the age of AMD64. One more mode is defined: Long Mode (in AMD's words), or IA-32e Mode (in Intel's words), which consists of 2 sub-modes:
 1. Compatibility mode: allows 16-bit and 32-bit x86 applications to run, without recompilation, under control of a 64-bit operating system in long mode. (like what virtual-8086 mode does for 16-bit programs). In compatibility mode, segmentation functions just as it does in legacy IA-32 mode, using the 16-bit or 32-bit protected mode semantics.
+2. 64-bit mode: the full-power 64-bit CPU mode.
+    - 64-bit registers are visible.
+    - All `CS, SS, DS, ES` segments are treated to have a 0 base address, regardless of what segment descriptor their selectors are pointing to.
+    - Explicit load instructions (`MOV` / `POP`/ etc) to these segments register will be executed, causing both the visible selector to change and hidden part to be loaded from GDT or LDT (thus inducing memory bus cycles). But these registers are ignored, and a 0 base address is enforced anyway.
+    - `FS / GS` are still respected in the old way. They may be used to access special data structures.
+    - 64-bit effective address memory operands are allowed.
