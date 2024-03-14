@@ -30,3 +30,41 @@ Note the mixed snake and camel and the difference between `clear` (pointer) vs `
 
 ## `G_DEFINE_TYPE()`
 
+1. DECLARED `foo_bar_init(FooBar *)` and `foo_bar_class_init(FooBarClass *)`
+   - will be registered as `instance_init` and `class_init` by `foo_bar_get_type`. User must implement these 2 later.
+2. DEFINED `static GType foo_bar_get_type(void)`
+   - with utility functions `foo_bar_get_type_once(void)` and `foo_bar_class_intern_init()` implementations
+   - with auxillary translation-unit-local variable `FooBar_private_offset`
+3. `static gpointer foo_bar_parent_class = ((void *) 0)`;
+
+Derivable type combos
+===============
+
+Use `G_DECLARE_DERIVABLE_TYPE` in header file, with one of the follows in .c file:
+1. `G_DEFINE_ABSTRACT_TYPE`, for abstract type (i.e. non-instantiable type, only intended to become base)
+2. `G_DEFINE_TYPE_WITH_PRIVATE`, for instantiable type.
+
+## `G_DECLARE_DERIVABLE_TYPE`
+
+1. DECLARED `foo_bar_get_type(void)`
+   - `G_DEFINE_ABSTRACT_TYPE` or `G_DEFINE_TYPE_WITH_PRIVATE` in .c file will provide the implementation
+   - By convention, users are expected to `#define FOO_TYPE_BAR foo_bar_get_type()`
+2. typedef
+   1. **complete** `struct _FooBar` to `FooBar`; 
+      - The struct holds only a `ParentInstance` field. To associate more fields with instance struct of derivable types, use `G_DEFINE_TYPE_WITH_PRIVATE` in .c file.
+   2. incomplete `struct _FooBarClass` to `FooBarClass`;
+3. DEFINED
+   1. `FooBar* FOO_BAR(gpointer)` pointer-to-instance & `FooBarClass* FOO_BAR_CLASS(gpointer)` pointer-to-class casting function
+   2. `gboolean FOO_IS_BAR(gpointer)` pointer-to-instance & `gboolean FOO_IS_BAR_CLASS(gpointer)` pointer-to-class runtime type check
+   3. `TNumberClass* T_NUMBER_GET_CLASS(gpointer)` get class from instance
+
+## `G_DEFINE_ABSTRACT_TYPE`
+
+1. DECLARED `foo_bar_init(FooBar *)` and `foo_bar_class_init(FooBarClass *)`
+   - will be registered as `instance_init` and `class_init` by `foo_bar_get_type`. User must implement these 2 later.
+2. DEFINED `static GType foo_bar_get_type(void)`
+   - with utility functions `foo_bar_get_type_once(void)` and `foo_bar_class_intern_init()` implementations
+   - with auxillary translation-unit-local variable `FooBar_private_offset`
+3. `static gpointer foo_bar_parent_class = ((void *) 0)`;
+
+## `G_DEFINE_TYPE_WITH_PRIVATE`
