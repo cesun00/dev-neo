@@ -94,3 +94,34 @@ Extends `ApplicationContext` by
     - getter and setter for `ApplicationStartup` (identical to `ConfigurableBeanFactory`'s ones)
     - `getBeanFactory()` returns the composite `BeanFactory` in the name of `ConfigurableListableBeanFactory`
         - return the same instance as `ApplicationContext::getAutowireCapableBeanFactory()`, and only differ by return type
+    - container administrative facades:
+        - `refresh()`
+        - `registerShutdownHook()`: gracefully shutdown container upon JVM's exit.
+        - `isActive()` boolean test container activeness
+
+4. covarying return type for `ApplicationContext | EnvironmentCapable::getEnvironment()` from `Environment` to `ConfigurableEnvironment`
+
+
+Notable `ApplicationContext` Implementations
+=======================
+
+## `abstract class AbstractApplicationContext` (context.support)
+
+The first implementation of `ApplicationContext` down the hierarchy (though partial), and the ancestor class of all `ApplicationContext` implementations.
+It is also the most heavy-duty one containing most code.
+
+`AbstractApplicationContext` has a feature of automatically registering `BeanFactoryPostProcessor`s, `BeanPostProcessor`s, and `ApplicationListener` which are defined as beans in the context. That's the reason why `BeanPostProcessor` defined as `@Bean` works automatically.
+
+It has 2 subclasses which differ by whether the internal `BeanFactory` instance can be replaced:
+1. `AbstractRefreshableApplicationContext` supports multiple calls to `ConfigurableApplicationContext::refresh()` by actually replacing the internal `BeanFactory` instance with a new one.
+2. `GenericApplicationContext` supports only 1 call to `refresh()`, and its `refreshBeanFactory()` method (template method pattern called by `refresh()`) throws an exception if called again:
+
+```java
+	/**
+	 * Do nothing: We hold a single internal BeanFactory and rely on callers
+	 * to register beans through our public methods (or the BeanFactory's).
+	 * @see #registerBeanDefinition
+	 */
+	@Override
+	protected final void refreshBeanFactory() throws IllegalStateException {
+		if (!this.refreshed.compareAndSet(false, true)) {
