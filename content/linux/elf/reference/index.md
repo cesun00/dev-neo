@@ -309,3 +309,35 @@ Lower bits have standard defined semantics, while the most significant 12 bits a
 
 
 ### `sh_offset` & `sh_size` - section's in-file location
+
+These 2 fields specify the location and size of this section.
+
+### `sh_link` & `sh_info` - references to information in other section
+
+`sh_link` is always an index into SHT denoting a section header, 
+while `sh_info` holds an arbitrary 32-bit value, but is usually an index into a string table.
+The interpretation of these two 32-bit integer fields depends on `sh_type`, see the summary table below.
+
+### `sh_addralign`
+
+
+### `sh_entsize`
+
+If a section holds a table, this is the size of each table entry in bytes.
+e.g. For 
+
+## `sh_type` Quick Reference
+
+{{<wide>}}
+{{<content/elf-sections/sh_type>}}
+{{</wide>}}
+
+Special Section Reference
+==================
+
+
+
+
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
