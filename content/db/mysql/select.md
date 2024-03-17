@@ -85,3 +85,41 @@ MariaDB [menagerie]> select * from pet where owner REGEXP BINARY '^B';
 +------+-------+---------+------+------------+-------+
 | Fang | Benny | dog     | m    | 1990-08-27 | NULL  |
 | Slim | Benny | snake   | m    | 1996-04-29 | NULL  |
++------+-------+---------+------+------------+-------+
+2 rows in set (0.001 sec)
+
+```
+
+Aggregate Functions
+--------
+List of all available aggregate functions:
+https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html
+
+Selecting aggregate functions without a `GROUP BY` clause behaves as if there is a single group containing all rows.
+
+### GROUP BY rules
+
+TL;DR: turn on `ONLY_FULL_GROUP_BY`, and use `ANY_VALUE()` when necessary.
+
+One rule for using aggregate functions is that, apart from the aggregate functions themselves, all field selected should also appear in the `GROUP BY` caluse. e.g.:
+
+```sql
+SELECT * FROM t;
+# +------+------+------+
+# | a    | b    | c    |
+# +------+------+------+
+# |    1 |    1 |  100 |
+# |    1 |    1 |  200 |
+# |    1 |    2 |  200 |
+# |    1 |    2 |  300 |
+# |    2 |    1 |  100 |
+# |    2 |    1 |  200 |
+# |    2 |    2 |  500 |
+# |    2 |    2 | 3300 |
+# +------+------+------+
+# 8 rows in set (0.00 sec)
+
+SELECT a,b,MAX(C),MIN(C) FROM t GROUP BY a,b;
+# +------+------+--------+--------+
+# | a    | b    | MAX(C) | MIN(C) |
+# +------+------+--------+--------+
