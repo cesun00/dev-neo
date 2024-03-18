@@ -68,3 +68,36 @@ Use `G_DECLARE_DERIVABLE_TYPE` in header file, with one of the follows in .c fil
 3. `static gpointer foo_bar_parent_class = ((void *) 0)`;
 
 ## `G_DEFINE_TYPE_WITH_PRIVATE`
+
+Almost identical to `G_DEFINE_TYPE`, but additionally:
+1. defined a static global gint `FooBar_private_offset`
+2. and also initialize it (done by `G_ADD_PRIVATE` as snippet)
+   
+   ```c
+   FooBar_private_offset = g_type_add_instance_private(
+      g_define_type_id,
+      sizeof(FooBarPrivate)
+   );
+   ```
+
+3. **!important** DEFINED a static function `gpointer foo_bar_get_instance_private(FooBar*)` to retrieve private instance from public instance.
+
+interface and implementation combo
+=============
+
+## `G_DECLARE_INTERFACE`
+
+1. DECLARED `GType t_comparable_get_type(void);`;
+   - will be later implemented by `G_DEFINE_INTERFACE` in .c file.
+2. DEFINED:
+   1. `TComparable* T_COMPARABLE(gpointer)` casting function
+   2. `gboolean T_IS_COMPARABLE(gpointer)` type check function
+   3. `TComparableInterface* T_COMPARABLE_GET_IFACE(gpointer)` TODO
+3. typedef
+   1. `struct _TComparable` to `TComparable`
+   2. `struct _TComparableInterface` to `TComparableInterface`
+
+## `G_DEFINE_INTERFACE`
+
+1. DECLARED `void t_comparable_default_init(TComparableInterface *)`; User must provide implementation later.
+2. DEFINED `GType t_comparable_get_type(void)`; which register `TComparable` type and use `t_comparable_default_init` as class_init function.
