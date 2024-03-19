@@ -37,3 +37,32 @@ The most important attributes of this tag are `rel` and `href`:
         <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
         ```
 
+
+- `href`: 
+
+Also, some `rel` values allow an `<link>` tag to provide metadata about the page, like author and gg
+
+Some other attributes:
+
+
+## `<meta>`
+
+## `<noscript>`
+
+Content wrapped by the `<noscript>` tag is treated as non-existent when JavaScript is disabled or unsupported;
+
+## `<p>`
+
+`p` tag cannot be nested. Nesting them will cause the browser to extract the inner `p` out and list them as siblings. This can lead to styling failure:
+
+```html
+<p style="color: rgb(230 230 230);">
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus itaque suscipit quisquam est aliquid consequatur
+    reprehenderit a voluptates corrupti ex et, eligendi libero numquam, magnam eum veniam quis, facilis labore.
+    <p>
+        <!-- grey text color doesn't applies -->
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Praesentium ipsa ipsam explicabo commodi voluptatibus
+        in qui dicta iure nostrum, eligendi earum hic nesciunt. Nobis iure ex placeat veniam aperiam repellat!
+    </p>
+</p>
+```
