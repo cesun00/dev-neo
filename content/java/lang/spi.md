@@ -128,3 +128,13 @@ Some official vocabularies:
 4. provider-configuration file: files in the `META-INF/services/` directory
 
 It's highly likely that the client programmer, the SPI, and the implementation (service provider) are from 3 different parties.
+
+The service provider mechanics does not rely on class's static initializer. A new `java.util.ServiceLoader` class is introduced to help the SPI party to find all implementations of a specific `interface` at runtime.
+
+Anyone willing to call `ServiceLoader.load(Iface.class)` can obtain an iterator over all known implementations of `Iface`. But it's usually the SPI party's responsibility.
+
+Service provider ships a `META-INF/services/` directory containing plain text files whose
+- file name is FQCN of a interface / abstract class, e.g. `java.sql.Driver`; and
+- file content is multiple lines of FQCNs of the implementation this jar provides, one per line. e.g. `com.mysql.cj.jdbc.Driver`
+
+Under the hood, `ServiceLoader` stats under each classpath entry for a `"META-INF/services/<SPI_name>"` file.
