@@ -1492,3 +1492,31 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │       │       │   └── inat-tables.c
 │       ├── fixdep*
 │       ├── libsubcmd/
+│       │   ├── include/
+│       │   │   └── subcmd/
+│       │   │       ├── exec-cmd.h
+│       │   │       ├── help.h
+│       │   │       ├── pager.h
+│       │   │       ├── parse-options.h
+│       │   │       └── run-command.h
+│       │   ├── libsubcmd.a
+│       ├── objtool*
+├── tt
+├── usr/
+│   ├── gen_init_cpio*
+│   ├── initramfs_data.cpio
+│   ├── initramfs_inc_data
+├── .version
+├── virt/
+│   ├── lib/
+├── vmlinux*
+├── vmlinux.a
+├── .vmlinux.export.c
+
+```
+{{</fold>}}
+
+
+## misc
+
+
