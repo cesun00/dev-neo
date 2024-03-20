@@ -29,3 +29,29 @@ Most DLM are synchronized digital circuit where a clock must be provided.
 comes in 500 kilocycle, 5 megacycle and 10 megacycle versions for users to choose from. -->
 
 ## 2nd gen: System Module (System Building Blocks)
+
+DEC's second product line is the System Building Blocks, which were re-branded as the *System Module*
+in 1961.
+Their internal circuits were identical to the Laboratory Modules but used a more compact package.
+Instead of using a banana plug interface in the front, System Modules has 22 gold-plated discrete pins (the Amphenol 143-22-01 connector) in the backside. System Modules are meant to be plugged into a [wire-wrapped](https://en.wikipedia.org/wiki/Wire_wrap) *backplane*.
+
+> The term backplane back in the 1960s simply refer to an insulated mounting board instead of a PCB in nowadays'sense. Such backplanes had no trace but only punched holes for the fixation of equipment.
+Connectivity is established by wire-wrapping in the backside of the board, leaving a clean
+and tidy front view of the equipment. Such wire-wrapped backplane exists from PDP-1 to PDP-7,
+also in `PDP-8` (1965), `PDP-8/S` (1966), `PDP-8/I` and `PDP-8/L` (1968), `PDP-12` (1969), 
+and was finally replaced by the OMNIBUS system bus in `PDP-8/E` (1970).
+
+System Modules were used to bulid PDP-1 to PDP-7, though PDP-7 used some FLIP CHIPs as well.
+
+
+https://en.wikipedia.org/wiki/Digital_Equipment_Corporation#/media/File:Dec_SYSTEM_BUILDING_BLOCKS_1103.jpg
+
+`System Building Blocks` was printed on the edge https://gunkies.org/wiki/File:PDP-6_mod_end.jpg
+
+To use such card-shaped modules, one need to plug them into a backplane which could be mounted in a 19-inch rack.
+The backplanes allowed 25 modules 
+
+> a backplane
+>
+> If you plug 20 modules into a backplane, the first pin of all modules is connected, so is the second pin, etc.
+> This forming multiple computer buses, one for each pin position.
