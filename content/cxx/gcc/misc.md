@@ -85,3 +85,9 @@ main.o:main.c foo.h
 clean:
 	rm *.o a.out
 ```
+
+Gcc can generate such Makefile source. See its `-MD` and `-MMD` options.
+
+https://stackoverflow.com/a/15725861/8311608
+
+
