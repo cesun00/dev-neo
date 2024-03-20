@@ -156,3 +156,41 @@ Specialization must be declared before the first (explicit or implicit) instanti
 template<class T> // primary template
 void sort(std::vector<T>& v) { /*...*/ }
 
+int main() {
+    std::vector<int> dt{1,2,3};
+    sort(dt);   // implicitly instantiate sort<int> from primary template
+}
+
+template<>
+void sort(std::vector<int>& v); // error: declaration of specialization found too late
+```
+
+## Primary template and its specializations can be very different animals
+
+
+Unlike inheritance, a specialization doesn't get any piece of code from its primary template. The only thing they share is the same interface (name and template parameter list) to client.
+
+If code sharing is intended, user must manually factor out the common code and use other mechanisms, (TODO: find an example from authoritative code)
+
+The primary template is even not required to have definition in order to allow specialization. A declaration would suffice.
+
+```c++
+template <typename Type>
+class Foo;
+
+template <>
+class Foo<int> { };
+
+int main(int argc, char *argv[]) 
+{
+    Foo<int> f; // Fine, Foo<int> exists
+    Foo<char> fc; // Error, incomplete type
+    return 0;
+}
+```
+
+This is a technique to prevent primary template from being instantiated, thus force specialization to be hit.
+
+https://stackoverflow.com/questions/7064039/how-to-prevent-non-specialized-template-instantiation
+
+
