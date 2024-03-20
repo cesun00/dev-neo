@@ -78,3 +78,5 @@ sometype::sometype() = delete;  // error: not first declaration
 > This includes calling the function implicitly or explicitly and forming a pointer or pointer-to-member
 to the function. It applies even for references in expressions that are not potentially-evaluated. If a function
 is overloaded, it is referenced only if the function is selected by overload resolution. The implicit odr-use (6.3)
+of a virtual function does not, by itself, constitute a reference.
+> <cite>c++20 9.5.3.2</cite>
