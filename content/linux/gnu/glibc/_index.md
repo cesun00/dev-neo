@@ -32,3 +32,22 @@ diff -ruN glibc-1.09/misc/sys/cdefs.h glibc-1.09.1/misc/sys/cdefs.h
     functions, as ANSI requires.  Instead, we use GCC's special
     `__attribute__' syntax.  */
 ```
+
+Early patches like this can be found at https://ftp.gnu.org/old-gnu/glibc/, which allows you to `patch -R` back to v1.06, but not further.
+
+Glibc 1.09 is an important release. The *Linux Libc* was forked from this version.
+
+If you are willing to ignore the trivial 1.09.1 patch, the develo
+The development of glibc was then paused for about 2 years, though a trivial patch v1.09.1 (1996-05-27) existed with only 1 line of change.
+
+to remove the usage of GCC attributes `__attribute__ ((__volatile__))` and `__attribute__ ((__const__))`.
+
+Ulrich wrote in the `ChangeLog`:
+
+```
+Sun Jan 26 13:39:31 1997  Ulrich Drepper  <drepper@cygnus.com>
+
+	* Version 2.0 net release.
+```
+
+The ftp hosts only complete tree of v2.0.1. You need to do the unpatching trick again.
