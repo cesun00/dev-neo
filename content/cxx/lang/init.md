@@ -86,3 +86,33 @@ Declaration of variables can be simplified to a `decl-specifier-seq` followed by
 
 ```
 simple-declaration:
+    decl-specifier-seq {declarator initializer_opt, declarator initializer_opt, ...}
+
+decl-specifier-seq:
+    decl-specifier decl-specifier ...
+
+decl-specifier:
+    storage-class-specifier     # [static | thread_local | extern | mutable ]
+    defining-type-specifier     # the types
+    function-specifier          # for functions, don't care
+    friend
+    typedef
+    constexpr
+    consteval
+    constinit
+    inline
+```
+
+A `declarator` for variable declaration is simply the variable identifier;
+the `initializer` is more interesting: if there is an equal mark (`=`), it's now part of the `initializer`,
+compared to C where `=` is external to the `initializer`:
+
+```
+initializer_opt:
+    <empty>                         # 0: initializer omitted
+    initializer
+
+initializer:
+    brace-or-equal-initializer
+    ( expression-list )             # 1
+
