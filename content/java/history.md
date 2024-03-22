@@ -26,3 +26,9 @@ the performance of the original `java` program, specifically, instead of being a
 
 ## HotSpot JVM
 
+https://github.com/openjdk/jdk/tree/master/src/hotspot
+
+HotSpot was originally the name of the proprietary JVM of Oracle.
+Now the term "HotSpot" usually refers to the open-source remake of the orignal HotSpot, which is part of the OpenJDK.
+
+The name comes from a general concept in computer science called "hot spot". According to the Pareto Principle, 20% of the code consume 80% of the execution, and such frequently accessed region of code are known as "hot spots". The HotSpot JVM is released with a JIT compiler targeting those hot spots for optimization, thus the name.
