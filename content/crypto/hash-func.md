@@ -100,3 +100,25 @@ CHFs NEVER take keys.
 ## CHF design
 
 Intuitively, a good hash function should exhibit the following property:
+1. avalanche effect
+2. PR, 2PR, CR.
+
+### One-way compression function
+
+A one-way compression function that transforms 2 input of length `N` to 1 output of length `N`.
+
+"one-way" roughly means 
+
+The most common way to construct a OWCF is from block cipher
+
+## Merkle-Damgard Construction
+
+The Merkle–Damgård construction is a methodology turning
+1. a collision-resistent OWCF; and
+2. an appropriate (a.k.a MD-compliant) padding scheme, featured by appending the length of the whole message (known as *length padding* or *Merkle–Damgård strengthening*).
+
+into a collision-resistant hash function.
+
+### Known vulnerability of MD
+
+TODO
