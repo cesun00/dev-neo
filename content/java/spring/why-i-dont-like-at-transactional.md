@@ -27,3 +27,14 @@ A well-known limitation of Spring AOP is that invoking a method within the same 
 ```java
 ```
 
+## AOP Order Madness
+
+This is probably the most gotcha scenario where `@Transactional` can break the whole game:
+
+```java
+@RedisLock
+@Transactional
+public void foo() {
+    // ...
+}
+```
