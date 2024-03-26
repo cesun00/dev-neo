@@ -109,3 +109,35 @@ int main() {
 
 ## constrained (non-template) function
 
+https://stackoverflow.com/questions/57078643/what-is-the-point-of-a-constraint-expression-on-a-non-templated-function
+
+n4820 (one of c++20 revisions) once allowed constrained non-template free functions.
+n4860 (c++20 final draft) forbade this, making `requires-clause` on non-templates only valid for member function of class template when applying constraints:
+
+```c++
+void foo() requires true {} // gcc12 -std=c++20 @ error: constraints on a non-templated function
+
+template<typename T>
+struct Bar {
+    void foo() requires (sizeof(T) > 4) {}  // ok
+    void foo() requires true {}             // ok
+};
+```
+
+In above example, `Bar` is unconstrained class template. It's valid to instantiate `Bar` with whatever type `T` without causing errors.
+But program is ill-formed if a call to member function with unsatisified constraint is encountered, due to *overloads resolution producing empty result*.
+Program is well-defined as long as no one call functions whose constraint is unsatisfied.
+
+**THE POINT IS**:
+1. Instantiating a class template with a `T` dissatisfying type-constraints of its member function is NOT an template instantiation error.
+2. This is very different from other usage where unsatisfied type-constraint usually prohibits the instantiation of template as a whole.
+3. Member functions with unsatisfied constraints are still members of the class template instantiation.
+
+Formal reasoning: all member function named `foo` of instantiation of `Bar` joins the *set of candidates functions* of overloads resolution when resolving a `.foo()` call to `Bar<T>` instances. But those whose type-constraint is not satisfied is droped when turning the *set of candidates functions* into *set of viable functions*.
+
+https://en.cppreference.com/w/cpp/language/overload_resolution#Viable_functions
+
+To client, member functions with unsatisfied constraints behaves as if it's is removed / disabled.
+https://stackoverflow.com/questions/26633239/c-templates-conditionally-enabled-member-function
+
+This is a technique - member function's equivalence for SFINAE - since SFINAE only works for free function template - used by library authors to provide certain member function only when user's argument type satisfies certain constraints:
