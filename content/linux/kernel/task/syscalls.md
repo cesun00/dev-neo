@@ -121,3 +121,28 @@ int clone(int (*fn)(void *_Nullable), void *stack, int flags,
 ```
 
 The callee knowns the number of actually passed arguments, since ...TODO? Such technique is 
+
+{{</card>}}
+
+Both `clone()` and `clone3()` simply assembles a `struct kernel_clone_args` instance and delegates to `kernel_clone()`;
+This structure 
+
+```c
+struct kernel_clone_args {
+	u64 flags;					// 
+	int __user *pidfd;
+	int __user *child_tid;
+	int __user *parent_tid;
+	const char *name;
+	int exit_signal;
+	u32 kthread:1;
+	u32 io_thread:1;
+	u32 user_worker:1;
+	u32 no_files:1;
+	unsigned long stack;
+	unsigned long stack_size;
+	unsigned long tls;
+	pid_t *set_tid;
+	/* Number of elements in *set_tid */
+	size_t set_tid_size;
+	int cgroup;
