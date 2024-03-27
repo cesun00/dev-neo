@@ -65,3 +65,31 @@ int main() {
 ```c++
 int& foo() {
     int *c = new int{42};
+    return *c;
+}
+
+int main() {
+    foo() = 77;
+}
+```
+
+<--->
+
+...4 rvalue-reference become a xvalue expression:
+
+```c++
+// the most famous example being std::move
+vector<int> foo{3,2,1};
+vector<int> bar = std::move(foo)
+```
+
+{{</columns>}}
+
+
+## Move Mechanics
+
+Purpose of the new division of value category is that, now overload resolution depends on
+
+1. type of argument expression
+
+    - for member functions, dynamic type of the first argumnent (i.e. `this`) (single dynamic dispatch), and static type of the rest
