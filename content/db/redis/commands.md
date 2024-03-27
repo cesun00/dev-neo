@@ -234,3 +234,28 @@ The following assume `key` is a hash (map);
 
 `HINCRBY key k delta`
     there is no HDECR or HDECRBY; HINCRBY negative delta instead
+
+bitfield
+---------------------
+
+HyperLogLogs
+---------
+
+HLL is a probabilistic data structure to count unique elements using constant memory with a maximal 1% error. Only 3 commands so far for HLL;
+
+- `PFADD key elements...`
+
+    Variadics on elements; tell the HLL structure named `key` to remember that it has seen elements.
+
+- `PFCOUNT key...`
+
+    Variadics on key
+
+A HLL structure is just a wrapper of a redis string. You can `GET` it to see the maintained probabilistic data structure:
+
+- `PFMERGE desthll srchll...`
+
+    Merge all srchll into desthll; If desthll already exists, it's also treated as a srchll.
+
+```redis
+127.0.0.1:6379> PFADD myhll a b c d e
