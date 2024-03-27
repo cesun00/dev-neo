@@ -172,3 +172,40 @@ ExecStart=/usr/lib/systemd/systemd-logind
 
 systemd boot to the first target found in:
 
+1. Kernel parameter `systemd.unit=<target name>`
+2. Symlink of `/etc/systemd/system/default.target`
+
+    Admin should change this link if changing the boot target is desired.
+
+3. Symlink of `/usr/lib/systemd/system/default.target`
+
+    Distro vendor provide this link, and modification is not recommended.
+
+```sh
+# query computed boot target
+systemctl get-default
+# change or create /etc/systemd/system/default.target
+systemctl set-default <target name>
+```
+
+## auto-generated unit
+
+1. For each mount point `/foo/bar` defined in `/etc/fstab`, a `foo-bar.mount` unit will be generated, with the exception of the root fs becoming `-.mount`.
+2. For each device (?), . e.g. `sys-devices-pci0000:00-0000:00:01.1-0000:01:00.0-nvme-nvme0-nvme0n1-nvme0n1p5.device` is partition for my root fs, and
+`sys-devices-pci0000:00-0000:00:01.2-0000:02:00.0-0000:03:05.0-0000:06:00.0-net-enp6s0.device` and `sys-subsystem-net-devices-enp6s0.device` are for the ethernet NIC.
+
+## Compatibility with SysVinit
+
+1. systemd can parse initrc scripts as an alternative config file format.
+2. The old `init` is now symlink to the `systemd` executable:
+
+    ```sh
+    # ls -hl `which init`
+    lrwxrwxrwx 1 root root 22 Apr 29 03:36 /usr/bin/init -> ../lib/systemd/systemd
+    ```
+3. Modern distros may choose not to provide the `telinit` symlink to `systemd`.
+4. Several old executables / scripts from SysVinit is now symlink to `systemctl`:
+
+    ```sh
+    # find -L /usr/bin -samefile `which systemctl` -exec ls -l {} +
+    lrwxrwxrwx 1 root root      9 Apr 29 03:36 /usr/bin/halt -> systemctl
