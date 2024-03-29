@@ -65,3 +65,41 @@ Roughly speaking SFINAE is the function template's equivalence of function overl
 Among all function templates declaration of a given name, compiler needs to select which one the call site is referring to.
 It does so by inspecting all candidates function templates and perform *substitution*.
 Those yielding valid function declarations are further inspected, and those yielding invalid ones are discarded *without raise an error*.
+
+\* to be precise, also functions that appears in *substitution context*, i.e. non-template member functions of template class.
+
+*Substitution* is different from *instantiation*, in that substitution only refers to the replacement of template parameters with template arguments in template *declaration*:
+
+https://en.cppreference.com/w/cpp/language/sfinae#Explanation
+
+```c++
+// translation unit compiles.
+// Program is well-defined as long as explicit instantiations are found elsewhere
+
+template<typename T>
+void foo(T::value_type a);  // #1
+
+template<typename T>
+void foo(T a);              // #2
+
+int main (){
+    foo<std::vector<int>::iterator>(42);    // call #1.
+                                            // substitutation failed for #2: int 42 is not an instance of T = std::vector<int>::iterator,
+                                            // but due to SFINAE, it's not an error.
+
+    foo<int>(42);                           // call #2
+                                            // substitutation failed for #1: int::value_type doesn't make sense,
+                                            // but due to SFINAE, it's not an error.
+}
+```
+
+i.e. substitution is the pre-requiresite check before instantiation. As long as one and only one eventually passed the substitution check, program is valid, regardless of how many errorneous substitutions are discarded.
+
+```c++
+template<typename T, typename = std::enable_if_t<true>>
+void foo() {}
+
+// error: redefinition of function template
+template<typename T, typename = std::enable_if_t<1 == 1>>
+void foo() {}
+```
