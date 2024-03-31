@@ -176,3 +176,39 @@ TODO
 
     At the same up edge:
     - lower `CS` and `CAS (A15)`
+    - pick columns by `A0 - A9`
+    - indicate whether on-the-fly BC4 or BL8 mode by `BC (A12)`
+    - indicate Auto-precharge by `AP (A10)`
+
+### write & write Burst
+
+TODO
+
+
+## DDR4 Memory Modules
+
+
+JEDEC also specifies what chip config a given DIMM design should use. They most commonly use the `x8` config in consumer PC DIMM.
+
+All chips on the same memory module share the same `CS` signal, thus is either all selected or all deselected.
+
+To the memory controller, the whole MM behaves like a single stack of logical superbanks:
+- increasing the # of channels is equivalent to increasing the logical DQ & logical cell capacity (from 64 to 128 bits, etc.)
+- increasing the # of ranks per channel is equivalent to increase the # of banks
+
+### List of pins (288)
+
+| name         | desc                 | running sum |
+|--------------|----------------------|-------------|
+| A0 - A17     | address bus.         | 18          |
+| BA0, BA1     | bank selection. (RS) | 20          |
+| BG0, BG1     | Bank group selection | 22          |
+| RAS_n        |                      |             |
+| CAS_n        |                      |             |
+| WE_n         |                      |             |
+| CS0_n, CS1_n |                      |             |
+|              |                      |             |
+|              |                      |             |
+|              |                      |             |
+|              |                      |             |
+|              |                      |             |
