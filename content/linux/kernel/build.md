@@ -1240,3 +1240,43 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   ├── kernfs/
 │   ├── lockd/
 │   ├── netfs/
+│   ├── nfs/
+│   ├── nfs_common/
+│   ├── nls/
+│   ├── notify/
+│   │   ├── dnotify/
+│   │   ├── fanotify/
+│   │   ├── inotify/
+│   ├── proc/
+│   ├── quota/
+│   ├── ramfs/
+│   ├── sysfs/
+│   ├── tracefs/
+│   ├── unicode/
+├── .gitignore
+├── include/
+│   ├── config/     #
+│   └── generated/
+│       ├── asm-offsets.h
+│       ├── autoconf.h
+│       ├── bounds.h
+│       ├── compile.h
+│       ├── rustc_cfg
+│       ├── timeconst.h
+│       ├── uapi/
+│       │   └── linux/
+│       │       └── version.h
+│       ├── utsrelease.h
+│       └── utsversion.h
+├── init/
+│   ├── utsversion-tmp.h
+├── io_uring/
+├── ipc/
+├── kernel/
+│   ├── bounds.s
+│   ├── bpf/
+│   ├── cgroup/
+│   ├── dma/
+│   ├── entry/
+│   ├── events/
+│   ├── futex/
