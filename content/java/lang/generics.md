@@ -60,3 +60,34 @@ class C<T> {
 }
 ```
 
+Type Deduction and Diamond
+----------------
+
+Invocation of generic method naturally enjoys type deduction:
+
+```java
+class B{
+    <E> E foo(E e) {return null;}
+    static <E> E bar(E e) {return null;}
+}
+
+B b = new B();
+// static return type is ArrayList<Integer>
+b.foo(new ArrayList<Integer>()).add(42);
+B.bar(new ArrayList<Integer>()).add(42);
+```
+
+For generic method, the type of the left-hand side reference is also used to deduct type parameter which is used as (potentially part of) the return value. This is known as the "target type" inference:
+
+```java
+// given a free function:
+static <T> List<T> emptyList();
+
+// and later a invocation
+// T is inferred as `String` in this call
+List<String> listOne = Collections.emptyList(); 
+```
+
+Since Java 7, instantiation of generic class enjoys type deduction by using `<>` diamond when calling ctor:
+
+```java
