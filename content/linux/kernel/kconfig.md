@@ -58,3 +58,33 @@ Such
 {{<columns>}}
 
 #### arch/Kconfig
+
+```
+config HAVE_GENERIC_IOMAP
+
+config GENERIC_IOMAP
+      depends on HAVE_GENERIC_IOMAP && FOO
+```
+
+<--->
+
+#### arch/x86/Kconfig
+
+```kconfig
+config X86
+      select ...
+      select HAVE_GENERIC_IOMAP
+      select ...
+```
+
+{{</columns>}}
+
+## main
+
+Various kernel source tree directories contain a `Kconfig` file.
+This article discusses their syntax and role in the kernel build flow.
+
+Ultimately, the purpose of Kconfig system is to generate a `autoconf.h` header filled with `#define CONFIG_*` 
+instruction the preprocessor the perform conditional compilation correctly.
+
+<!--more-->
