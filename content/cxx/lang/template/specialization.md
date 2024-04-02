@@ -63,3 +63,31 @@ template <typename T, std::size_t N>
 struct MyArray {
     int x = 42;
 };
+
+// class template - partial specialization
+template <typename E>
+struct MyArray<E, 42> {
+    int y = 55;
+};
+
+// class template - full specialization
+template <>
+struct MyArray<int, 42> {
+     int z = 121;
+};
+
+int main() {
+    MyArray<double, 0> a;       // select primary template
+    std::printf("%d\n", a.x);
+    std::printf("%d\n", a.y);   // unknown y
+    std::printf("%d\n", a.z);   // unknown z
+
+    MyArray<std::string, 42> b; // select partial specialization <E,42>
+    std::printf("%d\n", b.x);   // unknown x
+    std::printf("%d\n", b.y);
+    std::printf("%d\n", b.z);   // unknown z
+
+    MyArray<int, 42> c;         // select full specialization<int,42>
+    std::printf("%d\n", c.x);   // unknown x
+    std::printf("%d\n", c.y);   // unknown y
+    std::printf("%d\n", c.z);
