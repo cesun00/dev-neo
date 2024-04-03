@@ -32,3 +32,29 @@ odr-used is a property of a (an)
 - variable
 - structured binding
 - `*this`
+- virtual member function
+- function
+- non-placement allocation or deallocation function for a class
+- an assignment operator function in a class
+- constructor for a class
+- destructor for a class
+- local entity (in a declarative region)
+
+that is used in an expression in such a way that requires it to have exactly 1 definition across the whole program.
+
+### `one-declaration-rule` is not a thing
+
+The compiler must allow an entity to be declared multiple times, as long as they don't [conflict](https://en.cppreference.com/w/cpp/language/conflicting_declarations) with each other.
+
+Forcing one-declaration-rule would be too strict for the language. First, there is need to use back reference:
+
+```c++
+// can't define self-containing linked list without back reference
+struct node;
+
+struct node {
+    node *next;
+};
+```
+
+Also, multiple inclusions of the same header file will declare the same entity twice, and the C++ spec doesn't want to force the use of header guard at language level.
