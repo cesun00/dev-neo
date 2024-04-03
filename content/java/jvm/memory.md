@@ -37,3 +37,29 @@ java 4 nio -->
 Each java thread has its own PC "register". When a thread is executing java code, PC stores the address of JVM instruction that is currently executing. When executing a `native` method, its value is undefined. JVMS 15 requires the width of a PC register to be "wide enough to hold a `returnAddress` or a native pointer on the specific platform".
 
 ## per-thread JVM stacks
+
+JVM stacks are equivalent to the call stacks of conventional programming languages.
+It was historically known as the *Java stack* when Java was the only guest language running on JVM,
+while the native method stack was known as the *C stack* 
+implying the fact that JNI methods are usually implemented in the C language.
+
+Each JVM thread has its own JVM stack.
+Each unit of the JVM stack is called a *frame*, storing local variables and the return address.
+As expected, a new frame is piled on the stack when a function is invoked,
+which gets destroyed later when the function returns.
+
+Some JVMS considerations:
+- JVMS allows JVM stacks to be allocated in the JVM heap - see below.
+- JVMS allows JVM stacks to have non-contiguous memory.
+- JVMS allows a stack to either have a fixed size limit or grow dynamically when necessary; leaving the choice under the implementation's jurisdiction.
+
+    - If the implementation goes with fixed-size stacks, it MUST throw a `StackOverflowError` if no new frame can be created due to the size limit.
+    - If the implementation goes with expandable stacks, it MUST throw a `OutOfMemoryError` if no new frame can be created due to insufficient memory for the reallocation.
+
+    Oracle's HotSpot and OpenJDK go with fixed-size stack.
+
+## heap
+
+The heap is where all class instances and arrays are allocated.
+
+JVMS requires a garbage collection mechanism to exist that reclaims memory occupied by objects in the heap, 
