@@ -30,3 +30,30 @@ CL-nRCD-nRP	17-17-17	18-18-18	19-19-19	20-20-20
 ```
 
 The last letter refers to performance, and the same letter means the same CL-nRCD-nRP even if the frequency is different.
+
+Northbridge & FSB
+--------
+
+Before Intel Sandy Bridge and AMD APU (both in Jan 2011), northbridge was a standalone chip on the motherboard. After that all functions of the northbridge were integrated into CPU, so no northbridge anymore. And the corresponding southbridge was renamed to Platform Controller Hub by Intel, and Fusion Controller Hub by AMD.
+
+Northbridge talks directly to CPUs by attaching to FSB. FSB was the bus among CPU cores and memory controller. It is replaced by AMD HyperTransport / Intel QuickPath Interconnect in modern CPU.
+
+Among other hardware circuitry, NorthBridge contains the memory controller.
+
+Memory Controller
+----------
+
+Memory controller is a component between the CPU cores and the RAM. It's either in the northbridge (when nb was still there) or integrated into the processor (integrated memory controller (IMC)).
+
+MC is responsible for:
+1. providing clock for SDRAM;
+2. translating all memory read/write issued from CPU into pin signals like `^RAS`, `^CAS`, and precharge, etc;
+3. issuing refresh commands for SDRAM. SDRAM refresh is not transparent, and MC needs to control it. JEDEC requires DDRn SDRAM to be refreshed every 64 ms.
+
+DDR4 SDRAM Architecture
+---------
+
+### Rank
+
+A memory rank is a set of DRAM chips connected to the same chip select (`CS_n`), which are therefore active/inactive simultaneously. In practice all DRAM chips share all of the other command and control signals, and only the chip select pins for each rank are separate (the data pins are shared across ranks).
+
