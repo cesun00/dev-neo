@@ -131,3 +131,32 @@ struct task_struct {
 ```
 
 `struct css_set` defined in [linux/cgroup-defs.h](https://github.com/torvalds/linux/blob/6f38be8f2ccd9babf04b9b23539108542a59fcb8/include/linux/cgroup-defs.h#L199) is a set of `struct cgroup_subsys_state`, thus the name:
+
+```c
+struct css_set {
+	/*
+	 * Set of subsystem states, one for each subsystem. This array is
+	 * immutable after creation apart from the init_css_set during
+	 * subsystem registration (at boot time).
+	 */
+	struct cgroup_subsys_state *subsys[CGROUP_SUBSYS_COUNT];
+
+	/* reference count */
+	refcount_t refcount;
+    
+    // ...
+
+	/*
+	 * Lists running through all tasks using this cgroup group.
+	 * mg_tasks lists tasks which belong to this cset but are in the
+	 * process of being migrated out or in.  Protected by
+	 * css_set_rwsem, but, during migration, once tasks are moved to
+	 * mg_tasks, it can be read safely while holding cgroup_mutex.
+	 */
+	struct list_head tasks;
+}
+```
+
+Each `struct cgroup_subsys_state` describes a subsystem that cares division of tasks.
+
+`css_set.tasks` is a linked list running through all `task_struct.cg_list` that using the `css_set`.
