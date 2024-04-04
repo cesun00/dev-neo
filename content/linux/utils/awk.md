@@ -92,3 +92,37 @@ END()
 
 
 ## Variable and data structures
+
+```awk
+{ x=$NF }   # x holds the text of the last field
+```
+
+## Patterns
+
+The following type of patterns are supported: (see https://www.gnu.org/software/gawk/manual/html_node/Pattern-Overview.html)
+- `/regex/`
+- boolean expression
+    - any expression: true = non-zero for number / non-null for string
+    - comparison operator: https://www.gnu.org/software/gawk/manual/html_node/Typing-and-Comparison.html
+- `BEGIN`/`END`:
+- `BEGINFILE`/`ENDFILE`:
+- empty: match all records
+
+
+### regex
+
+Regex patterns are specified between double slash: `/regex/ { action }`
+
+### empty
+
+Empty pattern matches every record.
+
+E.g. The second action is executed for every record:
+
+```awk
+BEGIN { action } { action }
+```
+
+### boolean condition
+
+TODO
