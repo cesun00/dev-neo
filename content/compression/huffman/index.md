@@ -61,3 +61,41 @@ Specifically, we care about whether a given code permits any bit string, provide
 to be uniquely decoded back to the original source text.
 
 1. First, non-non-singular codes are hopeless. `0` can't be uniquely decoded if the code is `{a -> 0, b -> 0}`.
+2. Any non-singular code is uniquely decodable if cheating is allowed by adding a separator during encoding:
+
+    `{a -> 0, b -> 00}` is a non-singular but terrible code. Converting `aaaaa -> 00000` is easy but decoding it
+    back suffers from multiple interpretations immediately.
+
+    This can be solved by inserting commas during encoding: `aaaaa->0,0,0,0,0`. Now the decoding is unique, but at the
+    price of more information transferred.
+
+3. Uniquely decodable code sounds great and smart, right? Not actually. They are not good enough.
+
+    Code `{a -> 0000, b -> 00001, c -> 000011}` is uniquely decodable. We can prove this by observing that all
+    code words start with 4 consecutive `0`s. During decoding, the encountering of four `0` marks the start of a new code word
+    and the end of the previous one.
+
+    But this code is terrible. There are 2 orthogonal problems going on here:
+    1. Redundant bits. We can trim 3 `0`s from each code word and make the code still uniquely decodable;
+    2. `{a -> 0, b -> 01, c -> 011}`
+
+    `{a -> 10010, b -> 10010 0000, c -> 10010 0001}`
+
+    Also, note that our proof is not generic.
+    Proving a given code is uniquely decodable is not trivial, but still [viable in polynomial time](https://en.wikipedia.org/wiki/Sardinas%E2%80%93Patterson_algorithm).
+
+4. uniquely decodable
+
+    Code `{a -> 0, b -> 10, c-> 011}` is uniquely decodable,
+    We can prove this by observing that all
+
+We need a good code design that is:
+1. uniquely decodable
+2. "short and concise" - we'll explore what that means in the next section.
+
+## Prefix Code & Huffman Coding
+
+
+Well, still something worth frowning upon.
+
+`{a -> 0, b -> 10, c -> 110}`
