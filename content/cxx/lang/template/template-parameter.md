@@ -146,3 +146,33 @@ An important purpose of function template pack is to enable *function parameter 
 
 ```c++
 ```
+
+### variadic class template
+
+A class template can have at most 1 parameter pack, which must appear as the last template parameter.
+
+```c++
+template<typename... Types>
+struct Tuple {};
+ 
+Tuple<> t0;           // Types contains no arguments
+Tuple<int> t1;        // Types contains one argument: int
+Tuple<int, float> t2; // Types contains two arguments: int and float
+Tuple<0> t3;          // error: 0 is not a type
+```
+
+### Function Template Argument Deduction (FTAD)
+
+Deducing function template arguments is available since the beginning of C++,
+while [deduction for class template](#ctad) is only available since c++17.
+
+
+
+## Misc
+
+### default template argument
+
+Regardless of being a `type / non-type / template` template paramter, it can have a default value as argument:
+
+```c++
+template<int N = 42> void foo() {}
