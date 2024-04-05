@@ -88,3 +88,43 @@ javac -d out --module-source-path src -m com.foo,org.bar <options>
 ```
 
 where `-d` specifies the output directory, `--module-source-path` specifies where to find project source modules,
+ and `-m` stipulates which modules to compile. It's an undefined behavior if any of these 3 options are missing.
+
+## 3. Package
+
+This stage is mandatory for an executable module, but optional for other modules if you will only them as libraries and keep them as an exploded directory.
+
+An executable module is a module whose `module-info.class` encodes the main class name, thus can be executed by JVM without specifying a main class over CLI.
+
+You can always package each module by:
+
+```
+jar -c -f app.jar --main-class com.foo.app.App -C out/com.foo .
+jar -c -f lib.jar -C out/org.bar .
+```
+
+If you decide not to package `lib.jar`, you can replace its appearance below with `out/org.bar`.
+
+If you decide to link your own custom JRE in the next section, you have the option to, instead of packing modules in vanilla JAR format, pack them in the new JMOD format:
+
+```
+jmod create --class-path out/com.foo --main-class com.foo.app.App app.jmod
+jmod create --class-path out/org.bar lib.jmod
+```
+
+By design, the JVM doesn't understand the JMOD format,
+JMOD is designed to be a compile-time- and link-time-only storage format, and can't be used at runtime.
+You should not use JMOD packages unless you are going to build your own JRE.
+
+## 4. (optional) link
+
+The link stage aims to create a custom minimal JRE that is barely large enough to run specific application modules.
+
+This is done by invoking the `jlink` tool:
+
+```
+jlink --module-path app.jmod:lib.jmod --add-modules com.foo,org.bar --output myimage
+```
+
+Once the image is built, the `myimage` directory can be moved anywhere, and will still work.
+
