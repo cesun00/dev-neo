@@ -67,3 +67,32 @@ JEP's relationship with JCP is described in [JEP 1](https://openjdk.org/jeps/1) 
 
 - Partner Membership Agreement (PMA)
 
+    Signing the PMA grants Partner Membership; Partner Members can serve on the Executive Committee and vote for Ratified and Elected seats. 
+
+An organization or individual that has signed any of the JSPA, AMA, or PMA has become a JCP Member.
+
+### Expert Group & Specification Lead
+
+An Expert Group is a group of JCP Members who collaborate on developing a Java Specification through a JSR.
+Expert Group is assigned on a per-JSR basis. The members of an Expert Group are listed on each JSR's summary page.
+
+A Specification Lead of a specific JSR is the leader (a person) of the expert group assigned to that JSR.
+
+### Executive Committee (EC) {#ec}
+
+The Executive Committee is the group of Members guiding the evolution of Java technology in the Java Community Process (JCP). The EC represents both major stakeholders and a representative cross-section of the Java Community. The EC is responsible for approving the passage of specifications through key points of the JCP and for reconciling discrepancies between specifications and their associated test suites.
+
+### Program Management Office (PMO) {#pmo}
+    
+The PMO is the group within Oracle designated to oversee the Java Community Process and manage the daily running of the JCP program.
+
+## MISC
+
+#### classpath wildcard
+
+For both the `CLASSPATH` env var and CLI flag for both javac and java, a special support for wildcard `*` exists,
+s.t. `base/*` matches all `.jar` or `.JAR` under directory `base`.
+
+#### Reflection and Security
+
+`java.lang.SecurityManager`
