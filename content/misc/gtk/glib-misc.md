@@ -34,3 +34,39 @@ Each `GSource` is assigned with priority of signed integer: 0 is the default, ne
 
 ## `GMainContext`
 
+- There is a process-wide `GMainContext` instance maintained via a function-local static pointer `g_main_context_default()::default_main_context`, commonly referred to as the "global default `GMainContext`". Calling `g_main_context_default()` obtains this singleton.
+- Each thread has its own stack of `GMainContext` instances maintained via a thread-local instance of `GPrivate` called `thread_context_stack` as static global in `gmain.c`. Stack of each thread is empty at the beginning. The top of the stack of each thread is known as the "thread default `GMainContext`" of that thread.
+  - Calling `g_main_context_push_thread_default(GMainContext *)` pushes to the stack of the caller's thread;
+  - Calling `g_main_context_pop_thread_default(GMainContext *)` verifies the argument is the stack top of the caller's thread, and pop if true. Otherwise no-op with a warning printed;
+  - Calling `g_main_context_get_thread_default(void)` peeks the top of stack of the caller's thread without increasing the refcount, or return `NULL` if the stack is empty.
+  - Calling `g_main_context_ref_thread_default(void)` peeks the top of stack of the caller's thread, **or return the global default `GMainContext` instance if the stack is empty**. Regardless which instance is selected, its `refcount++`.
+
+The API above is designed to facilitate nested main loop, a pattern which is now [deprecated (at least by GTK4 developers)](https://docs.gtk.org/gtk4/migrating-3to4.html#stop-using-blocking-dialog-functions).
+
+Many convenience function implicitly work with this instance.
+Common ones are the `g_XXX_add[_full]()` convenience functions for the event source type mentioned above. e.g.
+
+```c
+// convenience function for g_timeout_source_new() + g_source_attach( /*g_main_context_default()*/ ) + g_source_set_callback()
+guint g_timeout_add ( guint interval, GSourceFunc function, gpointer data )
+
+// ditto, with finer control
+guint g_timeout_add_full ( gint priority, guint interval, GSourceFunc function, gpointer data, GDestroyNotify notify )
+```
+
+
+
+## `GMainLoop`
+
+A `GMainLoop` instance is simply
+- a reference to a `GMainContext`, plus
+- a boolean flag indicating whether loop should quit after the current iteration
+
+It's main purpose to provide object-based API e.g. `g_main_loop_run()` whose business logics of repetitively calling iteration on `GtkMainContext` that really matter,
+
+But still, this class isn't as useful as its name suggests.
+GTK4 simply doesn't use this class, and calls `gtk_main_context_iterate()` in GTK4 code's own `while` loop.
+
+
+Weak reference
+============
