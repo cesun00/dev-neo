@@ -64,3 +64,31 @@ What `connector.exe` received is stringized `$CONFIG` which is a `Hashtable` obj
 You may recall that *powershell allows space in variable name*, and occurrence of such name must be surrounded with braces:
 
 ```ps1
+${this is a valid variable name} = "hello"
+Write-Host ${this is a valid variable name}
+```
+
+Unfortunately braces won't save you if you are referencing to a hash table:
+
+```ps1
+Write-Host "--- ${CONFIG.app_id} ---"
+# prints "---  ---", cause there is no variable spells `CONFIG dot app_id`
+```
+
+To refer to value from hash table in interpolated string, you need a [subexpression operator](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_operators?view=powershell-7.3#subexpression-operator--) surrounding the hashtable indirection evaluation:
+
+```ps1
+Write-Host "--- $($CONFIG.app_id) ---" # prints `--- 2023xxx ---`
+```
+
+So back to our original question, this is the correct way to use value from hashtable as call operator arguments:
+
+```ps1
+& "$connector_exe" `
+    --server_mode=http `
+    --threads=10 `
+    --http_port=6873 `
+    "--app_id=$($CONFIG.app_id)"  `
+    "--app_secret=$($CONFIG.app_secret)"  `
+    "--group_code=$($CONFIG.group_code)"
+```
