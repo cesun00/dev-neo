@@ -139,3 +139,43 @@ Private / protected inheritance breaks `Base`'s encapsulation: `protected` membe
 - Good design prevent invalid code from compiling (as early as possible), rather than raise runtime error.
 - Good API design make it hard / impossible to use it wrong.
 - `OperationNotSupportedException` is a joke confirmed. Shame on you oracle JDK designer.
+
+# 33. Avoid shadowing inherited names
+
+1. Identical name in derived class hides the one in base class, including
+    - static / non-static members (data / funtion)
+    - named types (typedef / using / nested class / nested enums)
+
+1. Not alike Java , the design of C++'s inheritance follows the rationale of membership flattening:
+    - once inherited, all members of parent classes become direct members of the child class, with appropriate accessibility
+    - The origin of a member is usually not discussed and require concern, except when using the syntax `Base::foo` ... ?
+
+1. virtualness 
+
+# 35. Consider Alternatives to virtual function
+
+1. Derived class may override virtual functions even if they are not permitted to call them. Accessibility is orthogonal to virtualness
+2. 
+
+```c++
+class Base {
+private:
+    virtual void foo() { std::puts("Base::foo"); }
+};
+
+class Derived: public Base {
+public:
+    // this is legit overriding, even if Base::foo is inaccessible
+    virtual void foo() override { std::puts("Derived::foo"); }
+};
+
+```
+
+# 38. Model “has-a” or “is-implemented-in-terms-of” through composition
+
+In a class body, you want to call (member) functions / refer to data, but they are defined in another class, and may or may not be non-public.
+
+Among (not much) options to choose from:
+1. (publicly) inherit from that library class
+    - it's insane to inherit from totally unrelated class
+        - just because you choose your underlying data structure to be an `vector` doesn't meant you have to publicly inherit from vector.
