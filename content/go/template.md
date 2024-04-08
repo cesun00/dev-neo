@@ -124,3 +124,38 @@ and an `Argument` is one of:
 - The name of a key of the data, which must be a map, preceded by a period, such as .Key
 
     The result is the map element value indexed by the key. Key invocations may be chained and combined with fields to any depth: .Field1.Key1.Field2.Key2 Although the key must be an alphanumeric identifier, unlike with field names they do not need to start with an upper case letter. Keys can also be evaluated on variables, including chaining: $x.key1.key2
+
+- The name of a niladic method of the data, preceded by a period, such as `.Method`
+
+    The result is the value of invoking the method with dot as the receiver, dot.Method(). Such a method must have one return value (of any type) or two return values, the second of which is an error. If it has two and the returned error is non-nil, execution terminates and an error is returned to the caller as the value of Execute. Method invocations may be chained and combined with fields and keys to any depth: .Field1.Key1.Method1.Field2.Key2.Method2 Methods can also be evaluated on variables, including chaining: $x.Method1.Field
+    
+- The name of a niladic function, such as fun The result is the value of invoking the function, fun(). The return types and values behave as in methods. Functions and function names are described below.
+- A parenthesized instance of one the above, for grouping. The result may be accessed by a field or map key invocation. print (.F1 arg1) (.F2 arg2) (.StructValuedMethod "arg").Field
+
+## `(text|html)/template` APIs
+
+This section focuses on the go code, and explains how an external `.gotmpl` template file can be executed by go code.
+
+Code will start with `import "text/template"` or the `html` counterpart, which brings the `template` package identifier.
+
+Now, A free function `template.New()` in that package should be used to create a new empty `Template` instance; content can be filled later by `Template.ParseFiles()` method. A convenient free function `template.ParseFiles()` is provided that does both in one call.
+
+Each `Template` instance internally maintains
+1. a collection of `block`s. `blocks` are parsed from template files. Each block has a name.
+2. a `FuncMap` instance, which is a mapping from names to function pointers.
+
+
+
+## Misc
+
+### Passing multiple arguments to `{{ template ... }}`
+
+The syntax of the `{{template "name" pipeline}}` action determined that only 1 pipeline is allowed as argument.
+The value of the pipeline can be referred to as `.` within the referred template.
+
+If more than 1 value needs to be passed to the target template, one must wrap them in a `map`.
+Go template doesn't have built-in support for this, and a helper function must be supplied by the client programmer.
+
+```
+```
+
