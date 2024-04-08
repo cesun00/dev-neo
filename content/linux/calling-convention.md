@@ -38,3 +38,36 @@ Distinguishment are made between
 
 Before a `syscall` instruction:
 - `rax` must stores the linux syscall number
+- `rdi`, `rsi`, `rdx`, `r10`, `r8`, `r9` stores the 1st, 2nd, ..., 6th arguments.
+
+There is no syscalls that accepts more than 6 arguments.
+Complex structures are passed to kernel via memory pointers.
+
+```asm
+; linux_syscall call_no, arg0, arg1, arg2, arg3, arg4, arg5
+%macro linux_syscall 1-7 0,0,0,0,0,0
+
+    mov rax, %1
+    mov rdi, %2
+    mov rsi, %3
+    mov rdx, %4
+    mov r10, %5
+    mov r8, %6
+    mov r9, %7
+    syscall
+
+%endmacro
+    
+    
+
+SECTION .data
+msg:    db `hello world\n`
+msglen: equ $-msg
+
+GLOBAL manbaout
+
+SECTION .text
+manbaout:
+    ; write to stdout a string
+    linux_syscall 1,1,msg,msglen
+
