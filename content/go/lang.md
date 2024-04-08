@@ -27,3 +27,28 @@ It shadows variable of the same name in outer scope.
 func wsHandlerFunc(w http.ResponseWriter, r *http.Request) {
     c,err := upgrader.Upgrade(w,r,nil)
     if err != nil {panic(err)}
+
+    for {
+        _,msg,err := c.ReadMessage()
+        if err != nil {break}
+        fmt.Printf("clieng msg: %s\n", msg)
+    }
+    fmt.Printf("%T\n",err) // ALWAYS <nil> !
+}
+```
+
+```go
+func wsHandlerFunc(w http.ResponseWriter, r *http.Request) {
+    c,err := upgrader.Upgrade(w,r,nil)
+    if err != nil {panic(err)}
+
+    for {
+        var msg []byte
+        _,msg,err = c.ReadMessage()
+        if err != nil {break}
+        fmt.Printf("clieng msg: %s\n", msg)
+    }
+    fmt.Printf("%T\n",err) // *websocket.CloseError
+}
+```
+
