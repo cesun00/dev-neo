@@ -212,3 +212,15 @@ To the memory controller, the whole MM behaves like a single stack of logical su
 |              |                      |             |
 |              |                      |             |
 |              |                      |             |
+|              |                      |             |
+
+- RAS_n, CAS_n: 
+- 
+- CS0_n, CS1_n
+
+
+- ACT_B
+- ALERT_B
+- C[012]
+
+
