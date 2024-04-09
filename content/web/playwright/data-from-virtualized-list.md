@@ -67,3 +67,28 @@ The use of virtual list introduce difficulties for frameworks like playwright or
                     if (it != null) {
                         (it as HTMLElement).click()
                         return;
+                    }
+                    div.scrollBy(0, 10);
+                }
+            }, targetAddr);
+```
+
+Experienced Web programmer will notice the problem in the code above.
+
+
+```ts
+            const scroller = page.locator('ul[role="listbox"] > div');
+            await scroller.evaluate(async (div, addr) => {
+                while (true) {
+                    const it = document.evaluate(`.//span[text()="${addr}"]`, div).iterateNext();
+                    if (it != null) {
+                        (it as HTMLElement).click()
+                        return;
+                    }
+                    div.scrollBy(0, 10);
+                    // given a chance for the scroll event handler of to do its stuff
+                    // https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                }
+            }, targetAddr);
+```
