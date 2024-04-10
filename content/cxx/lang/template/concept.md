@@ -203,3 +203,39 @@ T add2(T a, T b) requires requires (T x) { x + x; }
 template<typename T>
 requires requires (T x) { x + x; } && std::convertible_to<T,int>
 T addIntAlike(T a, T b) 
+{ return static_cast<int>(a) + static_cast<int>(b); }
+
+// NOT A THING
+// template<requires (T x) { x + x; } T>
+// T add3(T a, T b) { return a + b; }
+
+int main() {
+    std::printf("%d\n", add(42,2));     // 44
+    std::printf("%d\n", add2(42,2));    // 44
+    std::printf("%f\n", addIntAlike(42.2,2.4)); // 44.000000
+}
+```
+
+ref: https://stackoverflow.com/questions/54200988/why-do-we-require-requires-requires
+
+
+## Be careful what the constrained `T` is deduced to when universal reference deduction is involved
+
+Type constraint is contract to client. By seeing
+
+```c++
+template<C T>
+void foo(T t);
+```
+
+client knows he should pass an object whose type satisfies `C`. e.g.
+
+```c++
+vector<int> dt{/**/};
+foo(dt); // is a valid instantiation iff. vector satisfies C
+```
+
+Problem happens when `T` is not deduced to the identical type client's object have. This only happens when universal reference is involved:
+
+```c++
+template<C T>
