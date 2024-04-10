@@ -63,3 +63,22 @@ Some JVMS considerations:
 The heap is where all class instances and arrays are allocated.
 
 JVMS requires a garbage collection mechanism to exist that reclaims memory occupied by objects in the heap, 
+but leaves everything else about the GC mechanism unspecified.
+
+- JVMS allows the JVM heap to have non-contiguous memory.
+- Again, an conforming JVM may choose to use fixed-size heap or a expandable one. In either case ...
+
+## method area
+
+This area holds run-time representations of `.class` files.
+
+GC is not mandatory for this area.
+The memory of method area doesn't need to be contiguous.
+
+## runtime constant pool
+
+This area holds run time representation of the constant pool in `.class` files.
+
+## per-thread native method stacks
+
+This is 
