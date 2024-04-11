@@ -100,3 +100,15 @@ Settings `color-scheme: ` to a fixed value on an ancestor node of `<iframe>` or 
 prevents the `prefers-color-scheme` media query within such embeded elements from observing the real color scheme.
 
 ```css
+color-scheme: normal;
+color-scheme: light;
+color-scheme: dark;
+color-scheme: light dark;
+color-scheme: only light;
+```
+
+Most browsers supports the features in this article since 2020.
+
+## misc
+
+An https-only header `Sec-CH-Prefers-Color-Scheme`
