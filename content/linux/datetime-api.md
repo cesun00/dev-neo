@@ -54,3 +54,30 @@ TODO: timezone
 
 ### Set Time / TimeZone
 
+- `stime()`
+- `settimeofday()`
+- `adjtimex()`
+- `settimeofday()`
+
+### timer / alarm / sleep
+
+- `sleep()`
+- `nanosleep()`
+- `usleep()`
+- `alarm(second)`
+
+	Let kernel kill a `SIGALRM` to the calling process after specified seconds.
+
+- `setitimer()`
+
+## Breakdown
+
+### `gmtime(_r)`
+
+Converts a calendar time into break-down time in UTC.
+
+### `localtime(_r)`
+
+Converts a calendar time into break-down time in local time zone.
+
+### Build: `mktime`
