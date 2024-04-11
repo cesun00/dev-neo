@@ -69,3 +69,31 @@ When the center of the laser spot pass through the transition of a pit and a lan
 
 minimum size of the laser spot is proportional to the wavelength of the laser
 
+CIRC and NRZI coding
+
+Essentially a CD works by taking reference to an external synchronzied clock.
+This is why - When playing an audio CD, a motor within the CD player spins the disc to a scanning velocity of 1.2–1.4 m/s (constant linear velocity, CLV).
+
+## Industrial Manufacturing CD
+
+First, a master disc is made from a glass, hardened by a nickle-vanadium electroforming coated layer.
+Then CDs are made by stamping the master disc onto a plastic.
+
+1. A master disc are fabricated using photolithography.
+This process is also known as matstering, and the master disc is sometimes simply called a master.
+
+A materail that will either 
+
+1. A circle glass is cleaned with de-ionized water and hair brushes. 
+2. It is then send to a rapid spinner to remove water, then cleanness of the surface will be tested with laser by a surface analyzer.
+3. 
+4. Electroforming
+5. stamping out machine remove excessive material (glass and nickle / vanaidum)
+
+The reflective layer is formed by heating alluminium in an vacuumed chamber.
+The vaporization point of metal is low, and easy.
+https://www.vacuum-metalizing.com/what-is-vacuum-metalizing/
+https://www.inseto.co.uk/resist-coating-methods-ikb-067/
+https://www.inseto.co.uk/lithography-basics/
+https://www.jdbbs.com/thread-4702483-1-1.html
+https://en.wikipedia.org/wiki/Electroforming
