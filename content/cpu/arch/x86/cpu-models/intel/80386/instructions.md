@@ -27,3 +27,31 @@ See other pages for x86 extensions and details on when and since which model the
 ### Data Type Widening
 
 Sign extension of a narrow data type to a wider one;
+(extra bits of the larger item with the value of the sign bit of the smaller item)
+
+The `CXY` family has no operand and only read from `EAX` registers:
+1. `CBW` (byte to word): `AL` -> `AX` (`AH` `AL`)
+2. `CWD` (word to doubleword): `AX` -> `DX` `AX`
+3. `CWDE` (Word to Doubleword Extended): `AX` -> `EAX`
+4. `CDQ` (doubleword to quad-word): `EAX` -> `EDX` `EAX`
+
+The `MOV` variants take 2 operands, at most one can be memory access:
+1. `MOVSX dest, src` (Move with Sign Extension): sign extend and move 8-bit src to 16-bit dest, or 16-bit src to 32-bit dest
+2. `MOVZX dest, src` (Move with Zero Extension): zero extend (i.e. inserting high-order zero regardlessly) and move 8-bit src to 16-bit dest, or 16-bit src to 32-bit dest.
+
+### Integer Arithmetic & Comparison
+
+1. overflow is defined as;
+2. borrow is defined as;
+3. all instructions in this section update all `OF, SF, ZF, AF, and PF` according to the result. See details for what happens to `CF`.
+
+- `NEG dest`: `dest = 0 - dest`; set `CF` if `dest` is not 0, unset otherwise.
+- `ADD dest,src`: `dest = dest + src`; set `CF` if overflow, unset otherwise.
+- `ADC dest,src` (add with carry): `dest = dest + src + CF`; No flag affected.
+
+    Pattern: `ADD` followed multiple `ADC` instructions can be used to add numbers longer than 32 bits.
+
+- `INC dest`: `dest = dest + 1`; `CF` unaffected.
+- `SUB dest, src`: `dest = dest - src`; set `CF` if borrow, and update all of `OF, SF, ZF, AF, PF` accordingly
+- `CMP dest, src`: like `SUB` but don't write back the result.
+- `SBB dest, src` (subtract with borrow): `dest = dest - src - CF`;
