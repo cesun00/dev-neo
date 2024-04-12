@@ -128,3 +128,25 @@ Header Sematics:
 - `TIME`: accumulated cpu time, user + system.
 - `C`:
 - `STIME`:
+- `CMD`:
+- `SZ`:
+- `RSS`:
+- `PSR`:
+
+Notable flags:
+
+- Without any flags: `PID TTY TIME CMD`
+- `ps -f`: documented as "full-format", but actually only `UID PID PPID C STIME TTY TIME CMD`
+- `ps -F`: documented as "extra full-format", but actually `-f` plus `SZ RSS PSR`
+- custom columns:
+
+    ```sh
+    # all identical:
+    ps -o '<comma-separated header list>'
+    ps o '<comma-separated header list>'
+    ps --format '<comma-separated header list>'
+    ```
+
+### sorting
+
+## `pstree` from project `psmisc`
