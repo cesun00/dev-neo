@@ -57,3 +57,28 @@ func make(targets, need-submake) {
 }
 ```
 
+It is well-known that the Linux kernel can (and should) be built by `make *config` followed by a `make` call without goal.
+The `make` interface is versatile and assumes jobs of different nature (clean, generate configs, build modules, build the vmlinux), bringing
+complexity to the implementation of `Makefile`s. 
+
+## `script/Kbuild.include`: utilities
+
+`script/Kbuild.include` is included by the root Makefile at an early stage to provide utility functions.
+This section discusses the most important ones.
+
+### `cmd`: print and execute commands
+
+```makefile
+# $(call cmd, foo):
+#
+# with echo supressed:
+# if `cmd_foo` exist, 
+#       print either `quiet_cmd_foo` or `cmd_foo` value as string
+#       trap interrupt
+#       call cmd_foo
+# else
+#      no-op
+cmd = @$(if $(cmd_$(1)),set -e; $($(quiet)log_print) $(delete-on-interrupt) $(cmd_$(1)),:)
+```
+
+The `cmd` function should be used when you want to perform certain operations and print to the terminal a message.
