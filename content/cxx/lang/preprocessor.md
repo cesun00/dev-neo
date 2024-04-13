@@ -80,3 +80,37 @@ Those rules of replacement are between preprocessor tokens. Recursive expansion 
 ```c
 // It's okay to have undefined BAR when `#define FOO`, ...
 
+#define FOO BAR
+#define BAR 42
+
+// as long as BAR is known at expansion time
+printf("%d\n", FOO);
+```
+
+Inside a function macro's expansion body, parameter will be replaced by whatever token used as argument, yet not further expanded until the next iteration of expansion. This make possible some operators on the parameter of function-alike macro:
+
+- `#` stringizes a preprocessor token into a double-quoted C string literal.
+
+    ```c
+    #define A(X) (X,#X)
+    #define FOO 42
+
+    A(FOO);
+    // expand to        (FOO, "FOO")
+    // then expand to   (42, )
+    ```
+
+- `##` concatenates 2 preprocessor tokens before further expansion:
+
+    ```c
+    #define FOOGG 4233
+    #define A(X,Y) X##Y
+
+    A(FOO,GG)
+    // expand to        (FOOGG)
+    // then expand to   (4233)
+    ```
+
+Apart from their original purpose, these 2 operator has the side effect:
+
+> After the arguments for the invocation of a function-like macro have been identified, argument substitution takes place. A parameter in the replacement list, unless preceded by a # or ## preprocessing token or followed by a ## preprocessing token (see below), is replaced by the corresponding argument after all macros contained therein have been expanded. Before being substituted, each argument’s preprocessing tokens are completely macro replaced as if they formed the rest of the preprocessing file; no other preprocessing tokens are available.
