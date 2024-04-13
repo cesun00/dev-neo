@@ -56,3 +56,19 @@ The following is what this directory looks like, with non-essential files omitte
 
 353 directories, 740 files
 
+```
+
+Readers are encouraged to refer to dedicated articles in this section for detailed explanations of each structure within this directory.
+
+
+
+## MISC
+
+### The Delta Myth
+
+Git does not use delta commit.
+
+On the contrary, each commit in Mercurial contains only the difference from its parent commit.
+
+### remote management
+
