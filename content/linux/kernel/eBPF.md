@@ -71,3 +71,28 @@ Jacobson et.la claimed that BPF is 20 time faster than the old one in DIGITAL UN
 ## Linux Socket Filtering (LSF) & eBPF
 
 Linux provides a mechanism similar to BPF since 2.2 (Jan 1999), but branded it as Linux Socket Filtering (LSF) to get rid of "Berkeley".
+
+Instead of attaching a filter to a network interface, Linux's design is to attach filter to an existing socket, so you don't need opening `/dev/*` stuffs anymore:
+
+1. User process creates `socket(2)` and get an int `fd` (can be `AF_INET` / `AF_PACKET` / etc)
+2. User process code its BPF program as a `struct sock_fprog`
+
+```c
+/* example: 
+    tcpdump -i enp6s0 port 22 -dd 
+    recv only return incoming and ougoing packet at TCP/UDP port 22
+*/
+struct sock_filter code[] = {
+        { 0x28,  0,  0, 0x0000000c },
+        { 0x15,  0,  8, 0x000086dd },
+        { 0x30,  0,  0, 0x00000014 },
+        { 0x15,  2,  0, 0x00000084 },
+        { 0x15,  1,  0, 0x00000006 },
+        { 0x15,  0, 17, 0x00000011 },
+        { 0x28,  0,  0, 0x00000036 },
+        { 0x15, 14,  0, 0x00000016 },
+        { 0x28,  0,  0, 0x00000038 },
+        { 0x15, 12, 13, 0x00000016 },
+        { 0x15,  0, 12, 0x00000800 },
+        { 0x30,  0,  0, 0x00000017 },
+        { 0x15,  2,  0, 0x00000084 },
