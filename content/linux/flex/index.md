@@ -65,3 +65,33 @@ Symbol table '.dynsym' contains 9 entries:
 
 The input file by convention has a `.l` extension, and must have the following layout:
 
+```
+definitions
+%%
+rules
+%%
+user code
+```
+
+The `definitions`, `rules`, and `user code` section must be separated by a line that contains only 2 `%` characters.
+The `user code` section is optional, and when it's omitted, the `%%` line above it may be omitted as well.
+
+### `definitions` section
+
+The `definitions` section contains 4 types of elements:
+- *name definitions* are named regexp patterns for reuse.
+- *start conditions* declare all possible states the scanner could be in, and their being inclusive or exclusive.
+- scanner options are lines that start with `%option ...`.
+- text surrounded by `%{ ... %}` where both `%{` and `%}` appear at the start of a line will be copied to the output with `%{` and `%}` removed.
+
+Everything else in the `definitions` section is copied verbatim to the output without modification, including:
+1. Indented text
+2. C comments, i.e. text surrounded by `/* ... */` where `/*` appears at the start of a line.
+
+#### name definitions
+
+A name definition is a line of the following format:
+
+```
+name    definition
+```
