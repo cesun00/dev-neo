@@ -103,3 +103,27 @@ public class MyConfig {
 
 
 // MyController.java
+package com.example;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class MyController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "hello MVC!";
+    }
+}
+```
+
+You can now package the project by `mvn package` and deploy the resulting war file to Tomcat:
+
+
+
+```
+$ curl localhost:8080/hello
+hello MVC!
+```
+
