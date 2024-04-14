@@ -227,3 +227,41 @@ The overall idea is that **PHONY targets are ALWAYS considered out-of-date**. Th
 
 ## Types of (file) Prerequisites
 
+2 types of prerequisite exists, but is only interesting when target and prerequisite are both non-PHONY (i.e. normal files).
+
+- order-only prerequisites
+
+    - Prerequisite file must exists before the recipe of this target runs.
+
+- normal prerequisites
+
+    - Prerequisite file must exists before the recipe of this target runs; plus
+    - when `modify` time of any normal prerequisites files are newer than that of the target file, the target file must be remade.
+
+That is, semantically, normal prerequisite is a superset of order-only prerequisite.
+
+syntax:
+
+```makefile
+targets : normal-prerequisites | order-only-prerequisites
+    receipe
+    ...
+```
+
+
+
+
+
+Functions
+=======================================================================
+
+Function call syntax is identical to variable reference:
+
+```makefile
+# both equivalent
+$(function arguments)
+${function arguments}
+```
+
+Define new functions
+---------------
