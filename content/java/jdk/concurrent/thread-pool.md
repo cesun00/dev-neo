@@ -112,3 +112,9 @@ Simply calls
 <!--
 
 So far, some problems still present:
+1. There is no guarantee on which thread will be arranged to run the task.
+2. There is no informaion about what happens when the thread pool is not willing to accept new tasks. -->
+
+## Predefines implementations
+
+JDK provides a few useful implementation of `ExecutorService`
