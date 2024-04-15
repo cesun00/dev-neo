@@ -66,3 +66,14 @@ for Hugo users who want to understand the how-themes-work internals.
 
 A build of a Hugo site is initiated by a `hugo` invocation.
 A top-level directory `public/` and sometimes also a `resources/` will be created after a successful build.
+
+1. `content/index.md` goes through *the homepage template*.
+2. all `content/**/_index.md`, if exist, goes through *the section template*
+
+    As a special case all `content/*/_index.md`, treated as an empty file if non-existent, goes through *the section template*.
+
+    This is for compatibility with legacy practice. Modern usage recommends all `content/*` directory contains a `_index.md`.
+3. 
+4. 
+2. all `*.md` under a section directory goes through *the single page template*, except `index.md` and `_index.md`.
+3. all `index.md`
