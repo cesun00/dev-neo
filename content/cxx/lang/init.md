@@ -214,3 +214,41 @@ type of
 
     ```c++
     T x = T();
+    ```
+{{</fold>}}
+
+7. otherwise, if the destination type is a class type, and is not the same as source type
+
+<!--  -->
+
+
+## (Reusable) Initialization Types
+
+### zero-initialize
+
+To zero-initialize
+- a non-reference type: fill its memory with 0
+- a reference type: no initialization (dangle)
+
+zero-initialize doesn't have a syntax but happens as a part of other types of initialization.
+
+### value-initialize
+
+Value-initialization roughly means to set a zero / empty value for an object.
+<!-- It occurs when the `initializer` is `()` i.e. empty parentheses. -->
+
+
+```c++
+struct X {
+    X() = delete;
+};
+
+int a();
+auto x = X();
+```
+
+To value-initialize
+- a class instance that
+    - has default ctor: first zero-initialize then default-initialize.
+    - has no default ctor: default-initialize it, [which is guaranteed to fail](https://stackoverflow.com/questions/50393837/could-a-class-type-with-deleted-default-constructor-be-default-initialized)
+- an array: value-initialize each element
