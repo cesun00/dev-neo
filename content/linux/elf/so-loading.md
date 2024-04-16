@@ -34,3 +34,8 @@ location and size of the PHT.
 
 5. ...
    
+
+
+## RPATH respect
+Imagine an executable `foo` that has an `0x01 NEEDED` dependency on a `libfoo.so.8` which resolves to `/opt/lib/libfoo.so.8`.
+This shared object is custom build which has a `RPATH` embeded 
