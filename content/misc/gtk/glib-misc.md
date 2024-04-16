@@ -70,3 +70,31 @@ GTK4 simply doesn't use this class, and calls `gtk_main_context_iterate()` in GT
 
 Weak reference
 ============
+
+
+- `void g_object_weak_ref (GObject* object, GWeakNotify notify, gpointer data)`
+
+    Add a monitoring callback `typedef void (*GWeakNotify)(gpointer data, GObject *where_the_object_was);` when `object` is disposed.
+    `g_object_weak_unref` undoes it.
+
+- `void g_object_add_weak_pointer (GObject *object, gpointer *weak_pointer_location);`
+
+    Store at `weak_pointer_location` a pointer that is automatically `NULL`-ified when `object` is disposed, without increasing `object`'s refcount.
+    `g_object_remove_weak_pointer` undoes it.
+    Both implemented via `g_object_weak_ref/unref`
+
+misc utils 
+============
+
+- `g_clear_pointer(pp, destroy)`
+
+    A simple util macro that calls function pointer `destroy` on `pp` then `NULL`-ify `pp`. 
+
+- `g_clear_object(object_ptr)`
+
+    Clear **reference** to an object, i.e. `refcount--` and nullify the pointer, the object doesn't dispose if it has other references alive.
+    Under the hood, it is wrapper around `g_clear_pointer`: A util macro that calls `g_object_unref` on `object_ptr` then `NULL`-ify `object_ptr`.
+
+- `g_clear_weak_pointer(weak_pointer_location)`
+
+    despite its name, this is weak pointer's counterpart of `g_clear_object` - yes, not `g_clear_pointer` - `(*weak_pointer_location)` must be a pointer to a `GObject`.
