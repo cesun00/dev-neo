@@ -940,3 +940,29 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   │   │   │   ├── common/
 │   │   │   │   │   ├── decoder/
 │   │   │   │   │   ├── encoder/
+│   │   │   │   └── vpu/
+│   │   │   ├── microchip/
+│   │   │   ├── nuvoton/
+│   │   │   ├── nvidia/
+│   │   │   │   └── tegra-vde/
+│   │   │   ├── nxp/
+│   │   │   │   ├── dw100/
+│   │   │   │   ├── imx8-isi/
+│   │   │   │   ├── imx-jpeg/
+│   │   │   ├── qcom/
+│   │   │   │   ├── camss/
+│   │   │   │   └── venus/
+│   │   │   ├── renesas/
+│   │   │   │   ├── rcar-vin/
+│   │   │   │   ├── rzg2l-cru/
+│   │   │   │   └── vsp1/
+│   │   │   ├── rockchip/
+│   │   │   │   ├── rga/
+│   │   │   │   └── rkisp1/
+│   │   │   ├── samsung/
+│   │   │   │   ├── exynos4-is/
+│   │   │   │   ├── exynos-gsc/
+│   │   │   │   ├── s3c-camif/
+│   │   │   │   ├── s5p-g2d/
+│   │   │   │   ├── s5p-jpeg/
+│   │   │   │   └── s5p-mfc/
