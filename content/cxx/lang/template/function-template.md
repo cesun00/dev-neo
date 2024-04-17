@@ -23,3 +23,31 @@ void foo(T);
 C++20 allows a function declaration to have placeholder type (i.e. `auto`) or constrained placeholder type (i.e. constrained `auto`)
 as an equivalent syntax of function template declaration with type parameter:
 
+```c++
+// equivalent to above
+void foo(auto);
+```
+
+<--->
+
+### ... is defined by 
+
+```c++
+template<typename T>
+void foo(T) {/**/}
+```
+
+In most cases, the definition part of a function template is trivial, and doesn't affect the
+templating resolution or metaprogramming magic at all.
+
+{{</columns>}}
+
+## Instantiation
+
+A function template has to be instantiated, either implicitly or explicitly, in order to get into the executable code and thus be useful.
+
+### Implicit Instantiation
+
+### Explicit Instantiation
+
+## Template Argument Deduction (TAD)
