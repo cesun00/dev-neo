@@ -34,3 +34,36 @@ descriptor:
 
     
     /**
+     * Reflection controls.
+     * 
+     * 
+     */
+    opens package.X;
+    opens package.X to module.B, module.C, ...;
+    opens module module.A { ... };
+
+
+    /**
+     * Consume a service.
+     */
+    uses qualified.class.name;
+
+    /**
+     * Provide a service implementation.
+     */
+    provides qualified.iface.name with qualified.implclass.name;
+}
+```
+
+
+`requires` and `exports`
+====================
+
+`requires` and `exports` used in pair:
+- The provider  of a public type `exports` the package to whoever `requires` the module
+- The
+
+
+`open` & `opens`
+=============
+
