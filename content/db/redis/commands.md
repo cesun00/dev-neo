@@ -67,3 +67,38 @@ Top Level Command
     127.0.0.1:6379> SET a 0
     OK
     127.0.0.1:6379> SET b ""
+    OK
+    127.0.0.1:6379> RPUSH c 1 3 5 7 9 2 4 6
+    (integer) 8
+    127.0.0.1:6379> MEMORY USAGE a
+    (integer) 48
+    127.0.0.1:6379> MEMORY USAGE b
+    (integer) 50            <- kinda interesting that "" is bigger than "0"
+    127.0.0.1:6379> MEMORY USAGE c
+    (integer) 147
+    ```
+
+String command
+-------------
+
+Note that `GET/SET` is only valid for string type, e.g. illegal to `GET` a hash or zset.
+
+- `GET key`
+
+- `SET key value [EX sec | PX millisec | NX | XX KEEPTTL]`; return string "OK"
+	- `NX`: set iff key NOT EXIST; (nil) if exist; Meant to replace `SETNX`.
+	- `XX`: set iff key EXIST; (nil) if not exist;
+
+- `SETNX` (deprecated, use `SET key value NX` instead)
+    
+    was historically used to implement inter-client (i.e. distributed) lock.
+    1. A client acquire the lock by `SETNX lockname <cur_timestamp+lock timeout+1>` (1);
+    2. Lock owner client release the lock by `DEL lockname`;
+    3. Other clients contending for the lock by also performing (1):
+        - This is natively a non-blocking tryLock()
+        - For client that's willing to block for the lock, suspend the redis communication thread using application code.
+    
+    This pattern is now **deprecated** in favor of the Redlock algorithm. 
+
+- `GETSET key new_value`: set key to `new_value` and return the original value
+
