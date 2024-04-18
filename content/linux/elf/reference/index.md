@@ -341,3 +341,30 @@ Special Section Reference
 <!-- ======================== WILDANDFREE ========================-->
 <!-- ======================== WILDANDFREE ========================-->
 <!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+<!-- ======================== WILDANDFREE ========================-->
+
+GNU system has some interesting values defined as being OS-specific:
+
+
+```c
+#define SHT_LOOS	  0x60000000	/* Start OS-specific.  */
+#define SHT_GNU_ATTRIBUTES 0x6ffffff5	/* Object attributes.  */
+#define SHT_GNU_HASH	  0x6ffffff6	/* GNU-style hash table.  */
+#define SHT_GNU_LIBLIST	  0x6ffffff7	/* Prelink library list */
+#define SHT_CHECKSUM	  0x6ffffff8	/* Checksum for DSO content.  */
+#define SHT_LOSUNW	  0x6ffffffa	/* Sun-specific low bound.  */
+#define SHT_SUNW_move	  0x6ffffffa
