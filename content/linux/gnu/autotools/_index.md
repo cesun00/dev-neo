@@ -33,3 +33,30 @@ The generated `configure` upon invocation will:
 - `autom4te`: 
 - `autoconf`: 
 - `autoreconf`: 
+- `autoupdate`: 
+- `ifnames`: 
+
+the `automake` package
+========
+
+https://www.gnu.org/software/automake/
+
+
+`aclocal` and `automake` `usr/bin/`
+
+Automake is a seperate package.
+
+Historical projects manually maintain `Makefile.in`, instead of generated from `Makefile.am`.
+Invocation of the `configure` script will generate an actual `Makefile` from its `.in` template.
+See [sudo]() for an example
+
+people use autoconf to generate the `configure` script from a manually maintained `configure.ac`,
+but manually write their .
+
+`autoheader`: creates `config.h.in` from `configure.ac`
+================
+
+```m4
+AC_CONFIG_HEADERS(HEADERS...)
+```
+
