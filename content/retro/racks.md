@@ -30,3 +30,4 @@ Later digital laboratory practitioners started to put oscillator and .
 It has not been a long while since people started to put .
 Though nowadays people even refer
 For readers who had no idea how these racks work, 
+https://www.youtube.com/watch?v=u3JfCepkUbA
