@@ -23,3 +23,43 @@ The query and the response share the same format which always starts with a head
     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
     |QR|   Opcode  |AA|TC|RD|RA|   Z    |   RCODE   |   flags - see below
     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    QDCOUNT                    |   count of entries in question section; i.e. non-zero only in a query 
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    ANCOUNT                    |   count of RRs in the Answer section
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    NSCOUNT                    |   count of RRs in the Authority section
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+    |                    ARCOUNT                    |   count of RRs in the Additional section
+    +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+```
+
+{{<include-html "flags.html">}}
+
+The header is then followed by 4 optional sections:
+
+```goat
+    +---------------------+
+    |        Header       |
+    +---------------------+
+    |       Question      | QDCOUNT of question entries - the question for the name server
+    +---------------------+
+    |        Answer       | ANCOUNT of RRs answering the question
+    +---------------------+
+    |      Authority      | NSCOUNT of RRs pointing toward an authority
+    +---------------------+
+    |      Additional     | ARCOUNT of RRs holding additional information
+    +---------------------+
+```
+
+## Resource Records
+
+All of the answer, authority, and additional sections contain entries known as resource records.
+
+
+
+
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
+-------------------------------------------------
