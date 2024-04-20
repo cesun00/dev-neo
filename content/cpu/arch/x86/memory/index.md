@@ -392,3 +392,38 @@ virtual address space (VAS) is
 -
 
 
+----------------
+
+
+## Address
+
+A memory location is referenced by instruction in the following way:
+1. as immediate number interpreted as offset to the current
+
+## Segment
+
+A segment descriptor is a 64-bit structure
+
+Segment descriptors are stored in either of two kinds of descriptor table:
+- The global descriptor table (GDT)
+- A local descriptor table (LDT)
+
+## Dual Memory Perspectives
+
+80386 supports 2 interpretations of the physical from among which a running program can:
+1. In the "flat" model, program
+
+    TODO
+
+2. In the segmented model,
+
+    A complete pointer in this model consists of 2 parts:
+    1. a 16-bit segment selector selects a segment. During execution of a program, the processor associates with a segment selector the physical address of the beginning of the segment.
+    2. a 32-bit offset value gives the offset of the designated address into the selected segment.
+
+    This model allows programs to be written without worrying that relocation at runtime mess up the address when referring to address in the same segment. since all address are relative offset to the segment.
+    Inter-segment reference however does become a problem.
+
+
+
+<!-- ## Address Translation
