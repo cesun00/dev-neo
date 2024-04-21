@@ -30,3 +30,31 @@ A complex of flags can be used to determine what resources should be further dee
  * @size:  size of @uargs
  *
  * clone3() is the extensible successor to clone()/clone2().
+ * It takes a struct as argument that is versioned by its size.
+ *
+ * Return: On success, a positive PID for the child process.
+ *         On error, a negative errno number.
+ */
+SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
+{
+	int err;
+
+	struct kernel_clone_args kargs;
+	pid_t set_tid[MAX_PID_NS_LEVEL];
+
+	kargs.set_tid = set_tid;
+
+	err = copy_clone_args_from_user(&kargs, uargs, size);
+	if (err)
+		return err;
+
+	if (!clone3_args_valid(&kargs))
+		return -EINVAL;
+
+	return kernel_clone(&kargs);
+}
+```
+
+{{</columns>}}
+
+```c
