@@ -30,3 +30,37 @@ The static symbol table. &  string table of strings used in `.symtab`, i.e. symb
 These 2 sections 
 1. always appears in an `.o` file (relocatables), and 
 2. will be `strip`-ed by default, regardless of the ELF file type.
+3. are usually adjacent in an ELF file.
+
+### .dynstr & .dynsym
+
+## .dynamic
+
+If an ELF file participates in dynamic linking, its PHT will have an item of type `PT_DYNAMIC` which locates a segment containing only 1 section, 
+the `.dynamic` section.
+
+The kernel and dynamic linker will not inspect the SHT (nor the ELF header other than the entry point and PHT location, you can break the ELF file header in any other way and still make an executable work)and is not aware of any information about sections at run time.
+It obtain all its required information from `.dynamic`.
+The `.dynamic` section (and its dedicated segment) is meant to be the dynamic-linker-oriented index page of this ELF file.
+
+Consider this section the index page for dynamic linker.  
+This is the first place `ld.so` should go first for any information.
+
+<!-- This section and its dedicated segment will be inspected by the `ld.so` at run time. -->
+
+This section contains very much information, as this is the only approach to provide information to the dynamic linker.
+everything necessary for the dynamic linker to work, including
+Among others, this section gives to the `ld.so`:
+1. where is `.strtab`, for library names and SONAME indexes
+2. what other shared objects are required by this file
+3. where is `.dynsym` and (offset and size of `.dynstr`) , for symbols import / export
+4. `.rela.dyn` and `.relr.dyn`, relocation table, offset, total size, and entry size.
+5. misc
+  - where to find `.init` / `.fini` / `.init_arrray` / `fini_array` section
+  - the SONAME of this ELF file
+
+`.dynamic` section always resides in that dedicated segment, and contains a list of the following structures:
+
+```c
+/* Dynamic section entry.  */
+
