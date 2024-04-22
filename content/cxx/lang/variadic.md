@@ -59,3 +59,29 @@ int printx(const char* fmt...) {
     // 2. Initialization.
     va_start(args, fmt);
 
+    // 3. call va_arg with type
+    int a = va_arg(args, int);
+    double b = va_arg(args, double);
+    const char *const c = va_arg(args, const char*);
+
+    // 4. destruction
+    va_end(args, fmt);
+}
+```
+
+There is no limitation as for what can be used as arguments: primitive types, pointers, and `struct` instance.
+If the callee `va_args()` failed to expect, dirty data is read, and your program booms.
+
+### in C++
+
+The leading comma is omitted from C++'s standard syntax, but writting one is still allowed for C compatibility.
+C++ also allows variadic functions without leading named ordinary parameter, but portability of the compiled binary of such functions is not guaranteed.
+
+```c++
+int printx(const char* fmt...);
+int printx(const char* fmt, ...); // same as above.
+int printx(...); // allowed in C++ but not in C
+```
+
+#### access & implementation
+
