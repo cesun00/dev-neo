@@ -151,3 +151,39 @@ foo {
 ```
 
 ```sh
+# echo 'foo bar foo' | ./main
+nah nah nah
+ Entered EXAMPLE state.
+ see foo in the EXAMPLE state
+```
+
+The scanner starts working in a special state called `INITIAL`.
+Any rules without a start condition prefix are implicitly prefixed by `<INITIAL>`.
+To transfer to a different state, use the `BEGIN(sc)` special directive in the action code.
+
+- `BEGIN` an inclusive start condition `foo` activates all rules prefixed with `<foo>` and `<INITIAL>`, and deactivates every rule else.
+- `BEGIN` an exclusive start condition `bar` activates all rules prefixed with `<bar>` and deactivates every rule else.
+
+#### Scanner options
+
+Comments may not appear on an ‘%option’ line.
+
+### `rules` section
+
+This section contains lines of the following format, each known as a *rule*:
+
+```
+pattern     action
+```
+
+`pattern` is a POSIX extended regular expression (see `regex(7)`).
+See [Flex's manual](https://westes.github.io/flex/manual/Patterns.html#Patterns) for precise supported syntax.
+There must be no indentation before `pattern`.
+`pattern` ends at the first non-escaped whitespace character.
+
+`action` describes some action to carry out if the `pattern` matches a prefix starting at the head of the input stream.
+If there is more than 1 rule whose `pattern` matches, the one that matches the longest text is selected.
+`action` is either a single `|` (bar) character that repeats the action of the next rule,
+or a sequence of one of
+1. a C statement
+3. an `ECHO;` directive, which prints the content of `yytext` to the `yyout` file
