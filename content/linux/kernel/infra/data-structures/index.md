@@ -196,3 +196,8 @@ Operation on those data structure are declared in `include/linux/list.h`:
 struct hlist_head {
 	struct hlist_node *first;
 };
+
+struct hlist_node {
+	struct hlist_node *next, **pprev;
+};
+```
