@@ -215,3 +215,28 @@ The `ON` clause specify a bool expression e.g. `SELECT * FROM t0 JOIN t1 ON t0.b
 
 	If the `ON|USING ...` clause is presented, among all rows in the cartesian product, only those that matches the condition will be output.
 
+	`STRAIGHT_JOIN`: TODO
+
+- `LEFT [OUTER] JOIN ON|USING ...`
+
+	`ON|USING ...` clause must be presented.
+
+	For each row in the left table, for each row in the right table that matches the condition, a joined row is output. If no row from the right table matches, a joined row (current left table column , null row table column) will be output.
+
+- `RIGHT [OUTER] JOIN ON ...`
+
+	Same as `LEFT JOIN` but the other direction. Note that by exchanging position of the 2 tables, a `RIGHT JOIN` can always become `LEFT JOIN`.
+
+- `NATURAL [INNER] JOIN`
+	
+	Equivalent to `... t0 JOIN t1 USING(<all common column names in t0 and t1>)`.
+
+- `NATURAL LEFT [OUTER] JOIN`
+
+- `NATURAL RIGHT [OUTER] JOIN`
+
+- It's not a thing: `OUTER JOIN`/`FULL JOIN`/`FULL OUTER JOIN`
+
+	Mysql does not support `FULL JOIN`, `OUTER JOIN`, or `FULL OUTER JOIN` whatsoever. The fact that the SQL langauge was standardized too late is to blame.
+
+	When people use this type of join in Microsoft SQL Server, what they get is a inner join but:
