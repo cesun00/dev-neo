@@ -114,3 +114,31 @@ regardless of whether the unit is from a unit file / an instantiated template / 
 # list active / jobs-pending / failed units
 systemctl list-units <glob pattern>
 
+# 
+systemctl list-units --all <glob pattern>
+```
+
+### Print unit file by unit name
+
+```sh
+systemctl cat efi.mount
+```
+
+### list dependencies & dependants (i.e. reverse dependencies)
+
+```sh
+# list units that systemd-logind.service depends on
+systemctl list-dependencies systemd-logind.service
+# list units that depend on systemd-logind.service
+systemctl list-dependencies systemd-logind.service --reverse
+# Plot graph
+systemd-analyze dot systemd-logind.service | dot -Tsvg > logind.svg
+```
+
+## cgroup interoperability
+
+Systemd has moved away from cgroup v1. Only cgroupv2 behavior is discussed.
+
+If a unit spawn a process (e.g. service `ExecStart=`), systemd fork-exec the process into a new cgroup named after that unit.
+
+Processes spawned by each service unit live in their own cgroup named after the service unit.
