@@ -794,3 +794,34 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── starfive/
 │   │   ├── stm32/
 │   │   └── xilinx/
+│   ├── cxl/
+│   │   ├── core/
+│   ├── dax/
+│   │   ├── hmem/
+│   ├── dma/
+│   │   ├── dw/
+│   │   ├── hsu/
+│   │   ├── idxd/
+│   │   ├── mediatek/
+│   │   ├── qcom/
+│   │   ├── ti/
+│   │   └── xilinx/
+│   ├── dma-buf/
+│   ├── firewire/
+│   ├── firmware/
+│   │   ├── arm_ffa/
+│   │   ├── arm_scmi/
+│   │   ├── broadcom/
+│   │   ├── cirrus/
+│   │   ├── efi/
+│   │   │   ├── libstub/
+│   │   │   │   ├── lib.a
+│   │   ├── imx/
+│   │   ├── meson/
+│   │   ├── microchip/
+│   │   ├── psci/
+│   │   ├── qcom/
+│   │   ├── smccc/
+│   │   ├── tegra/
+│   │   └── xilinx/
+│   ├── gpu/
