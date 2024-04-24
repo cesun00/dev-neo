@@ -100,3 +100,32 @@ public class SomeService { }
 
 What JDK indeed is that...
 
+> "The annotation of my parent type is my annotation".
+
+Personally I would consider `@Inherited` a design flaw.
+Introducing more than 1 concept of other than direct-annotation into JDK tagging brings more confusion rather than convenience.
+
+
+
+Let's call the following construct an `annotation-definition`:
+
+```java
+public @interface MyAnnotation /*Neither `extends` nor `implements` is allowed there.*/ {}
+```
+
+An `annotation-definition` essentially introduced an `interface` whose only superinterface is `java.lang.annotation.Annotation`.
+No explicit parent is allowed.
+
+## What `java.lang.reflect` provides
+
+Meta-annotation is defined to be any annotation that can be tagged on an `annotation-definition`,
+i.e. annotations whose `@Target` contains `ElementType.ANNOTATION_TYPE`.
+
+This word is officially used by jdk's javadoc.
+
+## sdjsdlfsjdksdlkfjsldfkjasdflkasjfdlkjsdafjsalkdfj
+
+However, jdk assigns very little semantics to meta-annotation,
+i.e. what it means if an `annotation-definition` is tagged with another annotation.
+Without custom parser logics, an `@Foo public @interface Bar {}` is no different from `@Foo public class Zoo {}` - none of them cause code to execute.
+
