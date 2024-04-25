@@ -69,3 +69,34 @@ RELEASE_ALL_LOCKS()
 https://dev.mysql.com/doc/refman/8.0/en/lock-tables.html
 
 ```sql
+LOCK TABLE[S] <table> [READ|WRITE]
+```
+
+### Metadata Locking
+https://dev.mysql.com/doc/refman/8.0/en/metadata-locking.html
+
+### Row Locking
+
+### Range Lock (not a thing?)
+
+### Gap Lock
+
+### Locking vs Non-locking Read	
+
+Isolation Level
+---------
+
+Isolation level is the answer to the question: "Inside a transaction, to what extent can I observe the results of writes in other transactions that happen concurrently.
+
+InnoDB supports 4 isolation level, from the lowest protection to the highest:
+
+1. `READ UNCOMMITTED`
+
+	Under RU, reads in a transaction could see writes from other transactions even before those transactions are committed. This is dangerous since one might see partial result. Using RU requires special care.
+
+	The fact that reads inside a transaction see uncommitted writes from other transaction is called "dirty reads".
+
+2. `READ COMMITTED`
+
+	Under RC, reads in a transaction can only sees changes made by other transactions that have alread committed.
+
