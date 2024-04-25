@@ -96,3 +96,31 @@ An action is one of the following constructs:
 
 {{with pipeline}} T1 {{else}} T0 {{end}}
 	If the value of the pipeline is empty, dot is unaffected and T0
+	is executed; otherwise, dot is set to the value of the pipeline
+	and T1 is executed.
+```
+
+A `pipeline` is an expression that will be evaluated during the rendering. Its result will
+critically affect the branching or loop logic, or simply be sent to the output, depending on the action it is in.
+
+A `pipeline` is one of the following:
+- `Argument`
+- `.Method [Argument...]`: invoke 
+- `functionName [Argument...]`: 
+
+and an `Argument` is one of:
+
+- A boolean, string, character, integer, floating-point, imaginary or complex constant in Go syntax.
+
+    These behave like Go's untyped constants. Note that, as in Go, whether a large integer constant overflows when assigned or passed to a function can depend on whether the host machine's ints are 32 or 64 bits.
+
+- The keyword `nil`, representing an untyped Go `nil`.
+- The character '.' (period): . The result is the value of dot.
+- A variable name, which is a (possibly empty) alphanumeric string preceded by a dollar sign, such as $piOver2 or $ The result is the value of the variable. Variables are described below.
+- The name of a field of the data, which must be a struct, preceded by a period, such as .Field
+
+    The result is the value of the field. Field invocations may be chained: .Field1.Field2 Fields can also be evaluated on variables, including chaining: $x.Field1.Field2
+
+- The name of a key of the data, which must be a map, preceded by a period, such as .Key
+
+    The result is the map element value indexed by the key. Key invocations may be chained and combined with fields to any depth: .Field1.Key1.Field2.Key2 Although the key must be an alphanumeric identifier, unlike with field names they do not need to start with an upper case letter. Keys can also be evaluated on variables, including chaining: $x.key1.key2
