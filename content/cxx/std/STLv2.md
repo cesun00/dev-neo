@@ -262,3 +262,42 @@ e.g. in GNU's libstdc++, RAO `views::transform` is of type `struct _Transform : 
 
 
 companion concepts (type constraints)
+=============
+
+```c++
+// For object t of type T, T satisfies ... if
+ranges::borrowed_range          // specifies that a type is a range and iterators obtained from an expression of it can be safely returned without danger of dangling
+ranges::sized_range             // specifies that a range knows its size in constant time
+ranges::input_range             // specifies a range whose iterator type satisfies input_iterator
+ranges::output_range            // specifies a range whose iterator type satisfies output_iterator
+ranges::forward_range           // specifies a range whose iterator type satisfies forward_iterator
+ranges::bidirectional_range     // specifies a range whose iterator type satisfies bidirectional_iterator
+ranges::random_access_range     // specifies a range whose iterator type satisfies random_access_iterator
+ranges::contiguous_range        // specifies a range whose iterator type satisfies contiguous_iterator
+ranges::common_range            // specifies that a range has identical iterator and sentinel types
+ranges::constant_range          // specifies that a range has read-only elements
+```
+
+utility function templates
+===============
+
+Due to TAD, call to these function templates feels just like function.
+
+```c++
+ranges::begin       // returns an iterator to the beginning of a range
+ranges::end         // returns a sentinel indicating the end of a range
+ranges::cbegin      // returns an iterator to the beginning of a read-only range
+ranges::cend        // returns a sentinel indicating the end of a read-only range
+ranges::rbegin      // returns a reverse iterator to a range
+ranges::rend        // returns a reverse end iterator to a range
+ranges::crbegin     // returns a reverse iterator to a read-only range
+ranges::crend       // returns a reverse end iterator to a read-only range
+ranges::size        // returns an integer equal to the size of a range
+ranges::ssize       // returns a signed integer equal to the size of a range
+ranges::empty       // checks whether a range is empty
+ranges::data        // obtains a pointer to the beginning of a contiguous range
+ranges::cdata       // obtains a pointer to the beginning of a read-only contiguous range
+```
+
+type traits (meta programming helper)
+================
