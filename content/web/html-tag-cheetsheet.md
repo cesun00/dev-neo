@@ -66,3 +66,6 @@ Content wrapped by the `<noscript>` tag is treated as non-existent when JavaScri
     </p>
 </p>
 ```
+
+When HTML is manually written, nesting `p` tags can be easily avoided.
+Such a problem more often emerges when HTML is rendered as a result of a template engine, residing at either front-end side or back-end side.
