@@ -185,3 +185,29 @@ It is a 40-bit register consisting of 2 components:
 +-----------------------------------------+
 | base (24 bits)        | limit (16 bits) |         GDTR register
 +-----------------------------------------+
+```
+
+1. limit (bit 0 - 15): the size of the GDT in bytes minus 1.
+
+    The subtraction occurs since the max value of this field is 65535 while the GDT can be 65536 bytes in size.
+    Since each item of the GDT is 8 bytes, `limit + 1` is always a multiple of 8.
+
+2. base (bit 16 - 39): the 24-bit *physical address* where the GDT starts.
+
+    There is no paging in 80286, so the 24 bits in this field will be a real physical address.
+
+    The author doesn't find any requirement for alignment. Obviously, aligning on an 8-byte boundary certainly helps.
+
+The `GDTR` register is not accessible by ordinary data instructions.
+2 dedicated instructions `LGDT` and `SGDT` are designed for that purpose, and should only be used during "Protected Mode initialization".
+- `LGDT` (load GDT):
+- `SGDT` (store GDT):
+
+Subsequent alteration of the GDT base and size values by modifying GDTR is not recommended, though possible at the Ring 0 privilege level.
+
+By the definition above, `GDTR`, thus, locates a data structure in the memory called the Global Descriptor Table (GDT), which is a list of *descriptors*.
+A descriptor is always 8 bytes in size, and has the following format:
+
+```
+ 15                      7                       0
++-----------------------------------------------+
