@@ -63,3 +63,28 @@ All of the answer, authority, and additional sections contain entries known as r
 -------------------------------------------------
 -------------------------------------------------
 -------------------------------------------------
+-------------------------------------------------
+
+## Domain Name's Encoding in Message
+
+Wherever domain names needs to be nominated 
+
+For all occurrences of domain names in the protocol message, The DNS protocol uses length-prefixed strings for each dot-separated domain segment called "label":
+
+- 1 byte for length. Spec requires max length of a label to be 63 ASCII char, so 1 byte length is enough.
+- That number of ASCII chars.
+
+Since canonically all domain names end with an empty string segment, all valid sequence of segments ends with a `0`.
+
+e.g. `www.cise.ufl.edu.` are divided into 5 labels, ending with a label of empty string, and is presented as 
+
+```
+0x03 w w w
+0x04 c i s e
+0x03 u f l
+0x03 e d u
+0x00
+```
+
+## Question
+
