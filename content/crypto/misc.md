@@ -69,3 +69,32 @@ A block cipher embodies a random permutation generator....
 Certificate Store is Windows's abstraction for security-sensitive information storage, e.g. SSL certificates.
 
 Windows support 2 certificate stores, a user-specific one and a system-wide one, search for `manage user/computer certificates` in startup respectively. (The latter requires admin privilege.)
+
+Both certificate store is actually backed by the registry.
+
+[Charles guide](https://www.charlesproxy.com/documentation/using-charles/ssl-certificates/) mentions:
+
+> The certificate must be imported into the "Trusted Root Certification Authorities" certificate store, so override the automatic certificate store selection.
+
+Note every application respect Windows' native certificate store. Chrome maintain its own internal Root CA list, and don't give a shit to Windows cert store.
+
+https://www.venafi.com/blog/exploring-chromes-new-root-store-trust-vs-complexity
+https://www.zdnet.com/article/chrome-will-soon-have-its-own-dedicated-certificate-root-store/
+
+TODO: explain fields
+
+![](./win-cert.png)
+
+
+one-time pad - lacing secret into plaintext
+==============
+
+If alice and bob have a shared secret `k` of `n` bits, alice can send secretly (we'l discuss the definition later) a plaintext `m` of also `n` bits to bob by sending:
+
+```
+c = m ⊕ k
+```
+
+and bob can obtain the original `m` by:
+
+```
