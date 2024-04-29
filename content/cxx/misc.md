@@ -398,3 +398,43 @@ int main() {
 ```
 
 Combined, this is a well-formed c99 program:
+
+```c
+#include <stdio.h>
+
+static void foo() {puts("foo");}
+
+static void bar1(void f(void)) { f(); }
+static void bar2(void (*f)(void)) { f(); }
+
+int main() {
+    bar1(foo);
+    bar1(&foo);
+    bar2(foo);
+    bar2(&foo);
+    return 0;
+}
+```
+
+## C++
+
+
+compile-time dependency
+===========
+
+A translation unit accesses functionalities (functions, classes, type definitions, etc) from other translation units by including headers containing declaration of those functionalities. The most common scenario is a client program including headers from third-party libraries.
+
+A client's translation unit is said to have compile-time dependency on a library header if modification in the library header (due to the library being updated) potentially induces a recompilation of the translation unit. Otherwise, it suffices to update the whole program by simply relinking.
+
+Compile-time dependency happens when library headers expose non-(runtime-)polymorphic types (i.e. "concrete" types rather than references and pointers) used by clients.
+
+Library designed `Foo` to hold some data and expose an iterator, with the hope that clients use `Foo` as a collection of items without caring about the *implementation details*, specifically, type of the underlying data container (thus type of iterator), in this case `vector`.
+
+```c++
+// library header
+class Foo {
+public:
+    using iterator = std::vector<int>::iterator;
+    iterator begin() const;
+    iterator end() const;
+private:
