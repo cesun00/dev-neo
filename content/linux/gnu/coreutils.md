@@ -70,3 +70,37 @@ math
 
 - `cat`
 - `tac`
+- `cut`
+- `split`
+- `sort`
+- `uniq`
+- `comm`: compare sorted files
+- `expand`: convert TAB to spaces
+- `unexpand`
+- `head`
+- `tail`
+- `tr`: TRanslate or delete characters
+- `truncate`: truncate or extend file content to a given size
+- `shred`: 
+- `wc`
+- `fmt`: reformat each line in a text file to a certain max width without breaking English words.
+- `fold`: like fmt
+- `tsort`: interpret input as dependency description and perform a topological sort
+- `shuf`: shuffle the lines from stdin
+- `od`: octal and hex dump
+
+## env
+
+- `printenv`
+- `env`
+
+## misc
+
+- `date`
+- `dircolors`
+- `echo`
+- `seq`
+- `timeout`
+- `sleep`
+- `tee`: copy stdin to stdout and to a file
+- `pwd`
