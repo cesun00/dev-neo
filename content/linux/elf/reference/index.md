@@ -151,3 +151,29 @@ are critical metadata about this ELF file.
 
 Target CPU ISA (instruction set architecture). Some examples are:
 
+```c
+/* Legal values for e_machine (architecture).  */
+
+#define EM_NONE		 0	/* No machine */
+#define EM_SPARC	 2	/* SUN SPARC */
+#define EM_386		 3	/* Intel 80386 */
+
+#define EM_ARM		40	/* ARM */
+
+#define EM_X86_64	62	/* AMD x86-64 architecture */
+
+#define EM_BPF		247	/* Linux BPF -- in-kernel virtual machine */
+#define EM_CSKY		252     /* C-SKY */
+
+#define EM_NUM		253
+```
+
+### `e_version`
+
+The same as `e_ident[EI_VERSION]`, must be `EV_CURRENT=1`.
+
+### `e_entry`
+
+- For executable, `e_entry` holds memory address of the first instruction where the process start executing. Kernel will set the `PC` register to `e_entry` after loading is finished.
+- Otherwise, this field must hold 0.
+
