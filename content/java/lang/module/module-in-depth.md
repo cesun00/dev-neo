@@ -29,3 +29,33 @@ A module path is a colon-separated (semicolon-separated on Windows) string where
 2. path to a directory that directly contains module definitions; In this case, it's an error to have 2 modules of the same name in the directory.
 
 For a single module path, its items are inspected from left to right when searched for a module by its name,
+and the first occurrence will take precedence.
+
+In practice, different tools have different options where more than 1 module path can be specified.
+Precedence also exists among these module paths. We will look into these tools one by one.
+
+For convenience of discussion, the phrase *the universe of observable modules* is used to refer to 
+all visible modules found on the module paths after precedence applies, given an invocation of a specific tool.
+
+The Compiler `javac`
+============
+
+An invocation of the compile follows the patterns:
+
+```sh
+javac   --module-source-path ...    \       # mandatory, the *compilation module path*
+        --upgrade-module-path ...   \       # optional, the *upgrade module path*
+        --system ...                \       # optional, use alternative system module image
+        --module-path ...           \       # optional, the *application module path*
+        -m ...
+```
+
+where the 4 first options specify the *compile-time module paths*, and `-m` specifies the module to be compiled.
+
+A module is searched in the following order:
+1. `--module-source-path`, **must** be a directory whose direct children are module definitions. (i.e. the 2nd definition of module path)
+2. `--upgrade-module-path`, if given. This module path is used to shadow certain modules over system modules.
+3. *system modules*, defined as either
+    1. `--system <path>`, if given; otherwise
+    2. the default module image shipped with the JDK release will be used; in all current JDKs I'm aware of, it's the `lib/modules` file.
+4. `--module-path`, if given. This module path is used to reference all compiled library modules.
