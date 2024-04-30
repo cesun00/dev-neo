@@ -68,3 +68,34 @@ and it will inherit from an empty `view_interface` base.
 | member function ... | return                       | viable if ...                                                                                 |
 |---------------------|------------------------------|-----------------------------------------------------------------------------------------------|
 | empty               | emptyness test               | `D` satisfies `sized_range` or `forward_range`                                                |
+| operator bool       | non-emptyness test           | `ranges::empty(d)` compiles                                                                   |
+| data                | raw pointer to first element | iterator type of `D` satisfies `contiguous_iterator`                                          |
+| size                | number of elements           | `D` satisfies `forward_range` and its sentinel and iterator type satisfy `sized_sentinel_for` |
+| front               | reference to first element   | `D` satisfies `forward_range`.                                                                |
+| back                | reference to last element    | `D` satisfies `bidirectional_range` and `common_range`.                                       |
+| operator[]          | reference to nth element     | `D` satisfies `random_access_range`.                                                          |
+
+```c++
+//                      V    use public inheritance
+class MyStringView : public std::ranges::view_interface<MyStringView> {};
+```
+
+## core concept `ranges::viewable_range`
+
+A very funny observation is that `std::vector<int>` satisfies `range`, but is expensive to copy, so it doesn't satisifes `view`.
+On the other hand `std::vector<int>&` is cheap to copy, and satisfies `range` as well - it's almost a `view` - except that
+`view` concept requires `std::movable` which requires object type, thus all reference types are ruled out.
+
+But it doesn't rule out man-made reference - `reference_wrapper`-alike pimpl wrapper for `range`.
+
+Class template `ranges::ref_view` does exactly that:
+hold a pointer/reference to a `range` and delegate calls (e.g. `begin()`, `end()`) to the referenced object.
+
+For whatever `T` that satisfies `range`, `ranges::ref_view<T>` satisfies `view`.
+It's instances are small thus cheap to move. For x86_64 libstdc++ it's always size of a pointer, i.e. 8 byte.
+
+Due to the referencing nature of `ref_view`, and the referencing nature of all `view`, its usage is vulnerable to dangling when the underlying range destructs first.
+It's programmer's responsibility to guarantee that a `view` does not outlive its underlying (`view` or non-`view`) `range`.
+
+`ref_view` ctor takes any `range`, apparently when the argument is an rvalue expression, it dangles immediately:
+
