@@ -30,3 +30,35 @@ Actually, I'm against the usage of `-z` in all cases. It has strange behavior:
 {{<columns>}}
 
 For input file:
+
+```sh
+# $ cat in.txt 
+foo
+bar
+bar
+```
+
+<--->
+
+and pattern 'foo<LF>bar', `grep` considers the second `bar` to be part of a match:
+
+```sh
+# $ grep -z $'foo\nbar' in.txt
+foo
+bar
+bar
+```
+
+{{</columns>}}
+
+{{</card>}}
+
+
+
+
+{{<card "warn">}}
+
+`sed` does not support Perl RE, thus there is no non-greedy qualifier like `*?` or `+?` etc.
+
+However, there is a wonderful technique that allows you to be non-greedy matching a region of text if that region has an explicit
+end mark, e.g. a `/* */` comment:
