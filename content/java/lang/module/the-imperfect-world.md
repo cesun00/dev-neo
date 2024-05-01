@@ -27,3 +27,38 @@ We won't differentiate the reasons below, and refer to both case as non-modular 
 
 Java 9 must supports such practices; Specifically,
 1. the old `--classpath` 
+
+
+
+The Unnamed Module
+============
+
+If any classes are loaded via the old `--classpath` manner, they are put into a module known as the *unnamed module*, so that
+they fit into *the universe of observable modules*, instead of as individual classes.
+
+Those non-modular code doesn't have a `module-info.java`.
+To cooperate with the module system, some rules apply:
+
+1. The unnamed module `requires` every other observable module.
+
+    This allows module-unaware code to use all `exports`-ed API from modules, including the modular JDK.
+
+2. The unnamed module `exports` and `opens` all of its packages.
+
+    > It does not, however, mean that code in a named module can access types in the unnamed module.
+    > A named module cannot, in fact, even declare a dependence upon the unnamed module.
+
+    
+
+Automatic Modules
+=============
+
+If a non-modular jar, exploded or not, is loaded into the universe of observable modules by `--module-path` or alike,
+it becomes a module automatically, known as an automatic module.
+
+The name of an automatic module is determined by:
+1. the jar file's `Automatic-Module-Name` header, if any; or
+2. deriving from the jar file name on the filesystem
+
+An automatic module
+1. `requires` every other observable module, including the unnamed one
