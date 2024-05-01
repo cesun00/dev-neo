@@ -353,3 +353,43 @@ struct thread_info {
 
 	unsigned long			atomic_flags; /* Flags requiring atomic access. */
 
+	struct restart_block		restart_block;
+
+	pid_t				pid;
+	pid_t				tgid;
+
+#ifdef CONFIG_STACKPROTECTOR
+	/* Canary value for the -fstack-protector GCC feature: */
+	unsigned long			stack_canary;
+#endif
+	/*
+	 * Pointers to the (original) parent process, youngest child, younger sibling,
+	 * older sibling, respectively.  (p->father can be replaced with
+	 * p->real_parent->pid)
+	 */
+
+	/* Real parent process: */
+	struct task_struct __rcu	*real_parent;
+
+	/* Recipient of SIGCHLD, wait4() reports: */
+	struct task_struct __rcu	*parent;
+
+	/*
+	 * Children/sibling form the list of natural children:
+	 */
+	struct list_head		children;
+	struct list_head		sibling;
+	struct task_struct		*group_leader;
+
+	/*
+	 * 'ptraced' is the list of tasks this task is using ptrace() on.
+	 *
+	 * This includes both natural children and PTRACE_ATTACH targets.
+	 * 'ptrace_entry' is this task's link on the p->parent->ptraced list.
+	 */
+	struct list_head		ptraced;
+	struct list_head		ptrace_entry;
+
+```
+
+### externalized
