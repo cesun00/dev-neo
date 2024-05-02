@@ -221,3 +221,12 @@ int printx(const char* fmt, ...); // function declared this way
 
 // the variadic function can be called like:
 int main() {
+    printx("hello world");     // may be called with one
+    printx("a=%d b=%d", a, b); // or more arguments
+}
+```
+
+The fact that `...` must follow at least one named parameter make possible a way for the callee..
+some think ... but not fuckckckckck
+
+## Syscalls
