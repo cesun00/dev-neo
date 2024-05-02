@@ -34,3 +34,23 @@ GitHub provides 2 types of Personal Access Token (PAT):
 
     Cloning other people's public repos on GitHub via a fine-grained PAT is not allowed.
 
+## Generate & Use a Classic PAT
+
+Create and manage classic PAT at https://github.com/settings/tokens/
+
+A PAT looks like `ghp_PKDYyo5frcRQVymUjZI8xxxxxxxxxxxxxxxxxxx` and will be only displayed once after generated.
+
+This token must be input as the password when prompted, while the username input is ignored; since
+the token by itself identifies your ownership of your GitHub account.
+
+```sh
+git clone https://github.com/USERNAME/REPO.git
+Cloning into 'REPO'...
+Username for 'https://github.com': foo
+Password for 'https://foo@github.com':  # paste your token here
+remote: Repository not found.
+fatal: repository 'https://github.com/USERNAME/REPO.git/' not found
+```
+
+Storing the token and paste every time prompted sounds cumbersome.
+[Credential helpers]({{<ref "./credentials.md">}}) are git's official solution to this.
