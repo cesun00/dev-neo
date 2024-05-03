@@ -66,3 +66,38 @@ netgroup: files
 ### Redhat VM
 
 ```conf
+passwd:         files sss
+group:          files sss
+shadow:         files sss
+gshadow:        files sss
+
+hosts:          files mdns4_minimal [NOTFOUND=return] dns mymachines
+networks:       files
+
+protocols:      db files
+services:       db files
+ethers:         db files
+rpc:            db files
+
+netgroup:       sss
+automount:      sss
+```
+
+{{</columns>}}
+
+## glibc's behavior
+
+For glibc, the following database names are recognized:
+
+{{<include-html "db.html">}}
+
+For each `SERVICE` mentioned for a given database, glibc will `dlopen(3)` a shared object named `libnss_SERVICE.so.X`,
+whose code is responsible for providing actual answers to queries against the database.
+
+These are some commonly seen services and their shared objects:
+
+{{<include-html "so.html">}}
+
+On my system, these are installed:
+
+```sh
