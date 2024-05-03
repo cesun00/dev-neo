@@ -164,3 +164,36 @@ Spring's definition of "what annotations are *tagged* onto a class" is represent
 The idea is that `MergedAnnotations.from(clazz)` returns an `MergedAnnotations` instance 
 which answers queries in a fashion consistent with Spring's meta-annotation ideology.
 
+`from()` is parameterized by a `SearchStrategy` enum
+
+```java
+
+```
+
+`interface MergedAnnotation<T extends Annotation>` 
+
+`MergedAnnotation<T>` is implemented by object that can provides information
+
+`interface MergedAnnotations`
+
+## Scenario
+
+Spring parses annotations on various java construct for the following purpose:
+1. for annotations on `class`
+2. ... on `@interface`: in order to support Spring's meta-annotation mechanism.
+3. ... on 
+4. ... on methods:
+5. ... on method parameters: e.g. `@PathVariable` in mvc
+
+
+
+
+
+
+OLD
+===============================================================
+org.springframework.util.ReflectionUtils
+org.springframework.core.annotation.AnnotationUtils
+org.springframework.core.type.classreading.MetadataReader
+
+
