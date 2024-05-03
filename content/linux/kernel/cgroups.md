@@ -62,3 +62,41 @@ cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid,nodev,noexec,relatime,nsdelega
 ```
 
 You can mount the same FS instance at your arbitrary mounting point by calling `mount(2)` with:
+
+```c
+mount("dummy", "path/to/mounting/point", "cgroup2", flags)
+```
+
+or use the equivalent `mount(8)` command.
+
+```sh
+mount -t cgroup2 dummy ${MOUNT_POINT}
+```
+
+Each mount of `cgroup2` always rebinds the same one.
+
+*There is no syscalls designed specifically for cgroups.*
+The cgroup2 VFS is meant to be the *only* interface to users.
+
+The `${MOUNT_POINT}` directory will represent the nameless root cgroup, i.e. the one initially all processes are in.
+
+Recursively:
+- File entries with name `cgroup.*` describes attributes of the cgroup represented by pwd.
+- File entries with name `<controller>.*` describes controller-specific attributes for controllers effective at this cgroup.
+- Directories entries represent direct child cgroups.
+
+File / Filesystem operation on this VFS changes the cgroup configuration of the running system, namely
+1. `mkdir` creates a new children cgroup of the cgroup represented by `pwd`; the kernel will populate default files after a new cgroup has been `mkdir`-ed.
+2. reading from / writing to various files reads / changes the configuration of a cgroup.
+
+Only leaf cgroups and the root cgroup can contain processes; all other cgroups are organization nodes, with no process in it (i.e. empty `cgroup.procs` file)
+
+### VFS entries
+
+1. `cgroup.*` files represent cgroup metadata
+2. `<controller>.*` files represents controller-specific informations
+	- `cpu.*`
+	- `memory.*`
+3. subdirectories represents children cgroups
+
+- `cgroup.controllers`: a read-only file that lists all controllers that *may* be enabled for this cgroup.
