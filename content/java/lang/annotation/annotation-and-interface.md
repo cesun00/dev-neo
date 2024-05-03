@@ -34,3 +34,32 @@ Annotation is defined with the `@interface` syntax, and there is a reason.
 Beyond their kindred origin, at langauge level each `interface @Foo {...}` behaves almost exactly the same as an `interface Foo extends java.lang.annotation.Annotation {}`:
 
 1. You can check the subinterface relationship with reflection:
+
+    ```java
+    System.out.println(BaseAnno.class.isInterface()); // true
+    Arrays.stream(BaseAnno.class.getInterfaces()).forEach(System.out::println);  //interface java.lang.annotation.Annotation
+    ```
+
+2. Since `interface Annotation` defines 4 methods (3 of which are implemented by `Object`), and `Foo` is effectively an empty subinterface, you can actually have implementation class of `Foo`.
+
+    `java.lang.annotation.Annotation` looks like:
+
+    ```java
+    public interface Annotation {
+        // effectively the only method an implementation must provide
+        Class<? extends Annotation> annotationType();
+
+        // always implemented by all `Object`s, but listed here for distinct semantics requirement.
+        boolean equals(Object obj);
+        int hashCode();
+        String toString();
+    }
+    ```
+
+    Now feels this black magic:
+
+    ```java
+    @interface FooTag {}
+
+    // it's weird to have implementation of annotation, but legal
+    class FooTagImpl implements FooTag {
