@@ -248,3 +248,28 @@ For a segment descriptor (S=1):
     1. `A`: ACCESSED. A set bit indicates 
     2. `type`: segment type and access information.
     3. `DPL`: Descriptor Privilege Level. 
+    4. `P`: Present. TODO
+
+The first entry in the GDT must be filled with 0, indicating an invalid descriptor.
+The first valid descriptor thus starts at offset 8.
+
+[80286 is designed with support for multitasking.]({{<ref "../multitasking.md">}})
+A Local Descriptor Table (LDT) is the task-specific equivalence of the GDT.
+Each task has its own LDT, meaning that there will be multiple LDTs across the memory of the whole system,
+while there is only a unique GDT shared by all tasks.
+
+An LDT has an identical structure to the GDT, except that its first entry is also a valid descriptor.
+The LDT of a task is located by the `LDTR` register, which is a 56-bit register of the following format:
+
+```
+ 55                39                       15             0
++---------------------------------------------------------+
+| 16-bit selector | 24-bit base            | 16-bit limit |
++---------------------------------------------------------+
+```
+
+Only the 16-bit selector part is visible to the program.
+For each task, the `LDTR` register is only accessible via 2 special instructions `SLDT` and `LLDT`.
+Loading a new value for `LDTR` automatically load the invisible base and limit part from ... TODO
+
+
