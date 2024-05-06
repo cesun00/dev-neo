@@ -85,3 +85,38 @@ In our `write` case, `INLINE_SYSCALL_CALL(write, fd, buf, nbytes)` intermediatel
   INLINE_SYSCALL (name, 4, a1, a2, a3, a4)
 #define __INLINE_SYSCALL5(name, a1, a2, a3, a4, a5) \
   INLINE_SYSCALL (name, 5, a1, a2, a3, a4, a5)
+#define __INLINE_SYSCALL6(name, a1, a2, a3, a4, a5, a6) \
+  INLINE_SYSCALL (name, 6, a1, a2, a3, a4, a5, a6)
+#define __INLINE_SYSCALL7(name, a1, a2, a3, a4, a5, a6, a7) \
+  INLINE_SYSCALL (name, 7, a1, a2, a3, a4, a5, a6, a7)
+```
+
+Finally, after all this detour, we reached at
+
+```c
+#define INLINE_SYSCALL(name, nr, args...) __syscall_##name (args)
+```
+
+which calls a real C function `__syscall_write(fd, buf, nbytes)`.
+
+All the bothering above is a (sort of common black magic) pattern in the C preprocessor programming to overload a function macro on the number of arguments. [See this SO post for details.](https://stackoverflow.com/questions/11761703/overloading-macro-on-number-of-arguments)
+
+Now let's look at how the C function `__syscall_write()` is implemented.
+
+### `syscalls.list` and `make-syscalls.sh`
+
+
+## misc
+
+
+
+
+
+```c
+/* Issue a syscall defined by syscall number plus any other argument
+   required.  Any error will be returned unmodified (including errno).  */
+#define INTERNAL_SYSCALL_CANCEL(...) \
+  ({									     \
+    long int sc_ret;							     \
+    if (NO_SYSCALL_CANCEL_CHECKING) 					     \
+      sc_ret = INTERNAL_SYSCALL_CALL (__VA_ARGS__); 			     \
