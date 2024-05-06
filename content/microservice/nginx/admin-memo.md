@@ -125,3 +125,31 @@ Nginx use this syntax as a shortcut, and the following lines are identical:
 server_name .example.com;                   # shortcut for
 server_name example.com *.example.com;
 ```
+
+Perl (?) regex starts with `~`:
+
+```nginx
+server {
+    server_name www.example.com ~^www\d+\.example\.com$;
+}
+```
+
+With (named) capture groups:
+
+```nginx
+server {
+    server_name ~^(www\.)?(?<domain>.+)$;
+
+    location / {
+        root /sites/$1/$domain;
+    }
+}
+```
+
+If multiple rules match an incoming request, the priority is:
+
+1. exact match
+2. longest matching prefix glob
+3. longest matching suffix glob
+4. first matching regex in config literal order after include.
+
