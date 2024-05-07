@@ -123,3 +123,30 @@ int main() {
 }
 ```
 
+
+
+## ways to Lazy Init
+
+Lazy initialization refer to the fact that:
+
+If our only intention is to lazy initialize a data member or local variable, since C++ 17 we can use the std::optional. This free us from the usage of heap memory (to be more precise, the usage of a pointer to separate heap memory, since the host class itself might be already in the heap, in which case you can't avoid the heap anyway), and express our intention of lazy init explicitly.
+
+A deeper implication is that, it also enable a variable to escape its scope:
+
+### pointer or `unique_ptr`
+
+pro: little space on stack
+con: pay for heap allocation and pointer indirection per access.
+
+### non-initializer object (stack only)
+
+### `std::optional`
+
+`std::optional` can be used to pre-occupy stack space without initialize it.
+
+
+This is equivalent to
+
+```
+struct foo {
+    char value[100];
