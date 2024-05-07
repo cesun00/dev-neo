@@ -192,3 +192,38 @@ All targets are supposed to be file names, except
     ```
 
     This is indeed a weird syntax, reflecting the early coarse design of the Makefile syntax.
+    Here is a technique the Linux kernel uses to alleviate the syntax:
+
+    ```makefile
+    # declare a variable PHONY
+    PHONY := __all
+
+    # incrementally build the PHONY variable 
+    PHONY += $(MAKECMDGOALS) __sub-make
+    PHONY += $(MAKECMDGOALS) __build_one_by_one
+    PHONY += scripts_basic
+    PHONY += outputmakefile
+    PHONY += all
+    PHONY += include/config/auto.conf
+    PHONY += prepare0
+    # omitting ...
+
+    # finally
+    .PHONY: $(PHONY)
+    ```
+
+- those not found on the filesystem eventually
+
+The overall idea is that **PHONY targets are ALWAYS considered out-of-date**. This implies:
+
+1. Recipes of a PHONY rule will always run regardless its prerequisites is considered out-of-date or not.
+2. If a target has PHONY prerequisites, those PHONY will always
+
+| target(T) \ prerequiresite(P) | file                                     | phony                         |
+|-------------------------------|------------------------------------------|-------------------------------|
+| file                          | remake T if `mtime` of P is newer than T | P always run; T always remake |
+| PHONY                         | T always run                             | P always run; T always run    |
+
+
+## Types of (file) Prerequisites
+
