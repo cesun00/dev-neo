@@ -51,3 +51,31 @@ A `format_string` is a whitespace separated list of `format_unit`, defined as fo
     %[width][.precision]x       # hex integer
 ```
 
+Algorithmically:
+
+```
+while (EOF not reached) {
+    for each (<format_unit> consists of <iter_count>, <byte_count>, <format>) {
+        loop (<iter_count> times) {
+            byte buffer[] := consume <byte_count> bytes from source
+            interpret buffer[] bytes according to <format>
+        }
+    }
+}
+```
+
+## `xxd` (vim)
+
+```sh
+xxd <infile> <outfile>
+xxd -r <infile> <outfile>
+```
+
+`xxd` program converts between arbitrary bytes and its textual hexdump.
+
+`xxd` is particularly useful when one wants to perform bit dump:
+
+```sh
+# print the most significant bit of each byte first.
+xxd -b <infile>
+```
