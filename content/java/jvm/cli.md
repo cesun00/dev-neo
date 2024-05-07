@@ -26,3 +26,27 @@ OpenJDK HotSpot CLI Flags
 -----------------
 
 Flags prefixed by `-X` are extra options; Flags prefixed by `-XX:` are further advanced options for JVM.
+
+## heap size
+
+k/K, m/M, g/G suffix unit are supported, and stand for mean 10-based kilobytes/megabytes/gigabytes. If no suffix, the unit is byte.
+
+- `Xms size`: specify both min and initial size of heap.
+
+    Must be a multiple of 1024 and greater than 1MB. `-XX:MinHeapSize` and `-XX:InitialHeapSize` gives you control of higher granularity than this flag.
+
+- `-Xmx size`: max size of heap.
+
+    Must be a multiple of 1024 and greater than 2MB.
+
+## VM stack size
+
+Each JVM thread has its private stack space, its size defaults to 1MiB, and can be changed by 
+
+- `-Xss size`
+    
+    `size` is in bytes, and can has unit suffix `kK/mM/gG` for KiB/MiB/GiB.
+
+- `-XX:ThreadStackSize=size`
+
+    Similar to `-Xss`, except that `size` here is in KiB without suffix. So `-XX:threadStackSize=1024k` set the stack size per thread to 1 MiB.
