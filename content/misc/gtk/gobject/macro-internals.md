@@ -101,3 +101,40 @@ interface and implementation combo
 
 1. DECLARED `void t_comparable_default_init(TComparableInterface *)`; User must provide implementation later.
 2. DEFINED `GType t_comparable_get_type(void)`; which register `TComparable` type and use `t_comparable_default_init` as class_init function.
+
+## `G_DEFINE_TYPE_WITH_CODE (TInt, t_int, T_TYPE_NUMBER, snippet)`
+
+Like `G_DEFINE_TYPE`, i.e. mainly implements the `foo_bar_get_type` function,
+Additionally, this macro insert `snippet` into the `*_get_once*()` implementation prior to its return.
+
+`snippet` is usually `G_IMPLEMENT_INTERFACE`, so that the defined type is also registered to implement an interface.
+
+### `G_IMPLEMENT_INTERFACE(FOO_TYPE_BAR, foo_bar_interface_init)`
+
+`G_IMPLEMENT_INTERFACE` fills a `GInterfaceInfo` structure and call `g_type_add_interface_static` with it.
+
+```c
+// G_IMPLEMENT_INTERFACE (T_TYPE_COMPARABLE, t_comparable_interface_init)
+// expands to
+
+{
+  const GInterfaceInfo g_implement_interface_info = {
+      (GInterfaceInitFunc)(void (*)(void))
+      t_comparable_interface_init,
+      NULL,
+      NULL,
+  };
+
+  g_type_add_interface_static(g_define_type_id, (t_comparable_get_type()), &g_implement_interface_info);
+}
+```
+
+
+### `G_ADD_PRIVATE(FooBar)`
+
+Simply initialize `FooBar_private_offset`, which is defined by `G_DEFINE_TYPE_WITH_PRIVATE` as an static global `gint`.
+
+```c
+// expands to
+{
+  FooBar_private_offset =
