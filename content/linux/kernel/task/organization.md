@@ -37,3 +37,8 @@ termios(3)), then only the foreground job may write to the terminal;  writes  fr
 ground  jobs cause a SIGTTOU signal to be generated, which suspends the job.  When termi‐
 nal keys that generate a signal (such as  the  interrupt  key,  normally  control-C)  are
 pressed, the signal is sent to the processes in the foreground job.
+
+Controlling terminal will 
+
+Controlling terminal is very different from the terminal associated with `stdin` (if any) of a process.
+
