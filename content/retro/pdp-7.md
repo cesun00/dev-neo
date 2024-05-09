@@ -124,3 +124,25 @@ Beyond this basic stock setup, user can optionally connect DEC modules. like a m
 
 ## memory
 
+coincident-current core
+
+cycle time = 1.75 µs
+
+In one cycle the memory control retrieves a single word from in the memory cell specified by the `MA` register into the `MB` register,
+
+Apparently a basic PDP–7 system could consist solely of 
+a type KA77A processor, 
+149 core memory stack and
+ a type KA71A I/O package 
+ 
+ and cost $45,000 in 1965
+
+
+DEC TYPE LIST
+=============
+
+- `TYPE 1xxx` are
+
+TYPE 1501
+TYPE 1502
+TYPE 1703
