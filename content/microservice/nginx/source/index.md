@@ -170,3 +170,34 @@ It's confusing that nginx puts all source files together. You don't know which f
 Each module has a type, marked by the `type` member of the `ngx_module_t`. It's meant to be one of the following macro:
 
 ```c
+// core/ngx_conf_file.h
+#define NGX_CORE_MODULE      0x45524F43  /* "CORE" */
+#define NGX_CONF_MODULE      0x464E4F43  /* "CONF" */
+
+// http/ngx_http_config.h
+#define NGX_HTTP_MODULE           0x50545448   /* "HTTP" */
+
+// event/ngx_event.h
+#define NGX_EVENT_MODULE      0x544E5645  /* "EVNT" */
+
+// mail/ngx_mail.h
+#define NGX_MAIL_MODULE         0x4C49414D     /* "MAIL" */
+
+// stream/ngx_stream.h
+#define NGX_STREAM_MODULE       0x4d525453     /* "STRM" */
+```
+
+The **only** module of type `NGX_CONF_MODULE` is a module named `ngx_conf_module` in `core/ngx_conf_file.c`.
+
+Also, all modules of the same types shares the same:
+
+- data type of module private data (but different instance)
+- conf parse & init function
+
+### Module Private Data 
+
+For a given module of type `NGX_X_MODULE` (X be one of `CORE|HTTP|EVENT|MAIL|STREAM`), its global `ngx_module_t` instance contains a member `void *ctx` that points to a `static` global instance of type `ngx_x_module_t` named `ngx_x_module_ctx`.
+
+## Logging Facilities
+
+The form of logging functions heavily depends on if variadic macros are supported. On my system those 2 are defined to 1 in `ngx_auto_config.h`:
