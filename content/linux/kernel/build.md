@@ -493,3 +493,35 @@ Using an explicit `make ARCH=...` is mandatory if you are cross-compiling the ke
 SRCARCH 	:= $(ARCH)
 
 # Additional ARCH settings for x86
+ifeq ($(ARCH),i386)
+        SRCARCH := x86
+endif
+ifeq ($(ARCH),x86_64)
+        SRCARCH := x86
+endif
+
+# Additional ARCH settings for sparc
+ifeq ($(ARCH),sparc32)
+       SRCARCH := sparc
+endif
+ifeq ($(ARCH),sparc64)
+       SRCARCH := sparc
+endif
+
+# Additional ARCH settings for parisc
+ifeq ($(ARCH),parisc64)
+       SRCARCH := parisc
+endif
+```
+
+`SRCARCH` is used whenever architecture-dependent sources need to be referenced in the `Makefile`s or  `Kconfig` files:
+
+
+```sh
+# arch/Kconfig
+
+# Note: arch/$(SRCARCH)/Kconfig needs to be included first so that it can
+# override the default values in this file.
+#
+source "arch/$(SRCARCH)/Kconfig"
+```
