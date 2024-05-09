@@ -67,3 +67,25 @@ Unless a `DEVEL` make variable is set to a non-empty string, these file will not
 
 The following executables are produced as defined by `Makefile.in`.
 Unfortunately, source files of each binary are clogged in the same directory, instead of nicely having their own dirs.
+
+visudo
+cvtsudoers
+sudoreplay
+testsudoers
+tsdump
+check_addr
+check_base64
+check_digest
+check_editor
+check_env_pattern
+check_exptilde
+check_fill
+check_gentime
+check_iolog_plugin
+check_serialize_list
+check_starttime
+check_unesc
+check_symbols
+fuzz_policy
+fuzz_sudoers
+fuzz_sudoers_ldif
