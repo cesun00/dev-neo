@@ -73,3 +73,13 @@ COMMIT
 CREATE TABLE `optimistic_lock` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `resource` int NOT NULL COMMENT 'business field',
+    `version` int NOT NULL COMMENT 'version counter',
+
+    PRIMARY KEY (`id`),  UNIQUE KEY `uiq_idx_resource` (`resource`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+SELECT `resource`, `version` FROM optimistic_lock WHERE id = 1
+-- business code
+UPDATE optimistic_lock SET resource = resource -1, version = version + 1 WHERE id = 1 AND version = oldVersion
+```
