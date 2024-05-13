@@ -72,3 +72,38 @@ IF(NOT DEFAULT_CHARSET)
   SET(DEFAULT_CHARSET "utf8mb4")
 ENDIF()
 
+IF(NOT DEFAULT_COLLATION)
+  SET(DEFAULT_COLLATION "utf8mb4_0900_ai_ci")
+ENDIF()
+```
+<!--
+#### Server
+
+To create / determine / alter default charset and collation
+```sql
+```
+
+#### Schema
+(TODO) https://mariadb.com/kb/en/setting-character-sets-and-collations/
+#### Table
+#### Column
+-->
+
+### Connection-Level Config
+
+Charset and collation can be changed **per client-server connection** via global variables:
+
+```sql
+SET character_set_connection = latin1           # change charset to latin1, and collation to to default collation of latin1
+SET collation_connection = latin1_german2_ci;   # change collation thus as well as charset
+```
+
+*[Note that the concept of "connection" is different from "session"](https://dev.mysql.com/doc/refman/8.0/en/charset-connection.html).*
+
+### Ensure UTF-8 storage
+
+https://stackoverflow.com/questions/30074492/what-is-the-difference-between-utf8mb4-and-utf8-charsets-in-mysql
+
+Take-away: **DO NOT USE `charset=utf8`!**
+
+USE `utf8mb4` and a reasonable collation like `utf8mb4_unicode_ci` (which is the default my arch linux mariadb package use)
