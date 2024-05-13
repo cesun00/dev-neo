@@ -38,3 +38,22 @@ This fork lived from 1994 to 1998.
 
 The source of this libc5 are now at https://mirrors.edge.kernel.org/pub/linux/libs/libc5/
 
+`libc.so.5.4.46` ELF binary
+
+libc 4 & 5 had been hacked together from a very very very old glibc , I believe).
+
+`sunsite.unc` now becomes https://www.ibiblio.org/
+
+These series, libc's 1-4, were the C libraries for programs stored in the a.out binary format.
+
+libc 5 heralded the move to storing programs in the ELF (Executable and Linking Format) binary format, which provided much greater flexibility and the ability to easily make libraries of routines that could be shared between running programs. While a.out had this ability, ELF made it easy, and brought Linux up to speed with other modern UNIX-like OS's (such as Sun Solaris, Digital UNIX, and IRIX) that use the same format.
+
+The last release of libc5 is version 5.4.46 (1998-06-21). You can find it 
+https://launchpad.net/ubuntu/hoary/i386/libc5/5.4.46-15. 
+
+H.J LU He is believed to be an Asian American.
+https://marc.merlins.org/linux/lwce_summer99/Day3/Conferences/Knfs.html
+hj LU ceased the maintainance of libc5 in Jul 1998.
+
+
+An interview with hj hu : https://linuxgazette.net/issue32/tag_libc5.html
