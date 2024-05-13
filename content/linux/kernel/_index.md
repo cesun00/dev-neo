@@ -31,3 +31,41 @@ Kernel sources are arranged in modules. Each module culminates in a `built-in.a`
 │   ├── configs
 │   ├── debug
 │   ├── dma
+│   ├── entry
+│   ├── events
+│   ├── futex
+│   ├── gcov
+│   ├── irq
+│   ├── kcsan
+│   ├── livepatch
+│   ├── locking         # kernel locking infrastructures
+│   ├── module
+│   ├── power
+│   ├── printk
+│   ├── rcu
+│   ├── sched
+│   ├── time
+│   └── trace           # ptracer
+├── lib             # library source copies, some are customized from the original
+├── LICENSES
+├── mm              # memory management
+│   ├── damon
+│   ├── kasan
+│   ├── kfence
+│   └── kmsan
+├── net             # network submodules
+├── rust            
+│   ├── alloc
+│   ├── bindings
+│   ├── kernel
+│   ├── macros
+│   └── uapi
+├── samples         # demo mini programs on how to use kernel features, one executable per .c file
+├── scripts             # build system shell / python scripts
+├── security
+├── sound               # sound subsystem
+├── tools               # tool external programs. These code won't get into the kernel.
+├── usr             # userspace code, primarily 
+│   ├── dummy-include
+│   └── include
+└── virt            # virtualization supporting code, i.e. the kvm.
