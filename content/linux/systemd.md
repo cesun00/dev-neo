@@ -303,3 +303,41 @@ For `foo.service`,
 - `Requires=`, `RequiredBy=`
 
     "What must already be running if the current unit is to be started."
+
+- `Before=`, `After=`
+
+    Order precondition check.
+    
+    Unlike `Wants=`, `Before=` won't cause other unit to start.
+
+    Unlike `Requires=`, 
+    
+    Unsatisfied `After=` will simply hangs or reject. Unsatisfied `After=`
+
+
+#### `[Install]` notable options
+
+`[Install]` section describes what must be performed upon unit enablement / disablement. This section is not respected in other lifecycle phases.
+
+
+
+### automount
+
+```sh
+mount | grep binfmt
+# systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=30,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13428)
+
+cd /proc/sys/fs/binfmt_misc/
+ls
+# register  status
+
+/proc/sys/fs/binfmt_misc $ mount | grep binfmt
+# systemd-1 on /proc/sys/fs/binfmt_misc type autofs (rw,relatime,fd=30,pgrp=1,timeout=0,minproto=5,maxproto=5,direct,pipe_ino=13428)
+# binfmt_misc on /proc/sys/fs/binfmt_misc type binfmt_misc (rw,nosuid,nodev,noexec,relatime)
+```
+
+### target
+
+It's a common pattern for a target unit to `Requires=` **and** `After=` on other target units, thus extend low-level targets with new units (service, etc.). Thus multiple target units may be active at the same time.
+
+### Service
