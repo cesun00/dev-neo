@@ -73,3 +73,42 @@ and preserve their cases when possible. In real life this means
 // ----------
 
 
+For example, these are domain names:
+
+```
+org
+com
+wikipedia.org
+example.com
+```
+
+
+## Glossary
+
+- zone: a collection of authoritative RRs. Zone are the unit of information exchange between master and slave server. Zone are stored as zone file in the master server, and synchronized to the slave NS perodically.
+
+> Authoritative information is
+     organized into units called ZONEs, and these zones can be
+     automatically distributed to the name servers which provide
+     redundant service for the data in a zone.
+
+- domain: a node on the namespace. This is conceptual.
+
+
+- domain name: A domain name uniquely identifies any node in the DNS tree and is written, left
+to right, by combining all the domain labels
+
+- fully qualified domain name (FQDN):
+
+    these are FQDN:
+
+    ```
+    wikipedia.org.
+    example.com.
+    ```
+
+## , the Hierarchical Authoritative NS, and the Zone
+
+DNS, the *Domain Name* System, requires `name` to exhibit a dot-segmented structure rather than being an arbitrary string, and there is a reason.
+
+Each segment is known as a *label*, and labels of all existing domain names naturally form a tree structure, known as the hierarchical name space.
