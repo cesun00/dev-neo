@@ -28,3 +28,7 @@ For a given CPU-specific directory, there are
 For a given OS-specific directory, there 
 - include
 - bits
+- sys
+
+
+Subdirectories are not exclusive: For glibc compiled for Linux on ARM, the `unix/sysv/linux` code will include ARM specific code by
