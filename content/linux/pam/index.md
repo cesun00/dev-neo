@@ -65,3 +65,41 @@ pam_close_session
 pam_misc_drop_env
 pam_sm_setcred
 pam_conv
+pam_misc_paste_env
+pam_start
+pam_end
+pam_misc_setenv
+pam_strerror
+pam_error
+pam_open_session
+pam_syslog
+pam_fail_delay
+pam_prompt
+pam_verror
+pam_get_authtok
+pam_putenv
+pam_vinfo
+pam_get_authtok_noverify
+pam_setcred
+pam_vprompt
+pam_get_authtok_verify
+pam_set_data
+pam_vsyslog
+pam_get_data
+pam_set_item
+pam_xauth_data
+pam_getenv
+pam_sm_acct_mgmt
+```
+
+
+## modules
+
+```
+pam.8.gz                    pam_listfile.8.gz          pam_stress.8.gz
+pam_access.8.gz             pam_localuser.8.gz         pam_succeed_if.8.gz
+pam_canonicalize_user.8.gz  pam_loginuid.8.gz          pam_systemd.8.gz
+pam_cifscreds.8.gz          pam_mail.8.gz              pam_systemd_home.8.gz
+pam_debug.8.gz              pam_mkhomedir.8.gz         pam_systemd_loadkey.8.gz
+pam_deny.8.gz               pam_motd.8.gz              pam_time.8.gz
+pam_echo.8.gz               pam_namespace.8.gz         pam_timestamp.8.gz
