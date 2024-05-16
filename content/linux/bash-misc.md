@@ -563,3 +563,40 @@ foo() {
     ./print-args $@
 # argc=4
 # argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args $*
+# argc=4
+# argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args "$@"
+# argc=4
+# argv[0]=>./print-args<
+# argv[1]=>a<
+# argv[2]=>b<
+# argv[3]=>c<
+    ./print-args "$*"
+# argc=2
+# argv[0]=>./print-args<
+# argv[1]=>aSbSc<
+    IFS="$OLDIFS"
+}
+
+foo a b c
+```
+
+## Pipelining & Redirection
+
+Pipeline establishes before any redirection. This means the second line pipes foo's stderr as well:
+
+```bash
+foo | bar		    # foo's stdout to bar's stdin
+foo 2>&1 | bar		# foo's stdout to bar's stdin, then foo's stderr to foo's stdout = foo's stderr to bar's stdin
+```
+
+Bash support a dangerous syntactic sugar for this:
+
+```bash
