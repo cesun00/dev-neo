@@ -88,3 +88,8 @@ manbaout:
 
     ; exit the process with code 42
     linux_syscall 0x3c, 42
+```
+
+<!-- https://chromium.googlesource.com/chromiumos/docs/+/master/constants/syscalls.md -->
+
+## conditional macro
