@@ -136,3 +136,43 @@ Here is a chart for summary:
 | SERIALIZABLE     | x          | x                   | x            |
 
 ### Get/Set isolation level
+
+To change server's default isolation level on startup, either use the `--transaction-isolation` CLI flag or set `transaction_isolation` sysvar in my.cnf.
+
+Inside a client, isolation level can be change at global, session, or per transaction level:
+
+```sql
+SET [GLOBAL|SESSION] TRANSACTION
+	ISOLATION LEVEL [SERIALIZABLE|REPEATABLE READ|READ COMMITTED|READ UNCOMITTED]
+	[READ WRITE|READ ONLY] # access mode can be set at the same time
+```
+
+Such `SET TRANSACTION` can appear either between transactions, or inside a transaction. Note that the `SET` statement is not part of a transaction, since it does not read/write data or change data definition. The scopes are:
+1. `GLOBAL` changes the isolation level globally for all new session; existing session are unaffected.
+2. `SESSION` changes the IL for all subsequent transactions in the current session. If appears inside a transaction, it does not affect that ongoing transaction.
+3. If neither of `GLOBAL` or `SESSION` is presented, the isolation level is only changed for the next transaction in the current session. Then IL will be reset to the session scope IL.
+
+Get the current IL:
+
+```sql
+SELECT @@Global.transaction_isolation; # global IL
+SELECT @@Session.transaction_isolation; # session IL
+SELECT @@transaction_isolation; # IL for next transaction
+
+# Note that in autocommit mode, such SELECT is also a transaction,
+# meaning that any change to next-transaction IL will be reset to session IL,
+# and the last SELECT doesn't reflect the change.
+```
+
+
+Rollback
+------------
+
+Cascade rollback:
+
+Snapshot Isolation / Consistent Read / Multiversioning
+---------
+
+Consistent read refers to the fact that, for plain lock-less `SELECT` (in contrary to `SELECT ... FOR [SHARED|UPDATE]` which locks rows), MySQL provides a snapshot of the database, instead of actually trying to acquire locks for tables/rows. This features enables a non-blocking plain `SELECT`, even when querying rows locked by other transaction.
+
+Given that the isolation level is, "The moment" is one of the following:
