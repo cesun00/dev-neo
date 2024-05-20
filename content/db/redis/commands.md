@@ -170,3 +170,38 @@ Set Algebra (does NOT modify each)
 SPOP key count
     randomly pop count element(s) from key
 
+SRANDMEMBER key count
+    randomly get count element(s) from key, WITHOUT modifying key
+
+sorted set
+-------------
+
+Sorted set represented a set of strings each associated with a integer value called "score". Elements
+of sorted set are unique, and also sorted by "score".
+
+The underlying structure of a redis sorted set is a skip list (a peculiar type of balanced trees).
+
+
+- `ZADD key score element [score element...]` (varaidic on `score element` pair)
+
+    Add `value` with `score` to the sorted set identified by `key`.
+
+- `ZREM key element...` (variadic on `element`)
+
+    Remove `element` from sorted set identified by `key`.
+    The complexity is `O(log(n))` for each element to be removed; n be the # of elements in the zset.
+    TODO: Recall that redis sorted set is sorted by score, how does search by element value also log(n)?
+
+Range op by rank:
+    - `ZRANK key element`
+        
+        determine rank (index) of value
+
+    - `ZRANGE sset start end [WITHSCORES]`
+
+    - `ZREVRANGE sset start end [WITHSCORES]`
+
+    - `ZREMRANGEBYRANK sset start end`
+
+Range op by score
+    - `ZRANGEBYSCORE sset min max`
