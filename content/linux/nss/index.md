@@ -225,3 +225,32 @@ instead of being hardcoded (if even possible at all). Examples are:
 
     If you are the server author, say redis, in this case it's indeed possible to hardcode the port number and protocol to use,
     instead of querying the IANA assignment `redis 6379/tcp`
+    
+    https://unix.stackexchange.com/a/593722/245241
+
+3. the numeric ID of an IP-layer protocol (e.g. TCP or UDP)
+4. resolve a domain name to its IP address
+
+This is handled by
+
+The reason for its name, i.e. *Name Service* Switch, despite the fact that 
+
+mapping from a  to its corresponding value (e.g. a , etc.) is required.
+
+Despite 
+
+The approach taken by GNU GLIBC implementation is providing 
+
+There is an attempt in  that unify the interface of all such query, knwon .
+To the author, whether this is an premature optimization or over-engineering remains to be a question,
+but this article still introduce it as-is since it's simply out there available.
+
+
+
+```sh
+# ls /usr/lib/libnss* -al
+-rwxr-xr-x 1 root root 1258120 Feb 18 01:14 /usr/lib/libnss3.so     # Network Security Service
+lrwxrwxrwx 1 root root      16 Feb 18 01:14 /usr/lib/libnssckbi.so -> p11-kit-trust.so      #libnssckbi
+-rwxr-xr-x 1 root root   14288 Feb 18 01:14 /usr/lib/libnsssysinit.so   # Network Security Services-sysinit
+-rwxr-xr-x 1 root root  178368 Feb 18 01:14 /usr/lib/libnssutil3.so     # Network Security Services
+```
