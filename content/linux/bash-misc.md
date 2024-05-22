@@ -706,3 +706,35 @@ done </etc/passwd
 # $ declare -p my_array 
 declare -a my_array=(
     [0]=$'root:x:0:0::/root:/bin/bash\n' 
+    [1]=$'bin:x:1:1::/:/usr/bin/nologin\n' 
+    [2]=$'daemon:x:2:2::/:/usr/bin/nologin\n' 
+    [3]=$'mail:x:8:12::/var/spool/mail:/usr/bin/nologin\n' 
+    [4]=$'ftp:x:14:11::/srv/ftp:/usr/bin/nologin\n' 
+    # ...
+)
+```
+
+Read all lines from stdin, or `count` lines if `-n <count>` is given, into an (indexed) array, *with LF preserved*.
+
+If no array name is given, default to `$MAPFILE`.
+
+`readarray` is alias of `mapfile`.
+
+
+## Built-ins
+
+## Arithmetics
+
+### equivalence of `==` and `-eq`    
+
+```sh
+if [[ $(( $c % 2 )) == 0 ]] ; then
+    echo $c
+fi
+
+if [[ $(( $c % 2 )) -eq 0 ]] ; then
+    echo $c
+fi
+```
+
+### Remove preceding `0`
