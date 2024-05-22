@@ -28,3 +28,36 @@ Modules:
 Historically go project source code must reside under `~/go/src`. This was not enforced anymore with the introduction of module.
 
 ## build / install
+
+## MISC
+
+### Caching optimization
+
+```bash
+TMPFS_GO='/tmp'
+GOCACHE="$TMPFS_GO"
+GOMODCACHE="$TMPFS_GO"
+```
+
+### library should not expose panic to the client
+
+https://blog.golang.org/defer-panic-and-recover
+
+The convention in the Go libraries is that even when a package uses panic internally, its external API still presents explicit error return values.
+
+### ## Read line idiom
+
+```go
+file,err := os.Open(path)
+if err != nil {
+    panic(err)
+}
+defer file.Close() // defer okay for RO file
+
+fileScanner := bufio.NewScanner(file)
+for fileScanner.Scan() {
+    line := fileScanner.Text()
+    // do stuffs...
+}
+if err := fileScanner.Err(); err != nil {
+    panic(err)
