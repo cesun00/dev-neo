@@ -207,3 +207,38 @@ Sections define the link-time view of an ELF file.
 A linker doesn't care about PHT or segments, which is discussed latter.
 
 An ELF file is divided into *sections*. Adjacent sections are combined into *segments*.
+The *section header table* describes the *section view* of an ELF file useful for the linker,
+while the *program header table* describes the *segment view* useful for the kernel loader and dynamic linker.
+
+This section explains how SHT works, and gives an introduction to various special sections.
+See [ELF segments](#segments) for details on the segment view and program headers.
+
+### Section Header Table
+
+The SHT is a list of items each known as a section header.
+A section header provides metadata about a section.
+The location and size of the SHT within an ELF file can be determined by inspecting [the ELF header](#TODO):
+- the offset of the SHT into an ELF file is given in `e_shoff`
+- the size of each section header (in bytes) is given in `e_shentsize`
+- The number of section headers in the SHT is given in `e_shnum`
+
+The first section header in SHT must be full zero. *(with one exception for AMD64 when the `number of program headers >= 0xffff` (an outrageous number). Search for `PN_XNUM` [here](https://refspecs.linuxfoundation.org/elf/x86_64-abi-0.99.pdf) for details)*
+
+The structure of each section header is defined as:
+
+```c {tabWidth=8}
+typedef struct
+{
+  Elf64_Word	sh_name;		/* Section name (string tbl index into .shstrtab) */
+  Elf64_Word	sh_type;		/* Section type */
+  Elf64_Xword	sh_flags;		/* Section flags */
+
+  Elf64_Addr	sh_addr;		/* Section virtual addr at execution */
+                          // ELF compiled for AMD64 should not use this field.
+
+  Elf64_Off	sh_offset;		/* Section file offset */
+  Elf64_Xword	sh_size;		/* Section size in bytes */
+
+  Elf64_Word	sh_link;		/* Link to another section */
+  Elf64_Word	sh_info;		/* Additional section information */
+
