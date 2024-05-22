@@ -202,3 +202,36 @@ In libstdc++, all RACO class inherit from `_RangeAdaptorClosure` which provides 
 i.e. for an RAO `D d`, this means the following expression are equivalent:
 
 ```c++
+d(r, arg...)
+d(arg...)(r)
+r | d(arg...)
+```
+
+
+`operator|` of RACO return another `view` (and also `viewable_range`), thus a source viewable_range and RACOs can be pipelined as:
+
+```c++
+// source_range | RACO1 | RACO2 | RACO3 | ...
+std::vector<int>{1,2,3} | std::views::transform([](const int &x){return x*x;}) | std::views::reverse
+```
+
+As far as C++20, there is no way for user to define their own range adaptor object, and only those provided by the standard library are available.
+
+https://stackoverflow.com/questions/64649664/how-you-create-your-own-views-that-interact-with-existing-views-with-operator
+
+These are pairs of (range adaptor object `c`, class template `A<T>`).
+For `R r` modelling `viewable_range`, calling `c(r, args...)` will delegate to constructor `A<decltype(r), decltype(args)...>(range, args...)`,
+i.e. `c(r, ...)` returns an instance of `A<R, ... >`.
+
+Note that `decltype(c)` is an implementation detail.
+e.g. in GNU's libstdc++, RAO `views::transform` is of type `struct _Transform : __adaptor::_RangeAdaptor<_Transform>`.
+
+| range adaptor object `c`  | view implementation `A<R>`      | return a `view` on the original `range` ...                                       |
+|---------------------------|---------------------------------|-----------------------------------------------------------------------------------|
+| views::transform          | ranges::transform_view          | applies a transformation function to each element                                 |
+| views::reverse            | ranges::reverse_view            | reverse. Original range must be bidirectional.                                    |
+| views::take               | ranges::take_view               | take first `N` elements                                                           |
+| views::take_while         | ranges::take_while_view         | take first few elements until predicate returns false                             |
+| views::drop               | ranges::drop_view               | skip first `N` elements                                                           |
+| views::drop_while         | ranges::drop_while_view         | skip first few elements until predicate returns false                             |
+| views::filter             | ranges::filter_view             | elements satisfies a predicate                                                    |
