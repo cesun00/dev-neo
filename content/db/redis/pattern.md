@@ -87,3 +87,40 @@ your business goes here ...
 global clock tick
 
         |   thread 1: find counter is nil
+        |   thread 2: find counter is nil
+        |   thread 1: set key to 1
+        |   thread 2: set key to 1
+        |   
+        |   !!! now we have 2 visits but the counter is still 1
+        |
+        |
+        V
+```
+
+## 固定时间切片2
+
+该写法来自 redis 开发组推荐的 basic pattern:
+
+```
+counter = GET key
+if (key unset || counter < THRESHOLD)
+    MULTI
+    INCR key
+    EXPIRE key <#sec>
+    EXEC
+else
+    return "rate overflow"
+
+your business goes here
+```
+
+Pros:
+- 简单
+
+Cons:
+- partition 化的时间切片限流，无法实现诸如 *“任何连续 24 小时内访问不得超过 100 次”* 这种【连续时间】的需求。
+    
+    例如在某天的 0 点访问 1 次，在 23:59:59 访问 99 次，在下一秒 (第二天 0 点) 访问 100 次，相当于 2 秒内访问了 199 次。
+
+## 自然天为单位
+
