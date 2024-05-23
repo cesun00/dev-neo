@@ -209,3 +209,43 @@ systemctl set-default <target name>
     ```sh
     # find -L /usr/bin -samefile `which systemctl` -exec ls -l {} +
     lrwxrwxrwx 1 root root      9 Apr 29 03:36 /usr/bin/halt -> systemctl
+    lrwxrwxrwx 1 root root      9 Apr 29 03:36 /usr/bin/poweroff -> systemctl
+    lrwxrwxrwx 1 root root      9 Apr 29 03:36 /usr/bin/reboot -> systemctl
+    lrwxrwxrwx 1 root root      9 Apr 29 03:36 /usr/bin/shutdown -> systemctl
+    -rwxr-xr-x 1 root root 272768 Apr 29 03:36 /usr/bin/systemctl
+    ```
+5. SysVinit runlevels that held a defined meaning (i.e., 0, 1, 3, 5, and 6) have a 1:1 mapping with a specific systemd target, but user-defined runlevels 2 and 4 don't have a corresponding systemd target.
+
+## Unit file disovery & precedence
+
+Unit files are searched orderly in a list of paths determined at compilation time. To change it you need to change `src/core/systemd.pc.in::systemd_system_unit_path` and hack into `src/basic/path-lookup.c::lookup_paths_init()`.
+
+`man 5 systemd.unit $ UNIT FILE LOAD PATH` is hardcoded, but is generally faithful for distros that aren't heavily modified.
+
+To dump the exact paths from a running instance, use
+
+```sh
+# for pid 1
+systemd-analyze --system unit-paths
+# for systemd user instance of current login user
+systemd-analyze --user unit-paths
+
+# or equivalently
+# for pid 1
+systemctl show --property=UnitPath | tr ' ' '\n'
+# for systemd user instance of current login user
+systemctl --user show --property=UnitPath | tr ' ' '\n'
+```
+
+Conventionally, for the system instance, 2 main locations are:
+- `/usr/lib/systemd/system/`: units provided by distro vendor and later installed packages, used by the system instance.
+- `/etc/systemd/system/`: units authored by the system admin, used by the system instance.
+
+For the user instance, are:
+- `~/.config/systemd/user/`: units authored by current user, and used by the user instance of current user.
+- `/usr/lib/systemd/user/`: units provided by distro vendor and later installed packages, may be used by the systemd user instance of all users. 
+- `/etc/systemd/user/`: units authored by the system admin, may be used by the systemd user instance of all users. 
+
+## unit file naming
+
+file name of unit files must conform to the pattern `prefix[@].suffix`:
