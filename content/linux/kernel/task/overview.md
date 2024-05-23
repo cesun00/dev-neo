@@ -227,3 +227,43 @@ struct thread_info {
 	unsigned short			migration_flags;
 
 #ifdef CONFIG_PREEMPT_RCU
+	int				rcu_read_lock_nesting;
+	union rcu_special		rcu_read_unlock_special;
+	struct list_head		rcu_node_entry;
+	struct rcu_node			*rcu_blocked_node;
+#endif /* #ifdef CONFIG_PREEMPT_RCU */
+
+#ifdef CONFIG_TASKS_RCU
+	unsigned long			rcu_tasks_nvcsw;
+	u8				rcu_tasks_holdout;
+	u8				rcu_tasks_idx;
+	int				rcu_tasks_idle_cpu;
+	struct list_head		rcu_tasks_holdout_list;
+	int				rcu_tasks_exit_cpu;
+	struct list_head		rcu_tasks_exit_list;
+#endif /* #ifdef CONFIG_TASKS_RCU */
+
+#ifdef CONFIG_TASKS_TRACE_RCU
+	int				trc_reader_nesting;
+	int				trc_ipi_to_cpu;
+	union rcu_special		trc_reader_special;
+	struct list_head		trc_holdout_list;
+	struct list_head		trc_blkd_node;
+	int				trc_blkd_cpu;
+#endif /* #ifdef CONFIG_TASKS_TRACE_RCU */
+
+	struct sched_info		sched_info;
+
+	struct list_head		tasks;
+#ifdef CONFIG_SMP
+	struct plist_node		pushable_tasks;
+	struct rb_node			pushable_dl_tasks;
+#endif
+
+	struct mm_struct		*mm;
+	struct mm_struct		*active_mm;
+	struct address_space		*faults_disabled_mapping;
+
+	int				exit_state;
+	int				exit_code;
+	int				exit_signal;
