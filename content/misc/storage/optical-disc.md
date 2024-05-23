@@ -223,3 +223,7 @@ among which
 
 This makes a sector 3234 bytes, among which 2,352 bytes are user data.
 
+The data stored in these sectors corresponds to any type of digital data, not audio samples encoded according to the audio CD specification.
+    
+A track (a group of sectors) inside a CD-ROM only contains sectors in the same mode, but if multiple tracks are present in a CD-ROM, each track can have its sectors in a different mode from the rest of the tracks. They can also coexist with audio CD tracks, which is the case of mixed mode CDs.
+
