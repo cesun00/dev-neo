@@ -295,3 +295,40 @@ MyType operator""_X(/* parameter-list */);
 
 For `parameter-list`, only 5 are allowed:
 - `unsigned long long int`
+- `long double`
+- `char`
+- `const char *`
+- `const char *, size_t`
+
+Lexically:
+
+```c++
+struct MyType {
+    MyType operator "" _X(int lit);
+}
+
+// integer to user-defined types
+// decimal-literal ud-suffix (1)
+42_X
+// octal-literal ud-suffix	(2)
+052_X
+// hex-literal ud-suffix	(3)
+0x2a_X
+// binary-literal ud-suffix	(4)
+0b00101010_X
+
+// floating point to user-defined types
+// fractional-constant exponent-part(optional) ud-suffix	(5)
+1.23_X
+1.23E42_X
+// digit-sequence exponent-part ud-suffix	(6)
+123E42_X
+
+// character-literal ud-suffix	(7)
+'f'_X
+
+// string-literal ud-suffix	(8)
+"foo"_X
+```
+
+Argument to literal operator will never be custom type from some namespace. So ADL is never a thing. Program is ill-formed if normal unqualified lookup failed for literal operator.
