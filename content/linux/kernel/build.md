@@ -669,3 +669,41 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 │   │   ├── kernel/
 │   │   │   ├── acpi/
 │   │   │   ├── apic/
+│   │   │   ├── asm-offsets.s
+│   │   │   ├── cpu/
+│   │   │   │   ├── capflags.c
+│   │   │   │   ├── mce/
+│   │   │   │   ├── microcode/
+│   │   │   │   ├── mtrr/
+│   │   │   ├── fpu/
+│   │   │   ├── kprobes/
+│   │   │   ├── vmlinux.lds
+│   │   ├── lib/
+│   │   │   ├── inat-tables.c
+│   │   │   ├── lib.a
+│   │   ├── mm/
+│   │   │   ├── pat/
+│   │   ├── net/
+│   │   ├── pci/
+│   │   ├── platform/
+│   │   │   ├── atom/
+│   │   │   ├── ce4100/
+│   │   │   ├── efi/
+│   │   │   ├── geode/
+│   │   │   ├── intel/
+│   │   │   ├── intel-mid/
+│   │   │   ├── intel-quark/
+│   │   │   ├── iris/
+│   │   │   ├── olpc/
+│   │   │   ├── scx200/
+│   │   │   ├── ts5500/
+│   │   │   └── uv/
+│   │   ├── power/
+│   │   ├── realmode/
+│   │   │   ├── rm/
+│   │   │   │   ├── pasyms.h
+│   │   │   │   ├── realmode.bin*
+│   │   │   │   ├── realmode.elf*
+│   │   │   │   ├── realmode.lds
+│   │   │   │   ├── realmode.relocs
+│   │   ├── tools/
