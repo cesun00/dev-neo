@@ -162,3 +162,6 @@ public abstract class AbstractApplicationContext {
 ```
 
 `ApplicationContext` use this interface to do something after a BeanFactory finishs loading BeanDefinitions, but before any bean instance is created; mainly:
+1. 
+
+For `AbstractRefreshableApplicationContext` and subclasses, their `BeanFactory` is replaceable. Thus all `beanFactoryPostProcessors` may be run multiple times.
