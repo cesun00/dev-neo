@@ -28,3 +28,30 @@ libc_hidden_def (__libc_write)
 weak_alias (__libc_write, __write)
 libc_hidden_weak (__write)
 weak_alias (__libc_write, write)
+libc_hidden_weak (write)
+```
+
+`SYSCALL_CANCEL` is defined as:
+
+```c
+#define SYSCALL_CANCEL(...) \
+  ({									     \
+    long int sc_ret;							     \
+    if (NO_SYSCALL_CANCEL_CHECKING)					     \
+      sc_ret = INLINE_SYSCALL_CALL (__VA_ARGS__); 			     \
+    else								     \
+      {									     \
+	int sc_cancel_oldtype = LIBC_CANCEL_ASYNC ();			     \
+	sc_ret = INLINE_SYSCALL_CALL (__VA_ARGS__);			     \
+        LIBC_CANCEL_RESET (sc_cancel_oldtype);				     \
+      }									     \
+    sc_ret;								     \
+  })
+```
+
+That is, it wraps around another macro `INLINE_SYSCALL_CALL` and adds a cancellation point before making a syscall
+since syscall is uninterruptable and entering kernel mode requires privilege ring elevation which can be expensive.
+
+`INLINE_SYSCALL_CALL` is defined as:
+
+```c
