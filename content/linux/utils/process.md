@@ -96,3 +96,35 @@ By parent pid(s):
 # the only syntax
 ps --ppid 1,6877
 ```
+
+By user(s):
+
+```sh
+# by EUID or login (name), comma-separated list
+ps U root,1000
+ps -u root,1000
+ps --user root,1000
+
+# by RUID or login (name), comma-separated list
+ps -U  root,1000
+ps --User root,1000
+```
+
+By cmd name(s):
+
+*cmd name* is `/proc/*/cmdline` truncated to a simple name.
+
+```sh
+# comma-separated list
+ps -C code,chrome
+```
+
+### selection union / intersection / negation
+
+
+## printing format control
+
+Header Sematics:
+- `TIME`: accumulated cpu time, user + system.
+- `C`:
+- `STIME`:
