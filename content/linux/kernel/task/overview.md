@@ -463,3 +463,39 @@ struct thread_info {
 	/* Effective (overridable) subjective task credentials (COW): */
 	const struct cred __rcu		*cred;
 
+#ifdef CONFIG_KEYS
+	/* Cached requested key. */
+	struct key			*cached_requested_key;
+#endif
+
+	/*
+	 * executable name, excluding path.
+	 *
+	 * - normally initialized setup_new_exec()
+	 * - access it with [gs]et_task_comm()
+	 * - lock it with task_lock()
+	 */
+	char				comm[TASK_COMM_LEN];
+
+	struct nameidata		*nameidata;
+
+#ifdef CONFIG_SYSVIPC
+	struct sysv_sem			sysvsem;
+	struct sysv_shm			sysvshm;
+#endif
+#ifdef CONFIG_DETECT_HUNG_TASK
+	unsigned long			last_switch_count;
+	unsigned long			last_switch_time;
+#endif
+	/* Filesystem information: */
+	struct fs_struct		*fs;
+
+	/* Open file information: */
+	struct files_struct		*files;
+
+#ifdef CONFIG_IO_URING
+	struct io_uring_task		*io_uring;
+#endif
+
+	/* Namespaces: */
+	struct nsproxy			*nsproxy;
