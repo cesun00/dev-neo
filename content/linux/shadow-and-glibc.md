@@ -103,3 +103,39 @@ groups
 grpck
 lastlog
 newgidmap
+newuidmap
+newusers
+passwd      the well-known program to change a user's password
+pwck
+sg
+useradd     user acc manipulation
+userdel     
+usermod
+```
+
+```
+/etc/default/useradd
+/etc/login.defs
+
+/etc/pam.d/chpasswd
+/etc/pam.d/groupmems
+/etc/pam.d/newusers
+/etc/pam.d/passwd
+```
+
+If you installed your distribution from a CD-ROM, you may find that,
+  even though the distribution did not have the Shadow Suite installed,
+  some of the files you need to install the Shadow Suite may be on the
+  CD-ROM.
+
+
+
+
+https://elixir.bootlin.com/glibc/latest/source/nss/shadow.h
+
+
+`getspnam` was implemented in glibc `nss/getspnam.c` but shadow write man page for it.
+
+https://github.com/shadow-maint/shadow/blob/51a0d94a08920a2d3edc52919692cdbd25f07d6d/man/shadow.3.xml#L96
+
+weriddddddd
