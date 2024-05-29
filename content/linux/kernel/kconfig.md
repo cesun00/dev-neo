@@ -154,3 +154,32 @@ Top level keywords are:
 - `mainmenu`
 
     Only allowed at the top of the root `Kconfig` file.
+
+    Hint for the title of TUI or GUI config tools. Whether this value is respected is up to the parser.
+
+    ```
+    mainmenu "Linux/$(ARCH) $(KERNELVERSION) Kernel Configuration"
+    ```
+
+- `source <path>`
+- `comment`
+- `menu ... endmenu`
+- `choice ... endchoice`
+- `config <name>`
+
+    Will generates a `CONFIG_<name>` entry in `.config`.
+
+    ```
+    config POSIX_MQUEUE
+	bool "POSIX Message Queues"
+	depends on NET
+    ```
+
+- `menuconfig`
+- `if ... endif`
+
+### `config` attributes
+
+- type: `bool | tristate | string | hex | int ["optional prompt"]`
+
+    Mandatory. Declare the type of this config.
