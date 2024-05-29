@@ -147,3 +147,39 @@ func main() {
 }
 ```
 
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type A struct {}
+
+func (a *A) foo() string {return "42"}
+
+func (a A) goo() string {return "goooooo!"}
+
+type B struct {A}
+
+// any B value is a Gooler now
+// any *B value is both a Fooler and a Gooler
+
+type Fooler interface {
+    foo() string
+}
+
+type Gooler interface {
+    goo() string
+}
+
+func myFuncNeedFooler(f Fooler) {
+   fmt.Println(f.foo())
+}
+
+func myFuncNeedGooler(g Gooler) {
+   fmt.Println(g.goo())
+}
+
+func main() {
