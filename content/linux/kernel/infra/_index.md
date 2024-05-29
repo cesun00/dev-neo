@@ -31,3 +31,35 @@ if ((clone_flags & (CLONE_NEWNS|CLONE_FS)) == (CLONE_NEWNS|CLONE_FS))
  *
  * Encodes @error into a pointer value. Users should consider the result
  * opaque and not assume anything about how the error is encoded.
+ *
+ * Return: A pointer with @error encoded within its value.
+ */
+static inline void * __must_check ERR_PTR(long error)
+{
+	return (void *) error;
+}
+
+```
+
+### x86 branch predicting instruction prefix generation
+
+See [x86 branching hits](#TODO) for how this works in encoded x86 instructions.
+
+```c
+// tools/include/linux/compiler.h
+
+#ifndef likely
+# define likely(x)		__builtin_expect(!!(x), 1)
+#endif
+
+#ifndef unlikely
+# define unlikely(x)		__builtin_expect(!!(x), 0)
+#endif
+```
+
+use like:
+
+```c
+if (likely(!ptrace_event_enabled(current, trace)))
+			trace = 0;
+```
