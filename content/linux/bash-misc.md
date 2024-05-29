@@ -288,3 +288,42 @@ echo ${filename##f*o}   # .bar.mp3
 echo ${filename%bar*}   # foobarfoo.
 echo ${filename%%bar*}  # foo
 
+# works element-wise if var is an array indexed by `@` or `*`
+# TODO
+```
+
+Useful snippet for splitting filename and extension. [(credit)](https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash):
+
+```bash
+filename=$(basename -- "$fullfile")
+extension="${filename##*.}"
+filename="${filename%.*}"
+```
+
+#### Pattern Substitution
+
+Syntax: `${var/glob/string}`
+
+```bash
+# `#` and `%` matches the beginning and the end of the value
+# of `var`, respectively.
+x=42
+echo "${x/#/str}" # str42
+echo "${x/%/str}" # 42str
+
+# works element-wise if var is an array indexed by `@` or `*`;
+words=(foo zoo oop)
+echo "${words[@]/oo/xx}" # fxx zxx xxp
+```
+
+#### To Uppercase/Lowercase
+
+The following is bash-specific. For posix see [this](https://stackoverflow.com/questions/2264428/how-to-convert-a-string-to-lower-case-in-bash).
+
+```bash
+hw="HeLlO WoRlD"
+echo "${hw,,}" # all to lowercase
+echo "${hw^^}" # all to uppercase
+```
+
+#### Fallbacks
