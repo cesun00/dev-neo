@@ -393,3 +393,39 @@ struct thread_info {
 ```
 
 ### externalized
+
+```c
+	/* PID/PID hash table linkage. */
+	struct pid			*thread_pid;
+	struct hlist_node		pid_links[PIDTYPE_MAX];
+	struct list_head		thread_node;
+```
+
+
+
+```c
+
+	struct completion		*vfork_done;
+
+	/* CLONE_CHILD_SETTID: */
+	int __user			*set_child_tid;
+
+	/* CLONE_CHILD_CLEARTID: */
+	int __user			*clear_child_tid;
+
+	/* PF_KTHREAD | PF_IO_WORKER */
+	void				*worker_private;
+
+	u64				utime;
+	u64				stime;
+#ifdef CONFIG_ARCH_HAS_SCALED_CPUTIME
+	u64				utimescaled;
+	u64				stimescaled;
+#endif
+	u64				gtime;
+	struct prev_cputime		prev_cputime;
+#ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
+	struct vtime			vtime;
+#endif
+
+#ifdef CONFIG_NO_HZ_FULL
