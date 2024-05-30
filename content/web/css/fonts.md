@@ -62,3 +62,38 @@ For every character in an HTML element, the browser will try to locate its glyph
 When the glyph is not found there, the next loaded font family is queried, and so forth.
 
 A glyph mismatch can happen for many reasons. The font designer may choose to include only Latin characters, only CJK, or both, in the font family. For a paragraph where English and CJK characters are mixed, such a mechanism helps render both in the correct fonts.
+
+Chrome since 103 provides a `window.queryLocalFonts()` that returns a promise of an array of `FontData`, allowing JavaScript to query locally installed fonts at run time.
+
+A `FontData` instance consists of:
+- `family` (getter): the family of the font face.
+- `fullName` (getter): the full name of the font face.
+- `postscriptName` (getter): the PostScript name of the font face.
+- `style` (getter): the style of the font face.
+- `blob()`: return raw bytes of the underlying font file.
+
+For example, `(await (queryLocalFonts())).filter(o=>o.family == "Noto Sans")` will give you all versions under the `Noto Sans` font family:
+
+
+{{<fold "queryLocalFonts() result">}}
+
+```json
+[
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Black",
+        "postscriptName": "NotoSans-Black",
+        "style": "Black"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Black Italic",
+        "postscriptName": "NotoSans-BlackItalic",
+        "style": "Black Italic"
+    },
+    {
+        "family": "Noto Sans",
+        "fullName": "Noto Sans Bold",
+        "postscriptName": "NotoSans-Bold",
+        "style": "Bold"
+    },
