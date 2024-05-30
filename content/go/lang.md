@@ -277,3 +277,19 @@ Type definition introduce a new type, is always considered different from the or
 
 For type alias, the following code fails to compile, because 2 identical types appear in the switch branches.
 For type definition, it prints "foo"
+
+```go
+func bar(x interface{}) {
+    switch  x.(type) {
+    case map[string]int:
+        fmt.Println("map[string]int")
+    case foo:
+        fmt.Println("foo")
+    }
+}
+
+func main() {
+    y := make(foo)
+    bar(y)
+}
+```
