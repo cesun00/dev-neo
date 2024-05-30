@@ -91,3 +91,35 @@ The majortiy of set 2 and 3 is rarely used,
 
 Most keyboards will repeat sending the keydown scancode when the key is held down. This behavior is known as "being typematic", and is allowed by the IBM PC standard.
 
+https://encyclopedia2.thefreedictionary.com/typematic
+
+### Ordinary scancode
+
+Fancy "gaming" keyboards might have keys that emit scancode not recognized by the kernel.
+
+Imagine a 16x16 square array of 256 keys with `[0x00, 0x7f]` and `[0xe000, 0xe07f]` printed on them.
+
+### Escaped scancode
+
+## Keycode
+
+Dump the mapping by `getkeycodes`:
+
+```
+Plain scancodes xx (hex) versus keycodes (dec)
+for 1-83 (0x01-0x53) scancode equals keycode
+
+0x50:   80  81  82  83  99   0  86  87
+0x58:   88 117   0   0  95 183 184 185
+0x60:    0   0   0   0   0   0   0   0
+0x68:    0   0   0   0   0   0   0   0
+0x70:   93   0   0  89   0   0  85  91
+0x78:   90  92   0  94   0 124 121   0
+
+Escaped scancodes e0 xx (hex)
+
+e0 00:    0   0   0   0   0   0   0   0
+e0 08:    0   0   0   0   0   0   0   0
+e0 10:  165   0   0   0   0   0   0   0
+e0 18:    0 163   0   0  96  97   0   0
+e0 20:  113 140 164   0 166   0   0   0
