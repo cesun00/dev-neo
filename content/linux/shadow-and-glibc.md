@@ -38,3 +38,40 @@ glibc maintainers recommend `libxcrypt` as the drop-in replacement for `libcrypt
 
 > The replacement for libcrypt is libxcrypt, maintained separately from
 > GNU libc, but available under compatible licensing terms, and providing
+> binary backward compatibility with the former libcrypt.  It is currently
+> distributed from <https://github.com/besser82/libxcrypt/>.
+
+Be careful about the `crypt(3)` man page on your system.
+- The man pages written for the legacy `libcrypt` are part of the `man-pages` project.
+[They still exist in the latest `man-pages` release](https://github.com/mkerrisk/man-pages/blob/ae6b221882ce71ba82fcdbe02419a225111502f0/man3/crypt.3).
+See [here](https://man7.org/linux/man-pages/man3/crypt.3.html) for an online version.
+- `libxcrypt` provides man pages titled also `crypt(3)`. See [here](https://man7.org/linux/man-pages/man3/crypt.3.html) for an online version.
+
+Some distributions, including ArchLinux, have been disabling the build of `libcrypt` with glibc and have turned to `libxcrypt` for a long time.
+[Such distributions may have removed the `man3/crypt.3` and related entries](https://gitlab.archlinux.org/archlinux/packaging/packages/man-pages/-/blob/07d42a77073e5b2363e0acbd00dcc11760eda2bf/PKGBUILD#L49) from the upstream before building the `man-pages` package, such that only
+the manuals provided by openwall `libxcrypt` are available.
+
+Also, don't get confused with the `xcrypt(3)` pages.
+They are documents for legacy functions in `rpc` module of glibc.
+
+## `libxcrypt`
+
+[libxcrypt](https://github.com/besser82/libxcrypt) from the openwall project.
+Huge efforts were made to ensure that `libcrypt.so.2` can be a drop-in replacement for `libcrypt.so.1` from glibc.
+Any program link against the glibc's `libcrypt` should run normally with `libxcrypt`.
+
+## TODO: more symbols from libcrypt and libxcrypt
+
+
+`encrypt(3)`, etc.
+
+## How does `shadow` get into the game
+
+The apparent problem with `/etc/passwd` is that it must be readable by anyone.
+If you were to change the `/etc/passwd` file so that nobody can read it, the first thing that
+you would notice is that the ls -l command now displays user ID's instead of names.
+
+Given the fact it stores password hashes
+
+[The shadow package](https://github.com/shadow-maint/shadow)
+is related to glibc in an interesting way.
