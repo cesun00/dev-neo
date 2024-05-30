@@ -28,3 +28,28 @@ https://www.gnu.org/software/make/manual/html_node/Functions.html
 
 - `export vars`: adding `vars` to process env var vector
 - `unexport vars`: remove `vars` from process env var vector
+
+## sanitizer
+
+1. clear all envvar before invoking `make`:
+
+```
+env -i make
+```
+
+2. disable implicit rules and builtin vars
+
+```makefile
+# Do not use make's built-in rules and variables
+# (this increases performance and avoids hard-to-debug behaviour)
+MAKEFLAGS += -rR
+
+# 'MAKEFLAGS += -rR' does not immediately become effective for GNU Make 3.x
+
+
+# Avoid funny character set dependencies
+unexport LC_ALL
+LC_COLLATE=C
+LC_NUMERIC=C
+export LC_COLLATE LC_NUMERIC
+```
