@@ -72,3 +72,28 @@ Case convention:
 2. uppercase for parameters that
     - control implicit rules, or
     - user should override
+
+
+There are 4 ways variables are introduced to make runtime context, in the decreasing order of precedence:
+1. in Makefile text with `override` directive. (`6.7 The override Directive`)
+2. as arguments of `make` CLI invocation (`9.5 Overriding Variables`)
+3. in Makefile text (`6.5 Setting Variables`)
+4. inherit variables from parent `make`
+   1. `export`-ed variable from parent Makefile
+   2. 
+5. load from OS env vars (`6.10 Variables from the Environment`)
+
+    Every environment variable to the `make` process is made a `Makefile` variable.
+    This behavior is the basis of sub-make where parent make must pass `export`-ed variable to sub-make, via adding env var.
+    See [submake]({{<ref "./submake.md">}}) for details.
+
+    The only exception is the `SHELL` envvar which normally presented in various shells to declare the shell executable location.
+    Make ignore the `SHELL` envvar. A special makefile variable `SHELL` means what shell to use to execute each recipe.
+
+    > Thus, by setting the variable `CFLAGS` in your environment, you can cause all C compilations in most makefiles to use the compiler switches you prefer.This is safe for variables with standard or conventional meanings because you know that no makefile will use them for other things. (Note this is not totally reliable; some makefiles set CFLAGS explicitly and therefore are not affected by the value in the environment.)
+
+    When `make -e` is used, OS envvars takes highest precedence, though such practice is not recommended.
+
+Use the `$(origin var)` function to check in which way a variable is defined.
+
+### Via command line
