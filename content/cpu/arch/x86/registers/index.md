@@ -103,3 +103,20 @@ These registers are accessible to systems programmers only via variants of the M
     - `ET` (Extension Type, bit 4): indicates the type of x87 coprocessor present in the system (80287 or 80387).
     - `MP` (Math Present, bit 1): controls the function of the `WAIT` instruction, which is used to coordinate a coprocessor.
     - `PE` (Protection Enable, bit 0): Setting PE causes the processor to begin executing in protected mode. Resetting PE returns to real-address mode.
+    - `PG` (Paging, bit 31): PG indicates whether the processor uses page tables to translate linear addresses into physical addresses.
+    - `TS` (Task Switched, bit 3): The processor sets TS with every task switch and tests TS when interpreting coprocessor instructions.
+- `CR1`: reserved
+- `CR2`: only used when `PG` is set; Stores the address accesses to which trigger the current page fault.
+- `CR3`: only used when `PG` is set;
+    - bit x to 31 are used as the page directory base register (PDBR), which enables the processor to locate the *page table directory* for the current task.
+    - bit 0 to x are reserved.
+
+## Debug Registers
+
+TODO.
+
+## Test Registers
+
+The test registers are not a standard part of the x86 architecture.
+
+They are provided solely to enable confidence testing of the translation lookaside buffer (TLB, the highspeed cache used for virtual-physical page mapping).
