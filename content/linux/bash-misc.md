@@ -461,3 +461,41 @@ oj=(uva poj hdu leetcode)
 
 for d in "${oj[@]/#/src/}"; do echo "$d"; done
 
+# combine with compound assignment,
+# we can make the result in a new array
+srcoj=("${oj[@]/#/src/}")
+```
+
+**More general solution**: set `IFS=,` so that `eval` text becomes valid `{,,,}` syntax
+
+https://unix.stackexchange.com/questions/90938/possible-to-use-brace-permutation-and-array-expansion-simultaneously
+
+Demo: surroundings (i.e. prepend and append at the same time), plus special character (semicolon) handling:
+
+```bash
+oj=('u;v;a' 'p;o;j' hdu leetcode)
+
+OLDIFS=$IFS
+IFS=,
+# Pattern substitution by default only replace the longest match
+# If pattern begins with a '/', all occurrence of pattern are replaced. i.e. the reason for '/;'
+eval echo "foo{${oj[*]//;/\\;}}bar"    # foou;v;abar foop;o;jbar foohdubar fooleetcodebar
+IFS=$OLDIFS
+```
+
+Eval always makes shell code harder to read and maintain. In doubt, use ordinary for loop.
+
+## Function
+
+```sh
+valid() {
+    echo 42
+}
+
+alsoValid() { echo 42; }
+
+invalid() { echo 42 }
+```
+
+The closing curly brace must either
+- be in a separate line; or
