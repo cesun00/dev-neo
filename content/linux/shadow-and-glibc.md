@@ -75,3 +75,31 @@ Given the fact it stores password hashes
 
 [The shadow package](https://github.com/shadow-maint/shadow)
 is related to glibc in an interesting way.
+
+
+
+
+
+
+
+```
+grpconv   The `pwconv` command creates `shadow` from `passwd` and an optionally existing shadow.
+grpunconv   The `pwunconv` command creates `passwd` from `passwd` and `shadow` and then removes shadow.
+pwconv        The `grpconv` command creates `gshadow` from `group` and an optionally existing gshadow.
+pwunconv    The `grpunconv` command creates `group` from `group` and `gshadow` and then removes gshadow.
+
+chage
+chgpasswd
+chpasswd
+expiry
+faillog
+getsubids
+gpasswd
+groupadd
+groupdel
+groupmems
+groupmod
+groups
+grpck
+lastlog
+newgidmap
