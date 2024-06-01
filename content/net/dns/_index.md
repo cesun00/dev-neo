@@ -85,3 +85,12 @@ ns4.dnsv5.com.	172800	IN	A	1.12.0.16
 ns4.dnsv5.com.	172800	IN	A	1.12.0.19
 ns4.dnsv5.com.	172800	IN	A	1.12.14.16
 ns4.dnsv5.com.	172800	IN	A	1.12.14.19
+ns4.dnsv5.com.	172800	IN	A	106.55.82.76
+ns4.dnsv5.com.	172800	IN	A	112.80.181.106
+ns4.dnsv5.com.	172800	IN	A	13.37.58.163
+ns4.dnsv5.com.	172800	IN	A	150.109.248.236
+ns4.dnsv5.com.	172800	IN	A	183.47.126.155
+ns4.dnsv5.com.	172800	IN	AAAA	2402:4e00:111:fff::8
+
+
+Name servers knows the mapping 
