@@ -83,3 +83,33 @@ The purpose of such bank-based division is to that
 
 
 ### Read/Write Burst
+
+### Activation (open a row) and Precharge (close a row)
+
+Upon receiving ^RAS, it takes `t_RAS` clock cycles 
+
+### Clock
+
+In early days when CPU was not that fast, 
+
+### Refresh
+
+Capacitors in DRAM is leaking all the time, and needs to be charge (refresh) constantly to keep the bits alive. Charging is done by simply activating a row.
+
+The unit of refreshing is cell row.
+
+DDR4 UDIMM Details
+-------------
+
+Standard: 4.20.26 of JESD21-C Release 29.
+
+The whole 288 pins of DDR4 UDIMM **is alwaus fully used regardless of how many ranks the system has**. It has exactly 17 address lines from `A0` to `A16`, and x4 component is not allowed meaning that `A17` is never a thing. It has exactly 64 DQ lines, wired to the 8 chips per rank, meaning that parallel access to both rank is impossible. 
+
+TODO: max # of bank. Are CS0_n CS1_n 2-4 decoded?
+
+TODO: address and command lines wiring.
+
+Port vs Channel
+-------
+
+
