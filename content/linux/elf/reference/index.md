@@ -242,3 +242,32 @@ typedef struct
   Elf64_Word	sh_link;		/* Link to another section */
   Elf64_Word	sh_info;		/* Additional section information */
 
+  Elf64_Xword	sh_addralign;		/* Section alignment */
+  Elf64_Xword	sh_entsize;		/* Entry size if section holds table */
+} Elf64_Shdr;
+```
+
+Most fields should be axiomatic, others are explained below.
+
+{{<card "info">}}
+
+**Not all mix-and-match of the values of these fields makes sense.**
+
+The specification dictates a few special sections .
+
+Usage of these special sections are very pervasive, to the extend that a compiler-
+
+can only have fixed `sh_type`
+
+Mainstream assemblers and linkers always create the same collection of sections with stereotyped patterns of types and flags.
+
+The design of `sh_type` and `sh_flags` has become rather meaningless due to the fact that  Such patterns have become a , to the extent that
+not all mix-and-match of `sh_type` and `sh_type` are meaningful, or some `sh_type` and `sh_flags` are only permitted for a section
+that has a specific special name.
+
+For example, ELF specification leaves it unspecified what if an `SH_SYMTAB` section is not named `.symtab`.
+
+{{</card>}}
+
+#### `sh_type` - section type
+
