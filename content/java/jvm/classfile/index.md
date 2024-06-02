@@ -158,3 +158,29 @@ struct attribute_info {
     u4 attribute_length;
     u1 info[attribute_length];
 }
+```
+
+where `attribute_name_index` locates an `CONSTANT_Utf8_info` in the constant pool, indicating the attribute name.
+The attribute name must be one of 30 predefined attribute names, and determines the type of this `attribute_info` instance and the internal structure of the `info` array.
+
+<!-- summarized below by their permitted context -->
+
+<!-- Unless otherwise noted, the permitted number of instances of any attribute type is 0 or 1; i.e.  -->
+
+{{<fold "table: attributes semantics synopsis.">}}
+{{<content/classfile/attribute_new>}}
+{{</fold>}}
+
+{{<include-html "./multi_attr.html">}}
+
+## Type Metadata
+
+```c
+struct ClassFile {
+    // ...
+    u2             access_flags;
+    u2             this_class;      // CONSTANT_Class_info
+    u2             super_class;     // 0 or CONSTANT_Class_info
+    // ...
+}
+```
