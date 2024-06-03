@@ -220,3 +220,33 @@ for value in whitespace separated tokens; do
 done
 ```
 
+Omitted `in whitespace separated tokens` defaults to `$@`. `$@` is ws-separated tokens of bash invocation args outside functions, and function invocation args inside functions.
+
+```bash
+# ./print-fruits.sh apple watermelon citrus
+for fruit; do
+	echo $fruit # apple watermelon citrus
+done
+```
+
+### C-like triplet `for` loop
+
+```bash
+for (( i=0 ; i < 10 ; i++ )); do
+    echo $i
+done
+```
+
+`(( ... ))`	is one of arithmetic evaluation environment, thus `=` and `+` does proper math instead of comparing strings.
+
+Search for `ARITHMETIC EVALUATION` in `man 1 bash` for other arithmetic evaluation environments.
+
+### while / until
+
+```bash
+while <list>; do
+    commands
+done
+
+# negated while
+until <list>; do
