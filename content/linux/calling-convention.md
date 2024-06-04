@@ -107,3 +107,31 @@ For function declaration with variadic arguments:
 static void foo(int a, ...) {
     int c = a + 0x42;
 }
+
+int main() {
+    foo(0x42,0x43,0x44);
+}
+```
+
+The critical part is that how caller works doesn't change: it still pushes arguemnt from-right-to-left.
+
+```sh
+29:	6a 44                	push   0x44
+2b:	6a 43                	push   0x43
+2d:	6a 42                	push   0x42
+```
+
+The rest of the world have to change just to cater the caller:
+1. For named parameter, their position relative to the current `ESP` (when entering callee function) is unknown
+2. 
+
+{{<card>}}
+
+Q: It is the right-to-left stack-pushing order of arguments that makes variadic argument possilbe.
+A: NO. If arguments are pushed left-to-right, You can always push an size word as the last `push` before `call`. The callee can then figure out where is the start of the variadic argument list by inspecting that guardian size value.
+
+Q: the `cdecl` calling convention that made variadic arguments possible?
+
+{{</card>}}
+
+
