@@ -271,3 +271,41 @@ For example, ELF specification leaves it unspecified what if an `SH_SYMTAB` sect
 
 #### `sh_type` - section type
 
+The type of data held in this section.
+Lower values have standard, platform-independent semantics - see below.
+- values in the range `0x60000000 ~ 0x6fffffff` are OS-specific
+- values in the range `0x70000000 ~ 0x7fffffff` are processor-specific.
+- values in the range `0x80000000 ~ 0x8fffffff` are reserved for applications and won't be used by the specification.
+
+#### `sh_flags` - section attributes
+
+This field is a collection of bit flags, OR-ed together, each known as an *attribute* of this section.
+Its type is `Word` (i.e. 32 bits) for ELF32, but `Xword` (i.e. 64 bits) for ELF64.
+The difference in bit length is not a problem, since only less than a dozen of flags are currently defined.
+Lower bits have standard defined semantics, while the most significant 12 bits are OS-specific and processor-specific.
+
+
+| `sh_flags`                      | semantics                                  | set example | unset example |
+|---------------------------------|--------------------------------------------|-------------|---------------|
+| `SHF_WRITE (1 << 0)`            | Writable                                   | `.data`     | `.rodata`     |
+| `SHF_ALLOC (1 << 1)`            | Occupies memory during execution           | --TODO--    | --TODO--      |
+| `SHF_EXECINSTR (1 << 2)`        | Executable                                 | --TODO--    | --TODO--      |
+| `SHF_MERGE (1 << 4)`            | Might be merged                            | --TODO--    | --TODO--      |
+| `SHF_STRINGS (1 << 5)`          | Contains nul-terminated strings            | --TODO--    | --TODO--      |
+| `SHF_INFO_LINK (1 << 6)`        | `sh_info` contains SHT index               | --TODO--    | --TODO--      |
+| `SHF_LINK_ORDER (1 << 7)`       | Preserve order after combining             | --TODO--    | --TODO--      |
+| `SHF_OS_NONCONFORMING (1 << 8)` | Non-standard OS specific handling required | --TODO--    | --TODO--      |
+| `SHF_GROUP (1 << 9)`            | Section is member of a group.              | --TODO--    | --TODO--      |
+| `SHF_TLS (1 << 10)`             | Section hold thread-local data.            | --TODO--    | --TODO--      |
+| `SHF_COMPRESSED (1 << 11)`      | Section with compressed data.              | --TODO--    | --TODO--      |
+
+
+
+
+
+### Special
+
+
+
+
+### `sh_offset` & `sh_size` - section's in-file location
