@@ -92,3 +92,39 @@ ctx.zalloc = Z_NULL;
 ctx.zfree = Z_NULL;
 ctx.opaque = Z_NULL;
 
+// 2. initialize computation
+if (deflateInit(&ctx, Z_DEFAULT_COMPRESSION) != Z_OK) {
+    fprintf(stderr, "Error initializing zlib\n");
+    exit();
+}
+
+// 3. point to the beginning of input
+ctx.next_in = msg;
+ctx.avail_in = strlen(msg);
+
+// 3. compression loop: while more input available
+while (ctx.total_in < strlen(msg)) {
+    // 1. ensure in output buffer by adjusting next_out and avail_out
+
+    // 2. optionally set parameters
+    deflateParams()
+
+    // 3. call deflate() with desired flush style, e.g. Z_NO_FLUSH
+    deflate(&ctx, Z_NO_FLUSH);
+}
+
+while ()
+
+deflateEnd(&ctx) // free resources
+```
+
+
+## decompressing
+
+```
+populate a `z_stream` instance
+inflateInit (macro to deflateEnd_() call)
+while (input available) {
+    # inflate has no param to configure
+    inflate() call          
+}
