@@ -26,3 +26,32 @@ A module is one of the following structures:
 
 1. a JAR or JMOD file whose root has a `module-info.class` file. (known as a module artifact)
 2. a directory with a `module-info.class` file. (known as an exploded-module directory)
+
+## 1. Develop modules
+
+A module is the minimal unit of development.
+
+We will use the following structure, where 2 modules are developed:
+
+```
+$ tree -I .git -a --gitignore
+.
+├── .gitignore
+├── Makefile
+├── README.txt
+└── src
+    ├── com.foo
+    │   ├── com
+    │   │   └── foo
+    │   │       └── app
+    │   │           └── App.java
+    │   └── module-info.java
+    └── org.bar
+        ├── module-info.java
+        └── org
+            └── bar
+                └── libfoo
+                    └── PathFinder.java
+
+10 directories, 7 files
+```
