@@ -35,3 +35,16 @@ This physical
 
 - Unaligned word data is allowed, but doesn't take advantage of the 8086's ability to transfer 16-bits at a time.
 - there is no alignment requirement for instructions.
+
+segments must aligned on 16-byte (physical) memory boundary, and may be adjacent, disjoint, partially overlapped, or fully overlapped.
+
+4 segment register CS / DS / SS / ES are available for code / data / stack / extra.
+
+If there is no segment, program has to be written with absolute physical address. Such a program must be loaded at a fixed physical location
+so that memory references don't get messed up. Of course if 2 existing program requires the same physical location at which itself are loaded,
+they can't coexist at runtime. SHIT BRUH HERE WEGO
+
+The solution is that, instead of using absolute physical address, all program refer to a memory location by its offset in a segment.
+The segment can be loaded into any position in the physical memory space, and load its base physical address in one of the segment register.
+Runtime address are computed by taking the `CS + offset` and compute
+defer the computation of address to runtime - -- - -- - - ---
