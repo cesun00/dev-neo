@@ -176,3 +176,14 @@ Regardless of being a `type / non-type / template` template paramter, it can hav
 
 ```c++
 template<int N = 42> void foo() {}
+
+template<typename T = int> void bar() {
+    T default_init;
+}
+```
+
+### Function type as Type Argument
+
+```c++
+std::function<void(int)> f = /* bind to whatever function object that takes an int and return nothing */;
+```
