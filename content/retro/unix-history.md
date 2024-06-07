@@ -72,3 +72,20 @@ By the year 1974, Unix was entirely unsupported by AT&T, making the user group t
 
 Versions of the Unix system were determined by editions of its user manuals;
 
+The Bell Labs developers did not think in terms of "releases" of the operating system, instead using a model of continuous development, and sometimes distributing tapes with patches (without AT&T lawyers' approval).
+- 
+
+In 1978, UNIX/32V was released for DEC's then new VAX system. We are looking at over 600 machines were running Unix in some form around the world.
+
+
+
+
+
+
+
+
+
+
+
+
+TODO: https://www.youtube.com/watch?v=ECCr_KFl41E
