@@ -59,3 +59,36 @@ SELECT FILE_ID,FILE_NAME,FILE_TYPE,TABLESPACE_NAME
 FROM FILES
 WHERE TABLESPACE_NAME NOT IN (SELECT NAME FROM INNODB_TABLESPACES);
 
+# +---------+-----------+------------+-----------------+
+# | FILE_ID | FILE_NAME | FILE_TYPE  | TABLESPACE_NAME |
+# +---------+-----------+------------+-----------------+
+# |       0 | ./ibdata1 | TABLESPACE | innodb_system   |
+# +---------+-----------+------------+-----------------+
+```
+
+To query file(s) used by any tablespace, issue:
+
+```sql
+SELECT FILES.TABLESPACE_NAME, FILE_NAME
+FROM INNODB_TABLESPACES AS ts INNER JOIN FILES 
+ON ts.NAME = FILES.TABLESPACE_NAME;
+
+# +----------------------------+----------------------------------+
+# | TABLESPACE_NAME            | FILE_NAME                        |
+# +----------------------------+----------------------------------+
+# | mysql                      | ./mysql.ibd                      |
+# | innodb_temporary           | ./ibtmp1                         |
+# | innodb_undo_001            | ./undo_001                       |
+# | innodb_undo_002            | ./undo_002                       |
+# | sys/sys_config             | ./sys/sys_config.ibd             |
+# | world/city                 | ./world/city.ibd                 |
+# | world/country              | ./world/country.ibd              |
+# | world/countrylanguage      | ./world/countrylanguage.ibd      |
+# | classicmodels/customers    | ./classicmodels/customers.ibd    |
+# | classicmodels/employees    | ./classicmodels/employees.ibd    |
+# | classicmodels/offices      | ./classicmodels/offices.ibd      |
+# | classicmodels/orderdetails | ./classicmodels/orderdetails.ibd |
+# | classicmodels/orders       | ./classicmodels/orders.ibd       |
+# | classicmodels/payments     | ./classicmodels/payments.ibd     |
+# | classicmodels/productlines | ./classicmodels/productlines.ibd |
+# | classicmodels/products     | ./classicmodels/products.ibd     |
