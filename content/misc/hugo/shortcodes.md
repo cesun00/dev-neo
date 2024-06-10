@@ -59,3 +59,28 @@ The difference is poorly described.
     2. if it is a shortcode call
         
         1. without inner content
+        
+        Now it is a shortcode call that either has no content
+
+        
+
+    
+    its enclosed text are first inspected for nested shortcode
+    
+    
+    its shortcode template is executed by receiving `.Inner` as the literal enclosed text (doesn't go through markdown renderer), 
+        1. if it's an angle bracket call, the execution result (HTML) is appended to result to output buffer.
+        2. if it's a percentage call, the execution result (HTML) goes through the Goldmark renderer, and then is appends the HTML result to output buffer.
+3. the output buffer is dumped
+
+You should be concerned with 
+
+{{<columns>}}
+
+#### Bracket calls
+
+1. A markdown file is first split with shortcodes as the delimeter.
+2. For each split part, from top to bottom
+    1. if it is a piece of markdown, go through goldmark renderer, and append the html result to output buffer
+    2. if it is a shortcode, its shortcode template is executed by receiving `.Inner` as the literal enclosed text (doesn't go through markdown renderer), and appends the HTML result to output buffer.
+3. dump the output buffer for the final HTML files
