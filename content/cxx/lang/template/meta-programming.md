@@ -66,3 +66,27 @@ void foo() {
 ```
 
 ref: https://www.reddit.com/r/cpp_questions/comments/rhtr6v/concepts_vs_typetraits_in_situations_where_theyre/
+
+
+### class type
+
+- `class` + `struct` (`std::is_class<T>::value == true`)
+- `union` (`std::is_union<T>::value = true`)
+
+Or template instantiation of these. `std::is_class<T>::value` gives `false` for union. Bruh we are running out of nouns.
+
+### scalar type
+
+Every type except array and [class type](#class-type).
+
+### aggregate type
+
+Capture the idea of native array and simple data class whose construction cannot fail.
+
+Specifically:
+1. native array (of any type)
+2. class (`class`, `struct`, or `union`) with
+    1. no (potentially inherited) user-declared ctor,
+    2. no private / protected instance member, (static ones are okay - they won't be part of the instance memory anyway)
+    3. no (potentially inherited) virtual functions, and
+    4. no `virtual` / `protected` / `private` base class
