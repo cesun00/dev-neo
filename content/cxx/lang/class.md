@@ -30,3 +30,38 @@ The constructor is considered a function with no name.
 
 - at most 1 default constructor,
 - at most 1 copy constructor,
+- at most 1 move constructor,
+- at most 1 copy assignment operator,
+- at most 1 move assignment operator, and
+- prospective destructors
+
+all of which are known as *special member functions* of that class.
+
+## glossary
+
+**user-declared**: A SMF is said to be user-declared if the user types an constructor declaration in the program source.
+
+#### default ctor
+
+A default ctor is a ctor whose every parameter has a default argument, including one with an empty parameter list.
+
+If there is not any user-declared ctor (i.e. no declaration of ad-hoc ctor, no copy, no move ctor), the compiler treats it as if there is a declaration:
+
+```c++
+class {
+public:
+    /*non-explicit*/ ClassName() = default;
+}
+```
+
+This declaration can't have corresponding implementation in the user's source.
+
+#### copy ctor / move ctor
+
+For `class X`, its copy / move ctor is a non-template ctor
+- whose first parameter is of type (possibly cv-qualified) lvalue-reference / rvalue-reference `X` , i.e `(cv) X&` / `(cv) X&&`, and
+- all other parameters, if any, has a default argument.
+
+#### copy / move assignment operator
+
+For `class X`, its copy / move assignment operator `X::operator=` is a non-template non-static member function
