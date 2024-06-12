@@ -790,3 +790,36 @@ struct thread_info {
 	struct ftrace_ret_stack		*ret_stack;
 
 	/* Timestamp for last schedule: */
+	unsigned long long		ftrace_timestamp;
+
+	/*
+	 * Number of functions that haven't been traced
+	 * because of depth overrun:
+	 */
+	atomic_t			trace_overrun;
+
+	/* Pause tracing: */
+	atomic_t			tracing_graph_pause;
+#endif
+
+#ifdef CONFIG_TRACING
+	/* Bitmask and counter of trace recursion: */
+	unsigned long			trace_recursion;
+#endif /* CONFIG_TRACING */
+
+#ifdef CONFIG_KCOV
+	/* See kernel/kcov.c for more details. */
+
+	/* Coverage collection mode enabled for this task (0 if disabled): */
+	unsigned int			kcov_mode;
+
+	/* Size of the kcov_area: */
+	unsigned int			kcov_size;
+
+	/* Buffer for coverage collection: */
+	void				*kcov_area;
+
+	/* KCOV descriptor wired with this task or NULL: */
+	struct kcov			*kcov;
+
+	/* KCOV common handle for remote coverage collection: */
