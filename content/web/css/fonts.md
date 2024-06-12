@@ -163,3 +163,43 @@ CSS author instructs the browser to download a specific font from Web for later 
 ```css
 
 @font-face {
+  font-family: 'Lora';          /* declare the name of the font-family */
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/lora/v35/0QIvMX1D_JOuMwr7Iw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+```
+
+
+Some font distribution site, e.g. google fonts, provides an dedicated CSS file.
+
+For example
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+```
+
+
+Depending on where those those `.woff2` font files are served from, 
+- self-hosted
+- font delivery service
+
+
+
+## Web fonts and woff2 files
+
+
+- TrueType Fonts (TTF)
+
+    TrueType is a font standard developed in the late 1980s, by Apple and Microsoft. TrueType is the most common font format for both the Mac OS and Microsoft Windows operating systems.
+
+- OpenType Fonts (OTF)
+
+    OpenType is a format for scalable computer fonts. It was built on TrueType, and is a registered trademark of Microsoft.
+    OpenType fonts are used commonly today on the major computer platforms.
+
+- The Web Open Font Format (WOFF)
+
+    WOFF is a font format for use in web pages. It was developed in 2009, and is now a W3C Recommendation. WOFF is essentially OpenType or TrueType with compression and additional metadata. The goal is to support font distribution from a server to a client over a network with bandwidth constraints.
