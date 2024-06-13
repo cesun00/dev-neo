@@ -34,3 +34,35 @@ sudo setcap CAP_SYS_TIME+ep  /path/to/program
     pid file must be put here. - robustness principle
     domain socket must be placed here
 `/var`
+`/tmp`
+
+
+## image magick
+
+### Scale to height/width, keeping aspect ratio
+
+```bash
+convert -geometry 25x src.png out.png # resize image to width 25, keeping aspect ratio
+convert -geometry x25 src.png out.png # resize image to height 25, keeping aspect ratio
+```
+
+or
+
+```bash
+convert src.png -resize 25x out.png # resize image to width 25, keeping aspect ratio
+```
+
+### Scale by percentage
+
+```bash
+convert scaled_visa_f1_photopage.jpg -resize 70% output.jpg
+```
+
+### Splice (orderly)
+
+Width/Height of the resulting image will be the maximum width/height among all inputs. Gaps due to alignment will be white (and I don't see options to change it).
+
+```bash
+convert -append 1.jpg 2.jpg out.jpg # vertically
+convert +append 1.jpg 2.jpg out.jpg # horizontally
+```
