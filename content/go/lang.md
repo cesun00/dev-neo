@@ -52,3 +52,37 @@ func wsHandlerFunc(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+## err
+
+Any type that has a `Error() string` method implements the `error` interface.
+
+Can be extended to be more informational:
+
+```go
+type PathError struct {
+    Op   string
+    Path string
+    Err  error
+}
+```
+
+New err handling in Go 1.13 (September 3, 2019)
+https://blog.golang.org/go1.13-errors
+
+https://stackoverflow.com/questions/18771569/avoid-checking-if-error-is-nil-repetition
+
+## enum in Golang: const + iota
+
+Golang doesn't have an `enum` keyword.
+Enum in Golang is implemented with a special keyword `iota` within a `const` block:
+
+```go
+// A FileMode represents a file's mode and permission bits.
+// The bits have the same definition on all systems, so that
+// information about files can be moved from one system
+// to another portably. Not all bits apply to all systems.
+// The only required bit is ModeDir for directories.
+type FileMode uint32
+
+// The defined file mode bits are the most significant bits of the FileMode.
+// The nine least-significant bits are the standard Unix rwxrwxrwx permissions.
