@@ -23,3 +23,33 @@ If `-o` is not specified,
 
 ## Programming
 
+nasm is line oriented. The precense of `LF` in the source is significant for a successful assembling.
+
+A logical line contains multiple
+Each physical lines that ends 
+
+Each line conforms to the following syntax:
+
+```asm
+label:  instruction operands    ; comment
+```
+
+1. `label` and the colon after is optional
+2. 
+
+###
+
+The concept of a writing cursor is important when programming with nasm.
+
+### addressing
+
+```nasm
+; registers are nominated by simple register names
+; integer literals are 
+mov rax, 1      ; move literal
+
+; memory addresses are nominated by label name
+mov rax, foo
+
+; dereferencing (i.e. get content at a memory address) is done by surround address with a pair of []
+mov rax, [foo]
