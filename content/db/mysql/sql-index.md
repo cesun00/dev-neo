@@ -54,3 +54,22 @@ It's an very bad idea
 Secondary Index
 -------
 
+All other indexes other than the Clustered Index is known as "secondary indexes".
+
+Secondary Index is still organized as a B+Tree, but what leaf nodes store is 
+1. the value of the clustered index of each row
+2. the value of columns in this secondary index of each row.
+
+It's immediately obvious that when we do range query via secondary index, the first thing we get is values of clustered indexes; If we care about columns other than those contained in the secondary indexes, we need to do an extra lookup on the clustered indexes. **Generally this is random access on disk, and is very expensive**.
+
+<!-- TODO: Solution; -->
+
+Misc
+-----------
+
+### Hash index
+InnoDB only use hash table to implement the LRU eviction algorithm for buffer pool.
+The "Memory" engine supports hash index on a table.
+
+### B+-Tree and R-Tree
+InnoDB store PK (clustered), unique, mul, and **FULLTEXT** indexes in B+-Tree, and index over spatial data type in R-Tree.
