@@ -114,3 +114,38 @@ Inside a function macro's expansion body, parameter will be replaced by whatever
 Apart from their original purpose, these 2 operator has the side effect:
 
 > After the arguments for the invocation of a function-like macro have been identified, argument substitution takes place. A parameter in the replacement list, unless preceded by a # or ## preprocessing token or followed by a ## preprocessing token (see below), is replaced by the corresponding argument after all macros contained therein have been expanded. Before being substituted, each argument’s preprocessing tokens are completely macro replaced as if they formed the rest of the preprocessing file; no other preprocessing tokens are available.
+>
+> <cite>C11 6.10.3.1/p1 Argument substitution</cite>
+
+### The double-stringize trick
+
+Useful when you want to stringize the value of a macro as well.
+
+```c
+#define STRINGIZE(x) #x
+#define STRINGIZE_VALUE(x) STRINGIZE(x)
+
+#define ELFOSABI_GNU		3	/* Object uses GNU ELF extensions.  */
+#define ELFOSABI_LINUX		ELFOSABI_GNU /* Compatibility alias.  */
+
+STRINGIZE(ELFOSABI_LINUX); // expand to "ELFOSABI_LINUX"
+STRINGIZE_VALUE(ELFOSABI_LINUX); // expand to "3"
+```
+
+https://stackoverflow.com/questions/2751870
+
+### Macro token preservation
+
+```c
+
+```
+
+There was lots of other other `const char *exxx_map[]` and other `#define MAP_OP() ...`. The only difference of those `MAP_OP` is they operate on different array.
+
+Instead of the code above, You can
+
+```c
+```
+
+credit:
+- https://stackoverflow.com/questions/28547085/stopping-macro-expansion
