@@ -239,3 +239,43 @@ Problem happens when `T` is not deduced to the identical type client's object ha
 
 ```c++
 template<C T>
+void foo2(T&& t);
+```
+
+If client pass an rvalue expression argument:
+
+```c++
+foo2(get_a_vector());
+```
+
+Things are fine: `T` is still deduced to `vector<int>`, and compiler checks whether `vector<int>` satisfies `C`.
+
+If client pass an lvalue expression argument:
+
+```c++
+vector<int> dt{/**/};
+foo2(dt);
+```
+
+`T` is now deduced to `vector<int>&`, and all of a sudden the constraint `C` is not on `vector<int>` anymore but on `vector<int>&`, a lvalue reference type.
+
+Client has to at least look into the template source and at least basic understand of universal reference and TAD to know the difference?
+
+## `constexpr` as concept component
+
+It's a common practice to use `constexpr` variable template to compose concept, without introducing a new sub-concept:
+
+```c++
+template<class T>
+inline constexpr bool enable_view = std::derived_from<T, view_base> || /*is-derived-from-view-interface*/<T>;
+
+template<class T>
+concept view = ranges::range<T> && std::movable<T> && ranges::enable_view<T>;
+```
+
+`enable_view<T>` is evaluated at compile-time to produce a `bool`, so it can be used in `constraint-expression` to compose a concept.
+At the same time, specification made sure no one can abuse `enable_view` as a concept.
+
+## Customization Point Object (CPO)
+
+A CPO is an function object `t` (i.e. has `operator()`) whose class `T` has `constexpr` ctor and dtor, and serves the following purpose:gh
