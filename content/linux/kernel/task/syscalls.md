@@ -92,3 +92,32 @@ SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
 		.tls		= tls,
 	};
 
+	return kernel_clone(&args);
+}
+#endif
+```
+
+{{<card "info">}}
+
+<!-- The signature of glibc's `clone` wrapper uses variadic variables for TODO; 
+this has nothing to do with the fact that syscalls use register-based arg passing.
+
+Pass at least 4 arguments to use this syscal -->
+This caused some trouble for the glibc's wrapper:
+
+```c
+extern int clone (
+    int (*__fn) (void *__arg),
+    void *__child_stack,
+    int __flags,
+    void *__arg,
+    ...
+) __attribute__ ((__nothrow__ , __leaf__));
+
+int clone(int (*fn)(void *_Nullable), void *stack, int flags,
+                 void *_Nullable arg, ...  /* pid_t *_Nullable parent_tid,
+                                              void *_Nullable tls,
+                                              pid_t *_Nullable child_tid */ );
+```
+
+The callee knowns the number of actually passed arguments, since ...TODO? Such technique is 
