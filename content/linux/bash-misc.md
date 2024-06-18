@@ -191,3 +191,32 @@ The `in <tokens>` part can be omitted, which is equivalent to `select var in $@;
 
 e.g. 
 
+```sh
+select var in foo bar zoo; do
+	echo "you've chosen $var"
+	# do something else based on choice of $var
+done
+```
+
+The above structure is equivalnet to the following loop:
+
+```c
+while (true) {
+	prompt a choice menu
+	wait for stdin and set $var value
+
+	execute whatever pipeline in the block		// you must explicitly use `break` or will loop forever
+}
+```
+
+## Loop
+
+### for each token
+
+```bash
+# 用`$(seq first last)`或`{first..last}`来生成 tokens
+for value in whitespace separated tokens; do
+	echo $value
+done
+```
+
