@@ -36,3 +36,40 @@ The term *file* below refers to info's model, instead of filesystem files.
 
 <!-- Files are equal - there is no parent file or child file - things.
 To display all files installed on a local machine,  -->
+
+## Prerequisites
+
+All shortcuts in GNU info are shortcuts for a command.
+A command can always be executed by typing its name in the `M-x` prompt.
+
+`M-x` itself is a shortcut for the `execute-command` command, which prompts for command input.
+
+## Dual Models: tree and book
+
+Each file can be thought of as a book - a collection of articles each called a node.
+There are 2 models `info` use to organize these nodes:
+1. 
+2. naturally reading order as you go from the first page of a book to the last page.
+
+organized into a tree structure.
+Each article is thus called a *node*.
+Each where sibling nodes has next and prev links chaining
+
+```
+d   goes to the directory node (the parent node of all root node)
+```
+
+### Tree mode manipulation
+
+```
+t       go to the root node
+n       go to the next sibling node
+p       go to the prev sibling node
+u       go to the parent node
+l       go back a node in browsing history, useful when followed hyperlinks and jump back
+```
+
+### book mode manipulation
+
+```
+[       previous node (in book reading order)
