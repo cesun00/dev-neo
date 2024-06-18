@@ -24,3 +24,5 @@ During the static linking between `main.o` and shared objects
 ```asm
 global foo:weak;
 ```
+
+exporting a weak symbol with `global <label>:weak`
