@@ -1,0 +1,26 @@
+---
+title: "About / 关于"
+date: 2024-01-01
+lastmod: 2024-05-01
+lastmod: 2024-07-10T17:50:53+08:00
+draft: false
+---
+
+{{<columns>}}
+
+你好，这里是孙策。
+
+我是一名后端软件工程师，一名 Linux 生态/内核和硬件爱好者，也是一名技术作者和吉他乐手。
+工作方面目前在使用 Java 语言和泛JVM语言进行生产。
+
+若您有意联系或获取简历，欢迎发送邮件至 cesunjob@outlook.com.
+
+<--->
+
+Hi, Ce Sun here.
+
+I'm a software engineer for cloud-native applications, a Linux ecosystem / kernel & hardware enthusiast, a technical writer, and a guitar player.
+For work, I write production code in Java and Scala that runs on the cloud.
+
+For any contact, question or resume request, please don't hesitate to reach me at cesunjob@outlook.com.
+
