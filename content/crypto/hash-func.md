@@ -69,3 +69,34 @@ Birthday attack: a less awkward name for brute force. Keep sending unused input 
 Cryptographic hash function (CHF)
 ============
 
+A CHF is a hash function, usually with some extra security property, but there is really no strict definition.
+
+Given a CHF, the *preimage* of an output value is the set of all inputs that produces this output.
+
+Related Attacks & security properties:
+1. preimage attack: for a given `y` in the output space, find any `x` in the input space that hases to `y`.
+   - Hardness (formally, being *computationally infeasible*) in doing so for a given CHF is known as *preimage resistance*.
+   - preimage resistance is the most basic security promise - everything fucked up if an CHF can't provide it.
+2. second-preimage attack: for a given `m1` in the input space, find another `m2` where `H(m1) == H(m2)`.
+   - Hardness ... *second-preimage resistance*.
+   - Second-preimage attack is essentially a preimage attack with one preimage already known. Thus:
+     - Second-preimage attack is less challenging than preimage attack for the adversary. If an adversary has already broken preimage game, he can just pass `H(m1)` to the preimage cracker and the result is the second-preimage `m2` he is seeking. (since there are infinitely many preimages of `H(m1)`, the probability of getting the same `m1` back is infinitely small.)
+     - "being able to break preimage game implies being able to break second-preimage game ", taking the contraposition: "second-preimage resistance implies preimage resistance".
+       - if an adversary can't even win a less challenging game (the second-preimage), he can't win more challenging ones (the preimage).
+       - thus level of security: `second-preimage resistance > preimage resistance`
+3. collision attack: find any `m1` and `m2` such that `H(m1) == H(m2)` (so-called "find a collision")
+   - Hardness ... *collision resistance*.
+   - Collision attack is essentially a second-preimage attack with the freedom to choose `m1`
+     - Collision attack is less challenging than second pre-preimage attack: if an adversary has already broken second-preimage game, he can just choose an arbitrary `m1` and pass it to the second-preimage cracker and the result `m2` is the collision he is seeking.
+     - "collision resistance implies second-preimage resistance" [credit](https://crypto.stackexchange.com/a/20998/66840)
+     - thus level of security: `collision resistance > second-preimage resistance > preimage resistance`
+   - Best collision resistance is that: no adversary can perform collision attack (i.e. find collision) more efficiently than birthday attack (i.e. brute force). Such hash function doesn't expose any information that an adversary can exploit thus do better than brute force.
+4. *Chosen-prefix collision attack*: given 2 different prefix `p1` and `p2`, find any `m1` and `m2` s.t. `H(p1 || m1) == H(p2 || m2)`.
+   - i.e. generalized form of collision attack.
+   - Such attack captures the scenario where 2 files of different types (thus different initial magic, e.g. X.509 cert and PostScript document) are artifically created with collided MD5.
+
+CHFs NEVER take keys.
+
+## CHF design
+
+Intuitively, a good hash function should exhibit the following property:
