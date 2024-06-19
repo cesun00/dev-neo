@@ -159,3 +159,20 @@ Go template doesn't have built-in support for this, and a helper function must b
 ```
 ```
 
+https://stackoverflow.com/questions/18276173/calling-a-template-with-several-pipeline-parameters
+
+Many go-based SSR frameworks, including hugo, does this too.
+
+### `html/template` syntax highlight support in VSCode
+
+tl;dr: [the official `vscode-go` extension](https://marketplace.visualstudio.com/items?itemName=golang.Go) registers the `gotmpl` langauge mode;
+but the team, as of Feb. 2024, [doesn't have a plan](https://github.com/golang/vscode-go/issues/609#issuecomment-1714669400) to support co-existence of HTML highlight and Go template highlight. Also, IntelliSense is unavailable.
+
+The most you can get out of the official plugin is a 
+... based on the so-called `semanticTokens` feature from the `gopls` language server. It looks like:
+
+![](./vscode-go-gotmpl.png)
+
+Emmet is disabled for the `gotmpl` langauge mode by default.
+See [here](https://code.visualstudio.com/docs/editor/emmet#_emmet-abbreviations-in-other-file-types) for enabling it.
+
