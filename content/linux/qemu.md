@@ -120,3 +120,22 @@ lrwxrwxrwx 1 root root    9 Mar 28 04:34 qemu-system-arm.1.gz -> qemu.1.gz
         DRIVE must be a sequence of characters.
         The x86 PC uses: a, b (floppy 1 and 2), 
                 c (first hard disk),
+                d (first CD-ROM),
+                n-p (Etherboot from network adapter 1-4),
+
+                c (hard disk) is assumed if `-boot order=` is not present, meaning that you need
+                an explicit `-boot order=d` for installing an OS from an ISO.
+
+-drive <specification>
+
+    `specification` being a comma separated list of `k=v` pairs
+    - file=<PATH>,format=<FMT>     Use the file specified by PATH as 
+
+-m [size=]megs[,slots=n,maxmem=size]
+    
+    adjust the size of memory instead of the default 128MiB.
+
+
+## disk management
+
+For host FS that supports hole ...
