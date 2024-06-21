@@ -23,3 +23,20 @@ https://stackoverflow.com/questions/18645820/is-jdbctype-necessary-in-a-mybatis-
     insert into task_info
     ...
 </insert>
+```
+
+```java
+TaskInfoPo taskInfoPo = new TaskInfoPo();
+//taskInfoPo.set...()
+// set everything EXCEPT the primary key
+taskInfoMapper.insertSelective(taskInfoPo);
+final Long taskId = taskInfoPo.getId(); // now the auto-increment PK is filled back.
+
+public interface TaskInfoMapper{
+    int insertSelective(TaskInfoPo record);
+
+    //...
+}
+```
+
+注意此方法只能用于回填自增PK，不会修改PO中其他字段。
