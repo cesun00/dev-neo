@@ -1520,3 +1520,42 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 ## misc
 
 
+all include from root makefile
+
+```makefile
+include $(srctree)/scripts/Kbuild.include
+include $(srctree)/scripts/subarch.include
+
+include $(srctree)/scripts/Makefile.clang
+include $(srctree)/scripts/Makefile.compiler
+include $(srctree)/arch/$(SRCARCH)/Makefile
+
+ifdef need-config
+include include/config/auto.conf
+endif
+
+include $(srctree)/arch/$(SRCARCH)/Makefile
+include include/config/auto.conf.cmd
+include $(addprefix $(srctree)/, $(include-y))
+```
+
+### techniques: Ensure a file has been generated
+
+file-name target with no dependency is considered always up-to-date, unless that file doesn't exist (i.e. effectively becomes a PHONY):
+
+```makefile
+# $(KCONFIG_CONFIG) defaults to `.config`.
+# Whenever make finds that the `.config` file doesn't exist thus the recipe needs to be executed, it's a problem
+
+$(KCONFIG_CONFIG):
+	@echo >&2 '***'
+	@echo >&2 '*** Configuration file "$@" not found!'
+	@echo >&2 '***'
+	@echo >&2 '*** Please run some configurator (e.g. "make oldconfig" or'
+	@echo >&2 '*** "make menuconfig" or "make xconfig").'
+	@echo >&2 '***'
+	@/bin/false
+```
+
+<!-- A variant that ensures `include/config/auto.conf` plus `include/generated/autoconf.h` exist
+
