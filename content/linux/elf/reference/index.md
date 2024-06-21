@@ -113,3 +113,41 @@ typedef struct
   Elf64_Half	e_phnum;		/* Program header table entry count */
   Elf64_Half	e_shentsize;		/* Section header table entry size */
   Elf64_Half	e_shnum;		/* Section header table entry count */
+  Elf64_Half	e_shstrndx;		/* Section header string table index */
+} Elf64_Ehdr;
+
+```
+
+### `e_ident[]`: The ELF Identification
+
+The first 16 bytes of the ELF header (i.e. also the first 16 bytes of an ELF file)
+are critical metadata about this ELF file.
+
+{{<content/elf-sections/neo/e_ident>}}
+    
+
+### `e_type`
+
+```c
+/* Legal values for e_type (object file type).  */
+
+#define ET_NONE		0		/* unknown file type */
+#define ET_REL		1		/* Relocatable file */
+#define ET_EXEC		2		/* Executable file */
+#define ET_DYN		3		/* Shared object file */
+#define ET_CORE		4		/* Core file */
+#define	ET_NUM		5		/* Number of defined types */
+
+#define ET_LOOS		0xfe00		/* OS-specific range start */
+#define ET_HIOS		0xfeff		/* OS-specific range end */
+#define ET_LOPROC	0xff00		/* Processor-specific range start */
+#define ET_HIPROC	0xffff		/* Processor-specific range end */
+```
+
+- Interpretation of value in `[ET_LOOS, ET_HIOS]` are subjected to different `EI_OSABI`
+- Interpretation of value in `[ET_LOPROC, ET_HIPROC]` are subjected to different `e_machine`
+
+### `e_machine`
+
+Target CPU ISA (instruction set architecture). Some examples are:
+
