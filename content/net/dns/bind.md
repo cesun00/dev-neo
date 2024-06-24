@@ -55,3 +55,31 @@ options {
 zone "localhost" IN {
     type master;
     file "localhost.zone";
+};
+
+zone "0.0.127.in-addr.arpa" IN {
+    type master;
+    file "127.0.0.zone";
+};
+
+zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" {
+    type master;
+    file "localhost.ip6.zone";
+};
+```
+
+### ban / support recursive query (rd=1)
+
+### zone files
+
+
+1. The start of the line gives the owner of the RR. If a line begins with a blank, then the owner is assumed to be the same
+as that of the previous RR. Blank lines are often included for readability.
+2. TTL
+3. type 
+4. class
+
+Class and type use the mnemonics
+
+
+
