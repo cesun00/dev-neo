@@ -57,3 +57,29 @@ DDR4 SDRAM Architecture
 
 A memory rank is a set of DRAM chips connected to the same chip select (`CS_n`), which are therefore active/inactive simultaneously. In practice all DRAM chips share all of the other command and control signals, and only the chip select pins for each rank are separate (the data pins are shared across ranks).
 
+This means that all chips on the same MM share the same command lines. Chips is told to accept the current command signals only when `CS_n` is on, and all chips in the same rank accept the same commands.
+
+Memory controller is fully responsibly for rank selection. MM PCB only wires those pin.
+
+### Addressing & Word
+
+### Bank and Bank Group
+
+DDR4 added a new feature called "bank group". JESD79-4 requires tha each x4 or x8 component has 4 bank groups of 4 banks each, i.e. 16 banks; and x16 component has 2 bank groups with 4 banks each, i.e. 8 banks.
+
+For example, `HyperX HX436C17FB3/8` has 4 bank groups of 4 banks each, i.e. totally 16 banks.
+
+Each bank has its own 
+
+Bank is the unit of command handling. Each bank is able to handle a read ..., while rows from other banks can be read simultaneously.
+
+Bank is the unit of row open/close. Only one row can be opened per bank, but each bank can open its own row independently.
+
+Each bank has its own row of sense amplifier attached to its bitlines.
+
+The purpose of such bank-based division is to that
+
+### Prefetch
+
+
+### Read/Write Burst
