@@ -38,3 +38,35 @@ interface AnnotatedElement {
      * 
      * Returns:
      * 1. if a single `@A` is present, the unique `A` instance (regardless of whether `A` is `@Repeatable`)
+     * 2. if none or more than one `@A` are present, `null`
+     */ 
+    <A extends Annotation> A getAnnotation(Class<A> annotationClass);
+
+    /**
+     * List all present annotations.
+     * 
+     * 1. respect @Inherited
+     * 
+     * In the returned array:
+     * 1. if a single `@A` is present, the unique `A` instance is included (regardless of whether `A` is `@Repeatable`)
+     * 2. if more than 1 `@A` is present, the container instance is included. None of `A` instance is included.
+     */
+    Annotation[] getAnnotations();
+
+
+    /**
+     * Repeatable-annotation-awared variant of getAnnotation()
+     * 
+     * Returns:
+     * 1. if `A` is an annotation container
+     *      a) if at least once A's containing annotation is present, a singleton array of `A`
+     *      b) otherwise, `null`
+     * 2. otherwise,
+     *      a) if no `@A` is present, `null`
+     *      b) if a single `@A` is present, a singleton array of the unique `A` instance (regardless of whether `A` is `@Repeatable`)
+     *      c) if more than 1 `@A` is present, an array containing all instance of `A`
+     */
+    <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationClass);
+
+
+    /**
