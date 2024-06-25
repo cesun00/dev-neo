@@ -25,3 +25,35 @@ It starts in the `pagesCollector.Collect()` method by submitting to the worker p
 // It may be restricted by filenames set on the collector (partial build).
 func (c *pagesCollector) Collect() (collectErr error) {
     // ...
+
+    c.g = rungroup.Run[hugofs.FileMetaInfo](c.ctx, rungroup.Config[hugofs.FileMetaInfo]{
+        NumWorkers: numWorkers,
+        Handle: func(ctx context.Context, fi hugofs.FileMetaInfo) error {
+            numPages, numResources, err := c.m.AddFi(fi, c.buildConfig)
+            // ..
+    }
+}
+```
+
+`fi` is Hugo's type for a filesystem file (a wrapper around a path string e.g. `$HOME/yoursite/content/posts/somepost.md`).
+
+```go
+func (m *pageMap) AddFi(fi hugofs.FileMetaInfo, buildConfig *BuildCfg) (pageCount uint64, resourceCount uint64, addErr error) {
+    // ...
+
+        // IsContent returns true if the path is a content file (e.g. mypost.md).
+        // Note that this will also return true for content files in a bundle.
+        if pi.IsContent() {
+                // Create the page now as we need it at assembly time.
+                // The other resources are created if needed.
+                pageResource, pi, err := m.s.h.newPage(
+                    &pageMeta{
+                        f:        source.NewFileInfo(fim),
+                        pathInfo: pi,
+                        bundled:  true,
+                    },
+                )
+                // ...
+}
+```
+
