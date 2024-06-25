@@ -55,3 +55,37 @@ The backplanes allowed 25 modules
 >
 > If you plug 20 modules into a backplane, the first pin of all modules is connected, so is the second pin, etc.
 > This forming multiple computer buses, one for each pin position.
+
+## 3rd gen: FLIP CHIP
+
+FLIP CHIP was designed in 1964 as components of and enhancement to the PDP–7 computer.
+
+- The `R series` which operates from DC to 2 Megahertz.
+- The `B series` which operates from DC to 10 Megahertz.
+- The `W series` modules for interfacing with various types of external equipment
+
+- 4000-Series: the second series, nominally 500 KHz, but some 1 MHz
+- 1000-Series: the original series, nominally 5 MHz
+- 6000-Series: higher speeds, nominally 10 Mhz
+- 8000-Series: very high speeds, nominally 30MHz
+
+
+## The reference manul
+
+The official manual of DLM and System Module was the *Digital Logic Handbook*.
+The first edition was released in September 1960.
+Some of them are available at the [bitsavers](https://bitsavers.org/pdf/dec/handbooks/)
+
+
+PDP-1
+========
+
+Digital used their existing line of logic modules to build a PDP
+and aimed it at a market that could not afford the GIGANTIC computers.
+
+Such "existing line of logic modules"
+
+The stock installation of PDP-1 is simply 4 19-inch racks.
+Everything else, e.g. the keyboard, the printer, and [the iconic circle CRT display](https://www.soemtron.org/pdp7optionslist.html#opt30) is considered peripheral devices.
+
+There were totally 53 PDP-1 built and delivered, from the first in 1959 to the last one in 1969.
