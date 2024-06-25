@@ -98,3 +98,30 @@ When photon hits the depletion area ...
 
 A photo diode work in breakdown mode:
 - For forward current: identical to normal diode
+- For backward current: the breakdown voltage decrease when light hits its surface.
+
+The photocurrent decreases as the surface area of the PIN material increase.
+
+### Light Emitting Diode (LED)
+
+An LED work in forward mode:
+- For forward current: like normal diode, but the voltage drop is larger.
+
+   The extra voltage provide more power which become photon emitted. The shorter wavelength, the larger that setup voltage consumption is.
+
+- For backward current: identical to normal diode
+
+### Variable capacitor
+
+### Schottky Diode
+
+## triode
+
+## Kirchhoff's current law (KCL)
+
+For any node (junction) in an electrical circuit, the sum of currents flowing into that node is equal to the sum of currents flowing out of that node.
+
+KCL equality is about instant moment (since - like speed - current is a per-second measurement), but hold for every moments in an active circuit.
+
+## Thévenin's theorem
+
