@@ -90,3 +90,22 @@ OUTS -- Output String
 
 
 #### Interrupt control (refer to Chapter 9):
+CLI -- Clear Interrupt-Enable Flag
+STI -- Set Interrupt-Enable Flag
+LIDT -- Load IDT Register
+SIDT -- Store IDT Register
+
+
+#### Debugging (refer to Chapter 12):
+MOV -- Move to and from debug registers
+
+
+#### TLB testing (refer to Chapter 10):
+MOV -- Move to and from test registers
+
+
+## System Control:
+- `SMSW / LMSW`: Set/ Load MSW; since 80386 the MSW register can be accessed by `MOV dest, CR0`, and these 2 instructions are only provided for compatibility.
+- `HLT` -- Halt Processor; stops the processor until receipt of an INTR or RESET signal.
+- `MOV` -- Move to and from control registers
+
