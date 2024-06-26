@@ -52,3 +52,30 @@ typedef int		__kernel_pid_t;
  * pid allocator wrapped, and another process could have come along
  * and been assigned that pid.
  *
+ * Referring to user space processes by holding a reference to struct
+ * task_struct has a problem.  When the user space process exits
+ * the now useless task_struct is still kept.  A task_struct plus a
+ * stack consumes around 10K of low kernel memory.  More precisely
+ * this is THREAD_SIZE + sizeof(struct task_struct).  By comparison
+ * a struct pid is about 64 bytes.
+ *
+ * Holding a reference to struct pid solves both of these problems.
+ * It is small so holding a reference does not consume a lot of
+ * resources, and since a new struct pid is allocated when the numeric pid
+ * value is reused (when pids wrap around) we don't mistakenly refer to new
+ * processes.
+ */
+
+
+/*
+ * struct upid is used to get the id of the struct pid, as it is
+ * seen in particular namespace. Later the struct pid is found with
+ * find_pid_ns() using the int nr and struct pid_namespace *ns.
+ */
+```
+
+```c
+struct upid {
+	int nr;
+	struct pid_namespace *ns;
+};
