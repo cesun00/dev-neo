@@ -82,3 +82,28 @@ cmd = @$(if $(cmd_$(1)),set -e; $($(quiet)log_print) $(delete-on-interrupt) $(cm
 ```
 
 The `cmd` function should be used when you want to perform certain operations and print to the terminal a message.
+You see prettified one-line messages during a kernel build, e.g.:
+
+```
+  LDS     scripts/module.lds
+  HOSTCC  usr/gen_init_cpio
+  CC      init/main.o
+  CC      certs/system_keyring.o
+  CC      ipc/compat.o
+  CC      mm/filemap.o
+  AS      arch/x86/entry/entry.o
+  CC      fs/open.o
+  AR      arch/x86/virt/vmx/built-in.a
+```
+
+thanks to this function.
+
+It will respect the `make V=[1|2]` argument and determine whether to print verbose messages.
+
+To write an operation that fits into this framework, define 2 variables:
+1. a `cmd_xxx` that holds the actual shell script; and
+2. a `quiet_cmd_xxx` varaible contains a short message
+
+```makefile
+quiet_cmd_makefile = GEN     Makefile
+      cmd_makefile = { \
