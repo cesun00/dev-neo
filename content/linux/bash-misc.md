@@ -163,3 +163,31 @@ case test-string in
 		commands-1
 		;;
 	pattern-2)
+		commands-2
+		;;
+	...
+esac
+```
+
+`pattern` can contain:
+- `*`	matches any sequence of character
+- `?`	match a single character
+- `[...]`
+- `|`	list alternatives
+
+### `select`: interactive prompt
+
+The `select` keyword prompts an interactive menu for user to pick an option:
+
+```bash
+select var in <tokens>; do
+	commands
+done
+```
+
+where `<tokens>` is a sequence of whitespace-separated tokens.
+The `in <tokens>` part can be omitted, which is equivalent to `select var in $@; do ...`.
+`$@` is ws-separated tokens of bash invocation args outside functions, and function invocation args inside functions.
+
+e.g. 
+
