@@ -162,3 +162,29 @@ overrides a virtual member function declared in a base class.
 > <cite>c++20 11.7.2.1</cite>
 
 c++11 introduced a non-terminator `virt-specifier-seq` which expand to `final` or `override` or both in arbitrary order.
+Using them allows inheritance problem to be detected at compilation time.
+
+- Compiler complains if `override`-marked function doesn't really override.
+    - Explicit expression of intent.
+- Compiler complains if `final`-marked function is overriden somewhere.
+    - Prior to this feature, standard c++ can't prevent further overriding in more derived class.
+
+Problems are
+1. Inherited virtual-ness means c++ allows derived class to omit `virtual` keyword when overriding, which is horrible for readability;
+2. `final` and `override` are not mandatory; doesn't solve (1) from langauge level.
+
+It's impossible for new spec to fix these problems due to backward compatibility.
+Compiler flags / code prettier that force `virt-specifier-seq` and `virtual` keyword is recommended.
+
+
+## Class Member Initialization
+
+1. If the constructor is for the most-derived class, virtual bases are initialized in the order in which they appear in depth-first left-to-right traversal of the base class declarations (left-to-right refers to the appearance in base-specifier lists)
+2. Then, direct bases are initialized in left-to-right order as they appear in this class's base-specifier list
+3. Then, on-static data members are initialized in the order of their declaration in the class definition, not of `member-init-list`:
+
+    ```c++
+    struct A {
+        int a;
+        int b;
+
