@@ -138,3 +138,8 @@ Simply initialize `FooBar_private_offset`, which is defined by `G_DEFINE_TYPE_WI
 // expands to
 {
   FooBar_private_offset =
+      g_type_add_instance_private(g_define_type_id, sizeof(FooBarPrivate));
+}
+```
+
+
