@@ -32,3 +32,36 @@ Since C++11, each expression falls into exactly 1 of the following 3 value categ
 Under the new glossary,
 - glvalue = lvalue + xvalue
 - rvalue = prvalue + xvalue
+
+![](cxx_vcat_venn.png)
+
+## determine value category of an expression
+
+It's usually not hard to determine the value category of an expression from intuition.
+The only notable one is function call, its value category depends on its return type:
+
+Call to a function that returns...
+
+{{<columns>}}
+
+... non-reference type become a prvalue expression
+
+```c++
+struct X { int a; };
+
+X foo() {
+    return X{42};
+}
+
+int main() {
+    X c = foo();
+}
+```
+
+<--->
+
+...4 lvalue-reference become a lvalue expression:
+
+```c++
+int& foo() {
+    int *c = new int{42};
