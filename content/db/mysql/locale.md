@@ -34,3 +34,41 @@ When changing a character set and not specifying a collation, the default collat
 *`SHOW` is not an SQL standard statement, and are being deprecated.
 Both command retrieve information from the schema `information_schema`, and there exists equivalent `SELECT`.*
 
+Note that multiple languages might be represented in the same charset (as we have a versatile `utf8mb4` for all languages in the world), but their collations differ:
+
+```sql
+SHOW COLLATION LIKE 'utf8mb4%';
+# +----------------------------+---------+-----+---------+----------+---------+---------------+
+# | Collation                  | Charset | Id  | Default | Compiled | Sortlen | Pad_attribute |
+# +----------------------------+---------+-----+---------+----------+---------+---------------+
+# | utf8mb4_0900_ai_ci         | utf8mb4 | 255 | Yes     | Yes      |       0 | NO PAD        |
+# | utf8mb4_turkish_ci         | utf8mb4 | 233 |         | Yes      |       8 | PAD SPACE     |
+# ......
+# | utf8mb4_vi_0900_ai_ci      | utf8mb4 | 277 |         | Yes      |       0 | NO PAD        |
+# | utf8mb4_vi_0900_as_cs      | utf8mb4 | 300 |         | Yes      |       0 | NO PAD        |
+# | utf8mb4_zh_0900_as_cs      | utf8mb4 | 308 |         | Yes      |       0 | NO PAD        |
+# +----------------------------+---------+-----+---------+----------+---------+---------------+
+# 75 rows in set (0.00 sec)
+```
+
+### Configuration by Granularity
+
+#### The Ultimate Fallback
+
+A pair of default charset and collation should be specified on the `cmake` command line.
+For installation from Archlinux AUR, this is:
+
+```bash
+grep -e 'DEFAULT_CHARSET' -e 'DEFAULT_COLLATION' PKGBUILD 
+#    -DDEFAULT_CHARSET=utf8mb4 \
+#    -DDEFAULT_COLLATION=utf8mb4_unicode_ci \
+```
+
+If nothing is provided on build at all, `utf8mb4 + utf8mb4_0900_ai_ci` are hardcoded:
+https://github.com/mysql/mysql-server/blob/8.0/cmake/character_sets.cmake
+
+```cmake
+IF(NOT DEFAULT_CHARSET)
+  SET(DEFAULT_CHARSET "utf8mb4")
+ENDIF()
+
