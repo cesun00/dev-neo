@@ -56,3 +56,43 @@ Use `-N` or `--deselect` to negate the selection.
 A list can be either comma-separated single shell token, or whitespace-separated single or multiple shell token(s).
 
 - words (user name / login / pid, etc.) in a list are always logically union-ed.
+- whitespace one triggers more verbose output as an effort to solve dirty compatibility problems.
+
+    ```sh
+    # ps -p 1,4839
+        PID TTY          TIME CMD
+          1 ?        00:00:00 systemd
+       4839 ?        00:00:00 code
+    # ps -p 1 4839
+        PID TTY      STAT   TIME COMMAND
+          1 ?        Ss     0:00 /sbin/init
+       4839 ?        Sl     0:00 /opt/VSCode-linux-x64/code --ms-enable-electron-run-as-node /opt/VSCode-linux-x64/resources/app/out/bootstrap-fork --type=watcherServiceParcelSharedProcess
+    ```
+
+select all:
+
+```sh
+ps -A
+# identical to
+ps -e
+```
+
+By pid(s):
+
+```sh
+# only 1 arg allowed
+ps 1122
+ps -1122
+
+# pid list union
+ps p 1122,1
+ps -p 1122,1
+ps --pid 1122,1
+```
+
+By parent pid(s):
+
+```sh
+# the only syntax
+ps --ppid 1,6877
+```
