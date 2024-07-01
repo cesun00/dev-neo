@@ -302,3 +302,35 @@ and:
 
 
 ## `Makefile.lib`: the `obj-*` build target variable normalizer
+
+By including `$(srctree)/scripts/Makefile.lib`, the caller automatically has the following variable available:
+
+- `obj-y`: collected from 
+- `obj-m`: collected from subdirectory's 
+
+## Critical Variables
+
+- hostprogs
+- need-config: whether the following execution requires loading `.config` configs as Makefile variables.
+
+## `*.cmd` files: file-specific dependency
+
+For almost all files generated during a build, there is a companion `.cmd` files also generate at build time.
+
+- ELF binaries, including 
+       - `foo.o` and `.foo.o.cmd`
+       - .vdso64.so.cmd
+       - `.built-in.a.cmd`
+- `.modules.order.cmd`
+- `.unistd_64.h.cmd`
+./.vmlinux.cmd
+- `.x86_pkg_temp_thermal.ko.cmd`
+- .x86_pkg_temp_thermal.mod.cmd
+- .lexer.lex.c.cmd
+- `include/config/auto.conf` and ``include/config/auto.conf.cmd`
+- 
+
+For a `foo/bar/zoo`, its companion `foo/bar/.zoo.cmd` file is a Makefile snippet that defines the following variable:
+
+```makefile
+savecmd_<path> :=
