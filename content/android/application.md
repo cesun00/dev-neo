@@ -296,3 +296,34 @@ Declare permissions - 声明权限
 </manifest>
 ```
 
+*Q: 难道仅仅是字符串相同就能称为所谓的满足权限？*
+
+Activity Lifecycle callbacks
+=============
+Activity在Lifecycle的不同stage之间进行transition，app可以通过6个核心callbacks来得知这些转变的发生
+
+onCreate()
+---------
+You must implement this callback, which fires when the system first creates the activity.
+
+TODO:
+perform basic application startup logic that should happen only once for the entire life of the activity
+e.g.
+- bind data to lists
+- initialize background threads
+- instantiate some class-scope variables
+- ...
+
+`setContentView()` must be called here to define the UI
+1. pass the layout xml file resource ID, or
+2. Create `View`s in code, build a hierarchy by insert `View`s into ViewGroup. Pass the root ViewGroup to setContentView()
+
+onStart()
+--------------
+The onStart() call makes the activity visible to the user, as the app prepares for the activity to enter the foreground and become interactive.
+
+TODO e.g.
+- initializes the code that maintains the UI
+- might also register a BroadcastReceiver that monitors changes that are reflected in the UI
+
+onResume()
