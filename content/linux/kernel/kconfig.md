@@ -119,3 +119,38 @@ Kconfig -> interactive configuration wizard
 
 1. Macros in `Kconfig` files are evaluated, their result are substituted forming an intermediate `Kconfig` files
 2. intermediate `Kconfig` files are used to generate config wizard
+
+
+```kconfig
+source "arch/$(SRCARCH)/Kconfig"
+
+# arch/x86/Kconfig
+
+config 64BIT
+	bool "64-bit kernel" if "$(ARCH)" = "x86"
+	default "$(ARCH)" != "i386"
+	help
+	  Say yes to build a 64-bit kernel - formerly known as x86_64
+	  Say no to build a 32-bit kernel - formerly known as i386
+```
+
+## Macro Expansion
+
+Macro was designed to resemble the GNU Make variables. Variable reference and external program is all done in `$()` syntax. `${}` is not a valid syntax.
+
+- `foo := bar` introduces a *simply expanded variable*, where the righthand side is expanded immediately upon reading the line from the Kconfig file.
+- `foo = bar` introduces a *recursively expanded variable*, where `foo` stores the literal string on the righthand side without expanding it in any way. Instead, the expansion is performed when the variable is used.
+
+
+
+
+
+
+
+## Kconfig Language Syntax
+
+Top level keywords are:
+
+- `mainmenu`
+
+    Only allowed at the top of the root `Kconfig` file.
