@@ -101,3 +101,30 @@ These are some commonly seen services and their shared objects:
 On my system, these are installed:
 
 ```sh
+# /usr/lib $ ls -ahl $(find -name 'libnss_*')
+lrwxrwxrwx 1 root root   18 Feb  2 01:38 ./libnss_compat.so -> libnss_compat.so.2
+-rwxr-xr-x 1 root root  43K Feb  2 01:38 ./libnss_compat.so.2
+lrwxrwxrwx 1 root root   14 Feb  2 01:38 ./libnss_db.so -> libnss_db.so.2
+-rwxr-xr-x 1 root root  35K Feb  2 01:38 ./libnss_db.so.2
+-rwxr-xr-x 1 root root  14K Feb  2 01:38 ./libnss_dns.so.2
+-rwxr-xr-x 1 root root  14K Feb  2 01:38 ./libnss_files.so.2
+lrwxrwxrwx 1 root root   18 Feb  2 01:38 ./libnss_hesiod.so -> libnss_hesiod.so.2
+-rwxr-xr-x 1 root root  23K Feb  2 01:38 ./libnss_hesiod.so.2
+-rwxr-xr-x 1 root root 163K Mar  4 01:04 ./libnss_myhostname.so.2
+-rwxr-xr-x 1 root root 349K Mar  4 01:04 ./libnss_mymachines.so.2
+-rwxr-xr-x 1 root root 175K Mar  4 01:04 ./libnss_resolve.so.2
+-rwxr-xr-x 1 root root 379K Mar  4 01:04 ./libnss_systemd.so.2
+-rwxr-xr-x 1 root root  27K Feb 19 22:36 ./libnss_winbind.so.2
+-rwxr-xr-x 1 root root  23K Feb 19 22:36 ./libnss_wins.so.2
+```
+
+The listed order of services is significant. For a given database, its listed services form a [Chain-of-responsibility pattern](https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern). Besides answers to the query (if any), a service also returns an enum value indicating the status of this lookup.
+The `enum` is defined glibc's `nss/nss.h`:
+
+```c
+/* Possible results of lookup using a nss_* function.  */
+enum nss_status
+{
+  NSS_STATUS_TRYAGAIN = -2,
+  NSS_STATUS_UNAVAIL,
+  NSS_STATUS_NOTFOUND,
