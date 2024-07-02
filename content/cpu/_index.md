@@ -92,3 +92,36 @@ Applying naive pipeline will break that assumption: think about a sliding window
 In the example above, `read from AX` in the 2nd instructions can happen before `write of incremented value to AX` in 1st instruction, since execution stage is after read stage.
 
 Thus pipeline designer face the choice:
+1. design more sophisticated pipeline scheduling, in order to not break compatibility with the programming model; or
+2. break the model anyway, fuck all old programs and ask programmer to be awared of the naive pipeline design in newly written code.
+
+## SMT
+
+Now you have superscala anyway. Vendor may then choose to build SMT into each core to fill bubbles, or not.
+
+## cache associativity
+
+higher assoc
+- harder for cache tag to collide, thus eviction happens less frequently, thus more cache hit rate.
+- hard to make it fast (i.e. use more comparator, cost more)
+- hard to increase cache size
+
+low assoc:
+- higher probability for collision, eviction happen frequently, low cache hit rate
+- easy to make it fast
+- easy to increase cache size
+
+In real design L1 cache has low assoc e.g. 2, while L2 can be 16-way assoc.
+
+
+
+
+## SIMD
+
+| Instruction Set | Since            | Register Names | Bit width | Comment                        |
+|-----------------|------------------|----------------|-----------|--------------------------------|
+| MMX             | Pentium 2        | MM0~MM7        | 64        | registers are for integer only |
+| SSE             | Pentium 3        | XMM0~XMM31     | 128       |                                |
+| SSE2            | Pentium 4 & Xeon | XMM0~XMM31     | 128       |                                |
+| AVX2            |                  | YMM0~YMM31     | 256       |                                |
+| AVX512          |                  | ZMM0~ZMM31     | 512       |                                |
