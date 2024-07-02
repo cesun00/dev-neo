@@ -259,3 +259,40 @@ intent filter - again
         <category android:name="android.intent.category.DEFAULT" />
         <data android:mimeType="text/plain" />
     </intent-filter>
+</activity>
+```
+*<category> and <data> are optional*
+
+Invoke the activity above using implicit intent as follow:
+```
+// Create the text message with a string
+Intent sendIntent = new Intent();
+sendIntent.setAction(Intent.ACTION_SEND);
+sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
+sendIntent.setType("text/plain");
+// Start the activity
+startActivity(sendIntent);
+```
+
+*如果希望一个activity不响应任何别的app发起的intent，则不写任何intent filter?*
+
+Declare permissions - 声明权限
+---------------
+在一个activity调用另一个activity的关系中，calling activity和called activity必须满足权限关系
+比如你的app要调用一个叫SocialApp的app中的某个activity（e.g. 分享一个post）：
+### called activity (SocialApp):
+```
+<manifest>
+<activity android:name="...."
+   android:permission=”com.google.socialapp.permission.SHARE_POST”
+
+/>
+```
+
+### calling activity (your app):
+```
+<manifest>
+   <uses-permission android:name="com.google.socialapp.permission.SHARE_POST" />
+</manifest>
+```
+
