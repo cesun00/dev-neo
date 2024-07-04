@@ -51,3 +51,31 @@ A function template has to be instantiated, either implicitly or explicitly, in 
 ### Explicit Instantiation
 
 ## Template Argument Deduction (TAD)
+
+In order to instantiate a function template, every template argument must be known, but not every template argument has to be specified.
+The compiler infers a template argument, if not explicitly specified, by **only looking at the declaration** of a function template.
+
+```c++
+// g++ -c
+template<typename T>
+void foo(T& ref);
+
+int main() {
+    int a = 42;
+    foo(a);
+}
+```
+
+{{<card "info">}}
+
+The absence of the implementation body is not itself a deduction failure, but will cause a link-time error of an undefined symbol, unless 
+the implementation is found later in the same compilation unit source; or (in case of explicit instantiation) a symbol for its compiled machine code is found in the link stage.
+
+{{</card>}}
+
+Just to ensure the statement is clear: compiler infers the value of template argument, which is not necessarily the type of function argument.
+
+It is the value of template argument inferred, not the type of function argument.
+
+
+1. the type argument
