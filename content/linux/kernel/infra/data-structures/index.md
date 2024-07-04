@@ -165,3 +165,34 @@ You have to correctly cast
 
 ```c
 struct foo_struct *curr = /* a known instance*/;
+
+// get the next instance in the linked list:
+struct foo_struct *next = list_next_entry(curr, bar_list);
+struct foo_struct *next = list_entry(&curr->bar_info->next, struct foo_struct, bar_info);
+```
+
+`struct list_head` is a bi-directional circular linked-list that
+1. its not type safe. Each element can have arbitrary. Using an element requires correctly casting its type via `
+
+`list_entry()` is a macro that expands to an expression when evaluated gives 
+
+```c
+/**
+ * list_entry - get the struct for this entry
+ * @ptr:	the &struct list_head pointer.
+ * @type:	the type of the struct this is embedded in.
+ * @member:	the name of the list_head within the struct.
+ */
+#define list_entry(ptr, type, member) \
+	container_of(ptr, type, member)
+```
+
+## `hlist_head` and `hlist_node`: 
+
+Operation on those data structure are declared in `include/linux/list.h`:
+
+
+```
+struct hlist_head {
+	struct hlist_node *first;
+};
