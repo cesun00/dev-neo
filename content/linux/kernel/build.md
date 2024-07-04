@@ -1317,3 +1317,34 @@ After ignoring modules directory with only `build-in.a` and `modules.order`, we 
 ├── net/
 │   ├── 802/
 │   ├── 9p/
+│   ├── bpf/
+│   ├── core/
+│   ├── dns_resolver/
+│   ├── dsa/
+│   ├── ethernet/
+│   ├── ethtool/
+│   ├── handshake/
+│   ├── ipv4/
+│   │   ├── netfilter/
+│   │   │   ├── iptable_nat.ko
+│   │   │   ├── iptable_nat.mod
+│   │   │   ├── iptable_nat.mod.c
+│   ├── ipv6/
+│   │   ├── netfilter/
+│   ├── mac80211/
+│   │   ├── tests/
+│   ├── netfilter/
+│   │   ├── nf_log_syslog.ko
+│   │   ├── nf_log_syslog.mod
+│   │   ├── nf_log_syslog.mod.c
+│   │   ├── xt_addrtype.ko
+│   │   ├── xt_addrtype.mod
+│   │   ├── xt_addrtype.mod.c
+│   │   ├── xt_LOG.ko
+│   │   ├── xt_LOG.mod
+│   │   ├── xt_LOG.mod.c
+│   │   ├── xt_mark.ko
+│   │   ├── xt_mark.mod
+│   │   ├── xt_mark.mod.c
+│   │   ├── xt_MASQUERADE.ko
+│   │   ├── xt_MASQUERADE.mod
