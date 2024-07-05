@@ -32,3 +32,28 @@ func make_single(target) {
         // 4. ...
 
         load include/config/auto.conf (.config as Makefile variables)
+        load $(srctree)/arch/$(SRCARCH)/Makefile
+        load include/config/auto.conf.cmd
+        
+        compiler flag adjustment, depending on 
+
+        if (`make M=...` or `make KBUILD_EXTMOD=...` set) {
+            `__all: modules`: default goal is to build `modules`
+        } else {
+            `__all: all`: default goal is to build `modules`
+        }
+    }
+}
+
+
+func make(targets, need-submake) {
+    if (need-submake = 1) {
+        make(targets, 0)
+        return;
+    }
+
+    for each (target in targets)
+        make_single(target)
+}
+```
+
