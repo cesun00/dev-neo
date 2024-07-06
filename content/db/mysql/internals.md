@@ -126,3 +126,23 @@ ON ts.NAME = FILES.TABLESPACE_NAME;
 	```
 
 	One important general tablespace being the mysql data dictionary:
+
+	```sql
+	SELECT NAME,ts.ROW_FORMAT,SPACE_TYPE,FS_BLOCK_SIZE,FILE_SIZE,ALLOCATED_SIZE,FILE_NAME
+	FROM INNODB_TABLESPACES AS ts INNER JOIN FILES ON ts.NAME=FILES.TABLESPACE_NAME
+	WHERE SPACE_TYPE='General';
+
+	# +-------+------------+------------+---------------+-----------+----------------+-------------+
+	# | NAME  | ROW_FORMAT | SPACE_TYPE | FS_BLOCK_SIZE | FILE_SIZE | ALLOCATED_SIZE | FILE_NAME   |
+	# +-------+------------+------------+---------------+-----------+----------------+-------------+
+	# | mysql | Any        | General    |          4096 |  25165824 |       25169920 | ./mysql.ibd |
+	# +-------+------------+------------+---------------+-----------+----------------+-------------+
+	```
+
+## Raw Disk Partition
+
+https://dev.mysql.com/doc/refman/8.0/en/innodb-system-tablespace.html#innodb-raw-devices
+
+It is possible to let InnoDB take over a whole disk partition without filesystem and use that as the **system tablespace**. Other tablespaces are not supported.
+
+Whether that will bring a performance boost is uncertain. Filesystem overheads are usually very low.
