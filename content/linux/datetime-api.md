@@ -26,3 +26,31 @@ Each clock is said to have a precision. If a calendar time that is not a multipl
 
 Kernel reads `/etc/localtime` for time zone configuration. See `man 5 tzfile` for its format.
 
+### `clock_getres()`
+
+### `clock_settime(CLOCK_REALTIME, ...)`
+
+POSIX left privileges to set a particular clock to be implementation-defined. On linux it's usually `CAP_SYS_TIME` or root privileges.
+
+### `clock_adjtime()`
+
+### `clock_nanosleep()`
+
+## The `timer(fd)?_*()` family
+
+## Legacy API for fun
+
+### Get time / timezone
+
+- `time_t time(time_t *tloc)` (C89 | POSIX)
+
+	Return the # of seconds since the epoch. Has nothing to do with timezone. It is recommended that `tloc` always be `NULL`. (see "BUGS" in `man 2 time`)
+
+- `gettimeofday()` (POSIX)
+
+	POSIX 2008 deprecated `gettimeofday()`. Use `clock_gettime()` instead. This function is subjected to to time leap (e.g. sys admin changes time).
+
+TODO: timezone
+
+### Set Time / TimeZone
+
