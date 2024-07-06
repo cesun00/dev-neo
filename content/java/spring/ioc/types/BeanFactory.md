@@ -105,3 +105,32 @@ getDependenciesForBean
 
 destroyBean
 destroyScopedBean
+destroySingletons -->
+
+A subinteface `ConfigurableListableBeanFactory` simply aggregates `ConfigurableBeanFactory`,  `ListableBeanFactory`, and `AutowireCapableBeanFactory`: 
+
+```
+BeanFactory             |                               
+HierarchicalBeanFactory | SingletonBeanRegistry                 BeanFactory | BeanFactory
+            ConfigurableBeanFactory                 |   ListableBeanFactory |    AutowireCapableBeanFactory
+                                        ConfigurableListableBeanFactory
+```
+
+(thus all 3 direct subinterface of `BeanFactory`, wow.
+
+`ConfigurableListableBeanFactory` as a subinterface of `ConfigurableBeanFactory`, of course is still for Spring's internal usage only.
+However, it's easy for application to (arguably errorneously) obtain one by calling `ConfigurableApplicationContext#getBeanFactory`.
+
+There are existing abuse of this interface already, e.g. adding new `BeanPostProcessor`, and people are celebrating their abuse anyway:
+https://stackoverflow.com/questions/16448579/how-can-i-programatically-add-a-beanpostprocessor-to-a-classpathxmlapplicationco
+
+
+Notable `BeanFactory` Implementations
+=======================
+
+## `class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements SingletonBeanRegistry`
+
+
+## `class AbstractBeanFactory` (beans.factory.support)
+## `class AbstractAutowireCapableBeanFactory` (beans.factory.support)
+## `class SimpleJndiBeanFactory` (jndi.support)
