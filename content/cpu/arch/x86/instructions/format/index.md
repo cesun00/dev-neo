@@ -178,3 +178,31 @@ The 4 groups are:
     - `F3H`: `REP` or `REPE/REPZ` (Repeat) prefix.
 
     - `BND` prefix is also encoded using `F2H` if the following conditions are true:
+        - `CPUID.(EAX=07H, ECX=0):EBX.MPX[bit 14]` is set.
+        - `BNDCFGU.EN` and/or `IA32_BNDCFGS.EN` is set.
+        - When the F2 prefix precedes a near CALL, a near RET, a near JMP, a short Jcc, or a near Jcc instruction
+
+<!-- Now you are here. Being Lock-free is a lie.
+Just because your CPU lock the memory bus for a given address doesn't
+,  or atomic instruction, with being lockless in the sense of no explicit use
+of locking construct or  in high-level programming language. There.is No Real Lockless Thing. Lockless Is a Lie. shame on those person.
+See [](TODO) and also memory chip fuck for detailsTODO. -->
+
+2. Segment override or branch hint
+
+    Explicitly specifies which segment register an instruction should use, thereby overriding the default segment-register selection used for that instruction.
+
+    Segment override prefixes can't be used with any branch instructions, since `2E` and `3E` for `Jcc` instructions are used as branch hints:
+    - `2EH`: CS segment override prefix
+    - `36H`: SS segment override prefix
+    - `3EH`: DS segment override prefix
+    - `26H`: ES segment override prefix
+    - `64H`: FS segment override prefix
+    - `65H`: GS segment override prefix
+
+    Branch hints are only permitted for the `Jcc` conditional jump instructions family.
+    - `2EH`: Branch not taken
+    - `3EH`: Branch taken
+
+3. Operand-size override `66H`
+
