@@ -205,3 +205,32 @@ Range op by rank:
 
 Range op by score
     - `ZRANGEBYSCORE sset min max`
+    - `ZREVRANGEBYSCORE sset min max`
+    - `ZREMRANGEBYSCORE sset min max`
+
+- `ZCARD sset`
+    cardinality.
+
+hash map 
+-----------
+
+The following assume `key` is a hash (map);
+
+`HSET key k v`
+
+`HGET key k`
+
+`HMSET key k0 v0 k1 v1 k2 v2 ...` variadic hset
+
+`HMGET key k0 k1 k2` variadic hget
+
+`HGET key k`
+
+`HGETALL key` dump all kv pairs
+
+`HDEL key k`
+
+`HINCR key k`
+
+`HINCRBY key k delta`
+    there is no HDECR or HDECRBY; HINCRBY negative delta instead
