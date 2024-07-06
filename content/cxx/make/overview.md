@@ -153,3 +153,42 @@ target: ;
 
 ### 2 phase execution
 
+GNU make does its work in two distinct phases.
+
+- During the first phase it reads all the makefiles, included makefiles, etc. and internalizes all the variables and their values and implicit and explicit rules, and builds a dependency graph of all the targets and their prerequisites.
+- During the second phase, make uses this internalized data to determine which targets need to be updated and run the recipes necessary to update them.
+
+### shell's involvement
+
+> When it is time to execute recipes to update a target, they are executed by invoking a new sub-shell **for each (logical) line of the recipe**, unless the .`ONESHELL` special target is in effect.
+> In practice, make may take shortcuts that do not affect the results.
+
+Implications:
+- Conventional multi-line shell constructs (e.g. if/else, loop, etc.) needs to be on the same logical line, e.g.:
+
+    ```makefile
+    subdirs:
+        for dir in $(SUBDIRS); do \
+          $(MAKE) -C $$dir; \
+        done;
+    ```
+
+VUIR variable `SHELL` controls the exact shell to be used. Value of this makefile variable never inherit from the unix env var `SHELL`.
+
+Value of `.SHELLFLAGS` are passed when fork-exec the shell, and it defaults to `-c`. (which means recipe text will follows.)
+
+## Error
+To ignore error (non-zero process return) for certain recipe, prefix with `-`:
+
+## (file) Target / PHONY target
+
+All targets are supposed to be file names, except
+- those mentioned as prerequisites of the special built-in target `.PHONY`
+
+    ```makefile
+    .PHONY: clean
+    clean:
+            rm *.o temp
+    ```
+
+    This is indeed a weird syntax, reflecting the early coarse design of the Makefile syntax.
