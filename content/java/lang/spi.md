@@ -88,3 +88,43 @@ SPI is a complete "userspace" solution, meaning that there is no magic from the 
 Again, SPI is merely a standard way to expose & discover implementations;
 and `ServiceLoader` is simply a helper class for whoever doesn't want to scan the classpath and read `META-INF/services/*` themselves.
 
+1. In the classic SPI workflow, the impl instance is directly exposed to the end user for use. JDBC `Driver` is an example, where a user 
+2. 
+
+
+Arbitrary operations can then be done with that instance, including:
+1. invoking implemented methods that run arbitrary code contained in the implementation. This is what Servlet 3.0 Specification does for `javax.servlet.ServletContainerInitializer`. Spring MVC receives a callback from Tomcat which in turn call implementations of its own interface `org.springframework.web.WebApplicationInitializer` from Spring user.
+2. exploiting the side-effect that at the time of instantiation, the class static initializers are run. This is what `java.sql.DriverManager` does to ensure the registration of `Driver` implementation.
+
+The term SPI is thus commonly abused
+
+SPI is mainly used for 2 reasons:
+1. allows client programmers to program against interfaces whose implementation doesn't exist at compile time, but will be discovered at run time; i.e. defers the choice of implementation to deployment time.
+2. gives a chance where implementation jars can receive callbacks to self-initialization code, and do not rely on class static initializer. e.g. Spring MVC uses this feature to implement its `WebApplicationInitializer`.
+
+## Overview
+
+People extended the *Service Locator Pattern* to solve this. Vanilla SLP doesn't involve the static initializer where implementation class registering itself. The SLP-based workflow is as follows:
+
+1. Client code call factory method to obtain an implementation of interfacial type, instead of `new` one by itself.
+
+    This solved challenge #1. Factory method here might be static factory method or instance method on factory interface.
+
+2. Interfacial jar maintains a `HashMap` known as "registry". At run time, client's call to the factory method will query the hash map for an known implementation instance, or ways to create one.
+3. When the implementation jar is loaded by JVM at runtime, static initializer of certain classes in it "registers" the implementation object (or ways to create one) it provides into the registry.
+
+It's client programmer's responsibility to ensure that the static initializer of that implementation jar class is executed. A Famous example is the JDBC driver, where in old days end user need to call `Class.forName()` to load the vendor's `Driver` implementation, which will executed its static initializer to register itself to JDBC driver registry by `java.sql.DriverManager.registerDriver()`.
+
+JDBC 4.0 supports the new SPI workflow, as described below, thus `Class.forName()` isn't needed anymore.
+
+## Java 6 Service Provider
+
+Java 6 introduced a mechanism known as "service provider" to formalize and automate the above practice.
+
+Some official vocabularies:
+1. service provider interface: the collection of `interface`s / interfacial classes; They are in the interfacial jar.
+2. service provider: the implementation jar; implementations of the SPI
+3. service: client may or may not use service provider interface objects directly; Other than the interfaces to be implemented, everything else (e.g. the factory, the `ServiceLoader` holder class, the auxillary class method that operates on the SPI `interface`s) is the service. It's usually part of the interfacial jar.
+4. provider-configuration file: files in the `META-INF/services/` directory
+
+It's highly likely that the client programmer, the SPI, and the implementation (service provider) are from 3 different parties.
