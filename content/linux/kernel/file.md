@@ -67,3 +67,10 @@ struct fd {
 
 Each `struct fd` instance is essentially a reference to a file description.
 
+The term "file descriptor" or "fd" in a userspace program usually refers to an `int`, which is actually a subscript into the `struct fd` array of the current process.
+
+Syscalls like `dup2` actually duplicates an instance of `struct fd`.
+
+## The `pipe` syscall
+
+## FIFO (named pipe)
