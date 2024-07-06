@@ -124,3 +124,39 @@ Both Gregg's and Russell's disc are floppy media read in transparent mode, meani
 and information is read by an laser sensor reading head from the other side.
 
 An optical disc is designed to support one of three recording types: read-only (e.g.: CD and CD-ROM), recordable (write-once, e.g. CD-R), or re-recordable (rewritable, e.g. CD-RW). Write-once optical discs commonly have an organic dye (may also be a (Phthalocyanine) Azo dye, mainly used by Verbatim, or an oxonol dye, used by Fujifilm[4]) recording layer between the substrate and the reflective layer. Rewritable discs typically contain an alloy recording layer composed of a phase change material, most often AgInSbTe, an alloy of silver, indium, antimony, and tellurium.[5] Azo dyes were introduced in 1996 and phthalocyanine only began to see wide use in 2002. The type of dye and the material used on the reflective layer on an optical disc may be determined by shining a light through the disc, as different dye and material combinations have different colors.
+
+Blu-ray Disc recordable discs do not usually use an organic dye recording layer, instead using an inorganic recording layer. Those that do are known as low-to-high (LTH) discs and can be made in existing CD and DVD production lines, but are of lower quality than traditional Blu-ray recordable discs.
+
+polycarbonate is a transparent material with a high ratio for passage of light.
+polycarbonate plate is where the data is encoded.
+
+------------
+ the height of a bump is around 1/4 of the wavelength of the light used, so the light falls 1/4 out of phase before reflection and another 1/4 wavelength out of phase after reflection. This causes partial cancellation of the laser's reflection from the surface. By measuring the reflected intensity change with a photodiode, a modulated signal is read back from the disc
+
+------------
+
+## Involving Organization
+
+The Optical Storage Technology Association (OSTA) promoted standardized optical storage formats.
+ISO: International Organization for Standardization
+IEC: International Electrotechnical Commission
+
+ISO and IEC have cooperation on many standard published, indexed as `ISO/IEC XXXXX`.
+
+## Optical stoarge Glossary
+
+Optical discs can be reflective, where the light source and detector are on the same side of the disc, or transmissive, where light shines through the disc to be detected on the other side.
+
+Optical discs can store analog information (e.g. Laserdisc), digital information (e.g. DVD),
+
+Optical discs are usually between 7.6 and 30 cm (3.0 and 11.8 in) in diameter, with 12 cm (4.7 in) being the most common size
+so-called program area that contains the data commonly starts 25 millimetres away from the center point
+
+while the track pitch (distance from the center of one track to the center of the next) ranges from 1.6 μm (for CDs) to 320 nm (for Blu-ray discs).
+
+Depending on whether ..., can be divided into 3 categories:
+1. read-only (e.g.: CD and CD-ROM)
+2. recordable (write-once, e.g. CD-R)
+3. re-recordable (rewritable, e.g. CD-RW).
+
+- CD (Compact disc): the physical polycarbonate plastic circle plate, 1.2-millimetre (0.047 in) in thickness, 14–33 grams in weigh.
