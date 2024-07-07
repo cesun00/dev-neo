@@ -36,3 +36,38 @@ typedef struct spinlock {
 	{					\
 	.raw_lock = __ARCH_SPIN_LOCK_UNLOCKED,	\
 	SPIN_DEBUG_INIT(lockname)		\
+	SPIN_DEP_MAP_INIT(lockname) }
+
+#define __SPIN_LOCK_INITIALIZER(lockname) \
+	{ { .rlock = ___SPIN_LOCK_INITIALIZER(lockname) } }
+
+#define __SPIN_LOCK_UNLOCKED(lockname) \
+	(spinlock_t) __SPIN_LOCK_INITIALIZER(lockname)
+
+#define DEFINE_SPINLOCK(x)	spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+
+#else /* !CONFIG_PREEMPT_RT */
+
+// omitted, see below
+
+#endif /* CONFIG_PREEMPT_RT */
+```
+
+To initialize
+
+### spinlock internals
+
+`struct spinlock` maps to a `raw_spinlock` when `CONFIG_PREEMPT_RT` is off, which is also the general common case.
+`CONFIG_PREEMPT_RT` depends on `ARCH_SUPPORTS_RT` which is only available when the kernel is patched with [the PREEMPT_RT patch](https://wiki.linuxfoundation.org/realtime/start), and compiling for hardware that supports real-time preemption (ARM64 does, while x86 and x86-64 don't).
+
+`struct raw_spinlock` is an `arch_spinlock_t` with some debugging facilities;
+`arch_spinlock_t` is an
+1. architecture-dependent spinlock implementation if `CONFIG_SMP` is on, i.e. compiling for an SMP system; or
+2. `struct lockdep_map` if `CONFIG_SMP` is off, i.e. compiling for an uniprocessor system.
+
+```c
+// include/linux/spinlock_types_raw.h
+
+typedef struct raw_spinlock {
+	arch_spinlock_t raw_lock;
+// #ifdef CONFIG_DEBUG_SPINLOCK
