@@ -327,3 +327,34 @@ echo "${hw^^}" # all to uppercase
 ```
 
 #### Fallbacks
+
+```bash
+# expand $HOME if $XDG_DATA_HOME is unset or null. (TODO: null?)
+echo "${XDG_DATA_HOME:-$HOME/.local/share}"
+```
+
+## Variables
+
+A new variable is introduced by its first assignment:
+
+```sh
+x=42
+readonly x
+x=52    # bash: x: readonly variable
+```
+
+### Array
+
+In Bash's speech, there are 2 types of arrays:
+1. associative array (hashmap), and
+2. Indexed Array (list).
+
+    Is an associative array with the restriction that `key` (still a string) must resolves to a non-negative integer.
+    Normally should be 0-based.
+
+```bash
+# associative array
+declare -A map_a
+
+# Indexed Array
+declare -a arr_a
