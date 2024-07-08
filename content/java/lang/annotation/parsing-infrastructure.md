@@ -70,3 +70,27 @@ interface AnnotatedElement {
 
 
     /**
+     * Convenient wrapper of primitive 1: precisely equivalent of `getAnnotation(annotationClass) != null`
+     */
+    boolean isAnnotationPresent(Class<? extends Annotation> annotationClass);
+
+    /**
+     * Primitive 4: Non-direct-present ignoring version of getAnnotation()
+     */
+    <A extends Annotation> A getDeclaredAnnotation(Class<A> annotationClass);
+
+    /**
+     * Mixture of 3 and 4
+     */
+    <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationClass);
+
+    /**
+     * Mixture of 2 and 4
+     */
+    Annotation[] getDeclaredAnnotations();
+}
+```
+
+If you peruse the APIs exposed by this seminal root interface, it's hardly satisfying: too much ability is exposed without a clear structure. 
+
+## The source of all parsing magic: `java.lang.Class#annotationData()`
