@@ -264,3 +264,37 @@ We hope to associate certain type definition with `MyType`:
 class MyType1 {
     public:
         using foo_type = int;
+        // or arbitraryly complicated type manipulation.
+        // Usually MyType itself is a business class template MyType<T>, and rhs of foo_type is parameterized on T
+};
+
+// approach #2 (non intrusive)
+class MyType2 {
+
+};
+
+// Awkawrdly a class template because T-parameterized `using` or `typedef`
+// type reansoning "expression" can't exist on their own, thus must be class member.
+template<typename T>
+struct QueryFooType; // prevent instantiation of primary template
+
+template<>
+struct QueryFooType<MyType2> {
+    using foo_type = int;
+};
+
+// Since c++14 you can alias the QueryFooType<T>::foo_type via the following *type alias template*.
+//
+// std type traits library does exactly the same, provides class template for traits query with companion alias helpers.
+//
+// But still there is no way to get rid of the awkward usage of class template.
+// It would be nice if we have something like "type alias template specialization", which would eliminate the need for traits query class templates:
+//  
+//      // "primary type alias template"
+//      template<typename T>
+//      using query_foo_type_cool;
+//      
+//      // "type alias template full specialization"
+//      template<>
+//      using query_foo_type_cool<MyType2> = int;
+//      
