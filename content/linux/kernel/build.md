@@ -463,3 +463,33 @@ They are passed to `Kconfig` and `Kbuild` such that the generation of kernel con
 # root Makefile: 
 # include $(srctree)/scripts/subarch.include
 
+
+# SUBARCH tells the usermode build what the underlying arch is.  That is set
+# first, and if a usermode build is happening, the "ARCH=um" on the command
+# line overrides the setting of ARCH below.  If a native build is happening,
+# then ARCH is assigned, getting whatever value it gets normally, and
+# SUBARCH is subsequently ignored.
+
+SUBARCH := $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+				  -e s/sun4u/sparc64/ \
+				  -e s/arm.*/arm/ -e s/sa110/arm/ \
+				  -e s/s390x/s390/ \
+				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
+				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
+				  -e s/riscv.*/riscv/ -e s/loongarch.*/loongarch/)
+```
+
+The `ARCH` variable defaults to `$(SUBARCH)` if not explicitly given on the CLI as `make ARCH=...`:
+
+```makefile
+ARCH		?= $(SUBARCH)
+```
+
+Using an explicit `make ARCH=...` is mandatory if you are cross-compiling the kernel for a different CPU architecture.
+
+`SRCARCH` is derived from `ARCH` and is precisely one of the subdirectory names in `arch/`:
+
+```makefile
+SRCARCH 	:= $(ARCH)
+
+# Additional ARCH settings for x86
