@@ -138,3 +138,28 @@ After a successful match, the `BASH_REMATCH` array variable
 
 ```bash
 i='[Comic][JOJO 的奇妙冒險 Part7.STEEL.BALL.RUN][荒木飛呂彥][天下][小成]Vol_22.zip'
+if [["$i" =~ .*(Vol_..)\.zip ]]; then
+    declare -p BASH_REMATCH
+fi
+# prints: declare -a BASH_REMATCH=([0]="[Comic][JOJO 的奇妙冒險 Part7.STEEL.BALL.RUN][荒木飛呂彥][天下][小成]Vol_22.zip" [1]="Vol_22")
+```
+
+[**It's recommended to put the pattern in an variable**](https://stackoverflow.com/a/1892107).
+
+Quoting the pattern has special semantics:
+
+> Any part of the pattern may be quoted to force the quoted portion to be matched as a string. (man bash)
+
+
+POSIX reg doesn't support non-greedy asterisk : https://stackoverflow.com/questions/20239817/posix-regular-expression-non-greedy
+
+### `switch`
+
+`;;` is equivalent to a `break` in common programming langauges.
+
+```bash
+case test-string in
+	pattern-1)
+		commands-1
+		;;
+	pattern-2)
