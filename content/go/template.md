@@ -26,3 +26,38 @@ An action is one of the following constructs:
 ```
 {{/* a comment */}}
 {{- /* a comment with white space trimmed from preceding and following text */ -}}
+	A comment; discarded. May contain newlines.
+	Comments do not nest and must start and end at the
+	delimiters, as shown here.
+
+{{pipeline}}
+	The default textual representation (the same as would be
+	printed by fmt.Print) of the value of the pipeline is copied
+	to the output.
+
+{{if pipeline}} T1 {{end}}
+	If the value of the pipeline is empty, no output is generated;
+	otherwise, T1 is executed. The empty values are false, 0, any
+	nil pointer or interface value, and any array, slice, map, or
+	string of length zero.
+	Dot is unaffected.
+
+{{if pipeline}} T1 {{else}} T0 {{end}}
+	If the value of the pipeline is empty, T0 is executed;
+	otherwise, T1 is executed. Dot is unaffected.
+
+{{if pipeline}} T1 {{else if pipeline}} T0 {{end}}
+	To simplify the appearance of if-else chains, the else action
+	of an if may include another if directly; the effect is exactly
+	the same as writing
+		{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}
+
+{{range pipeline}} T1 {{end}}
+	The value of the pipeline must be an array, slice, map, or channel.
+	If the value of the pipeline has length zero, nothing is output;
+	otherwise, dot is set to the successive elements of the array,
+	slice, or map and T1 is executed. If the value is a map and the
+	keys are of basic type with a defined order, the elements will be
+	visited in sorted key order.
+
+{{range pipeline}} T1 {{else}} T0 {{end}}
